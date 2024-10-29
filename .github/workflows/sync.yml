@@ -13,7 +13,8 @@ jobs:
       - uses: actions/checkout@v2
         with: 
           fetch-depth: 0
-      - uses: repo-sync/github-sync@v2
+      - uses: wangchucheng/git-repo-sync@v0.1.0
         with: 
-          source_repo: ${{ secrets.GITLAB_URL }}
-          github_token: ${{ secrets.GITLAB_TOKEN }}
+          target-url: ${{ secrets.GITLAB_URL }}
+          target-username: ${{ secrets.GITLAB_USERNAME }}
+          target-token: ${{ secrets.GITLAB_TOKEN }}
