@@ -51,7 +51,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaThreshold: 0.5
-    - _HeightBlend: 1.36
+    - _HeightBlend: 1.7
     - _HeightBlendWorld: 107
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -63,11 +63,12 @@ Material:
     - _WindNoiseSpeed: 0.5
     m_Colors:
     - _BottomColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Color: {r: 0.6415094, g: 0.57796365, b: 0.6312601, a: 0}
+    - _Color: {r: 0.49247953, g: 0.7525328, b: 0.8773585, a: 1}
     - _ColorBottom: {r: 0, g: 0, b: 0, a: 1}
-    - _FarColor: {r: 0, g: 0, b: 0, a: 0}
+    - _FarColor: {r: 0.21115166, g: 0.4459657, b: 0.6886792, a: 0}
     - _NearColor: {r: 0.63171947, g: 0.6724196, b: 0.7924528, a: 0}
     - _NearFarRange: {r: 10, g: 25, b: 0, a: 0}
+    - _WindHighlightColor: {r: 0.15294118, g: 0.6, b: 0.86274517, a: 1}
     - _WindNoiseContrast: {r: 0, g: 1, b: 0, a: 0}
     - _WindNoiseScale: {r: 40, g: 100, b: 0, a: 0}
     - _WindSpeed: {r: 0.01, g: 0.02, b: 0, a: 0}

@@ -68,6 +68,7 @@ Material:
     - _FarColor: {r: 0.5424528, g: 0.7998231, b: 1, a: 0}
     - _NearColor: {r: 0.5913581, g: 0.86063355, b: 0.9150943, a: 0}
     - _NearFarRange: {r: 10, g: 25, b: 0, a: 0}
+    - _WindHighlightColor: {r: 1, g: 0, b: 0, a: 0}
     - _WindNoiseContrast: {r: 0, g: 1, b: 0, a: 0}
     - _WindNoiseScale: {r: 10, g: 20, b: 0, a: 0}
     - _WindSpeed: {r: 0.5, g: 0, b: 0, a: 0}
