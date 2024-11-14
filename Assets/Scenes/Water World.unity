@@ -463,11 +463,6 @@ MonoBehaviour:
   m_LocomotionProvider: {fileID: 495703062}
   m_MinHeight: 0
   m_MaxHeight: Infinity
---- !u!4 &605707347 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2871854915733156396, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
-  m_PrefabInstance: {fileID: 2033555322}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &757479159 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2871854915827847855, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
@@ -760,37 +755,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_System: {fileID: 798906115}
-  m_MoveSpeed: 1
-  m_EnableStrafe: 0
-  m_EnableFly: 1
-  m_UseGravity: 0
-  m_GravityApplicationMode: 1
-  m_ForwardSource: {fileID: 605707347}
-  m_LeftHandMoveAction:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Left Hand Move
-      m_Type: 0
-      m_ExpectedControlType: Vector2
-      m_Id: b2942d61-10b9-407f-8536-bec147250e14
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 6972639530819350904, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  m_RightHandMoveAction:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Right Hand Move
-      m_Type: 0
-      m_ExpectedControlType: Vector2
-      m_Id: c0eb3000-f765-460b-85ab-248f93ccbf8b
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -8198699208435500284, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   rightHandTransform: {fileID: 757479159}
+  cameraTransform: {fileID: 2033555323}
   rightHandMoveAction:
     m_UseReference: 1
     m_Action:
@@ -804,9 +770,12 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: -8198699208435500284, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   minSpeed: 1
-  maxSpeed: 10
+  maxSpeed: 15
   accelerationRate: 1
-  backSpeed: 1
+  sidewaysSpeed: 0.5
+  turnRateFromInput: 20
+  turnRateCorrective: 1
+  backSpeed: 2
 --- !u!114 &1739144300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1146,6 +1115,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 495703064}
   m_SourcePrefab: {fileID: 100100000, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
+--- !u!4 &2033555323 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2871854915733156396, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
+  m_PrefabInstance: {fileID: 2033555322}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1696083322585246798
 PrefabInstance:
   m_ObjectHideFlags: 0
