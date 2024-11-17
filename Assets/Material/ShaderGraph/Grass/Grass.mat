@@ -51,7 +51,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaThreshold: 0.5
-    - _HeightBlend: 1.7
+    - _HeightBlend: 0.99
     - _HeightBlendWorld: 107
     - _QueueControl: 0
     - _QueueOffset: 0
