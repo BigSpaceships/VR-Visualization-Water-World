@@ -42,3 +42,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: TopMost
+    uniqueID: 1170037831
+    locked: 0
