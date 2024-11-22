@@ -70,17 +70,20 @@ Material:
     - _Smoothness: 0.5
     - _TerrainOffset: 0
     - _TerrainSize: 50
+    - _ThresholdColor: 2.47
     - _WindDensity: 0.001
     - _WindHeight: 100
     - _WindNoiseSpeed: 2.3
     m_Colors:
     - _BottomColor: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 1, g: 0, b: 0, a: 0}
+    - _Color: {r: 0.009433985, g: 0.009433985, b: 0.009433985, a: 0}
+    - _Color1: {r: 0.7058824, g: 0.8941177, b: 0.9960785, a: 1}
+    - _Color2: {r: 0.77647066, g: 0.8745099, b: 0.9686275, a: 1}
     - _ColorBottom: {r: 0.23584905, g: 0, b: 0, a: 0}
     - _FarColor: {r: 0.9622641, g: 0.6944642, b: 0.6944642, a: 0}
-    - _NearColor: {r: 0.46226412, g: 0.19406366, b: 0.19406366, a: 0}
+    - _NearColor: {r: 0, g: 0, b: 0, a: 0}
     - _NearFarRange: {r: 10, g: 25, b: 0, a: 0}
-    - _WindHighlightColor: {r: 0.764151, g: 0.6884568, b: 0.6884568, a: 0}
+    - _WindHighlightColor: {r: 0, g: 0, b: 0, a: 0}
     - _WindNoiseContrast: {r: 1, g: 2, b: 0, a: 0}
     - _WindNoiseScale: {r: 0.1, g: 2, b: 0, a: 0}
     - _WindSpeed: {r: 0.5, g: 100, b: 0, a: 0}
