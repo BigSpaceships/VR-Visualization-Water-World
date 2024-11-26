@@ -14,6 +14,9 @@ public class AdventuringCamera : MonoBehaviour {
 
     public List<RenderTexture> takenPictures;
 
+    //weeee
+
+
     private void Start() {
         takenPictures = new List<RenderTexture>();
 
