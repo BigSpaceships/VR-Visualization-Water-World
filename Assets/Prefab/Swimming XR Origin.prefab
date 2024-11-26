@@ -2224,7 +2224,10 @@ MonoBehaviour:
   accelerationRate: 1
   sidewaysSpeed: 0.5
   turnRateFromInput: 20
-  turnRateCorrective: 1
+  turnRateCorrective: 5
+  turnAngleStart: 10
+  turnAngleEnd: 32
+  turnAngleStartStrength: 90
   backSpeed: 2
 --- !u!114 &8760216026810185790
 MonoBehaviour:
