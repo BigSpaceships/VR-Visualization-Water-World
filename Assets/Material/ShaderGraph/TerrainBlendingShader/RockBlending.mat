@@ -20,7 +20,7 @@ Material:
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
-  m_LockedProperties: 
+  m_LockedProperties: _BlendTiling
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -58,16 +58,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BlendDistance: -4.7
+    - _BlendDistance: -35.5
     - _BlendTiling: 1
     - _Metalic: 0
     - _NormalStrength: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Smoothness: 0
-    - _TerrainHeight: 51.2
+    - _TerrainHeight: 499.52
     m_Colors:
-    - _TerrainSizeOffset: {r: 100, g: 100, b: 600, a: 600}
+    - _TerrainSizeOffset: {r: 5.1, g: -241.4, b: 104.6, a: -3313}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &5155307010494368029
