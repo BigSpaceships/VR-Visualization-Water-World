@@ -1464,7 +1464,7 @@
         "z": 0.0
     },
     "m_Labels": [],
-    "m_Space": 4
+    "m_Space": 2
 }
 
 {
@@ -4177,7 +4177,7 @@
         "m_SerializableColors": []
     },
     "m_TextureType": 0,
-    "m_InputSpace": 4,
+    "m_InputSpace": 2,
     "m_NormalOutputSpace": 3
 }
 
@@ -4458,7 +4458,7 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     },
-    "m_Space": 4,
+    "m_Space": 2,
     "m_PositionSource": 0
 }
 
@@ -4788,7 +4788,7 @@
         "z": 0.0
     },
     "m_Labels": [],
-    "m_Space": 4
+    "m_Space": 2
 }
 
 {
