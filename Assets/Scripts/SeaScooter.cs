@@ -24,8 +24,8 @@ public class SeaScooter : LocomotionProvider {
     [SerializeField] private float turnRateCorrective;
 
     [SerializeField] private float turnAngleStart;
-    [SerializeField] private float turnAngleEnd;
-    [SerializeField] private float turnAngleStartStrength;
+    [Range(0,1)]
+    [SerializeField] private float turnCorrectiveStart;
 
     private float _moveSpeed;
 
@@ -51,15 +51,19 @@ public class SeaScooter : LocomotionProvider {
         var lookTurnAmount = Mathf.Min(lookRot.eulerAngles.y, 360 - lookRot.eulerAngles.y) *
                              Mathf.Sign(180 - lookRot.eulerAngles.y);
 
-        var lookTurnStrength = CalculateTurnSpeed(lookTurnAmount);
+        var input = rightHandMoveAction.action.ReadValue<Vector2>();
 
-        var relativeMovement = GetMoveFromInput(rightHandMoveAction.action.ReadValue<Vector2>(), lookTurnStrength);
+        var lookTurnStrength = CalculateTurnSpeed(lookTurnAmount, input);
 
-        Debug.Log(relativeMovement);
+        var relativeMovement = GetMoveFromInput(input);
 
         var motion = rightHandTransform.right * relativeMovement.x + rightHandTransform.forward * relativeMovement.y;
 
-        var turnAmount = relativeMovement.x * turnRateFromInput + lookTurnStrength * turnRateCorrective * Time.deltaTime;
+        motion *= Time.deltaTime;
+
+        var turnAmount = input.x * turnRateFromInput + lookTurnStrength * turnRateCorrective;
+        
+        turnAmount *= Time.deltaTime;
 
         if (relativeMovement != Vector2.zero) {
             if (CanBeginLocomotion() && BeginLocomotion()) {
@@ -73,7 +77,7 @@ public class SeaScooter : LocomotionProvider {
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
-    private Vector2 GetMoveFromInput(Vector2 input, float sidewaysFactor) {
+    private Vector2 GetMoveFromInput(Vector2 input) {
         if (input == Vector2.zero)
             return Vector3.zero;
 
@@ -96,46 +100,29 @@ public class SeaScooter : LocomotionProvider {
 
             _moveSpeed = CalculateSpeed();
         }
-
-        // Debug.Log(1.5f - sidewaysFactor);
-
-        input.y *= _moveSpeed * (1.5f - Mathf.Abs(sidewaysFactor));
+        input.y *= _moveSpeed;
 
         return input;
     }
 
     private float CalculateSpeed() {
-        return maxSpeed - (maxSpeed - minSpeed) * Mathf.Exp(-accelerationRate * _timeAccelerating);
+        return Mathf.Clamp(accelerationRate * _timeAccelerating + minSpeed, minSpeed, maxSpeed);
     }
-
-    private float CalculateBlend(float t) {
-        float result;
-        if (t < 0.5) {
-            result = 2 * t * t;
-        }
-        else {
-            result = 2 * (t - .5f) * (1.5f - t) + 0.5f;
-        }
-
-        return Mathf.Clamp01(result);
-    }
-
-    private float CalculateTurnSpeed(float angleDist) {
+    
+    private float CalculateTurnSpeed(float angleDist, Vector2 input) {
         var sign = Mathf.Sign(angleDist);
-        angleDist = Mathf.Abs(angleDist);
+        
+        var angle = Mathf.Abs(angleDist);
+        
+        angle -= turnAngleStart;
 
-        var func1 = Mathf.Pow((angleDist - turnAngleStart) / turnAngleStartStrength, 3);
+        angle = Mathf.Max(0, angle);
 
-        if (angleDist < turnAngleStart) {
-            func1 = 0;
-        }
+        var targetSpeed = sign * angle;
 
-        var func2 = Mathf.Pow(angleDist / turnAngleEnd, 1 / 3f);
-
-        var transformedTForBlend = Mathf.Clamp01((angleDist - turnAngleStart) / (turnAngleEnd - turnAngleStart));
-
-        var blendFactor = CalculateBlend(transformedTForBlend);
-
-        return sign * ((1 - blendFactor) * func1 + blendFactor * func2);
+        // if there is forward input on the joystick, we want to turn. Otherwise, no turn
+        var inputScale = Mathf.Max(0, input.y) >= turnCorrectiveStart ? 1 : 0;
+        
+        return targetSpeed * inputScale;
     }
 }
