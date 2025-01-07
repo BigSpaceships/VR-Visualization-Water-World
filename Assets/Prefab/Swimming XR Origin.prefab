@@ -2219,16 +2219,15 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: -8198699208435500284, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  minSpeed: 1
-  maxSpeed: 15
+  minSpeed: 20
+  maxSpeed: 200
   accelerationRate: 1
-  sidewaysSpeed: 0.5
-  turnRateFromInput: 20
-  turnRateCorrective: 5
-  turnAngleStart: 10
-  turnAngleEnd: 32
-  turnAngleStartStrength: 90
-  backSpeed: 2
+  sidewaysSpeed: 1
+  turnRateFromInput: 100
+  turnRateCorrective: 4
+  turnAngleStart: 15
+  turnCorrectiveStart: 0.204
+  backSpeed: 5
 --- !u!114 &8760216026810185790
 MonoBehaviour:
   m_ObjectHideFlags: 0
