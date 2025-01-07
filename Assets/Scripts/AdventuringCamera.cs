@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.UI;
 
 public class AdventuringCamera : MonoBehaviour {
@@ -17,8 +18,7 @@ public class AdventuringCamera : MonoBehaviour {
     private void Start() {
         takenPictures = new List<RenderTexture>();
 
-        _displayRenderTexture =
-            new RenderTexture(displayResolution.x, displayResolution.y, 0, RenderTextureFormat.ARGB32);
+        _displayRenderTexture = new RenderTexture(displayResolution.x, displayResolution.y, 0, RenderTextureFormat.ARGB32);
 
         screenImage.texture = _displayRenderTexture;
 
