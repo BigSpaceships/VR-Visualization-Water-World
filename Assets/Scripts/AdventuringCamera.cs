@@ -18,7 +18,7 @@ public class AdventuringCamera : MonoBehaviour {
     private void Start() {
         takenPictures = new List<RenderTexture>();
 
-        _displayRenderTexture = new RenderTexture(displayResolution.x, displayResolution.y, 0, RenderTextureFormat.ARGB32);
+        _displayRenderTexture = new RenderTexture(displayResolution.x, displayResolution.y, 8, RenderTextureFormat.ARGB32);
 
         screenImage.texture = _displayRenderTexture;
 
