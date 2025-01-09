@@ -7,16 +7,21 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class AdventuringCamera : MonoBehaviour {
+    [Header("Camera Settings")]
     [SerializeField] private Camera displayCamera;
     [SerializeField] private RawImage screenImage;
 
     [SerializeField] private Vector2Int displayResolution;
 
+    [Header("Controls")]
     public InputActionProperty zoomAction = new InputActionProperty(new InputAction("Zoom"));
     public InputActionProperty takePictureAction = new InputActionProperty(new InputAction("Take Picture"));
     private float zoom;
     [SerializeField] private Vector2 zoomRange;
     [SerializeField] private float zoomSpeed;
+    
+    [Header("Effect Settings")]
+    [SerializeField] private float darkTime;
 
     private bool active;
 
@@ -62,10 +67,10 @@ public class AdventuringCamera : MonoBehaviour {
     }
 
     private void TakePictureAction(InputAction.CallbackContext obj) {
-        TakePicture();
+        StartCoroutine(TakePicture());
     }
 
-    public void TakePicture() {
+    public IEnumerator TakePicture() {
         var newTexture = new RenderTexture(displayRenderTexture);
         displayCamera.targetTexture = newTexture;
         displayCamera.Render();
@@ -73,5 +78,6 @@ public class AdventuringCamera : MonoBehaviour {
         takenPictures.Add(newTexture);
 
         displayCamera.targetTexture = displayRenderTexture;
+        return null;
     }
 }
