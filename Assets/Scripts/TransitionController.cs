@@ -42,19 +42,13 @@ public class TransitionController : MonoBehaviour {
     private IEnumerator LoadScene(string sceneName) {
         var currentScene = SceneManager.GetActiveScene();
         
-        var sceneLoadOperation = SceneManager.LoadSceneAsync(sceneName);
+        var sceneLoadOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
         sceneLoadOperation.allowSceneActivation = false;
-        
-        Debug.Log("loading scene");
 
         yield return new WaitUntil(() => sceneLoadOperation.progress >= 0.9f);
-        
-        Debug.Log("scene loaded");
 
         yield return new WaitUntil(() => _shouldTransition);
-        
-        Debug.Log("transitioning");
         
         _shouldTransition = false;
         _justLoaded = true;
@@ -62,13 +56,10 @@ public class TransitionController : MonoBehaviour {
         sceneLoadOperation.allowSceneActivation = true;
         
         yield return sceneLoadOperation;
-        Debug.Log("unloading other scene");
+        
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
 
-        for (int i = 0; i < SceneManager.loadedSceneCount; i++) {
-            if (SceneManager.GetSceneAt(i) == currentScene) {
-                SceneManager.UnloadSceneAsync(currentScene);
-            }
-        }
+        SceneManager.UnloadSceneAsync(currentScene.name);
 
         var openControllers = GameObject.FindGameObjectsWithTag("Player");
 
