@@ -544,20 +544,33 @@ MonoBehaviour:
   displayCamera: {fileID: 7164211332344700502}
   screenImage: {fileID: 8020716387288254869}
   displayResolution: {x: 384, y: 256}
-  moveAction:
+  zoomAction:
     m_UseReference: 1
     m_Action:
       m_Name: Zoom
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: 4f70852f-c909-4ada-a4a0-6e624e42aa58
+      m_Id: 33e28fee-6ec1-438f-bfcd-b000d5814997
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 6980860035296881492, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  zoomRange: {x: 10, y: 60}
+  takePictureAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Take Picture
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: ac52ca39-1ab3-4058-9844-4ebd77d1c764
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -5982496924579745919, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  zoomRange: {x: 10, y: 90}
   zoomSpeed: 1
+  darkTime: 0.1
   takenPictures: []
 --- !u!54 &7355757614584591333
 Rigidbody:
@@ -630,10 +643,34 @@ MonoBehaviour:
       m_Calls: []
   m_FirstSelectEntered:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4538164066122850891}
+        m_TargetAssemblyTypeName: AdventuringCamera, Assembly-CSharp
+        m_MethodName: OnPickup
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_LastSelectExited:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4538164066122850891}
+        m_TargetAssemblyTypeName: AdventuringCamera, Assembly-CSharp
+        m_MethodName: OnDrop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_SelectEntered:
     m_PersistentCalls:
       m_Calls: []

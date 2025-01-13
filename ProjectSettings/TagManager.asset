@@ -19,8 +19,8 @@ TagManager:
   - Terrain
   - WaterVolume
   - TopMostLayer
-  - 
-  - 
+  - ScanableObject
+  - ScanableObjectLabel
   - 
   - 
   - 

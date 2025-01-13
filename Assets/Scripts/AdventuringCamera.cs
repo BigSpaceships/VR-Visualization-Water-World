@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.InputSystem;
@@ -66,6 +67,16 @@ public class AdventuringCamera : MonoBehaviour {
         }
     }
 
+    private void ScanForPOIs() {
+        var scanableObjects = FindObjectsByType<ScanableObject>(FindObjectsSortMode.None);
+        
+        var frustumPlanes = GeometryUtility.CalculateFrustumPlanes(displayCamera);
+
+        foreach (var scanableObject in scanableObjects) {
+            var isVisible = GeometryUtility.TestPlanesAABB(frustumPlanes, scanableObject.collider.bounds);
+        }
+    }
+    
     private void TakePictureAction(InputAction.CallbackContext obj) {
         StartCoroutine(TakePicture());
     }
@@ -78,6 +89,21 @@ public class AdventuringCamera : MonoBehaviour {
         takenPictures.Add(newTexture);
 
         displayCamera.targetTexture = displayRenderTexture;
-        return null;
+        
+        var timePictureStarted = Time.time;
+
+        while (Time.time < timePictureStarted + darkTime) {
+            screenImage.color = Color.Lerp(Color.white, Color.black, (Time.time - timePictureStarted) / darkTime);
+
+            yield return null;
+        }
+
+        timePictureStarted = Time.time; 
+        
+        while (Time.time < timePictureStarted + darkTime) {
+            screenImage.color = Color.Lerp(Color.black, Color.white, (Time.time - timePictureStarted) / darkTime);
+
+            yield return null;
+        }
     }
 }
