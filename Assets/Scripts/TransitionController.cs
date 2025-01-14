@@ -31,7 +31,7 @@ public class TransitionController : MonoBehaviour {
         var tunnel = other.GetComponentInParent<TransitionTunnel>();
 
         if (other == tunnel.loadSceneCollider) {
-            StartCoroutine(LoadScene(tunnel.transitionScene.name));
+            StartCoroutine(LoadScene(tunnel));
         }
 
         if (other == tunnel.transitionCollider) {
@@ -39,7 +39,9 @@ public class TransitionController : MonoBehaviour {
         }
     }
 
-    private IEnumerator LoadScene(string sceneName) {
+    private IEnumerator LoadScene(TransitionTunnel tunnel) {
+        string sceneName = tunnel.transitionScene.name;
+        
         var currentScene = SceneManager.GetActiveScene();
         
         var sceneLoadOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
@@ -56,10 +58,28 @@ public class TransitionController : MonoBehaviour {
         sceneLoadOperation.allowSceneActivation = true;
         
         yield return sceneLoadOperation;
+
+        var oldTunnelTransform = tunnel.transform;
         
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
 
+        var otherScene = SceneManager.GetActiveScene();
+        
+        Debug.Log(otherScene.name);
+
+        var otherTunnel = FindOtherTunnel(tunnel);
+        var newTunnelTransform = otherTunnel.transform;
+        
+        var transformationMatrix = oldTunnelTransform.localToWorldMatrix * newTunnelTransform.worldToLocalMatrix;
+        
         SceneManager.UnloadSceneAsync(currentScene.name);
+
+        var sceneObjects = otherScene.GetRootGameObjects();
+
+        foreach (var obj in sceneObjects) {
+            obj.transform.position = transformationMatrix.MultiplyPoint(obj.transform.position);
+            obj.transform.rotation = transformationMatrix.rotation * obj.transform.rotation;
+        }
 
         var openControllers = GameObject.FindGameObjectsWithTag("Player");
 
@@ -72,5 +92,21 @@ public class TransitionController : MonoBehaviour {
         yield return new WaitForSeconds(loadStopTime);
         
         _justLoaded = false;
+    }
+
+    private TransitionTunnel FindOtherTunnel(TransitionTunnel tunnel) {
+        var tunnelGameObjects = GameObject.FindGameObjectsWithTag("TransitionTunnel");
+        
+        var tunnels = new List<TransitionTunnel>();
+
+        foreach (var tunnelGameObject in tunnelGameObjects) {
+            var otherTunnel = tunnelGameObject.GetComponent<TransitionTunnel>();
+
+            if (otherTunnel != tunnel && otherTunnel.name.Equals(tunnel.name)) {
+                tunnels.Add(otherTunnel);
+            }
+        }
+
+        return tunnels[0];
     }
 }
