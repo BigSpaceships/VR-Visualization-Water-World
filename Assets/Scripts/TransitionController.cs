@@ -1,20 +1,21 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class TransitionController : MonoBehaviour {
-    private bool _shouldTransition;
-
     private bool _justLoaded;
+    
+    private Coroutine _loadingCoroutine;   
+
+    private TransitionTunnel _currentTunnel;
 
     public float loadStopTime;
 
     IEnumerator Start() {
         DontDestroyOnLoad(gameObject);
-
-        _shouldTransition = false;
         
         _justLoaded = true;
         
@@ -31,18 +32,27 @@ public class TransitionController : MonoBehaviour {
         var tunnel = other.GetComponentInParent<TransitionTunnel>();
 
         if (other == tunnel.loadSceneCollider) {
-            StartCoroutine(LoadScene(tunnel));
+            _currentTunnel = tunnel;
+            
+            _loadingCoroutine = StartCoroutine(LoadScene(tunnel));
         }
-
+        
         if (other == tunnel.transitionCollider) {
-            _shouldTransition = true;
+            StartCoroutine(SwitchScenes());
+        }
+        
+    }
+
+    private void OnTriggerExit(Collider other) {
+        if (other == _currentTunnel.loadSceneCollider) {
+            SceneManager.UnloadSceneAsync(_currentTunnel.transitionScene.name);
+            
+            StopCoroutine(_loadingCoroutine);
         }
     }
 
     private IEnumerator LoadScene(TransitionTunnel tunnel) {
         string sceneName = tunnel.transitionScene.name;
-        
-        var currentScene = SceneManager.GetActiveScene();
         
         var sceneLoadOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
@@ -50,29 +60,21 @@ public class TransitionController : MonoBehaviour {
 
         yield return new WaitUntil(() => sceneLoadOperation.progress >= 0.9f);
 
-        yield return new WaitUntil(() => _shouldTransition);
-        
-        _shouldTransition = false;
-        _justLoaded = true;
-
         sceneLoadOperation.allowSceneActivation = true;
         
         yield return sceneLoadOperation;
 
         var oldTunnelTransform = tunnel.transform;
-        
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
 
-        var otherScene = SceneManager.GetActiveScene();
-        
-        Debug.Log(otherScene.name);
+        var otherScene = SceneManager.GetSceneByName(tunnel.transitionScene.name);
 
         var otherTunnel = FindOtherTunnel(tunnel);
         var newTunnelTransform = otherTunnel.transform;
         
-        var transformationMatrix = oldTunnelTransform.localToWorldMatrix * newTunnelTransform.worldToLocalMatrix;
+        otherTunnel.transitionCollider.gameObject.SetActive(false);
+        otherTunnel.loadSceneCollider.gameObject.SetActive(false);
         
-        SceneManager.UnloadSceneAsync(currentScene.name);
+        var transformationMatrix = oldTunnelTransform.localToWorldMatrix * newTunnelTransform.worldToLocalMatrix;
 
         var sceneObjects = otherScene.GetRootGameObjects();
 
@@ -88,6 +90,20 @@ public class TransitionController : MonoBehaviour {
                 Destroy(openController);
             }
         }
+    }
+
+    private IEnumerator SwitchScenes() {
+        _justLoaded = true;
+        
+        _currentTunnel.transitionCollider.gameObject.SetActive(false);
+        _currentTunnel.loadSceneCollider.gameObject.SetActive(false);
+        
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(_currentTunnel.transitionScene.name));
+        
+        _currentTunnel = FindOtherTunnel(_currentTunnel);
+        
+        _currentTunnel.transitionCollider.gameObject.SetActive(true);
+        _currentTunnel.loadSceneCollider.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(loadStopTime);
         

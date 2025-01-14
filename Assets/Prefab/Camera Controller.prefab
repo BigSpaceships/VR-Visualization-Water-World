@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a81296c7e0ad0359a902254db736d261, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
+  speed: 5
   mouseSpeed: 0.1
   actions: {fileID: -944628639613478452, guid: 744763babeaefaf0dbfb73ff27f7a2fe, type: 3}
   moveAction:
