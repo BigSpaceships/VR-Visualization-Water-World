@@ -30,6 +30,8 @@ public class AdventuringCamera : MonoBehaviour {
 
     public List<RenderTexture> takenPictures;
 
+    public List<ObjectPictureInformation> scannedObjects;
+
     private void Start() {
         takenPictures = new List<RenderTexture>();
 
@@ -67,13 +69,24 @@ public class AdventuringCamera : MonoBehaviour {
         }
     }
 
-    private void ScanForPOIs() {
+    private void ScanForObjects(RenderTexture picture) {
         var scanableObjects = FindObjectsByType<ScanableObject>(FindObjectsSortMode.None);
         
         var frustumPlanes = GeometryUtility.CalculateFrustumPlanes(displayCamera);
 
         foreach (var scanableObject in scanableObjects) {
             var isVisible = GeometryUtility.TestPlanesAABB(frustumPlanes, scanableObject.collider.bounds);
+
+            if (isVisible) {
+                if (!scannedObjects.Exists(information => information.scannedObject == scanableObject)) {
+                    scannedObjects.Add(new ObjectPictureInformation {
+                        pictureTaken = picture,
+                        scannedObject = scanableObject,
+                    });
+
+                    scanableObject.Photograph();
+                }
+            }
         }
     }
     
@@ -89,6 +102,8 @@ public class AdventuringCamera : MonoBehaviour {
         takenPictures.Add(newTexture);
 
         displayCamera.targetTexture = displayRenderTexture;
+
+        ScanForObjects(newTexture);
         
         var timePictureStarted = Time.time;
 
@@ -105,5 +120,11 @@ public class AdventuringCamera : MonoBehaviour {
 
             yield return null;
         }
+    }
+
+    [Serializable]
+    public struct ObjectPictureInformation {
+        public ScanableObject scannedObject;
+        public RenderTexture pictureTaken;
     }
 }

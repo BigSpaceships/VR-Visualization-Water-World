@@ -1,6 +1,8 @@
+using System;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScanableObject : MonoBehaviour {
     public Collider collider;
@@ -16,6 +18,19 @@ public class ScanableObject : MonoBehaviour {
     public float outlineBorderSpacing;
 
     [SerializeField] private TextMeshProUGUI nameText;
+
+    public Color unscannedColor;
+    public Color scannedColor;
+
+    public Image[] borders;
+
+    private void Start() {
+        foreach (var border in borders) {
+            border.color = unscannedColor;
+        }
+        
+        nameText.color = unscannedColor;
+    }
 
     private void Update() {
         billboard.transform.rotation = targetCamera.transform.rotation;
@@ -71,5 +86,13 @@ public class ScanableObject : MonoBehaviour {
 
         billboard.GetComponent<RectTransform>().sizeDelta =
             new Vector2(cameraMax.x - cameraMin.x, cameraMax.y - cameraMin.y);
+    }
+
+    public void Photograph() {
+        foreach (var border in borders) {
+            border.color = scannedColor;
+        }
+        
+        nameText.color = scannedColor;
     }
 }

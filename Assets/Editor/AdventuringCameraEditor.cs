@@ -13,9 +13,10 @@ public class AdventuringCameraEditor : Editor {
         var pictureButton = new Button { text = "Take Picture" };
 
         pictureButton.clicked += () => {
-            ((AdventuringCamera)target).TakePicture();
+            var cameraTarget = (AdventuringCamera)target;
+            cameraTarget.StartCoroutine(cameraTarget.TakePicture());
         };
-
+        
         baseElement.Add(pictureButton);
 
         return baseElement;
