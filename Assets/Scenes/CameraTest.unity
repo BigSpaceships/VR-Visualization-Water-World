@@ -167,6 +167,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4538164066122850891, guid: 044c8a717bc01ae46bf168c4602f9079, type: 3}
+      propertyPath: displayResolution.x
+      value: 768
+      objectReference: {fileID: 0}
+    - target: {fileID: 4538164066122850891, guid: 044c8a717bc01ae46bf168c4602f9079, type: 3}
+      propertyPath: displayResolution.y
+      value: 512
+      objectReference: {fileID: 0}
     - target: {fileID: 6336753198023295473, guid: 044c8a717bc01ae46bf168c4602f9079, type: 3}
       propertyPath: m_Name
       value: Camera
@@ -631,12 +639,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3053111868788205858, guid: ccd5e96f3ae630834b78c77db5a0075f, type: 3}
+      propertyPath: nameText
+      value: 
+      objectReference: {fileID: 2084777125}
+    - target: {fileID: 3053111868788205858, guid: ccd5e96f3ae630834b78c77db5a0075f, type: 3}
       propertyPath: targetCamera
       value: 
       objectReference: {fileID: 982184038}
     - target: {fileID: 3053111868788205858, guid: ccd5e96f3ae630834b78c77db5a0075f, type: 3}
       propertyPath: outlineBorderSpacing
-      value: 1
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 3089227488395795725, guid: ccd5e96f3ae630834b78c77db5a0075f, type: 3}
       propertyPath: m_Enabled
@@ -673,6 +685,10 @@ PrefabInstance:
     - target: {fileID: 5271672902415045228, guid: ccd5e96f3ae630834b78c77db5a0075f, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7147849073753643061, guid: ccd5e96f3ae630834b78c77db5a0075f, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1170037831
       objectReference: {fileID: 0}
     - target: {fileID: 7147849073753643061, guid: ccd5e96f3ae630834b78c77db5a0075f, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
@@ -896,8 +912,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3efe631c2410702449f390b9629475f1, type: 2}
+  m_sharedMaterial: {fileID: -6653248090611502220, guid: 3efe631c2410702449f390b9629475f1, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -921,8 +937,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.25
-  m_fontSizeBase: 0.25
+  m_fontSize: 0.7
+  m_fontSizeBase: 0.7
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
