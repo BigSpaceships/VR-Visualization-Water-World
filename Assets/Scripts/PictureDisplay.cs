@@ -9,15 +9,26 @@ public class PictureDisplay : MonoBehaviour {
 
     [Header("Screens")] //
     public GameObject displayPanelScreen;
+
     public GameObject pictureObjectListScreen;
     public GameObject objectDisplayScreen;
 
-    [Header("List")] //
+    public GameObject objectListScreen;
+    public GameObject pictureScreen;
+
+    [Header("Object List")] //
     public Transform pictureContainer;
+
     public GameObject picturePrefab;
+    
+    [Header("Picture List")] //
+    public Transform pictureListContainer;
+    
+    public GameObject pictureListPrefab;
 
     [Header("Object Display")] //
     public Transform objectDisplayContainer;
+
     public GameObject objectDisplayPrefab;
     public TextMeshProUGUI objectDisplayTextName;
 
@@ -29,7 +40,7 @@ public class PictureDisplay : MonoBehaviour {
         for (int i = 0; i < pictureContainer.childCount; i++) {
             Destroy(pictureContainer.GetChild(0).gameObject);
         }
-        
+
         SetScreenForPictureList();
     }
 
@@ -48,6 +59,10 @@ public class PictureDisplay : MonoBehaviour {
     public void PictureTaken(PictureDisplayTile.ObjectPictureInformation picture) {
         _pictures.Add(picture);
 
+        var pictureDisplayTile = Instantiate(pictureListPrefab, pictureListContainer).GetComponent<PictureDisplayTile>();
+        
+        pictureDisplayTile.SetInformation(picture, false);
+
         if (picture.scannedObject == null) {
             return;
         }
@@ -58,7 +73,7 @@ public class PictureDisplay : MonoBehaviour {
             var displayTile = newGameObject.GetComponent<PictureDisplayTile>();
 
             displayTile.SetInformation(picture, true, SetScreenForObjectDisplay);
-            
+
             _picturesByObject[picture.scannedObject] = new List<PictureDisplayTile.ObjectPictureInformation>();
         }
 
@@ -79,12 +94,26 @@ public class PictureDisplay : MonoBehaviour {
 
             newDisplay.SetInformation(_picturesByObject[selectedObject][i], false);
         }
-        
+
         objectDisplayTextName.text = selectedObject.name;
     }
 
     public void SetScreenForPictureList() {
         pictureObjectListScreen.SetActive(true);
         objectDisplayScreen.SetActive(false);
+    }
+
+    public void SetScreenForObjectPictureList() {
+        SetScreenForPictureList();
+
+        objectListScreen.SetActive(true);
+        pictureScreen.SetActive(false);
+    }
+
+    public void SetScreenForPictures() {
+        SetScreenForPictureList();
+
+        objectListScreen.SetActive(false);
+        pictureScreen.SetActive(true);
     }
 }
