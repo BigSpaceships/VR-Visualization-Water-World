@@ -2,15 +2,22 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PictureDisplay : MonoBehaviour {
-    [Header("Screens")] public GameObject pictureObjectListScreen;
+    public InputActionProperty showDisplayAction = new InputActionProperty(new InputAction("Show Display"));
+
+    [Header("Screens")] //
+    public GameObject displayPanelScreen;
+    public GameObject pictureObjectListScreen;
     public GameObject objectDisplayScreen;
 
-    [Header("List")] public Transform pictureContainer;
+    [Header("List")] //
+    public Transform pictureContainer;
     public GameObject picturePrefab;
 
-    [Header("Object Display")] public Transform objectDisplayContainer;
+    [Header("Object Display")] //
+    public Transform objectDisplayContainer;
     public GameObject objectDisplayPrefab;
     public TextMeshProUGUI objectDisplayTextName;
 
@@ -24,6 +31,18 @@ public class PictureDisplay : MonoBehaviour {
         }
         
         SetScreenForPictureList();
+    }
+
+    private void OnEnable() {
+        showDisplayAction.action.performed += ToggleVisibility;
+    }
+
+    private void OnDisable() {
+        showDisplayAction.action.performed -= ToggleVisibility;
+    }
+
+    public void ToggleVisibility(InputAction.CallbackContext context) {
+        displayPanelScreen.SetActive(!displayPanelScreen.activeSelf);
     }
 
     public void PictureTaken(PictureDisplayTile.ObjectPictureInformation picture) {

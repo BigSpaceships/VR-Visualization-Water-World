@@ -7,23 +7,29 @@ using UnityEngine.Events;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class AdventuringCamera : MonoBehaviour {
-    [Header("Camera Settings")] [SerializeField]
-    private Camera displayCamera;
+    public XRBaseInteractor startedAttachment; 
+    public XRInteractionManager xrInteractionManager;
+    
+    [Header("Camera Settings")] // 
+    [SerializeField] private Camera displayCamera;
 
     [SerializeField] private RawImage screenImage;
 
     [SerializeField] private Vector2Int displayResolution;
 
-    [Header("Controls")] public InputActionProperty zoomAction = new InputActionProperty(new InputAction("Zoom"));
+    [Header("Controls")] //
+    public InputActionProperty zoomAction = new InputActionProperty(new InputAction("Zoom"));
     public InputActionProperty takePictureAction = new InputActionProperty(new InputAction("Take Picture"));
+    
     private float zoom;
     [SerializeField] private Vector2 zoomRange;
     [SerializeField] private float zoomSpeed;
 
-    [Header("Effect Settings")] [SerializeField]
-    private float darkTime;
+    [Header("Effect Settings")] //
+    [SerializeField] private float darkTime;
 
     private bool active;
 
@@ -46,6 +52,8 @@ public class AdventuringCamera : MonoBehaviour {
         displayCamera.targetTexture = displayRenderTexture;
 
         zoom = displayCamera.fieldOfView;
+        
+        xrInteractionManager.SelectEnter(startedAttachment, GetComponent<XRGrabInteractable>());
     }
 
     public void OnPickup() {

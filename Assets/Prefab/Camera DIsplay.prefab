@@ -30,8 +30,8 @@ RectTransform:
   m_GameObject: {fileID: 537998060972007732}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.11, y: 0.11, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.005, y: 0.005, z: 0.045454532}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6501164538251073268}
   m_Father: {fileID: 0}
@@ -86,7 +86,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &8194378722365470675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,6 +135,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81cdd72a0a60333cd9b32c435b18aff3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showDisplayAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Show Display
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: bcbb38f7-cf5d-4ad0-9812-1c27eaf3f2a0
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 7325762028351682914, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  displayPanelScreen: {fileID: 7456500292208050503}
   pictureObjectListScreen: {fileID: 1036341736824364847}
   objectDisplayScreen: {fileID: 8977503718378578557}
   pictureContainer: {fileID: 2551934215775693730}

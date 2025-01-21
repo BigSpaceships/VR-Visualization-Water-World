@@ -452,6 +452,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "OpenCameraDisplay",
+                    "type": "Button",
+                    "id": "ce2243ed-6242-4a14-addf-bddb04ea512d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -694,6 +703,17 @@
                     "processors": "StickDeadzone",
                     "groups": "Generic XR Controller",
                     "action": "Camera Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dcbd8aa2-0aac-428d-bd31-bd3a687c47fa",
+                    "path": "<OculusTouchController>{LeftHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "OpenCameraDisplay",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
