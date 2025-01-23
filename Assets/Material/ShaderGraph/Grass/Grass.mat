@@ -51,7 +51,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaThreshold: 0.5
-    - _HeightBlend: 0.99
+    - _HeightBlend: 1.1
     - _HeightBlendWorld: 107
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -62,13 +62,14 @@ Material:
     - _WindHeight: 0.01
     - _WindNoiseSpeed: 0.5
     m_Colors:
-    - _BottomColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Color: {r: 0.49247953, g: 0.7525328, b: 0.8773585, a: 1}
-    - _ColorBottom: {r: 0, g: 0, b: 0, a: 1}
-    - _FarColor: {r: 0.21115166, g: 0.4459657, b: 0.6886792, a: 0}
-    - _NearColor: {r: 0.63171947, g: 0.6724196, b: 0.7924528, a: 0}
+    - _BottomColor: {r: 0.03337486, g: 0.09433961, b: 0.07726948, a: 1}
+    - _Color: {r: 0.052509785, g: 0.18867922, b: 0.17129588, a: 1}
+    - _ColorBottom: {r: 0.0964, g: 0.2, b: 0.13525, a: 1}
+    - _FarColor: {r: 0.13725491, g: 0.34509805, b: 0.29411766, a: 1}
+    - _NearColor: {r: 0.31181023, g: 0.7595936, b: 0.8584906, a: 1}
     - _NearFarRange: {r: 10, g: 25, b: 0, a: 0}
-    - _WindHighlightColor: {r: 0.15294118, g: 0.6, b: 0.86274517, a: 1}
+    - _TerrainColorRGB: {r: 0.11764707, g: 0.29803923, b: 0.24313727, a: 1}
+    - _WindHighlightColor: {r: 0.14901957, g: 0.35686272, b: 0.2627451, a: 1}
     - _WindNoiseContrast: {r: 0, g: 1, b: 0, a: 0}
     - _WindNoiseScale: {r: 40, g: 100, b: 0, a: 0}
     - _WindSpeed: {r: 0.01, g: 0.02, b: 0, a: 0}
