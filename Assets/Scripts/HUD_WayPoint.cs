@@ -1,0 +1,80 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.ProBuilder;
+using UnityEngine.Rendering.Universal;
+
+public class HUD_WayPoint : MonoBehaviour {
+    public Transform target;  // 目标物体
+    public RectTransform wayPoint;  // HUD上的准星 (UI Image)
+    public RectTransform arrowIndicator; // 屏幕外指示箭头
+    public Camera mainCamera;  // 玩家主摄像机
+    public RectTransform hudCanvas;  // HUD Canvas
+    public TextMeshProUGUI distanceText; // 显示目标距离的文字
+
+    private float screenBorderOffset = 0f; // HUD边界外的缓冲区
+    private float HUDCanvasZoom = 80f; //屏幕距离玩家远近产生的缩放系数
+
+    void Update() {
+        if (target == null || wayPoint == null || mainCamera == null || hudCanvas == null)
+            return;
+
+        // 1️⃣ 获取目标在屏幕上的位置
+        Vector3 screenPos = mainCamera.WorldToScreenPoint(target.position);
+        bool isBehind = screenPos.z < 0; // 目标是否在玩家背后
+
+        // 2️⃣ 计算目标距离
+        float distance = Vector3.Distance(mainCamera.transform.position, target.position);
+        distanceText.text = $"{distance:F1}m"; // 显示到 0.1m 精度
+
+        // 3️⃣ 计算目标的屏幕方向（归一化）
+        Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+        Vector3 directionToTarget = (screenPos - screenCenter).normalized;
+
+        // 4️⃣ 限制准星在 HUD Canvas 内
+        float halfWidth = Mathf.Max(1f, Mathf.Abs(hudCanvas.rect.width) * HUDCanvasZoom / 2 - screenBorderOffset);
+        float halfHeight = Mathf.Max(1f, Mathf.Abs(hudCanvas.rect.height) * HUDCanvasZoom / 2 - screenBorderOffset);
+
+        Vector2 uiPosition;
+
+        if (isBehind) {
+            // 目标在背后，计算准星贴在最近的屏幕边缘
+            if (Mathf.Abs(directionToTarget.x) > Mathf.Abs(directionToTarget.y)) {
+                // X方向更大，贴在左右边界
+                uiPosition.x = (directionToTarget.x < 0) ? halfWidth : -halfWidth;
+                uiPosition.y = directionToTarget.y * halfHeight;
+            } else {
+                // Y方向更大，贴在上下边界
+                uiPosition.y = (directionToTarget.y > 0) ? halfHeight : -halfHeight;
+                uiPosition.x = directionToTarget.x * halfWidth;
+            }
+        } else {
+            // 目标在前方，正常转换坐标
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                hudCanvas, screenPos, mainCamera, out uiPosition);
+            if (uiPosition.x < -halfWidth) { uiPosition.x = -halfWidth; };
+            if (uiPosition.x > halfWidth) { uiPosition.x = halfWidth; };
+            if (uiPosition.y < -halfHeight) { uiPosition.y = -halfHeight; };
+            if (uiPosition.y > halfHeight) { uiPosition.y = halfHeight; };
+        }
+
+        // 5️⃣ 更新准星位置
+        wayPoint.anchoredPosition = uiPosition;
+
+        // 6️⃣ 目标超出视野时，显示指示箭头
+        if (arrowIndicator != null) {
+            if (isBehind) {
+                arrowIndicator.gameObject.SetActive(true);
+
+                // 计算箭头指向目标的角度
+                float angle = Mathf.Atan2(uiPosition.y, uiPosition.x) * Mathf.Rad2Deg;
+                arrowIndicator.anchoredPosition = uiPosition;
+                arrowIndicator.rotation = Quaternion.Euler(0, 0, angle);
+            } else {
+                arrowIndicator.gameObject.SetActive(false);
+            }
+        }
+    }
+}
