@@ -72361,13 +72361,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1577848007}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 447ba97cd97db064fbed5fc7491115e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  head: {fileID: 2095160423}
-  offset: {x: 0, y: -0.1, z: 0.5}
+  cameraTransform: {fileID: 2095160423}
+  followSpeed: 1
+  floatingIntensity: 0.01
+  floatingSpeed: 1
+  distanceFromCamera: 0.3
+  positionLimits: {x: 0.04, y: 0.01, z: 0.05}
 --- !u!114 &1577848013
 MonoBehaviour:
   m_ObjectHideFlags: 0
