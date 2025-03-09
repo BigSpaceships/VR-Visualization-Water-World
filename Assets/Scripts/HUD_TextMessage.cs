@@ -4,9 +4,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class HUD_TextMessage : MonoBehaviour { 
+public class HUD_TextMessage : MonoBehaviour {
     public TextMeshProUGUI textDisplay; // 显示文本的 TMP 组件
-    public AudioSource beepSound; // 播放 "嘟" 声音
+    public AudioSource beepSound; // common char sound
+    public AudioSource spaceSound; // space char sound
     public AudioSource voiceOver; // 语音播放（可选）
     public float letterDelay = 0.05f; // 每个字母的间隔时间
     public float lineDelay = 2f; // 每行之间的间隔时间
@@ -59,9 +60,15 @@ public class HUD_TextMessage : MonoBehaviour {
             foreach (char letter in line) {
                 textDisplay.text += letter;
 
-                // 播放 "嘟" 声（可选）
-                if (beepSound != null) {
-                    beepSound.Play();
+                // 播放不同的声音
+                if (letter == ' ') {
+                    if (spaceSound != null) {
+                        spaceSound.Play();
+                    }
+                } else {
+                    if (beepSound != null) {
+                        beepSound.Play();
+                    }
                 }
 
                 yield return new WaitForSeconds(letterDelay);
@@ -81,3 +88,4 @@ public class HUD_TextMessage : MonoBehaviour {
         onCompleteCallback?.Invoke();
     }
 }
+

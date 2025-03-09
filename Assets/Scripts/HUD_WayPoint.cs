@@ -17,6 +17,30 @@ public class HUD_WayPoint : MonoBehaviour {
     private float screenBorderOffset = 0f; // HUD边界外的缓冲区
     private float HUDCanvasZoom = 80f; //屏幕距离玩家远近产生的缩放系数
 
+    /// <summary>
+    /// ✅ 对外接口：设置 WayPoint 目标
+    /// </summary>
+    /// <param name="newTarget">目标物体，传 null 关闭 WayPoint</param>
+    public void ShowWaypoint(Transform newTarget) {
+        target = newTarget;
+
+        if (target == null) {
+            wayPoint.gameObject.SetActive(false);
+            arrowIndicator.gameObject.SetActive(false);
+            distanceText.gameObject.SetActive(false);
+        } else {
+            wayPoint.gameObject.SetActive(true);
+            arrowIndicator.gameObject.SetActive(true);
+            distanceText.gameObject.SetActive(true);
+        }
+    }
+
+    public Transform GetCurrentWaypointTarget() {
+        if (wayPoint.gameObject.activeSelf) {
+            return target;
+        } else return null;
+    }
+
     void Update() {
         if (target == null || wayPoint == null || mainCamera == null || hudCanvas == null)
             return;
