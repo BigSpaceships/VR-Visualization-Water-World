@@ -24,9 +24,11 @@ public class HUD_TextDisplay : MonoBehaviour {
     private bool oxygen0Played = false;  //play once
     private bool oxygen30Played = false; //play once
     private bool oxygen60Played = false; //play once
+    private HUD_WayPoint waypointController;
 
     void Start() {
         HUD_textMessage = Object.FindFirstObjectByType<HUD_TextMessage>();
+        waypointController = Object.FindFirstObjectByType<HUD_WayPoint>();
     }
 
     void Update() {
@@ -57,14 +59,29 @@ public class HUD_TextDisplay : MonoBehaviour {
                 ? $"Estimated Time Left: {estimatedTimeLeft.ToString("F1")} min"
                 : "<color=red>Oxygen Depleted!</color>";
 
-            if (estimatedTimeLeft <= 1f && !oxygen60Played) {
-                HUD_textMessage.ShowText("WARNING: OXYGEN CRITICAL\n 60 SECONDS REMAINING", VOICE_Oxygen60);
+            if (estimatedTimeLeft <= 50f / 60 && !oxygen60Played) {
                 oxygen60Played = true;
+                HUD_textMessage.ShowText("WARNING: OXYGEN CRITICAL\n 60 SECONDS REMAINING", VOICE_Oxygen60, () => {
+                    AudioSource TASK_D = GameObject.Find("HUD_DiverReply1").GetComponent<AudioSource>(); //This is Dave. My oxygen levels… something’s wrong.
+                    TASK_D.Play();
+                    StartCoroutine(WaitForSeconds(TASK_D.clip.length, () => {
+                        AudioSource TASK_D = GameObject.Find("HUD_TCenter1").GetComponent<AudioSource>(); //Dear valued guest, customer satisfaction is our top priority. According to Clause 322 of your signed agreement—
+                        TASK_D.Play();
+                        StartCoroutine(WaitForSeconds(TASK_D.clip.length, () => {
+                            AudioSource TASK_D = GameObject.Find("HUD_ConnectionLost").GetComponent<AudioSource>();
+                            HUD_textMessage.ShowText("WARNING: CONNECTION LOST\nWAYPOINT NAVIGATION SYSTEM: OFFLINE", TASK_D);
+                            waypointController.ShowWaypoint(null);
+                        }));
+                    }));
+                });
             }
 
-            if (estimatedTimeLeft <= 0.5f && !oxygen30Played) {
-                HUD_textMessage.ShowText("WARNING: OXYGEN CRITICAL\n 30 SECONDS REMAINING", VOICE_Oxygen30);
+            if (estimatedTimeLeft <= 20f / 60 && !oxygen30Played) {
                 oxygen30Played = true;
+                HUD_textMessage.ShowText("WARNING: OXYGEN CRITICAL\n 20 SECONDS REMAINING", VOICE_Oxygen30, () => {
+                    AudioSource TASK_D = GameObject.Find("HUD_DiverReply2").GetComponent<AudioSource>(); //DAVE: "Emergency! My oxygen is gone! Somebody—anyone, respond!"
+                    TASK_D.Play();
+                });
             }
 
             // 🚨 播放 **"氧气已耗尽"** 语音（氧气为 0）
@@ -77,7 +94,20 @@ public class HUD_TextDisplay : MonoBehaviour {
                         remainingOxygen = 900;
                         estimatedTimeLeft = remainingOxygen / (airConsumptionRate * depthPressureFactor);
                         oxygen0Played = false;
-                        HUD_textMessage.ShowText($"PRIMARY OXYGEN TANK ONLINE. PRESSURE STABILIZING.\nESTIMATED OXYGEN REMAINING: {estimatedTimeLeft.ToString("F1")} MINUTES.", VOICE_OxygenOnline);
+                        HUD_textMessage.ShowText($"PRIMARY OXYGEN TANK ONLINE. PRESSURE STABILIZING.\nESTIMATED OXYGEN REMAINING: {estimatedTimeLeft.ToString("F1")} MINUTES.", VOICE_OxygenOnline, () => {
+                            StartCoroutine(WaitForSeconds(3f, () => {
+                                AudioSource TASK_D = GameObject.Find("HUD_CommOnline").GetComponent<AudioSource>(); //COMM SYSTEM: RECONNECT SUCCESSFUL
+                                HUD_textMessage.ShowText("COMM SYSTEM: RECONNECT SUCCESSFUL", TASK_D, () => {
+                                    AudioSource TASK_D = GameObject.Find("HUD_TCenter2").GetComponent<AudioSource>(); //We apologize for the temporary signal loss, esteemed VIP guest. Please proceed to your destination following your helmet's navigation guidance
+                                    TASK_D.Play();
+                                    StartCoroutine(WaitForSeconds(TASK_D.clip.length, () => {
+                                        Transform WayPoint1 = GameObject.Find("WayPoint1")?.transform;
+                                        waypointController.ShowWaypoint(WayPoint1);
+                                        HUD_textMessage.ShowText("INCOMING COORDINATES\nWAYPOINT NAVIGATION SYSTEM\nSTATUS: ACTIVE", null);
+                                    }));
+                                });
+                            }));
+                        });
                     }));
                 });
             }

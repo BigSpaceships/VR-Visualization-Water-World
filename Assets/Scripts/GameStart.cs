@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.HID;
 
@@ -21,7 +22,7 @@ public class GameStart : MonoBehaviour {
         waypointController.ShowWaypoint(null); //clear waypoint
 
         //play task01 voice
-        AudioSource TASK_D = GameObject.Find("TASK_DStart").GetComponent<AudioSource>();
+        AudioSource TASK_D = GameObject.Find("TASK_DStart").GetComponent<AudioSource>(); //This is Tour Center, Welcome, David.You have successfully descended to the plan...
         TASK_D.Play();
         StartCoroutine(WaitForSeconds(TASK_D.clip.length, () => {
             Transform WayPoint1 = GameObject.Find("WayPoint1")?.transform;
