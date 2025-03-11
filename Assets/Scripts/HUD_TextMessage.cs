@@ -1,66 +1,92 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class HUD_TextMessage : MonoBehaviour {
-    public TextMeshProUGUI textDisplay; // ÏÔÊ¾ÎÄ±¾µÄ TMP ×é¼ş
+    public TextMeshProUGUI textDisplay; // æ˜¾ç¤ºæ–‡æœ¬çš„ TMP ç»„ä»¶
     public AudioSource beepSound; // common char sound
     public AudioSource spaceSound; // space char sound
-    public AudioSource voiceOver; // ÓïÒô²¥·Å£¨¿ÉÑ¡£©
-    public float letterDelay = 0.05f; // Ã¿¸ö×ÖÄ¸µÄ¼ä¸ôÊ±¼ä
-    public float lineDelay = 2f; // Ã¿ĞĞÖ®¼äµÄ¼ä¸ôÊ±¼ä
-    public float clearDelay = 2f; // ×ÖÄ»Íê³ÉºóµÈ´ı 2 ÃëÇå¿Õ
+    public AudioSource voiceOver; // è¯­éŸ³æ’­æ”¾ï¼ˆå¯é€‰ï¼‰
+    public float letterDelay = 0.05f; // æ¯ä¸ªå­—æ¯çš„é—´éš”æ—¶é—´
+    public float lineDelay = 2f; // æ¯è¡Œä¹‹é—´çš„é—´éš”æ—¶é—´
+    public float clearDelay = 2f; // å­—å¹•å®Œæˆåç­‰å¾… 2 ç§’æ¸…ç©º
 
-    private Queue<string> textLines = new Queue<string>(); // ´æ´¢Òª²¥·ÅµÄÎÄ±¾
-    private bool isTyping = false; // ·ÀÖ¹ÖØ¸´µ÷ÓÃ
-    private UnityAction onCompleteCallback; // ²¥·ÅÍê³ÉºóµÄ»Øµ÷
+    private Queue<string> textLines = new Queue<string>(); // å­˜å‚¨è¦æ’­æ”¾çš„æ–‡æœ¬
+    private bool isTyping = false; // é˜²æ­¢é‡å¤è°ƒç”¨
+    private UnityAction onCompleteCallback; // æ’­æ”¾å®Œæˆåçš„å›è°ƒ
+    private Queue<(string, AudioSource, UnityAction)> messageQueue = new Queue<(string, AudioSource, UnityAction)>(); // ğŸ“Œ æ¶ˆæ¯é˜Ÿåˆ—
 
     public void Start() {
         textDisplay.text = "";
     }
 
-    /// <summary>
-    /// Íâ²¿µ÷ÓÃ´Ëº¯Êı£¬²¥·Å HUD ÌáÊ¾ĞÅÏ¢
-    /// </summary>
-    /// <param name="text">ÒªÏÔÊ¾µÄÎÄ±¾£¨Ö§³Ö¶àĞĞ£©</param>
-    /// <param name="voice">Òª²¥·ÅµÄÓïÒô `AudioSource`£¨¿ÉÎª¿Õ£©</param>
-    /// <param name="callback">²¥·ÅÍê³ÉºóµÄ»Øµ÷£¨¿ÉÑ¡£©</param>
     public void ShowText(string text, AudioSource voice = null, UnityAction callback = null) {
-        if (isTyping) return; // ·ÀÖ¹ÖØ¸´µ÷ÓÃ
-        onCompleteCallback = callback; // ¼ÇÂ¼»Øµ÷
+        messageQueue.Enqueue((text, voice, callback)); // âœ… å°†æ–‡æœ¬åŠ å…¥é˜Ÿåˆ—
 
-        textDisplay.text = ""; // Çå¿ÕÏÔÊ¾
-        textLines.Clear(); // Çå¿Õ¶ÓÁĞ
-
-        // °´ĞĞ²ğ·ÖÎÄ±¾
-        string[] lines = text.Split('\n');
-        foreach (string line in lines) {
-            textLines.Enqueue(line);
+        if (!isTyping) {
+            StartCoroutine(ProcessQueue()); // âœ… å¦‚æœå½“å‰æ²¡åœ¨æ’­æ”¾ï¼Œå¼€å§‹æ’­æ”¾é˜Ÿåˆ—
         }
-
-        // play voice
-        if (voice != null) {
-            voice.Play();
-        }
-
-        StartCoroutine(TypeText());
     }
 
+    private IEnumerator ProcessQueue() {
+        while (messageQueue.Count > 0) // âœ… é˜Ÿåˆ—ä¸­æœ‰æ¶ˆæ¯å°±æ’­æ”¾
+        {
+            isTyping = true;
+
+            var (text, voice, callback) = messageQueue.Dequeue(); // å–å‡ºæœ€æ—©çš„ä¸€æ¡ä¿¡æ¯
+
+            textDisplay.text = ""; // æ¸…ç©º HUD
+            string[] lines = text.Split('\n');
+            Queue<string> textLines = new Queue<string>(lines);
+
+            // æ’­æ”¾è¯­éŸ³ï¼ˆå¦‚æœæœ‰ï¼‰
+            if (voice != null) voice.Play();
+
+            while (textLines.Count > 0) {
+                string line = textLines.Dequeue();
+                textDisplay.text = "";
+
+                foreach (char letter in line) {
+                    textDisplay.text += letter;
+
+                    // å¤„ç†ä¸åŒçš„å£°éŸ³
+                    if (letter == ' ') {
+                        spaceSound?.Play();
+                    } else {
+                        beepSound?.Play();
+                    }
+
+                    yield return new WaitForSeconds(letterDelay);
+                }
+
+                yield return new WaitForSeconds(lineDelay);
+            }
+
+            yield return new WaitForSeconds(clearDelay); // âœ… ç­‰å¾…æ¸…é™¤æ—¶é—´
+            textDisplay.text = ""; // æ¸…ç©º HUD
+
+            callback?.Invoke(); // âœ… è°ƒç”¨å›è°ƒï¼ˆå¦‚æœæœ‰ï¼‰
+        }
+
+        isTyping = false; // âœ… æ’­æ”¾å®Œæ¯•ï¼Œå…è®¸æ–°çš„ `ShowText()` å¯åŠ¨
+    }
+
+
     /// <summary>
-    /// Öğ×ÖÏÔÊ¾ÎÄ±¾µÄĞ­³Ì
+    /// é€å­—æ˜¾ç¤ºæ–‡æœ¬çš„åç¨‹
     /// </summary>
     private IEnumerator TypeText() {
         isTyping = true;
         while (textLines.Count > 0) {
             string line = textLines.Dequeue();
-            textDisplay.text = ""; // Çå¿Õµ±Ç°ĞĞ
+            textDisplay.text = ""; // æ¸…ç©ºå½“å‰è¡Œ
 
             foreach (char letter in line) {
                 textDisplay.text += letter;
 
-                // ²¥·Å²»Í¬µÄÉùÒô
+                // æ’­æ”¾ä¸åŒçš„å£°éŸ³
                 if (letter == ' ') {
                     if (spaceSound != null) {
                         spaceSound.Play();
@@ -74,17 +100,17 @@ public class HUD_TextMessage : MonoBehaviour {
                 yield return new WaitForSeconds(letterDelay);
             }
 
-            // Ã¿ĞĞ²¥·ÅÍêºóµÈ´ıÒ»¶ÎÊ±¼ä
+            // æ¯è¡Œæ’­æ”¾å®Œåç­‰å¾…ä¸€æ®µæ—¶é—´
             yield return new WaitForSeconds(lineDelay);
         }
 
         isTyping = false;
 
-        // ÓïÒô²¥·ÅÍêºó£¬µÈ´ı 2 ÃëºóÇå¿Õ HUD
+        // è¯­éŸ³æ’­æ”¾å®Œåï¼Œç­‰å¾… 2 ç§’åæ¸…ç©º HUD
         yield return new WaitForSeconds(clearDelay);
         textDisplay.text = "";
 
-        // ´¥·¢»Øµ÷£¨Èç¹ûÓĞ£©
+        // è§¦å‘å›è°ƒï¼ˆå¦‚æœæœ‰ï¼‰
         onCompleteCallback?.Invoke();
     }
 }

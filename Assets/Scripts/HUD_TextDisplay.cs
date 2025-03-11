@@ -1,59 +1,101 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class HUD_TextDisplay : MonoBehaviour {
     public int baseDepth = 100;
-    public float remainingOxygen = 400; // Ê£ÓàÑõÆøÁ¿ (L)
-    public float oxygenTankCapacity = 500.0f; // ÑõÆøÆ¿×ÜÈİÁ¿ (L)
+    public float remainingOxygen = 400; // å‰©ä½™æ°§æ°”é‡ (L)
+    public float oxygenTankCapacity = 500.0f; // æ°§æ°”ç“¶æ€»å®¹é‡ (L)
+    public AudioSource VOICE_Oxygen0 = null; //oxygen below 0
+    public AudioSource VOICE_Oxygen30 = null; //oxygen below 30s
+    public AudioSource VOICE_Oxygen60 = null; //oxygen below 60s
+    public AudioSource VOICE_OxygenOnline = null; //oxygen online
     public TextMeshProUGUI depthText;
     public TextMeshProUGUI oxygenText;
     public TextMeshProUGUI pressureText;
     public TextMeshProUGUI timeRemainingText;
-    public TextMeshProUGUI oxygenPercentageText; // ÏÔÊ¾ÑõÆøÊ£Óà°Ù·Ö±È
+    public TextMeshProUGUI oxygenPercentageText; // æ˜¾ç¤ºæ°§æ°”å‰©ä½™ç™¾åˆ†æ¯”
 
-    private float tankPressure = 200.0f; // ³õÊ¼Ñ¹Á¦ (bar)
-    private float depthPressureFactor = 1.0f; // Ë®ÉîÑ¹Á¦ (ËæÉî¶ÈÔö¼Ó)
-    private float airConsumptionRate = 20.0f; // ±ê×¼ÏûºÄ (L/min, ²Î¿¼ÆÕÍ¨Ç±Ë®Ô±)
+    private HUD_TextMessage HUD_textMessage;
+    private float tankPressure = 200.0f; // åˆå§‹å‹åŠ› (bar)
+    private float depthPressureFactor = 1.0f; // æ°´æ·±å‹åŠ› (éšæ·±åº¦å¢åŠ )
+    private float airConsumptionRate = 20.0f; // æ ‡å‡†æ¶ˆè€— (L/min, å‚è€ƒæ™®é€šæ½œæ°´å‘˜)
+    private bool oxygen0Played = false;  //play once
+    private bool oxygen30Played = false; //play once
+    private bool oxygen60Played = false; //play once
+
+    void Start() {
+        HUD_textMessage = Object.FindFirstObjectByType<HUD_TextMessage>();
+    }
 
     void Update() {
-        // Ä£ÄâÑõÆøÏûºÄ
+        // æ¨¡æ‹Ÿæ°§æ°”æ¶ˆè€—
         if (oxygenText != null && pressureText != null && timeRemainingText != null) {
-            // ¼ÆËãË®ÉîÑ¹Á¦ (Ã¿ 10m ¶îÍâ +1 bar)
+            // è®¡ç®—æ°´æ·±å‹åŠ› (æ¯ 10m é¢å¤– +1 bar)
             float depth = -Camera.main.transform.position.y + baseDepth;
-            depthPressureFactor = 1.0f + (depth / 100.0f); // Ë®ÉîÑ¹Á¦Òò×Ó
+            depthPressureFactor = 1.0f + (depth / 100.0f); // æ°´æ·±å‹åŠ›å› å­
 
-            // ¼ÆËãÑõÆøÏûºÄ (ËæÉî¶ÈÔö¼Ó)
+            // è®¡ç®—æ°§æ°”æ¶ˆè€— (éšæ·±åº¦å¢åŠ )
             float oxygenUsedPerSecond = (airConsumptionRate / 60.0f) * depthPressureFactor;
             remainingOxygen = Mathf.Max(0, remainingOxygen - oxygenUsedPerSecond * Time.deltaTime);
 
-            // ¼ÆËãÆ¿ÄÚÑ¹Á¦ (bar)
+            // è®¡ç®—ç“¶å†…å‹åŠ› (bar)
             tankPressure = (remainingOxygen / oxygenTankCapacity) * 200.0f;
 
-            // ¼ÆËãÊ£ÓàÊ±¼ä (·ÖÖÓ)
+            // è®¡ç®—å‰©ä½™æ—¶é—´ (åˆ†é’Ÿ)
             float estimatedTimeLeft = remainingOxygen / (airConsumptionRate * depthPressureFactor);
 
-            // ¼ÆËãÊ£ÓàÑõÆø°Ù·Ö±È
+            // è®¡ç®—å‰©ä½™æ°§æ°”ç™¾åˆ†æ¯”
             float oxygenPercentage = (remainingOxygen / oxygenTankCapacity) * 100.0f;
 
-            // ¸üĞÂ UI ÏÔÊ¾
+            // æ›´æ–° UI æ˜¾ç¤º
             pressureText.text = $"Tank Pressure: {tankPressure.ToString("F1")} bar";
             oxygenText.text = $"Oxygen: {remainingOxygen.ToString("F1")}L / {oxygenTankCapacity.ToString("F1")}L";
             oxygenPercentageText.text = $"Oxygen Remaining: {oxygenPercentage.ToString("F1")}%";
             timeRemainingText.text = estimatedTimeLeft > 0
                 ? $"Estimated Time Left: {estimatedTimeLeft.ToString("F1")} min"
                 : "<color=red>Oxygen Depleted!</color>";
+
+            if (estimatedTimeLeft <= 1f && !oxygen60Played) {
+                HUD_textMessage.ShowText("WARNING: OXYGEN CRITICAL\n 60 SECONDS REMAINING", VOICE_Oxygen60);
+                oxygen60Played = true;
+            }
+
+            if (estimatedTimeLeft <= 0.5f && !oxygen30Played) {
+                HUD_textMessage.ShowText("WARNING: OXYGEN CRITICAL\n 30 SECONDS REMAINING", VOICE_Oxygen30);
+                oxygen30Played = true;
+            }
+
+            // ğŸš¨ æ’­æ”¾ **"æ°§æ°”å·²è€—å°½"** è¯­éŸ³ï¼ˆæ°§æ°”ä¸º 0ï¼‰
+            if (remainingOxygen <= 0 && !oxygen0Played) {
+                oxygen0Played = true;
+                HUD_textMessage.ShowText("âš  WARNING: OXYGEN DEPLETED.\nCURRENT TANK OFFLINE.", VOICE_Oxygen0, () => {
+                    // âœ… 3 ç§’åæ˜¾ç¤ºä¸‹ä¸€æ¡ HUD ä¿¡æ¯ + æ’­æ”¾ TASK_D03
+                    StartCoroutine(WaitForSeconds(3f, () => {
+                        oxygenTankCapacity = 900;
+                        remainingOxygen = 900;
+                        estimatedTimeLeft = remainingOxygen / (airConsumptionRate * depthPressureFactor);
+                        oxygen0Played = false;
+                        HUD_textMessage.ShowText($"PRIMARY OXYGEN TANK ONLINE. PRESSURE STABILIZING.\nESTIMATED OXYGEN REMAINING: {estimatedTimeLeft.ToString("F1")} MINUTES.", VOICE_OxygenOnline);
+                    }));
+                });
+            }
         }
 
-        // ¼ÆËãÉî¶È
+        // è®¡ç®—æ·±åº¦
         if (depthText != null) {
             float depth = -Camera.main.transform.position.y + baseDepth;
-            // ¼ÆËãË®Ñ¹£ºË®Ãæ 1 bar£¬Ã¿ 10m Ôö¼Ó 1 bar
+            // è®¡ç®—æ°´å‹ï¼šæ°´é¢ 1 barï¼Œæ¯ 10m å¢åŠ  1 bar
             float pressure = 1.0f + Mathf.Abs(depth) / 10.0f;
 
-            // ¸üĞÂ UI ÏÔÊ¾Ë®ÉîºÍÑ¹Á¦
+            // æ›´æ–° UI æ˜¾ç¤ºæ°´æ·±å’Œå‹åŠ›
             depthText.text = $"Depth: {Mathf.Abs(depth).ToString("F1")}m\nPressure: {pressure.ToString("F2")} bar";
         }
+    }
+
+    IEnumerator WaitForSeconds(float time, System.Action callback) {
+        yield return new WaitForSeconds(time);
+        callback?.Invoke();
     }
 }
