@@ -103,7 +103,8 @@ public class HUD_TextDisplay : MonoBehaviour {
                                     StartCoroutine(WaitForSeconds(TASK_D.clip.length, () => {
                                         Transform WayPoint1 = GameObject.Find("WayPoint1")?.transform;
                                         waypointController.ShowWaypoint(WayPoint1);
-                                        HUD_textMessage.ShowText("INCOMING COORDINATES\nWAYPOINT NAVIGATION SYSTEM\nSTATUS: ACTIVE", null);
+                                        AudioSource TASK_D = GameObject.Find("HUD_IncomingCord").GetComponent<AudioSource>();
+                                        HUD_textMessage.ShowText("INCOMING COORDINATES RPF2K1\nWAYPOINT NAVIGATION SYSTEM: ACTIVE", TASK_D);
                                     }));
                                 });
                             }));
