@@ -592,9 +592,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -34.99992, y: 9.959984}
+  m_AnchoredPosition: {x: -34, y: 9.959995}
   m_SizeDelta: {x: 400, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &22722375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51535,9 +51535,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -34.88992, y: 13.35}
+  m_AnchoredPosition: {x: -34, y: 13.350069}
   m_SizeDelta: {x: 400, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1251233346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60065,9 +60065,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -34.88968, y: 6.5799837}
+  m_AnchoredPosition: {x: -34, y: 6.5799356}
   m_SizeDelta: {x: 400, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1444218042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60980,9 +60980,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -34.88968, y: 3.2499893}
+  m_AnchoredPosition: {x: -34, y: 3.2499433}
   m_SizeDelta: {x: 400, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1483859470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73515,7 +73515,7 @@ RectTransform:
   m_GameObject: {fileID: 1577848007}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.5}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_LocalScale: {x: 0.006, y: 0.006, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1864467201}
@@ -73531,7 +73531,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.05, y: -0.109}
   m_SizeDelta: {x: 1, y: 0.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1577848009
@@ -73613,7 +73613,7 @@ MonoBehaviour:
   followSpeed: 1
   floatingIntensity: 0.02
   floatingSpeed: 0.5
-  positionLimits: {x: 0.04, y: 0.01, z: 0.05}
+  positionLimits: {x: 0.08, y: 0.08, z: 0.2}
 --- !u!114 &1577848013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80376,9 +80376,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -34.6, y: -16}
+  m_AnchoredPosition: {x: -34, y: -15.999973}
   m_SizeDelta: {x: 400, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1864467202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83537,7 +83537,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2250159889618004426, guid: 044c8a717bc01ae46bf168c4602f9079, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 68.74
+      value: 68.816
       objectReference: {fileID: 0}
     - target: {fileID: 2250159889618004426, guid: 044c8a717bc01ae46bf168c4602f9079, type: 3}
       propertyPath: m_LocalPosition.y
@@ -83545,7 +83545,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2250159889618004426, guid: 044c8a717bc01ae46bf168c4602f9079, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 81.68
+      value: 24.391
       objectReference: {fileID: 0}
     - target: {fileID: 2250159889618004426, guid: 044c8a717bc01ae46bf168c4602f9079, type: 3}
       propertyPath: m_LocalRotation.w
@@ -86815,6 +86815,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 119271673739891577, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 521795563794683551, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
       propertyPath: m_Name
       value: Swimming XR Origin

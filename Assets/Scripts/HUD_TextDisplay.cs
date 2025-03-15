@@ -1,7 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.XR.Management;
 
 public class HUD_TextDisplay : MonoBehaviour {
     public int baseDepth = 100;
@@ -17,6 +20,10 @@ public class HUD_TextDisplay : MonoBehaviour {
     public TextMeshProUGUI timeRemainingText;
     public TextMeshProUGUI oxygenPercentageText; // 显示氧气剩余百分比
 
+    public static bool isPc;
+    public static float HUDZ_PC = 0.5f;
+    public static float HUDZ_VR = 0.3f;
+
     private HUD_TextMessage HUD_textMessage;
     private float tankPressure = 200.0f; // 初始压力 (bar)
     private float depthPressureFactor = 1.0f; // 水深压力 (随深度增加)
@@ -26,9 +33,26 @@ public class HUD_TextDisplay : MonoBehaviour {
     private bool oxygen60Played = false; //play once
     private HUD_WayPoint waypointController;
 
+    void Awake() {
+        if (XRGeneralSettings.Instance != null && XRGeneralSettings.Instance.Manager.activeLoader != null) {
+            isPc = false;
+            Debug.Log("running on VR");
+        } else {
+            isPc = true;
+            Debug.Log("running on PC");
+        }
+        if (isPc) {
+            Vector3 t = transform.localPosition;
+            if (isPc) {
+                t.z = HUDZ_PC;
+            } else t.z = HUDZ_VR;
+            transform.localPosition = t;
+        }
+    }
+
     void Start() {
-        HUD_textMessage = Object.FindFirstObjectByType<HUD_TextMessage>();
-        waypointController = Object.FindFirstObjectByType<HUD_WayPoint>();
+        HUD_textMessage = UnityEngine.Object.FindFirstObjectByType<HUD_TextMessage>();
+        waypointController = UnityEngine.Object.FindFirstObjectByType<HUD_WayPoint>();
     }
 
     void Update() {
