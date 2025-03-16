@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Experimental.Rendering;
@@ -14,6 +15,7 @@ public class AdventuringCamera : MonoBehaviour {
     public XRInteractionManager xrInteractionManager;
     public InputActionProperty rightXButtonAction;
     public Transform rightController;
+    public TextMeshProUGUI hintTakePhotoButton;
 
     [Header("Camera Settings")] // 
     [SerializeField] private Camera displayCamera;
@@ -33,7 +35,6 @@ public class AdventuringCamera : MonoBehaviour {
     [Header("Effect Settings")] //
     [SerializeField] private float darkTime;
 
-    private bool active;
 
     private RenderTexture displayRenderTexture;
 
@@ -43,7 +44,7 @@ public class AdventuringCamera : MonoBehaviour {
 
     public UnityEvent<PictureDisplayTile.ObjectPictureInformation> onPictureTaken;
 
-    private bool isOpen = false; 
+    private bool active = false; //is camera active
     private Transform originalParent; //camera's parent
 
     private void Start() {
@@ -69,10 +70,12 @@ public class AdventuringCamera : MonoBehaviour {
     }
 
     private void ToggleCamera() {
-        if (isOpen) {
+        if (active) {
             // 取消跟随，恢复原父对象
             transform.SetParent(originalParent, false);
-            isOpen = false;
+            active = false;
+            hintTakePhotoButton.text = "Scooter";
+            takePictureAction.action.performed -= TakePictureAction;
         } else {
             // 记录原始父对象，并绑定到 Left Controller
             originalParent = transform.parent;
@@ -80,20 +83,10 @@ public class AdventuringCamera : MonoBehaviour {
             Vector3 v = new Vector3(-0.1f, -0f, -0.05f);
             transform.localPosition = v;
             transform.localRotation = Quaternion.Euler(0, -90, -70);
-            isOpen = true;
+            hintTakePhotoButton.text = "Take Picture";
+            active = true;
+            takePictureAction.action.performed += TakePictureAction;
         }
-    }
-
-    public void OnPickup() {
-        active = true;
-
-        takePictureAction.action.performed += TakePictureAction;
-    }
-
-    public void OnDrop() {
-        active = false;
-
-        takePictureAction.action.performed -= TakePictureAction;
     }
 
     private void Update() {
