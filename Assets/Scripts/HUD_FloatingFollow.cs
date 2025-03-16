@@ -12,6 +12,7 @@ public class HUD_FloatingFollow : MonoBehaviour {
     private Vector3 targetPosition; // 目标位置
     private Vector3 initLocalPos; //initial local position
     private float distanceFromCamera = 0.5f; // HUD 与摄像机的固定前方距离
+    private Transform originalParent;
 
     void Start() {
         if (cameraTransform == null) {
@@ -21,10 +22,17 @@ public class HUD_FloatingFollow : MonoBehaviour {
         initLocalPos = transform.localPosition;
 
         distanceFromCamera = transform.localPosition.z;
+
+        // 记录初始的父对象
+        originalParent = transform.parent;
     }
 
     void Update() {
         if (cameraTransform == null) return;
+        //if parent changed, stop floating follow
+        if (transform.parent != originalParent) {
+            return;
+        }
 
         // 1️⃣ 计算目标位置（让 HUD 稍微滞后跟随摄像机）
         Vector3 desiredPosition = cameraTransform.TransformPoint(initLocalPos); // HUD 距离头部 0.5m

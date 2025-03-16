@@ -454,9 +454,18 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "OpenCameraDisplay",
+                    "name": "ButtonX",
                     "type": "Button",
-                    "id": "ce2243ed-6242-4a14-addf-bddb04ea512d",
+                    "id": "391366fb-8509-4694-8187-5f9bd4a9ee5d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ButtonY",
+                    "type": "Button",
+                    "id": "e24fe53d-530e-4df0-9780-6d757b366e36",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -708,12 +717,23 @@
                 },
                 {
                     "name": "",
-                    "id": "dcbd8aa2-0aac-428d-bd31-bd3a687c47fa",
-                    "path": "<OculusTouchController>{LeftHand}/primaryButton",
+                    "id": "647aad1e-50b1-4d03-aa72-fe15c5867736",
+                    "path": "<XRController>{LeftHand}/{PrimaryButton}",
                     "interactions": "",
                     "processors": "",
                     "groups": "Generic XR Controller",
-                    "action": "OpenCameraDisplay",
+                    "action": "ButtonX",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dff70e38-46fe-4232-9142-2c058947e9aa",
+                    "path": "<XRController>{LeftHand}/{SecondaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "ButtonY",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -11,10 +11,10 @@ public class HUD_WayPoint : MonoBehaviour {
     public RectTransform wayPoint;  // HUD上的准星 (UI Image)
     public RectTransform arrowIndicator; // 屏幕外指示箭头
     public Camera mainCamera;  // 玩家主摄像机
-    public RectTransform hudCanvas;  // HUD Canvas
+    public RectTransform hudRect;  // HUD rectangle
     public TextMeshProUGUI distanceText; // 显示目标距离的文字
 
-    private float screenBorderOffset = 0f; // HUD边界外的缓冲区
+    private Vector2 screenBorder = new Vector2(5, 6);
     private float HUDCanvasZoom = 80f; //屏幕距离玩家远近产生的缩放系数
 
     /// <summary>
@@ -42,7 +42,7 @@ public class HUD_WayPoint : MonoBehaviour {
     }
 
     void Update() {
-        if (target == null || wayPoint == null || mainCamera == null || hudCanvas == null)
+        if (target == null || wayPoint == null || mainCamera == null)
             return;
 
         // 1️⃣ 获取目标在屏幕上的位置
@@ -58,8 +58,8 @@ public class HUD_WayPoint : MonoBehaviour {
         Vector3 directionToTarget = (screenPos - screenCenter).normalized;
 
         // 4️⃣ 限制准星在 HUD Canvas 内
-        float halfWidth = Mathf.Max(1f, Mathf.Abs(hudCanvas.rect.width) * HUDCanvasZoom / 2 - screenBorderOffset);
-        float halfHeight = Mathf.Max(1f, Mathf.Abs(hudCanvas.rect.height) * HUDCanvasZoom / 2 - screenBorderOffset);
+        float halfWidth = hudRect.rect.width * hudRect.localScale.x / 2 - screenBorder.x;
+        float halfHeight = hudRect.rect.height * hudRect.localScale.y / 2 - screenBorder.y;
 
         Vector2 uiPosition;
 
@@ -77,7 +77,9 @@ public class HUD_WayPoint : MonoBehaviour {
         } else {
             // 目标在前方，正常转换坐标
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                hudCanvas, screenPos, mainCamera, out uiPosition);
+                hudRect, screenPos, mainCamera, out uiPosition);
+            uiPosition.x *= hudRect.localScale.x;
+            uiPosition.y *= hudRect.localScale.y;
             if (uiPosition.x < -halfWidth) { uiPosition.x = -halfWidth; };
             if (uiPosition.x > halfWidth) { uiPosition.x = halfWidth; };
             if (uiPosition.y < -halfHeight) { uiPosition.y = -halfHeight; };
@@ -101,4 +103,5 @@ public class HUD_WayPoint : MonoBehaviour {
             }
         }
     }
+      
 }

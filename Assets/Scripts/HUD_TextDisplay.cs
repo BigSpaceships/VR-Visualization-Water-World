@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.XR.Management;
 
 public class HUD_TextDisplay : MonoBehaviour {
@@ -19,6 +20,11 @@ public class HUD_TextDisplay : MonoBehaviour {
     public TextMeshProUGUI pressureText;
     public TextMeshProUGUI timeRemainingText;
     public TextMeshProUGUI oxygenPercentageText; // 显示氧气剩余百分比
+    public GameObject imageBG;
+
+    public Transform leftController; // 左手控制器
+    public InputActionProperty xButtonAction; // 绑定的 X 按键（已在 Unity 里设置）
+
 
     public static bool isPc;
     public static float HUDZ_PC = 0.5f;
@@ -32,6 +38,9 @@ public class HUD_TextDisplay : MonoBehaviour {
     private bool oxygen30Played = false; //play once
     private bool oxygen60Played = false; //play once
     private HUD_WayPoint waypointController;
+
+    private bool isFollowing = false; // is following left controller?
+    private Transform originalParent; //HUD's parent
 
     void Awake() {
         if (XRGeneralSettings.Instance != null && XRGeneralSettings.Instance.Manager.activeLoader != null) {
@@ -53,7 +62,33 @@ public class HUD_TextDisplay : MonoBehaviour {
     void Start() {
         HUD_textMessage = UnityEngine.Object.FindFirstObjectByType<HUD_TextMessage>();
         waypointController = UnityEngine.Object.FindFirstObjectByType<HUD_WayPoint>();
+        xButtonAction.action.performed += ctx => ToggleFollow();
     }
+
+    private void OnDestroy() {
+        // 取消监听事件，防止内存泄漏
+        xButtonAction.action.performed -= ctx => ToggleFollow();
+    }
+
+    private void ToggleFollow() {
+        if (isFollowing) {
+            // 取消跟随，恢复原父对象
+            transform.SetParent(originalParent, false);
+            isFollowing = false;
+        } else {
+            // 记录原始父对象，并绑定到 Left Controller
+            originalParent = transform.parent;
+            transform.SetParent(leftController, false);
+            Vector3 v = new Vector3(0.1f, 0.1f, 0.05f);
+            transform.localPosition = v;
+            transform.localRotation = Quaternion.Euler(25, 0, 0);
+            isFollowing = true;
+        }
+        if (imageBG != null) {
+            imageBG.SetActive(isFollowing); // 只有跟随时显示，否则隐藏
+        }
+    }
+
 
     void Update() {
         // 模拟氧气消耗
