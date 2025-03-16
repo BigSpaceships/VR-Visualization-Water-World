@@ -12,7 +12,9 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class AdventuringCamera : MonoBehaviour {
     public XRBaseInteractor startedAttachment; 
     public XRInteractionManager xrInteractionManager;
-    
+    public InputActionProperty rightXButtonAction;
+    public Transform rightController;
+
     [Header("Camera Settings")] // 
     [SerializeField] private Camera displayCamera;
 
@@ -41,6 +43,9 @@ public class AdventuringCamera : MonoBehaviour {
 
     public UnityEvent<PictureDisplayTile.ObjectPictureInformation> onPictureTaken;
 
+    private bool isOpen = false; 
+    private Transform originalParent; //camera's parent
+
     private void Start() {
         takenPictures = new List<RenderTexture>();
 
@@ -52,8 +57,31 @@ public class AdventuringCamera : MonoBehaviour {
         displayCamera.targetTexture = displayRenderTexture;
 
         zoom = displayCamera.fieldOfView;
-        
-        xrInteractionManager.SelectEnter(startedAttachment, GetComponent<XRGrabInteractable>());
+
+        //xrInteractionManager.SelectEnter(startedAttachment, GetComponent<XRGrabInteractable>());
+
+        rightXButtonAction.action.performed += ctx => ToggleCamera();
+    }
+
+    private void OnDestroy() {
+        // 取消监听事件，防止内存泄漏
+        rightXButtonAction.action.performed -= ctx => ToggleCamera();
+    }
+
+    private void ToggleCamera() {
+        if (isOpen) {
+            // 取消跟随，恢复原父对象
+            transform.SetParent(originalParent, false);
+            isOpen = false;
+        } else {
+            // 记录原始父对象，并绑定到 Left Controller
+            originalParent = transform.parent;
+            transform.SetParent(rightController, false);
+            Vector3 v = new Vector3(-0.1f, -0f, -0.05f);
+            transform.localPosition = v;
+            transform.localRotation = Quaternion.Euler(0, -90, -70);
+            isOpen = true;
+        }
     }
 
     public void OnPickup() {

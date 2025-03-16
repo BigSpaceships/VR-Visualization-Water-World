@@ -1193,6 +1193,24 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "ButtonY",
+                    "type": "Button",
+                    "id": "e5546d66-be52-49a3-ac18-7cc9173ffc34",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ButtonX",
+                    "type": "Button",
+                    "id": "dd5d8d13-0a51-4d2c-ab1e-471c3fcee210",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Rotation",
                     "type": "Value",
                     "id": "ee6bf5bf-bb0a-4a50-8327-cb654b19e298",
@@ -1530,6 +1548,28 @@
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "Grip Rotation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "52811aef-dd14-4f50-baaa-ffa7d2d9c285",
+                    "path": "<XRController>{RightHand}/{PrimaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "ButtonX",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a3deb41d-d170-455a-a585-b4c062550b09",
+                    "path": "<XRController>{RightHand}/{SecondaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "ButtonY",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
