@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -16,6 +17,7 @@ public class AdventuringCamera : MonoBehaviour {
     public InputActionProperty rightXButtonAction;
     public Transform rightController;
     public TextMeshProUGUI hintTakePhotoButton;
+    public Transform scooter;
 
     [Header("Camera Settings")] // 
     [SerializeField] private Camera displayCamera;
@@ -46,6 +48,8 @@ public class AdventuringCamera : MonoBehaviour {
 
     private bool active = false; //is camera active
     private Transform originalParent; //camera's parent
+    private Transform originalParentScooter; //scooter's parent
+
 
     private void Start() {
         takenPictures = new List<RenderTexture>();
@@ -62,6 +66,9 @@ public class AdventuringCamera : MonoBehaviour {
         //xrInteractionManager.SelectEnter(startedAttachment, GetComponent<XRGrabInteractable>());
 
         rightXButtonAction.action.performed += ctx => ToggleCamera();
+        
+        ToggleCamera();
+        ToggleCamera();
     }
 
     private void OnDestroy() {
@@ -71,13 +78,18 @@ public class AdventuringCamera : MonoBehaviour {
 
     private void ToggleCamera() {
         if (active) {
-            // 取消跟随，恢复原父对象
+            //隐藏相机，取消跟随，恢复原父对象
             transform.SetParent(originalParent, false);
             active = false;
-            hintTakePhotoButton.text = "Scooter";
+            hintTakePhotoButton.text = "Active Scooter";
             takePictureAction.action.performed -= TakePictureAction;
+            //激活SeaScooter
+            originalParentScooter = scooter.parent;
+            scooter.transform.SetParent(rightController, false);
+            Vector3 v = new Vector3(0, 0.14f, 0.3f);
+            scooter.transform.localPosition = v;
         } else {
-            // 记录原始父对象，并绑定到 Left Controller
+            //激活相机：记录原始父对象，并绑定到 right Controller
             originalParent = transform.parent;
             transform.SetParent(rightController, false);
             Vector3 v = new Vector3(-0.1f, -0f, -0.05f);
@@ -86,6 +98,8 @@ public class AdventuringCamera : MonoBehaviour {
             hintTakePhotoButton.text = "Take Picture";
             active = true;
             takePictureAction.action.performed += TakePictureAction;
+            //隐藏SeaScooter
+            scooter.transform.SetParent(originalParentScooter, false);
         }
     }
 
