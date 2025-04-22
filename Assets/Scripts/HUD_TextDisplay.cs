@@ -118,6 +118,7 @@ public class HUD_TextDisplay : MonoBehaviour {
                 ? $"Estimated Time Left: {estimatedTimeLeft.ToString("F1")} min"
                 : "<color=red>Oxygen Depleted!</color>";
 
+            /*
             if (estimatedTimeLeft <= 50f / 60 && !oxygen60Played) {
                 oxygen60Played = true;
                 HUD_textMessage.ShowText("WARNING: OXYGEN CRITICAL\n 60 SECONDS REMAINING", VOICE_Oxygen60, () => {
@@ -134,15 +135,17 @@ public class HUD_TextDisplay : MonoBehaviour {
                     }));
                 });
             }
+            */
 
             if (estimatedTimeLeft <= 20f / 60 && !oxygen30Played) {
                 oxygen30Played = true;
                 HUD_textMessage.ShowText("WARNING: OXYGEN CRITICAL\n 20 SECONDS REMAINING", VOICE_Oxygen30, () => {
-                    AudioSource TASK_D = GameObject.Find("HUD_DiverReply2").GetComponent<AudioSource>(); //DAVE: "Emergency! My oxygen is gone! Somebody—anyone, respond!"
-                    TASK_D.Play();
+                    //AudioSource TASK_D = GameObject.Find("HUD_DiverReply2").GetComponent<AudioSource>(); //DAVE: "Emergency! My oxygen is gone! Somebody—anyone, respond!"
+                    //TASK_D.Play();
                 });
             }
 
+            /*
             // 🚨 播放 **"氧气已耗尽"** 语音（氧气为 0）
             if (remainingOxygen <= 0 && !oxygen0Played) {
                 oxygen0Played = true;
@@ -157,7 +160,7 @@ public class HUD_TextDisplay : MonoBehaviour {
                             StartCoroutine(WaitForSeconds(3f, () => {
                                 AudioSource TASK_D = GameObject.Find("HUD_CommOnline").GetComponent<AudioSource>(); //COMM SYSTEM: RECONNECT SUCCESSFUL
                                 HUD_textMessage.ShowText("COMM SYSTEM: RECONNECT SUCCESSFUL", TASK_D, () => {
-                                    AudioSource TASK_D = GameObject.Find("HUD_TCenter2").GetComponent<AudioSource>(); //We apologize for the temporary signal loss, esteemed VIP guest. Please proceed to your destination following your helmet's navigation guidance
+                                    AudioSource TASK_D = GameObject.Find("HUD_TCenter2").GetComponent<AudioSource>(); //这句改为：我们抱歉没有提前通知您氧气瓶切换的问题。 We apologize for the temporary signal loss, esteemed VIP guest. Please proceed to your destination following your helmet's navigation guidance
                                     TASK_D.Play();
                                     StartCoroutine(WaitForSeconds(TASK_D.clip.length, () => {
                                         Transform WayPoint1 = GameObject.Find("WayPoint1")?.transform;
@@ -167,6 +170,23 @@ public class HUD_TextDisplay : MonoBehaviour {
                                     }));
                                 });
                             }));
+                        });
+                    }));
+                });
+            }
+            */
+
+            // 🚨 播放 **"氧气已耗尽"** 语音（氧气为 0）
+            if(remainingOxygen <= 0 && !oxygen0Played) {
+                oxygen0Played = true;
+                HUD_textMessage.ShowText("⚠ WARNING: OXYGEN DEPLETED.\nCURRENT TANK OFFLINE.", VOICE_Oxygen0, () => {
+                    // ✅ 3 秒后显示下一条 HUD 信息 + 播放 TASK_D03
+                    StartCoroutine(WaitForSeconds(3f, () => {
+                        oxygenTankCapacity = 900;
+                        remainingOxygen = 900;
+                        estimatedTimeLeft = remainingOxygen / (airConsumptionRate * depthPressureFactor);
+                        oxygen0Played = false;
+                        HUD_textMessage.ShowText($"PRIMARY OXYGEN TANK ONLINE. PRESSURE STABILIZING.\nESTIMATED OXYGEN REMAINING: {estimatedTimeLeft.ToString("F1")} MINUTES.", VOICE_OxygenOnline, () => {
                         });
                     }));
                 });
