@@ -63,16 +63,19 @@ public class HUD_WayPoint : MonoBehaviour {
 
         Vector2 uiPosition;
 
+        bool showArrow = false;
         if (isBehind) {
             // 目标在背后，计算准星贴在最近的屏幕边缘
             if (Mathf.Abs(directionToTarget.x) > Mathf.Abs(directionToTarget.y)) {
                 // X方向更大，贴在左右边界
                 uiPosition.x = (directionToTarget.x < 0) ? halfWidth : -halfWidth;
                 uiPosition.y = directionToTarget.y * halfHeight;
+                showArrow = true;
             } else {
                 // Y方向更大，贴在上下边界
                 uiPosition.y = (directionToTarget.y > 0) ? halfHeight : -halfHeight;
                 uiPosition.x = directionToTarget.x * halfWidth;
+                showArrow = true;
             }
         } else {
             // 目标在前方，正常转换坐标
@@ -80,10 +83,22 @@ public class HUD_WayPoint : MonoBehaviour {
                 hudRect, screenPos, mainCamera, out uiPosition);
             uiPosition.x *= hudRect.localScale.x;
             uiPosition.y *= hudRect.localScale.y;
-            if (uiPosition.x < -halfWidth) { uiPosition.x = -halfWidth; };
-            if (uiPosition.x > halfWidth) { uiPosition.x = halfWidth; };
-            if (uiPosition.y < -halfHeight) { uiPosition.y = -halfHeight; };
-            if (uiPosition.y > halfHeight) { uiPosition.y = halfHeight; };
+            if (uiPosition.x < -halfWidth) {
+                uiPosition.x = -halfWidth;
+                showArrow = true;
+            };
+            if (uiPosition.x > halfWidth) {
+                uiPosition.x = halfWidth;
+                showArrow = true;
+            };
+            if (uiPosition.y < -halfHeight) {
+                uiPosition.y = -halfHeight;
+                showArrow = true;
+            };
+            if (uiPosition.y > halfHeight) {
+                uiPosition.y = halfHeight;
+                showArrow = true;
+            };
         }
 
         // 5️⃣ 更新准星位置
@@ -91,13 +106,17 @@ public class HUD_WayPoint : MonoBehaviour {
 
         // 6️⃣ 目标超出视野时，显示指示箭头
         if (arrowIndicator != null) {
-            if (isBehind) {
+            if (showArrow) {
                 arrowIndicator.gameObject.SetActive(true);
-
+                arrowIndicator.anchoredPosition = uiPosition;
+                arrowIndicator.transform.LookAt(target.transform.position);
+                /*
+                arrowIndicator.gameObject.SetActive(true);
                 // 计算箭头指向目标的角度
                 float angle = Mathf.Atan2(uiPosition.y, uiPosition.x) * Mathf.Rad2Deg;
                 arrowIndicator.anchoredPosition = uiPosition;
                 arrowIndicator.rotation = Quaternion.Euler(0, 0, angle);
+                */
             } else {
                 arrowIndicator.gameObject.SetActive(false);
             }
