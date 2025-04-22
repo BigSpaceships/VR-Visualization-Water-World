@@ -4,12 +4,16 @@ using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class SeaScooter : LocomotionProvider {
+    [SerializeField] public InputActionReference activeScooderButton;
+
+
     [SerializeField] private Transform rightHandTransform;
     [SerializeField] private Transform cameraTransform;
 
 
     [SerializeField] private InputActionProperty rightHandMoveAction =
         new(new InputAction("Right Hand Move", expectedControlType: "Vector2"));
+
 
     private CharacterController _characterController;
 
@@ -30,6 +34,11 @@ public class SeaScooter : LocomotionProvider {
     private float _moveSpeed;
 
     [SerializeField] private float backSpeed;
+
+    private void Start() {
+        activeScooderButton.action.Enable();
+    }
+
 
     protected override void Awake() {
         base.Awake();
@@ -78,10 +87,15 @@ public class SeaScooter : LocomotionProvider {
 
     // ReSharper disable Unity.PerformanceAnalysis
     private Vector2 GetMoveFromInput(Vector2 input) {
-        if (input == Vector2.zero)
-            return Vector3.zero;
+        //if (input == Vector2.zero)
+        //    return Vector3.zero;
 
         input = rightHandMoveAction.action?.ReadValue<Vector2>() ?? Vector2.zero;
+
+        bool isPushingForward = activeScooderButton.action.IsPressed();
+        if (isPushingForward) {
+            input.y = 1;
+        } else input.y = 0;
 
         input.x *= sidewaysSpeed;
 
