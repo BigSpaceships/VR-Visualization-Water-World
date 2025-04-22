@@ -33450,17 +33450,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 908446759}
   m_Mesh: {fileID: -7387706064836869012, guid: ed25a2e647630df4281404a2a7b84076, type: 3}
---- !u!114 &917494957 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2511179152196006087, guid: 044c8a717bc01ae46bf168c4602f9079, type: 3}
-  m_PrefabInstance: {fileID: 1984069963}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ad34abafad169848a38072baa96cdb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &919493979
 GameObject:
   m_ObjectHideFlags: 0
@@ -45378,8 +45367,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 0d1a03d1d70c9dd448ad1fbab16de520, type: 3}
-  m_Resource: {fileID: 8300000, guid: 0d1a03d1d70c9dd448ad1fbab16de520, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 1201a84776fc84011b62ffe74fb37ea5, type: 3}
+  m_Resource: {fileID: 8300000, guid: 1201a84776fc84011b62ffe74fb37ea5, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.5
   m_Pitch: 1
@@ -76781,7 +76770,7 @@ PrefabInstance:
     - target: {fileID: 3513412242247808757, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
       propertyPath: m_StartingSelectedInteractable
       value: 
-      objectReference: {fileID: 917494957}
+      objectReference: {fileID: 0}
     - target: {fileID: 5789194813113954416, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
