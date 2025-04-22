@@ -46,7 +46,6 @@ public class AdventuringCamera : MonoBehaviour {
 
     public UnityEvent<PictureDisplayTile.ObjectPictureInformation> onPictureTaken;
 
-    private bool active = false; //is camera active
     private Transform originalParent; //camera's parent
     private Transform originalParentScooter; //scooter's parent
 
@@ -77,10 +76,10 @@ public class AdventuringCamera : MonoBehaviour {
     }
 
     private void ToggleCamera() {
-        if (active) {
+        if (GamePublic.cameraActive) {
             //隐藏相机，取消跟随，恢复原父对象
             transform.SetParent(originalParent, false);
-            active = false;
+            GamePublic.cameraActive = false;
             hintTakePhotoButton.text = "Active Scooter";
             takePictureAction.action.performed -= TakePictureAction;
             //激活SeaScooter
@@ -96,7 +95,7 @@ public class AdventuringCamera : MonoBehaviour {
             transform.localPosition = v;
             transform.localRotation = Quaternion.Euler(0, -90, -70);
             hintTakePhotoButton.text = "Take Picture";
-            active = true;
+            GamePublic.cameraActive = true;
             takePictureAction.action.performed += TakePictureAction;
             //隐藏SeaScooter
             scooter.transform.SetParent(originalParentScooter, false);
@@ -104,7 +103,7 @@ public class AdventuringCamera : MonoBehaviour {
     }
 
     private void Update() {
-        if (active) {
+        if (GamePublic.cameraActive) {
             var zoomValue = zoomAction.action.ReadValue<Vector2>();
             var zoomChange = zoomValue.y;
 

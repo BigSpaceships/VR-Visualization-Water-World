@@ -92,10 +92,14 @@ public class SeaScooter : LocomotionProvider {
 
         input = rightHandMoveAction.action?.ReadValue<Vector2>() ?? Vector2.zero;
 
-        bool isPushingForward = activeScooderButton.action.IsPressed();
-        if (isPushingForward) {
-            input.y = 1;
-        } else input.y = 0;
+        if (GamePublic.cameraActive) {
+            input.y = 0;
+        } else {
+            bool isPushingForward = activeScooderButton.action.IsPressed();
+            if (isPushingForward) {
+                input.y = 1;
+            } else input.y = 0;
+        }
 
         input.x *= sidewaysSpeed;
 
