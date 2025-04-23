@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -45,14 +44,14 @@ public class TransitionController : MonoBehaviour {
 
     private void OnTriggerExit(Collider other) {
         if (other == _currentTunnel.loadSceneCollider) {
-            SceneManager.UnloadSceneAsync(_currentTunnel.transitionScene.name);
+            SceneManager.UnloadSceneAsync(_currentTunnel.transitionScene);
             
             StopCoroutine(_loadingCoroutine);
         }
     }
 
     private IEnumerator LoadScene(TransitionTunnel tunnel) {
-        string sceneName = tunnel.transitionScene.name;
+        string sceneName = tunnel.transitionScene;
         
         var sceneLoadOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
@@ -66,7 +65,7 @@ public class TransitionController : MonoBehaviour {
 
         var oldTunnelTransform = tunnel.transform;
 
-        var otherScene = SceneManager.GetSceneByName(tunnel.transitionScene.name);
+        var otherScene = SceneManager.GetSceneByName(tunnel.transitionScene);
 
         var otherTunnel = FindOtherTunnel(tunnel);
         var newTunnelTransform = otherTunnel.transform;
@@ -98,7 +97,7 @@ public class TransitionController : MonoBehaviour {
         _currentTunnel.transitionCollider.gameObject.SetActive(false);
         _currentTunnel.loadSceneCollider.gameObject.SetActive(false);
         
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName(_currentTunnel.transitionScene.name));
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(_currentTunnel.transitionScene));
         
         _currentTunnel = FindOtherTunnel(_currentTunnel);
         

@@ -1,0 +1,114 @@
+db7b356 | Donna | 2025-04-22 | AudioUpdate
+13970ce | Donna | 2025-04-22 | Merge branch 'main' of https://github.com/BigSpaceships/VR-Visualization-Water-World
+6f7c476 | x3titan | 2025-04-22 | w
+19179b3 | Donna | 2025-04-22 | POWL
+73f5ea6 | x3titan | 2025-04-22 | complete scooter
+0633e8c | x3titan | 2025-04-22 | add waypoint arrow
+b4c8210 | Donna | 2025-04-22 | Update Arrow.png
+8f0a2ec | Donna | 2025-04-22 | Arrow
+d0aea33 | Donna | 2025-04-21 | Music update
+cb93cc6 | Donna | 2025-04-21 | Merge branch 'main' of https://github.com/BigSpaceships/VR-Visualization-Water-World
+0d0d83b | Donna | 2025-04-21 | Model and Music
+370c343 | x3titan | 2025-04-21 | w
+b20f991 | x3titan | 2025-04-21 | Merge branch 'main' of https://github.com/BigSpaceships/VR-Visualization-Water-World
+f570e91 | x3titan | 2025-04-21 | w
+dde4bf2 | Benny | 2025-04-06 | Added original music
+835e77f | x3titan | 2025-03-16 | right controller trigger for take picture, and add hint
+b35b8fb | x3titan | 2025-03-15 | change camera to right hand X
+6be0ac4 | x3titan | 2025-03-15 | add: grab HUD(left X); HUD background
+e5ebbce | x3titan | 2025-03-15 | optimized HUD for VR
+33992b4 | x3titan | 2025-03-14 | add voice for incoming waypoint
+70837d3 | x3titan | 2025-03-11 | add story of oxygen depleted
+bf35504 | x3titan | 2025-03-10 | add a lot of voices; add trigger for oxygen level; oxygen restore; HUD text queue;
+586c9ca | x3titan | 2025-03-09 | add waypoint indicator icon, made a short video
+3c59e73 | x3titan | 2025-03-08 | Completed the waypoint system; Add initial voice and shows waypoint1
+28bc69b | x3titan | 2025-03-08 | Optimized HUD floating parameters to achieve the best effect
+7d5f1ce | x3titan | 2025-03-08 | Added HUD floating effect and slow moving follow effect
+b950da1 | x3titan | 2025-03-08 | add waypoint TRIGGER, add HUD message text, add GameStart script
+5b421d4 | x3titan | 2025-03-07 | Added the ability for fish schools to move
+d7e5a55 | x3titan | 2025-03-07 | shows waypoint on HUD
+4567d49 | x3titan | 2025-03-07 | set fog: 5-20
+6a72718 | x3titan | 2025-03-07 | correct lighting map; bake lighting, correct shadow distance
+10e55b5 | x3titan | 2025-03-06 | change font material for HUD text
+feb2141 | x3titan | 2025-03-06 | add lot of HUD data display
+942cac9 | x3titan | 2025-03-05 | add scene: ArtTest V2
+a2ab273 | x3titan | 2025-03-04 | PC control support
+776266d | Donna | 2025-01-28 | Little changes for main menu
+70ff355 | Donna | 2025-01-23 | some cutscenes changes
+5a522b2 | Donna | 2025-01-23 | Added Cutscenes
+6698e5b | Donna | 2025-01-23 | Terrain
+3d55276 | Donna | 2025-01-22 | Terrain
+e20b45f | Donna | 2025-01-22 | Merge branch 'main' of https://github.com/BigSpaceships/VR-Visualization-Water-World
+ca37c12 | Donna | 2025-01-22 | Added assets
+c7fc3a9 | Benny | 2025-01-22 | Update MainMenu.unity
+a08326e | Benny | 2025-01-21 | Audio adjustments
+cada4ae | Benny | 2025-01-21 | Adjusted audio and created main menu (in progress)
+b77a881 | Noah | 2025-01-21 | FEAT: camera stuff works in vr
+a757b6e | Noah | 2025-01-21 | FEAT: added colliders + working camera display stuff
+8bdb667 | Noah | 2025-01-21 | Merge remote-tracking branch 'origin/main'
+2c37bb1 | Noah | 2025-01-21 | FEAT: menu for viewing pictures
+5380bd2 | Donna | 2025-01-20 | Merge branch 'main' of https://github.com/BigSpaceships/VR-Visualization-Water-World
+3b91d43 | Donna | 2025-01-20 | Changes in main scene
+ae851d0 | Benny | 2025-01-20 | Added sounds
+5c0a006 | Noah | 2025-01-19 | FEAT: saving taken pictures
+a6798e3 | Noah | 2025-01-19 | FEAT: object outline
+e9decc5 | Noah | 2025-01-19 | FEAT: created fonts
+8a785c6 | Noah | 2025-01-19 | WIP: camera outline
+de3e61c | Noah | 2025-01-13 | CHORE: change how scene transitions work
+6324db1 | Noah | 2025-01-13 | FEAT: transitions with tunnels in different places
+1c65655 | Noah | 2025-01-13 | FEAT: seamless transitions
+69c5fef | Noah | 2025-01-13 | WIP: outline for taking pictures of objects
+0d654b0 | Noah | 2025-01-12 | FEAT: basic scene switching through tunnels
+187d6a4 | Noah | 2025-01-09 | WIP: camera effects
+5203a14 | Noah | 2025-01-09 | FEAT: taking pictures in VR
+5822d87 | Noah Hanford | 2025-01-08 | WIP: transition scene control
+5445ef0 | Noah Hanford | 2025-01-07 | Merge branch 'main' of gitlab.com:BigSpaceships/VR-Visualization-Water-World
+65d67f4 | Noah Hanford | 2025-01-07 | CHORE: removed video from project
+7a58fea | Noah | 2025-01-07 | WIP: camera functionality in VR
+b65adc4 | Noah | 2025-01-07 | FEAT: movement is more smooth still slightly disorienting and sickening when turning with joystick. Maybe snap turn?
+c36dc1e | Donna | 2024-12-14 | terrain
+582e7fb | Donna | 2024-12-01 | Merge branch 'main' of https://github.com/BigSpaceships/VR-Visualization-Water-World
+e43dd08 | Donna | 2024-12-01 | change rock material
+1934e53 | Noah | 2024-11-26 | WIP: smoother movement (doesn't work rn)
+b6cf9f7 | DonnaTan | 2024-11-26 | idk some adjusemetns
+964595e | DonnaTan | 2024-11-26 | hi
+444fd6b | BigSpaceships | 2024-11-25 | CHORE: removed unused scenes and created prefab for vr rig with swiming
+7f00d1c | Donna | 2024-11-25 | idk some updates
+ab8e7f6 | Donna | 2024-11-22 | some filter
+eb1bfbb | Donna | 2024-11-22 | FISH FINALLY WORKED IM SO HAPPY
+87dae7e | Donna | 2024-11-22 | fishstillnotworking
+a3cdb81 | Donna Tan | 2024-11-22 | Grass something question mark
+c098957 | Donna | 2024-11-22 | fish that doesnt work
+097ddef | Donna | 2024-11-21 | Added a bunch of stuff
+d3b80e7 | Donna | 2024-11-20 | Merge branch 'main' of https://github.com/BigSpaceships/VR-Visualization-Water-World
+f5723b5 | Donna | 2024-11-20 | more rocks
+ab4024d | Benny | 2024-11-20 | Added scene
+09dfa7d | Donna | 2024-11-17 | Added Rocks
+f31d565 | Donna | 2024-11-16 | weird helmet????
+4422a94 | Donna | 2024-11-16 | Add folder
+609ad02 | Noah | 2024-11-14 | FEAT: camera turns while moving
+2a0d737 | BigSpaceships | 2024-11-14 | FIX: rename script to scripts
+4f12561 | BigSpaceships | 2024-11-12 | FEAT: basic movement
+793ecac | BigSpaceships | 2024-11-07 | Update README.md
+f8aaf0e | Noah | 2024-11-07 | WIP: shore detection for water shader
+2fd936c | Noah | 2024-11-03 | FEAT: basic camera
+3b3da15 | Donna | 2024-11-01 | TERRAIN
+f96d43e | Donna | 2024-11-01 | IDK seaweed?
+537392e | Donna | 2024-11-01 | Post-processing test
+6d2ad55 | Donna | 2024-11-01 | MORE TERRAIN!!!!!!
+e1e3133 | Donna | 2024-11-01 | MORE TERRAIN
+97f2637 | Donna | 2024-11-01 | More terrain stuff
+ec8e3d3 | Donna | 2024-10-31 | Terrain Update
+09462b2 | Donna | 2024-10-31 | Donna's Scene and folders
+7327b7d | Donna | 2024-10-31 | Delete sdfas.txt
+e25dbeb | Donna | 2024-10-31 | Update sdfas.txt
+935b899 | Donna | 2024-10-31 | test
+a839e2f | Donna | 2024-10-31 | Create fhggdfg.txt
+8feb9fc | BigSpaceships | 2024-10-29 | FEAT: started setting up world for underwater
+bb534de | BigSpaceships | 2024-10-29 | FEAT: created vr project
+e764aa7 | BigSpaceships | 2024-10-29 | Update README.md
+ad34429 | BigSpaceships | 2024-10-29 | Create README.md
+69b8ea6 | BigSpaceships | 2024-10-29 | Update sync.yml
+e11af75 | BigSpaceships | 2024-10-29 | Update sync.yml
+b3d3a5d | BigSpaceships | 2024-10-29 | Create sync.yml
+ad960c1 | BigSpaceships | 2024-10-23 | Initial commit
