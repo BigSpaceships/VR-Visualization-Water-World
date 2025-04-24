@@ -74710,10 +74710,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 2095160423}
-  followSpeed: 1
+  followSpeed: 5.64
   floatingIntensity: 0.02
   floatingSpeed: 0.5
-  positionLimits: {x: 0.08, y: 0.08, z: 0.2}
+  positionLimits: {x: 0.08, y: 0.08, z: 0.08}
 --- !u!114 &1577848013
 MonoBehaviour:
   m_ObjectHideFlags: 0
