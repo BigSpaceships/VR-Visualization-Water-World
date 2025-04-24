@@ -84540,6 +84540,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1577848008}
     m_Modifications:
+    - target: {fileID: 261395992562012407, guid: 94d2051274524b503b5fff6bf6164e7e, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 537998060972007732, guid: 94d2051274524b503b5fff6bf6164e7e, type: 3}
       propertyPath: m_Name
       value: PhotoList

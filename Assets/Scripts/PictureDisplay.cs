@@ -20,10 +20,10 @@ public class PictureDisplay : MonoBehaviour {
     public Transform pictureContainer;
 
     public GameObject picturePrefab;
-    
+
     [Header("Picture List")] //
     public Transform pictureListContainer;
-    
+
     public GameObject pictureListPrefab;
 
     [Header("Object Display")] //
@@ -37,8 +37,10 @@ public class PictureDisplay : MonoBehaviour {
     private Dictionary<ScanableObject, List<PictureDisplayTile.ObjectPictureInformation>> _picturesByObject = new();
 
     private void Start() {
-        for (int i = 0; i < pictureContainer.childCount; i++) {
-            Destroy(pictureContainer.GetChild(0).gameObject);
+        if (pictureContainer) {
+            for (int i = 0; i < pictureContainer.childCount; i++) {
+                Destroy(pictureContainer.GetChild(0).gameObject);
+            }
         }
 
         SetScreenForPictures();
@@ -59,8 +61,9 @@ public class PictureDisplay : MonoBehaviour {
     public void PictureTaken(PictureDisplayTile.ObjectPictureInformation picture) {
         _pictures.Add(picture);
 
-        var pictureDisplayTile = Instantiate(pictureListPrefab, pictureListContainer).GetComponent<PictureDisplayTile>();
-        
+        var pictureDisplayTile =
+            Instantiate(pictureListPrefab, pictureListContainer).GetComponent<PictureDisplayTile>();
+
         pictureDisplayTile.SetInformation(picture, false);
 
         // if (picture.scannedObject == null) {

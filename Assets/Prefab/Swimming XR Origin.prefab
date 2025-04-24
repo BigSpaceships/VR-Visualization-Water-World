@@ -2205,6 +2205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_System: {fileID: 2677231686469356365}
+  activeScooderButton: {fileID: 0}
   rightHandTransform: {fileID: 3690644802223708419}
   cameraTransform: {fileID: 3690644802119186816}
   rightHandMoveAction:
@@ -3807,6 +3808,10 @@ PrefabInstance:
     - target: {fileID: 2449787133337329438, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_Parameters.numCapVertices
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449787133337329438, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      propertyPath: m_Parameters.widthMultiplier
+      value: 0.015
       objectReference: {fileID: 0}
     - target: {fileID: 2449787133337329438, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_Parameters.numCornerVertices
