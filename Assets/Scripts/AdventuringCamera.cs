@@ -71,24 +71,24 @@ public class AdventuringCamera : MonoBehaviour {
     }
 
     private void OnDestroy() {
-        // È¡Ïû¼àÌýÊÂ¼þ£¬·ÀÖ¹ÄÚ´æÐ¹Â©
+        // È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½Ö¹ï¿½Ú´ï¿½Ð¹Â©
         rightXButtonAction.action.performed -= ctx => ToggleCamera();
     }
 
     private void ToggleCamera() {
         if (GamePublic.cameraActive) {
-            //Òþ²ØÏà»ú£¬È¡Ïû¸úËæ£¬»Ö¸´Ô­¸¸¶ÔÏó
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½æ£¬ï¿½Ö¸ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             transform.SetParent(originalParent, false);
             GamePublic.cameraActive = false;
             hintTakePhotoButton.text = "Active Scooter";
             takePictureAction.action.performed -= TakePictureAction;
-            //¼¤»îSeaScooter
+            //ï¿½ï¿½ï¿½ï¿½SeaScooter
             originalParentScooter = scooter.parent;
             scooter.transform.SetParent(rightController, false);
             Vector3 v = new Vector3(0, 0.14f, 0.3f);
             scooter.transform.localPosition = v;
         } else {
-            //¼¤»îÏà»ú£º¼ÇÂ¼Ô­Ê¼¸¸¶ÔÏó£¬²¢°ó¶¨µ½ right Controller
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼Ô­Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ó£¬²ï¿½ï¿½ó¶¨µï¿½ right Controller
             originalParent = transform.parent;
             transform.SetParent(rightController, false);
             Vector3 v = new Vector3(-0.1f, -0f, -0.05f);
@@ -97,7 +97,7 @@ public class AdventuringCamera : MonoBehaviour {
             hintTakePhotoButton.text = "Take Picture";
             GamePublic.cameraActive = true;
             takePictureAction.action.performed += TakePictureAction;
-            //Òþ²ØSeaScooter
+            //ï¿½ï¿½ï¿½ï¿½SeaScooter
             scooter.transform.SetParent(originalParentScooter, false);
         }
     }
@@ -133,24 +133,24 @@ public class AdventuringCamera : MonoBehaviour {
                 }
             }
         }
+        //
+        // foreach (var obj in objectsInPicture) {
+        //     var pictureInfo = new PictureDisplayTile.ObjectPictureInformation
+        //         { pictureTaken = picture, scannedObject = obj };
+        //
+        //     scannedObjects.Add(pictureInfo);
+        //
+        //     onPictureTaken.Invoke(pictureInfo);
+        // }
 
-        foreach (var obj in objectsInPicture) {
-            var pictureInfo = new PictureDisplayTile.ObjectPictureInformation
-                { pictureTaken = picture, scannedObject = obj };
-
-            scannedObjects.Add(pictureInfo);
-
-            onPictureTaken.Invoke(pictureInfo);
-        }
-
-        if (objectsInPicture.Count == 0) {
+        // if (objectsInPicture.Count == 0) {
             var pictureInfo = new PictureDisplayTile.ObjectPictureInformation
                 { pictureTaken = picture, scannedObject = null };
 
             scannedObjects.Add(pictureInfo);
 
             onPictureTaken.Invoke(pictureInfo);
-        }
+        // }
     }
 
     private void TakePictureAction(InputAction.CallbackContext obj) {

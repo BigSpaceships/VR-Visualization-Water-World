@@ -41,7 +41,7 @@ public class PictureDisplay : MonoBehaviour {
             Destroy(pictureContainer.GetChild(0).gameObject);
         }
 
-        SetScreenForPictureList();
+        SetScreenForPictures();
     }
 
     private void OnEnable() {
@@ -63,21 +63,21 @@ public class PictureDisplay : MonoBehaviour {
         
         pictureDisplayTile.SetInformation(picture, false);
 
-        if (picture.scannedObject == null) {
-            return;
-        }
-
-        if (!_picturesByObject.ContainsKey(picture.scannedObject)) {
-            var newGameObject = Instantiate(picturePrefab, pictureContainer);
-
-            var displayTile = newGameObject.GetComponent<PictureDisplayTile>();
-
-            displayTile.SetInformation(picture, true, SetScreenForObjectDisplay);
-
-            _picturesByObject[picture.scannedObject] = new List<PictureDisplayTile.ObjectPictureInformation>();
-        }
-
-        _picturesByObject[picture.scannedObject].Add(picture);
+        // if (picture.scannedObject == null) {
+        //     return;
+        // }
+        //
+        // if (!_picturesByObject.ContainsKey(picture.scannedObject)) {
+        //     var newGameObject = Instantiate(picturePrefab, pictureContainer);
+        //
+        //     var displayTile = newGameObject.GetComponent<PictureDisplayTile>();
+        //
+        //     displayTile.SetInformation(picture, true, SetScreenForObjectDisplay);
+        //
+        //     _picturesByObject[picture.scannedObject] = new List<PictureDisplayTile.ObjectPictureInformation>();
+        // }
+        //
+        // _picturesByObject[picture.scannedObject].Add(picture);
     }
 
     public void SetScreenForObjectDisplay(ScanableObject selectedObject) {
