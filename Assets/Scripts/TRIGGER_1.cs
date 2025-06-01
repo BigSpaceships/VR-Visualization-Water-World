@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TRIGGER_1 : MonoBehaviour {
     private bool hasTriggered = false; // 记录是否已经触发
@@ -11,6 +13,21 @@ public class TRIGGER_1 : MonoBehaviour {
             textMessage.ShowText("Mission Started...\nProceed with Caution.", null, () => {
                 //Debug.Log("字幕播放完成！");
             });
+
+            StartCoroutine(SwitchScene());
         }
+    }
+    private IEnumerator SwitchScene() {
+        // 加载新场景
+        AsyncOperation loadOp = SceneManager.LoadSceneAsync("TestSwitchScene2", LoadSceneMode.Additive);
+        while (!loadOp.isDone)
+            yield return null;
+
+        yield return null; // 等待一帧以稳定状态
+
+        // 卸载旧场景
+        AsyncOperation unloadOp = SceneManager.UnloadSceneAsync("TestSwitchScene");
+        while (!unloadOp.isDone)
+            yield return null;
     }
 }
