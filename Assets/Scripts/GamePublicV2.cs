@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.XR.CoreUtils;
 using UnityEngine;
-
+using UnityEngine.XR.Interaction.Toolkit;
 public enum MoveMode {
     None,
-    OnEarth,
+    Ground,
     UnderWater
 }
 
@@ -13,6 +14,7 @@ public class GamePublicV2 : MonoBehaviour {
 
     public bool publicAccessSamples = false; //in other script use this to access:  GamePublicV2.instance.publicAccessSamples
     public MoveMode moveMode = MoveMode.None;
+    public GameObject xrOrigin;
 
     private Rigidbody playerRb;
     private CharacterController charController;
@@ -23,29 +25,28 @@ public class GamePublicV2 : MonoBehaviour {
         }
 
         GameObject rigObject = GameObject.Find("XR Origin (XR Rig)");
-        GameObject bodyObject = GameObject.Find("XR Origin");
-        playerRb = bodyObject.GetComponent<Rigidbody>();
+        playerRb = xrOrigin.GetComponent<Rigidbody>();
         charController = rigObject.GetComponent<CharacterController>();
 
         GameInit();
     }
 
     private void GameInit() {
-        setMoveMode(MoveMode.OnEarth);
+        setMoveMode(MoveMode.Ground);
     }
 
     public void setMoveMode(MoveMode moveMode) {
         if (moveMode == this.moveMode) return;
         
         //release old mode
-        if (this.moveMode == MoveMode.OnEarth) {
+        if (this.moveMode == MoveMode.Ground) {
 
         } else if (this.moveMode == MoveMode.UnderWater) {
 
         }
 
         //initialize new mode
-        if (moveMode == MoveMode.OnEarth) {
+        if (moveMode == MoveMode.Ground) {
             playerRb.isKinematic = false;
             playerRb.useGravity = true;
             playerRb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;

@@ -17,12 +17,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Donna/ArtTest V2.unity
     guid: 67886f6dc8e83c14ebd460d832c34d1b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Donna/TestSwitchScene.unity
     guid: edc44b3c79cfabb449d5dbf6c7f2186f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Donna/TestSwitchScene2.unity
     guid: e7d9d72d15daf7245a924510875e36fc
+  - enabled: 1
+    path: Assets/Scenes/Resort/R_Main.unity
+    guid: b284d3e90017cbf428c4ab539e01f4e6
+  - enabled: 1
+    path: Assets/Scenes/Resort/R_Area2.unity
+    guid: 9971673126a0dc942b236ab4159162dc
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: bfa1182bd221b4ca89619141f66f1260, type: 2}
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: dc5a169419fa04987b057f65238cf3ba, type: 2}

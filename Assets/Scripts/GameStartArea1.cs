@@ -10,16 +10,28 @@ public class GameStart : MonoBehaviour {
     public Transform waypoint3;
     public Transform waypoint4;
     public Transform player;
+    public Transform playerStartPoint;
     public float waypointActiveRadius = 3.0f;  //how may meters to reach(touch) waypoint
 
     private HUD_TextMessage HUD_textMessage;
     private HUD_WayPoint waypointController;
+    private Vector3 originalPosition;
+    private Quaternion originalRotation;
 
     // Start is called before the first frame update
     void Start() {
         HUD_textMessage = Object.FindFirstObjectByType<HUD_TextMessage>();
         waypointController = Object.FindFirstObjectByType<HUD_WayPoint>();
         waypointController.ShowWaypoint(null); //clear waypoint
+
+
+        GameObject xr = GamePublicV2.instance.xrOrigin;
+        // ✅ 记录原始位置
+        originalPosition = xr.transform.position;
+        originalRotation = xr.transform.rotation;
+        // ✅ 移动到区域起点
+        xr.transform.SetPositionAndRotation(playerStartPoint.position, playerStartPoint.rotation);
+        GamePublicV2.instance.setMoveMode(MoveMode.UnderWater);
 
         //play task01 voice
         AudioSource TASK_D = GameObject.Find("TASK_DStart").GetComponent<AudioSource>(); //This is Tour Center, Welcome, David.You have successfully descended to the plan...
@@ -31,6 +43,14 @@ public class GameStart : MonoBehaviour {
             HUD_textMessage.ShowText("INCOMING COORDINATES RPF2K1\nWAYPOINT NAVIGATION SYSTEM: ACTIVE", TASK_D);
         }));
         //Invoke("ShowWelcomeText", 3f); // 3秒后调用 `ShowWelcomeText`
+    }
+
+    void OnDestroy() {
+        GameObject xr = GamePublicV2.instance.xrOrigin;
+
+        // ✅ 场景卸载时恢复位置
+        if (xr != null)
+            xr.transform.SetPositionAndRotation(originalPosition, originalRotation);
     }
 
     // ✅ 一个通用的 WaitForSecondsWithCallback 实现
