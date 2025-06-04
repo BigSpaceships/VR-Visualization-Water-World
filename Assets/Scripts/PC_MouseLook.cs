@@ -1,29 +1,35 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR;
 
 public class PC_MouseLook : MonoBehaviour {
-    public Transform cameraTransform; // °ó¶¨ Main Camera
-    public float mouseSensitivity = 100f; // Êó±êÁéÃô¶È
-    public float moveSpeed = 2f; // ÒÆ¶¯ËÙ¶È
+    public Transform cameraTransform; // ç»‘å®š Main Camera
+    public float mouseSensitivity = 100f; // é¼ æ ‡çµæ•åº¦
+    public float moveSpeed = 2f; // ç§»åŠ¨é€Ÿåº¦
     private float xRotation = 0f;
     private bool isVRActive = false;
 
+    private Vector3 moveDirection = Vector3.zero; 
+    private Rigidbody parentRb; 
+    void Awake() {
+        parentRb = transform.parent.GetComponent<Rigidbody>();
+    }
+
     void Start() {
-        // ¼ì²âÊÇ·ñÓĞ VR Éè±¸
+        // æ£€æµ‹æ˜¯å¦æœ‰ VR è®¾å¤‡
         isVRActive = XRSettings.isDeviceActive;
 
         if (!isVRActive) {
-            Cursor.lockState = CursorLockMode.Locked; // Ëø¶¨Êó±ê
+            Cursor.lockState = CursorLockMode.Locked; // é”å®šé¼ æ ‡
         }
     }
 
     void Update() {
-        isVRActive = XRSettings.isDeviceActive; // ¶¯Ì¬¼ì²âÊÇ·ñ½ÓÈë VR Éè±¸
+        isVRActive = XRSettings.isDeviceActive; // åŠ¨æ€æ£€æµ‹æ˜¯å¦æ¥å…¥ VR è®¾å¤‡
 
-        if (!isVRActive) // ½öµ± VR Éè±¸Î´Á¬½ÓÊ±Ê¹ÓÃÊó±êºÍ¼üÅÌ
+        if (!isVRActive) // ä»…å½“ VR è®¾å¤‡æœªè¿æ¥æ—¶ä½¿ç”¨é¼ æ ‡å’Œé”®ç›˜
         {
             HandleMouseLook();
             HandleKeyboardMovement();
@@ -38,31 +44,56 @@ public class PC_MouseLook : MonoBehaviour {
             xRotation -= mouseY;
             xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-            cameraTransform.localRotation = Quaternion.Euler(xRotation, cameraTransform.localRotation.eulerAngles.y + mouseX, 0f);
+            if (GamePublicV2.instance.moveMode == MoveMode.UnderWater) {
+                transform.localRotation = Quaternion.Euler(xRotation, transform.localRotation.eulerAngles.y + mouseX, 0f);
+            } else if (GamePublicV2.instance.moveMode == MoveMode.OnEarth) {
+                cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+                transform.parent.Rotate(Vector3.up * mouseX);
+            }
         }
     }
 
     void HandleKeyboardMovement() {
-        Vector3 moveDirection = Vector3.zero;
+        moveDirection = Vector3.zero;
 
-        // ÈÃ W/S °´ÕÕ "ÉãÏñ»ú³¯Ïò" ·½ÏòÒÆ¶¯£¬¶ø²»ÊÇË®Æ½ÒÆ¶¯
+        Vector3 forward = cameraTransform.forward;
+        Vector3 right = cameraTransform.right;
+        Vector3 flatForward = Vector3.ProjectOnPlane(forward, Vector3.up).normalized;
+        Vector3 flatRight = Vector3.ProjectOnPlane(right, Vector3.up).normalized;
+
+        // W/S
         if (Keyboard.current.wKey.isPressed)
-            moveDirection += cameraTransform.forward; // ÔÊĞíÏòÉÏ/ÏòÏÂÒÆ¶¯
+            moveDirection += GamePublicV2.instance.moveMode == MoveMode.OnEarth ? flatForward : forward;
         if (Keyboard.current.sKey.isPressed)
-            moveDirection -= cameraTransform.forward;
+            moveDirection -= GamePublicV2.instance.moveMode == MoveMode.OnEarth ? flatForward : forward;
 
-        // ×óÓÒÒÆ¶¯ÈÔÈ»ÊÇË®Æ½µÄ
+        // A/D
         if (Keyboard.current.aKey.isPressed)
-            moveDirection -= cameraTransform.right;
+            moveDirection -= GamePublicV2.instance.moveMode == MoveMode.OnEarth ? flatRight : right;
         if (Keyboard.current.dKey.isPressed)
-            moveDirection += cameraTransform.right;
+            moveDirection += GamePublicV2.instance.moveMode == MoveMode.OnEarth ? flatRight : right;
 
-        // ÉÏÉıºÍÏÂ½µ£¨¿Õ¸ñÉÏÉı£¬×ó Ctrl ÏÂ½µ£©
-        if (Keyboard.current.spaceKey.isPressed)
-            moveDirection += Vector3.up;
-        if (Keyboard.current.leftCtrlKey.isPressed)
-            moveDirection -= Vector3.up;
+        // ä¸Šä¸‹ï¼ˆä»…æ°´ä¸‹ï¼‰
+        if (GamePublicV2.instance.moveMode == MoveMode.UnderWater) {
+            if (Keyboard.current.spaceKey.isPressed)
+                moveDirection += Vector3.up;
+            if (Keyboard.current.leftCtrlKey.isPressed)
+                moveDirection -= Vector3.up;
 
-        transform.position += moveDirection.normalized * moveSpeed * Time.deltaTime;
+            // âœ… æ°´ä¸‹ç›´æ¥ä¿®æ”¹ä½ç½®
+            transform.parent.position += moveDirection.normalized * moveSpeed * Time.deltaTime;
+        }
+    }
+
+    void FixedUpdate() {
+        if (GamePublicV2.instance.moveMode != MoveMode.OnEarth) return;
+
+        // ç§»åŠ¨æ–¹å‘å½’é›¶ï¼Œé¿å…æ‘„åƒå¤´ pitch å¯¼è‡´åç§»
+        moveDirection.y = 0;
+
+        if (moveDirection != Vector3.zero) {
+            Vector3 targetPos = parentRb.position + moveDirection.normalized * moveSpeed * Time.fixedDeltaTime;
+            parentRb.MovePosition(targetPos);
+        }
     }
 }
