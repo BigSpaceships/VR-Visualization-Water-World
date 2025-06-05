@@ -52,6 +52,8 @@ public class SeaScooter : LocomotionProvider {
     }
 
     private void Update() {
+        if (GamePublicV2.instance.moveMode == MoveMode.Ground) return;
+
         var projectedCameraForward = Vector3.ProjectOnPlane(cameraTransform.forward, Vector3.up);
         var projectedControllerForward = Vector3.ProjectOnPlane(rightHandTransform.forward, Vector3.up);
 

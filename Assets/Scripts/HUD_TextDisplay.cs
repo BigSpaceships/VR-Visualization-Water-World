@@ -63,6 +63,7 @@ public class HUD_TextDisplay : MonoBehaviour {
         HUD_textMessage = UnityEngine.Object.FindFirstObjectByType<HUD_TextMessage>();
         waypointController = UnityEngine.Object.FindFirstObjectByType<HUD_WayPoint>();
         xButtonAction.action.performed += ctx => ToggleFollow();
+        ToggleFollow();
     }
 
     private void OnDestroy() {

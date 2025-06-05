@@ -24,7 +24,7 @@ public class TriggerArea2 : MonoBehaviour {
 
     private IEnumerator SwitchScene() {
         // 加载新场景
-        AsyncOperation loadOp = SceneManager.LoadSceneAsync("R_Area2", LoadSceneMode.Additive);
+        AsyncOperation loadOp = SceneManager.LoadSceneAsync("R_Area2 Under Water", LoadSceneMode.Additive);
         while (!loadOp.isDone)
             yield return null;
 

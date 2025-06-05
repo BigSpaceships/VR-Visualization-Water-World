@@ -18,6 +18,7 @@ public class GamePublicV2 : MonoBehaviour {
 
     private Rigidbody playerRb;
     private CharacterController charController;
+    private GameObject seaScooter;
 
     private void Awake() {
         if (instance == null) {
@@ -27,6 +28,7 @@ public class GamePublicV2 : MonoBehaviour {
         GameObject rigObject = GameObject.Find("XR Origin (XR Rig)");
         playerRb = xrOrigin.GetComponent<Rigidbody>();
         charController = rigObject.GetComponent<CharacterController>();
+        seaScooter = GameObject.Find("SeaScooter");
 
         GameInit();
     }
@@ -52,10 +54,12 @@ public class GamePublicV2 : MonoBehaviour {
             playerRb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
             if (charController != null)
                 charController.enabled = false;  // 如果你希望 CharacterController 模式在未来扩展，可以改为 true
+            seaScooter.SetActive(false);
         } else if (moveMode == MoveMode.UnderWater) {
             playerRb.isKinematic = true;   // 禁用刚体物理
             playerRb.useGravity = false;   // 水下无重力
             playerRb.constraints = RigidbodyConstraints.None; // 自由转动
+            seaScooter.SetActive(true);
             if (charController != null)
                 charController.enabled = true;
         }
