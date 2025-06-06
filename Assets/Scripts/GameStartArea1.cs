@@ -18,6 +18,12 @@ public class GameStart : MonoBehaviour {
     private Vector3 originalPosition;
     private Quaternion originalRotation;
 
+    private bool originalFogEnabled;
+    private FogMode originalFogMode;
+    private Color originalFogColor;
+    private float originalFogStartDistance;
+    private float originalFogEndDistance;
+
     // Start is called before the first frame update
     void Start() {
         HUD_textMessage = Object.FindFirstObjectByType<HUD_TextMessage>();
@@ -32,6 +38,18 @@ public class GameStart : MonoBehaviour {
         // ✅ 移动到区域起点
         xr.transform.SetPositionAndRotation(playerStartPoint.position, playerStartPoint.rotation);
         GamePublicV2.instance.setMoveMode(MoveMode.UnderWater);
+
+        //forg control
+        originalFogEnabled = RenderSettings.fog;
+        originalFogMode = RenderSettings.fogMode;
+        originalFogColor = RenderSettings.fogColor;
+        originalFogStartDistance = RenderSettings.fogStartDistance;
+        originalFogEndDistance = RenderSettings.fogEndDistance;
+        RenderSettings.fog = true;
+        RenderSettings.fogMode = FogMode.Linear;
+        RenderSettings.fogColor = new Color32(0x4E, 0xCA, 0xDD, 0xFF);
+        RenderSettings.fogStartDistance = 5f;
+        RenderSettings.fogEndDistance = 20f;
 
         //play task01 voice
         AudioSource TASK_D = GameObject.Find("TASK_DStart").GetComponent<AudioSource>(); //This is Tour Center, Welcome, David.You have successfully descended to the plan...
@@ -51,6 +69,12 @@ public class GameStart : MonoBehaviour {
         // ✅ 场景卸载时恢复位置
         if (xr != null)
             xr.transform.SetPositionAndRotation(originalPosition, originalRotation);
+
+        RenderSettings.fog = originalFogEnabled;
+        RenderSettings.fogMode = originalFogMode;
+        RenderSettings.fogColor = originalFogColor;
+        RenderSettings.fogStartDistance = originalFogStartDistance;
+        RenderSettings.fogEndDistance = originalFogEndDistance;
     }
 
     // ✅ 一个通用的 WaitForSecondsWithCallback 实现
