@@ -61,7 +61,8 @@ public class PC_MouseLook : MonoBehaviour {
             if (GamePublicV2.instance.moveMode == MoveMode.UnderWater) {
                 transform.localRotation = Quaternion.Euler(xRotation, transform.localRotation.eulerAngles.y + mouseX, 0f);
             } else if (GamePublicV2.instance.moveMode == MoveMode.Ground) {
-                cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+                cameraTransform.parent.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+                //cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
                 transform.parent.Rotate(Vector3.up * mouseX);
             }
         }

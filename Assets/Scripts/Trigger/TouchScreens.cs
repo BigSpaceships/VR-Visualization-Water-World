@@ -1,6 +1,8 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class TouchScreens : MonoBehaviour {
@@ -11,11 +13,32 @@ public class TouchScreens : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        
+        
+        
+        //é¼ æ ‡ç‚¹å‡»æµ‹è¯•ä»£ç 
+        /*
+        if (Mouse.current == null) return;
+        if (Mouse.current.leftButton.wasPressedThisFrame) {
+            PointerEventData pointerData = new PointerEventData(EventSystem.current);
+            pointerData.position = Mouse.current.position.ReadValue();
 
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(pointerData, results);
+
+            if (results.Count == 0) {
+                Debug.LogWarning("âŒ Mouse click did NOT hit any UI element.");
+            } else {
+                Debug.Log($"âœ… UI hit count: {results.Count}");
+                foreach (RaycastResult result in results) {
+                    Debug.Log($"ğŸ¯ Hit UI element: {result.gameObject.name}");
+                }
+            }
+        }
+        */
     }
 
     public void OnButtonClick(string action) {
-        Debug.Log(action);
         switch (action) {
             case "StartDive":
                 StartCoroutine(SwitchScene());
@@ -28,14 +51,14 @@ public class TouchScreens : MonoBehaviour {
     }
 
     private IEnumerator SwitchScene() {
-        // ¼ÓÔØĞÂ³¡¾°
+        // åŠ è½½æ–°åœºæ™¯
         AsyncOperation loadOp = SceneManager.LoadSceneAsync("R_Area2 Under Water", LoadSceneMode.Additive);
         while (!loadOp.isDone)
             yield return null;
 
-        yield return null; // µÈ´ıÒ»Ö¡ÒÔÎÈ¶¨×´Ì¬
+        yield return null; // ç­‰å¾…ä¸€å¸§ä»¥ç¨³å®šçŠ¶æ€
 
-        // Ğ¶ÔØ¾É³¡¾°Area0Ö÷³¡¾°²»É¾³ı
+        // å¸è½½æ—§åœºæ™¯Area0ä¸»åœºæ™¯ä¸åˆ é™¤
         //AsyncOperation unloadOp = SceneManager.UnloadSceneAsync("TestSwitchScene");
         //while (!unloadOp.isDone)
         //    yield return null;
