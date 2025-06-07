@@ -3,7 +3,37 @@ guid: dc202a65b1c5ad94d9e03e553f2b26ae
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Car_Black
+    second: {fileID: 2100000, guid: 3eb84e91bc82d3545b155fffca07cbdb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Car_Light
+    second: {fileID: 2100000, guid: 1fb2304936cef7a41905756f20256a48, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Car_Metal
+    second: {fileID: 2100000, guid: b75d508ea23db104a9472c0cf202704f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Car_Red
+    second: {fileID: 2100000, guid: 747f92745d1e9284bb2915c4d9d84d4f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Car_RedLight
+    second: {fileID: 2100000, guid: 6a3aa5f5db4dd5a4daecc0d6db64407f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Car_Wheels
+    second: {fileID: 2100000, guid: 9ccc4be03d32f5f44aaa66436905a3bc, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
