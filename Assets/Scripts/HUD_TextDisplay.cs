@@ -24,6 +24,7 @@ public class HUD_TextDisplay : MonoBehaviour {
 
     public Transform leftController; // 左手控制器
     public InputActionProperty xButtonAction; // 绑定的 X 按键（已在 Unity 里设置）
+    public InputActionProperty fKey; //F grab HUD
 
 
     public static bool isPc;
@@ -63,12 +64,14 @@ public class HUD_TextDisplay : MonoBehaviour {
         HUD_textMessage = UnityEngine.Object.FindFirstObjectByType<HUD_TextMessage>();
         waypointController = UnityEngine.Object.FindFirstObjectByType<HUD_WayPoint>();
         xButtonAction.action.performed += ctx => ToggleFollow();
+        fKey.action.performed += ctx => ToggleFollow();
         ToggleFollow();
     }
 
     private void OnDestroy() {
         // 取消监听事件，防止内存泄漏
         xButtonAction.action.performed -= ctx => ToggleFollow();
+        fKey.action.performed -= ctx => ToggleFollow();
     }
 
     private void ToggleFollow() {

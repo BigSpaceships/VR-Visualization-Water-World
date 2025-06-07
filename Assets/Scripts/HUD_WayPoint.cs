@@ -17,6 +17,26 @@ public class HUD_WayPoint : MonoBehaviour {
     private Vector2 screenBorder = new Vector2(5, 6);
     private float HUDCanvasZoom = 80f; //屏幕距离玩家远近产生的缩放系数
 
+
+    private void Start() {
+        GameObject persistentXR = GameObject.Find("PersistentXR");
+        if (persistentXR == null) return;
+
+
+        Transform xrOrigin = persistentXR.transform.Find("XR Origin/XR Origin (XR Rig)/Camera Offset");
+        if (xrOrigin == null) {
+            Debug.LogError("XR Origin structure not found under PersistentXR.");
+            return;
+        }
+
+        // 自动绑定关键引用
+        mainCamera = xrOrigin.Find("Main Camera")?.GetComponent<Camera>();
+        wayPoint = xrOrigin.Find("Main Camera/Canvas_HUD/Image_WayPoint")?.GetComponent<RectTransform>();
+        arrowIndicator = xrOrigin.Find("Main Camera/Canvas_HUD/WayPointArrow")?.GetComponent<RectTransform>();
+        hudRect = xrOrigin.Find("Main Camera/Canvas_HUD/Image_BG")?.GetComponent<RectTransform>();
+        distanceText = xrOrigin.Find("Main Camera/Canvas_HUD/Image_WayPoint/Text_WayPointDistance")?.GetComponent<TMPro.TextMeshProUGUI>();
+    }
+
     /// <summary>
     /// ✅ 对外接口：设置 WayPoint 目标
     /// </summary>

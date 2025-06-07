@@ -2720,6 +2720,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "PC Keys",
+            "id": "8d9b7706-9d70-4cef-93b1-ec35d3a487c5",
+            "actions": [
+                {
+                    "name": "Grab HUD",
+                    "type": "Button",
+                    "id": "bafc8a26-59fb-4d24-b1b7-7239cb464b3d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "71607315-0c95-4c7e-b285-67a0557a4da3",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Grab HUD",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

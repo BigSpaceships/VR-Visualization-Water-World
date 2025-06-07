@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.HID;
+using static UnityEngine.GraphicsBuffer;
 
 public class GameStart : MonoBehaviour {
     public Transform waypoint1;
@@ -31,6 +32,14 @@ public class GameStart : MonoBehaviour {
         waypointController.ShowWaypoint(null); //clear waypoint
 
 
+        GameObject persistentXR = GameObject.Find("PersistentXR");
+        if (persistentXR != null) {
+            player = persistentXR.transform.Find("XR Origin/XR Origin (XR Rig)/Camera Offset/Main Camera");
+            if (player == null) {
+                Debug.LogError("can not find persistentXR/XR Origin/XR Origin (XR Rig)/Camera Offset/Main Camera");
+            }
+        }
+
         GameObject xr = GamePublicV2.instance.xrOrigin;
         // ✅ 记录原始位置
         originalPosition = xr.transform.position;
@@ -57,7 +66,10 @@ public class GameStart : MonoBehaviour {
         StartCoroutine(WaitForSeconds(TASK_D.clip.length, () => {
             Transform WayPoint1 = GameObject.Find("WayPoint1")?.transform;
             waypointController.ShowWaypoint(WayPoint1);
-            AudioSource TASK_D = GameObject.Find("HUD_IncomingCord").GetComponent<AudioSource>();
+            GameObject g = GameObject.Find("HUD_IncomingCord");
+            AudioSource TASK_D = g.GetComponent<AudioSource>();
+
+            //AudioSource TASK_D = GameObject.Find("HUD_IncomingCord").GetComponent<AudioSource>();
             HUD_textMessage.ShowText("INCOMING COORDINATES RPF2K1\nWAYPOINT NAVIGATION SYSTEM: ACTIVE", TASK_D);
         }));
         //Invoke("ShowWelcomeText", 3f); // 3秒后调用 `ShowWelcomeText`
