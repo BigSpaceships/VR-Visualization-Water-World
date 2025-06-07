@@ -38,12 +38,14 @@ public class AreaLoaderController : MonoBehaviour {
             if (data != null)
                 triggerDist = data.GetFloat("TriggerDistance", defaultTriggerDistance); // 若未设置则用默认
 
+            bool inside = IsPointInPolygon(playerPos, area.points); 
             float distance = DistanceToPolygon(playerPos, area.points);
+            bool shouldBeInside = inside || distance < triggerDist;
 
-            if (!area.isInside && distance < triggerDist) {
+            if (!area.isInside && shouldBeInside) {
                 area.isInside = true;
                 OnEnterArea(area.areaTransform);
-            } else if (area.isInside && distance >= triggerDist) {
+            } else if (area.isInside && !shouldBeInside) {
                 area.isInside = false;
                 OnExitArea(area.areaTransform);
             }
@@ -68,6 +70,22 @@ public class AreaLoaderController : MonoBehaviour {
                 StartCoroutine(UnloadScene(sceneName));
             }
         }
+    }
+
+    bool IsPointInPolygon(Vector2 point, List<Vector2> polygon) {
+        bool inside = false;
+        int j = polygon.Count - 1;
+
+        for (int i = 0; i < polygon.Count; i++) {
+            if ((polygon[i].y > point.y) != (polygon[j].y > point.y) &&
+                point.x < (polygon[j].x - polygon[i].x) * (point.y - polygon[i].y) /
+                          (polygon[j].y - polygon[i].y) + polygon[i].x) {
+                inside = !inside;
+            }
+            j = i;
+        }
+
+        return inside;
     }
 
     private IEnumerator LoadScene(string sceneName) {
