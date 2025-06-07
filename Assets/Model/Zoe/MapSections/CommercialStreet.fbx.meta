@@ -3,7 +3,77 @@ guid: 1afee48329aa61340b21e5d23756ef5e
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CheckOut
+    second: {fileID: 2100000, guid: ea70cbad697938a4694db844778180ec, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cloth
+    second: {fileID: 2100000, guid: 87cd5005dd3b71d42a1f3fc6b8ea3b56, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: DarkWood.001
+    second: {fileID: 2100000, guid: e0c0b5110d95a7f429f5e246aa250627, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Echoris
+    second: {fileID: 2100000, guid: 5bda62a2af36ca6468f511edf2954a28, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass
+    second: {fileID: 2100000, guid: 144df545a40403943b3908fcd8728dc6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass.001
+    second: {fileID: 2100000, guid: c7e38b58cacb96e49a57afe86c51b994, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass.002
+    second: {fileID: 2100000, guid: 02147dac973ab584cbed3c2776025c34, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass.003
+    second: {fileID: 2100000, guid: 5ec4d8cd3ce2134489eeaf05333451a9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Hanger
+    second: {fileID: 2100000, guid: cddad3490d3664f449a9abc0cc136e17, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: dbebf8306e6618446b87f80c50b28b61, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.005
+    second: {fileID: 2100000, guid: 2157d1e95a81c97479471db82a4f069b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: UVChecker
+    second: {fileID: 2100000, guid: 10e85be46acf90d4189413c5ef1d87d5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: WhiteMetal.001
+    second: {fileID: 2100000, guid: 8d095bfc90ad9d045ad37d1a863c14f4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wood.001
+    second: {fileID: 2100000, guid: 7d279722746913f42aa03c6c6cb65057, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
