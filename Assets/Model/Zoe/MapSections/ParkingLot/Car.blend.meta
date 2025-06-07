@@ -3,7 +3,57 @@ guid: 5f4e9da6527a15d4aa6241c7f9c3c0c5
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Car_Black
+    second: {fileID: 2100000, guid: f4ec9b80336436b4faf299264527683f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Car_Blue
+    second: {fileID: 2100000, guid: 71260e98a46051748ab10709d6508890, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Car_Light
+    second: {fileID: 2100000, guid: e0c9d3ec74ea86f4eba0411b4c4c0525, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Car_Metal
+    second: {fileID: 2100000, guid: 95e0ac6f0e236d641b53f9bdfdd6b2bb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Car_Red
+    second: {fileID: 2100000, guid: d5133a08e04d5b84d98d9fa8d1256872, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Car_RedLight
+    second: {fileID: 2100000, guid: aedf14e8d0e0fa44d89b9c70b69f0016, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Car_Wheels
+    second: {fileID: 2100000, guid: 474f55e69e042694190dbea5bef6f4af, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Car_White
+    second: {fileID: 2100000, guid: f78ad01d3b6db74448c33a033cff9661, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ParkingLot
+    second: {fileID: 2100000, guid: dd13bf8b238ca344eb0a2958f8bfab23, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Road
+    second: {fileID: 2100000, guid: 5165a6a334176cc4a81512c9358bfd30, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
