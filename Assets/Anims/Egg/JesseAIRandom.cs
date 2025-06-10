@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -7,50 +7,50 @@ using UnityEngine.AI;
 
 public class JesseAIRandom : MonoBehaviour {
     public float radius = 10f;
-    private NavMeshAgent agent; // NavMesh´úÀí
-    private Animator animator; // Ìí¼ÓAnimatorÒıÓÃ
+    private NavMeshAgent agent; // NavMeshä»£ç†
+    private Animator animator; // æ·»åŠ Animatorå¼•ç”¨
 
     void Start() {
-        agent = GetComponent<NavMeshAgent>(); // »ñÈ¡NavMesh Agent×é¼ş
-        animator = GetComponent<Animator>(); // »ñÈ¡Animator×é¼ş
-        StartCoroutine(MoveRandomly()); // ¿ªÊ¼Ëæ»úÒÆ¶¯µÄĞ­³Ì
+        agent = GetComponent<NavMeshAgent>(); // è·å–NavMesh Agentç»„ä»¶
+        animator = GetComponent<Animator>(); // è·å–Animatorç»„ä»¶
+        StartCoroutine(MoveRandomly()); // å¼€å§‹éšæœºç§»åŠ¨çš„åç¨‹
     }
 
     IEnumerator MoveRandomly() {
         while (true) {
             int action = GenerateRandomNumber(new float[] { 600, 1, 40, 20, 20 });
             //Debug.Log(action);
-            //³õÊ¼»¯¶¯»­×´Ì¬
+            //åˆå§‹åŒ–åŠ¨ç”»çŠ¶æ€
             animator.SetBool("Running", false);
             animator.SetInteger("IdleState", 0);
             switch (action) {
-                case 0: //ĞĞ×ß
-                    animator.SetBool("Running", true); // ¿ªÊ¼²¥·Å¶¯»­
-                    //MoveToRandomPosition(); // ÒÆ¶¯µ½Ëæ»úÎ»ÖÃ
-                    // µÈ´ıÖ±µ½½ÇÉ«µ½´ïÄ¿µÄµØ
+                case 0: //è¡Œèµ°
+                    animator.SetBool("Running", true); // å¼€å§‹æ’­æ”¾åŠ¨ç”»
+                    //MoveToRandomPosition(); // ç§»åŠ¨åˆ°éšæœºä½ç½®
+                    // ç­‰å¾…ç›´åˆ°è§’è‰²åˆ°è¾¾ç›®çš„åœ°
                     //while (!HasReachedDestination()) {
-                    //    yield return null; // µÈ´ıÏÂÒ»Ö¡
+                    //    yield return null; // ç­‰å¾…ä¸‹ä¸€å¸§
                     //}
-                    yield return StartCoroutine(MoveToRandom()); // Ö´ĞĞÒÆ¶¯Ğ­³Ì²¢µÈ´ıËüÍê³É
+                    yield return StartCoroutine(MoveToRandom()); // æ‰§è¡Œç§»åŠ¨åç¨‹å¹¶ç­‰å¾…å®ƒå®Œæˆ
                     break;
-                case 1: //·¢´ô
-                    // Ëæ»úµÈ´ıÊ±¼ä
+                case 1: //å‘å‘†
+                    // éšæœºç­‰å¾…æ—¶é—´
                     float waitTime = UnityEngine.Random.Range(0.5f, 3f);
                     yield return new WaitForSeconds(waitTime);
                     break;
-                case 2: //ÌøÒ»Ìø
+                case 2: //è·³ä¸€è·³
                     animator.SetInteger("IdleState", 1);
                     yield return new WaitForSeconds(1f);
                     animator.SetInteger("IdleState", 0);
                     yield return new WaitForSeconds(5f);
                     break;
-                case 3: //¶¯¶ú¶ä1
+                case 3: //åŠ¨è€³æœµ1
                     animator.SetInteger("IdleState", 2);
                     yield return new WaitForSeconds(1f);
                     animator.SetInteger("IdleState", 0);
                     yield return new WaitForSeconds(5f);
                     break;
-                case 4: //¶¯¶ú¶ä2
+                case 4: //åŠ¨è€³æœµ2
                     animator.SetInteger("IdleState", 3);
                     yield return new WaitForSeconds(1f);
                     animator.SetInteger("IdleState", 0);
@@ -67,13 +67,13 @@ public class JesseAIRandom : MonoBehaviour {
 
     Vector3 lastPosition;
     float stuckTimer = 0f;
-    float stuckThreshold = 3f; // ¼¸ÃëÄÚ¼¸ºõÃ»¶¯¾ÍÈÏÎª¿¨×¡
+    float stuckThreshold = 3f; // å‡ ç§’å†…å‡ ä¹æ²¡åŠ¨å°±è®¤ä¸ºå¡ä½
     float moveCheckInterval = 0.2f;
 
     IEnumerator MoveToRandom() {
         Vector3 target = GetBalancedRandomNavPoint(transform.position, radius);
         if (!agent.isOnNavMesh) {
-            Debug.LogWarning($"{gameObject.name} ²»ÔÚ NavMesh ÉÏ£¬Ìø¹ıµ¼º½");
+            DebugText3D.Show(transform, "âŒ Not on NavMesh", 2f); 
             yield break;
         }
         agent.SetDestination(target);
@@ -84,7 +84,7 @@ public class JesseAIRandom : MonoBehaviour {
             yield break;
         }
 
-        // µÈÂ·¾¶Íê³É
+        // ç­‰è·¯å¾„å®Œæˆ
         yield return new WaitUntil(() => !agent.pathPending);
 
         while (agent.remainingDistance > 0.02f) {
@@ -92,7 +92,7 @@ public class JesseAIRandom : MonoBehaviour {
                                  new Vector2(lastPosition.x, lastPosition.z)) < 0.05f) {
                 stuckTimer += Time.deltaTime;
                 if (stuckTimer > stuckThreshold) {
-                    Debug.LogWarning("¿¨×¡ÁË£¬ÖØĞÂµ¼º½£¡");
+                    Debug.LogWarning("å¡ä½äº†ï¼Œé‡æ–°å¯¼èˆªï¼");
                     agent.ResetPath();
                     yield break;
                 }
@@ -104,7 +104,7 @@ public class JesseAIRandom : MonoBehaviour {
             yield return new WaitForSeconds(moveCheckInterval);
         }
 
-        // Õı³£Íê³Éµ¼º½
+        // æ­£å¸¸å®Œæˆå¯¼èˆª
         yield break;
     }
 
@@ -125,15 +125,15 @@ public class JesseAIRandom : MonoBehaviour {
         }
 
         if (validPoints.Count == 0)
-            return origin; // ËùÓĞµã¶¼ÎŞ·¨µ¼º½£¬·µ»ØÔ­µØ
+            return origin; // æ‰€æœ‰ç‚¹éƒ½æ— æ³•å¯¼èˆªï¼Œè¿”å›åŸåœ°
 
-        // ¼ÆËãÆ½¾ù·½Ïò
+        // è®¡ç®—å¹³å‡æ–¹å‘
         Vector3 averageDir = Vector3.zero;
         foreach (var dir in validDirs)
             averageDir += dir;
         averageDir.Normalize();
 
-        // ÕÒ×î½Ó½üÆ½¾ù·½ÏòµÄÄÇ¸öµã
+        // æ‰¾æœ€æ¥è¿‘å¹³å‡æ–¹å‘çš„é‚£ä¸ªç‚¹
         float maxDot = -1f;
         int bestIndex = 0;
 
@@ -153,16 +153,16 @@ public class JesseAIRandom : MonoBehaviour {
     }
 
     bool HasReachedDestination() {
-        // Ê×ÏÈÈ·±£Ã»ÓĞ´ı´¦ÀíµÄÂ·¾¶²¢ÇÒÂ·¾¶ÊÇÓĞĞ§µÄ
+        // é¦–å…ˆç¡®ä¿æ²¡æœ‰å¾…å¤„ç†çš„è·¯å¾„å¹¶ä¸”è·¯å¾„æ˜¯æœ‰æ•ˆçš„
         if (!agent.pathPending && agent.pathStatus == NavMeshPathStatus.PathComplete) {
-            // Èç¹ûÂ·¾¶ÓĞĞ§£¬¼ì²éÊ£Óà¾àÀëÊÇ·ñĞ¡ÓÚÍ£Ö¹¾àÀë
+            // å¦‚æœè·¯å¾„æœ‰æ•ˆï¼Œæ£€æŸ¥å‰©ä½™è·ç¦»æ˜¯å¦å°äºåœæ­¢è·ç¦»
             return agent.remainingDistance <= agent.stoppingDistance;
         }
 
-        // Èç¹ûÂ·¾¶»¹ÔÚ¼ÆËãÖĞ£¬»òÕßÂ·¾¶²»ÍêÕû»òÎŞĞ§£¬ÄÇÃ´ÎÒÃÇÉĞÎ´µ½´ïÄ¿µÄµØ
+        // å¦‚æœè·¯å¾„è¿˜åœ¨è®¡ç®—ä¸­ï¼Œæˆ–è€…è·¯å¾„ä¸å®Œæ•´æˆ–æ— æ•ˆï¼Œé‚£ä¹ˆæˆ‘ä»¬å°šæœªåˆ°è¾¾ç›®çš„åœ°
         return false;
 
-        // ¼ì²éÊÇ·ñ»¹ÓĞÂ·¾¶ÒÔ¼°ÊÇ·ñÒÑ¾­µ½´ï£¨Ê£Óà¾àÀëÊÇ·ñĞ¡ÓÚÄ³¸öãĞÖµ£¬ÕâÀïÊ¹ÓÃagent.stoppingDistance£©
+        // æ£€æŸ¥æ˜¯å¦è¿˜æœ‰è·¯å¾„ä»¥åŠæ˜¯å¦å·²ç»åˆ°è¾¾ï¼ˆå‰©ä½™è·ç¦»æ˜¯å¦å°äºæŸä¸ªé˜ˆå€¼ï¼Œè¿™é‡Œä½¿ç”¨agent.stoppingDistanceï¼‰
         //return !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance;
     }
 
