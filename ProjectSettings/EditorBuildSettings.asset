@@ -11,10 +11,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Transitions/Transition Test 2.unity
     guid: 8657d2d3e98d15153b01b63150b096e4
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MainMenuVR.unity
     guid: fbd2e24d4f98cce4db567b07f22a7169
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Donna/ArtTest V2.unity
     guid: 67886f6dc8e83c14ebd460d832c34d1b
   - enabled: 0
@@ -29,6 +29,27 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Resort/R_Area2 Under Water.unity
     guid: 9971673126a0dc942b236ab4159162dc
+  - enabled: 1
+    path: Assets/Scenes/Resort/R_Area1.unity
+    guid: b53546c51c43caf478efd70750974649
+  - enabled: 1
+    path: Assets/Scenes/Resort/R_Area2.unity
+    guid: 8131007796b92d141b90107410321213
+  - enabled: 1
+    path: Assets/Scenes/Resort/R_Area3.unity
+    guid: 9f6ab1cc96a6c7d4f83c97a2fba3bbc1
+  - enabled: 1
+    path: Assets/Scenes/Resort/R_Area4.unity
+    guid: 6888f320c5aba1448a65636e01d9bfd6
+  - enabled: 1
+    path: Assets/Scenes/Resort/R_Area4 Castle.unity
+    guid: f410b513f6b693f408b049e7300e92f8
+  - enabled: 1
+    path: Assets/Scenes/Resort/R_Area4 ShoppingMall.unity
+    guid: 56e171620d978d84db751b3efbf7cf68
+  - enabled: 1
+    path: Assets/Scenes/Resort/R_Area5.unity
+    guid: 80e9287b1f18b4c47b496abb8358e3bf
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: bfa1182bd221b4ca89619141f66f1260, type: 2}
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: dc5a169419fa04987b057f65238cf3ba, type: 2}
