@@ -128,7 +128,7 @@ public class Skier : MonoBehaviour
             Vector3 poleDirection = Vector3.ProjectOnPlane(pole1.velocity, groundUp).normalized;
             Vector3 skierDirection = Vector3.ProjectOnPlane(cam.forward, groundUp).normalized;
             float push = Vector3.Dot(poleDirection, skierDirection);
-            if (push < -0.5) rb.AddRelativeForce(Vector3.back * Mathf.Clamp(push * poleForce, -maxPoleForce, maxPoleForce), ForceMode.VelocityChange);
+            if (push < -0.5) rb.AddRelativeForce(Vector3.back * Mathf.Clamp(push * poleForce * pole1.velocity.sqrMagnitude, -maxPoleForce, maxPoleForce), ForceMode.VelocityChange);
         }
         if (Physics.Raycast(pole2.position, -pole2T.up, out hit, 0.7f, groundMask) && pole2.velocity.sqrMagnitude > 100 && pole2Grab.isSelected)
         {
@@ -136,7 +136,7 @@ public class Skier : MonoBehaviour
             Vector3 poleDirection = Vector3.ProjectOnPlane(pole2.velocity, groundUp).normalized;
             Vector3 skierDirection = Vector3.ProjectOnPlane(cam.forward, groundUp).normalized;
             float push = Vector3.Dot(poleDirection, skierDirection);
-            if (push < -0.5) rb.AddRelativeForce(Vector3.back * Mathf.Clamp(push * poleForce, -maxPoleForce, maxPoleForce), ForceMode.VelocityChange);
+            if (push < -0.5) rb.AddRelativeForce(Vector3.back * Mathf.Clamp(push * poleForce * pole1.velocity.sqrMagnitude, -maxPoleForce, maxPoleForce), ForceMode.VelocityChange);
         }
     }
 }
