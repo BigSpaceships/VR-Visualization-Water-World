@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Utilities.Tweenables.Primitives;
@@ -23,6 +24,26 @@ public class Skier : MonoBehaviour
     [SerializeField] int maxDrag;
     [SerializeField] LayerMask groundMask;
 
+    [Header("Movement")]
+    [SerializeField] int xMoveForce;
+    [SerializeField] int zMoveForce;
+    [SerializeField] InputActionProperty moveActionProperty;
+    InputAction moveAction;
+    [SerializeField] int turnForce;
+    [SerializeField] InputActionProperty turnActionProperty;
+    InputAction turnAction;
+    [SerializeField] int jumpForce;
+    [SerializeField] int flipForce;
+    [SerializeField] InputActionProperty jumpActionProperty;
+    InputAction jumpAction;
+    bool isGrounded = true;
+    bool jump;
+    [SerializeField] InputActionProperty flipActionProperty;
+    InputAction flipAction;
+    bool flip;
+    bool changedFlipAxis;
+    Vector3 flipAxis;
+
     [Header("Skis")]
     [SerializeField] Transform rightSki;
     [SerializeField] Transform leftSki;
@@ -30,24 +51,14 @@ public class Skier : MonoBehaviour
     Rigidbody rb;
     Transform myT;
 
-    [Header("Poles")]
-    [SerializeField] Rigidbody pole1;
-    [SerializeField] Rigidbody pole2;
-    [SerializeField] float poleForce;
-    [SerializeField] float maxPoleForce;
-    Transform pole1T;
-    Transform pole2T;
-    XRGrabInteractable pole1Grab;
-    XRGrabInteractable pole2Grab;
-
     void Awake()
     {
         myT = transform;
         rb = GetComponent<Rigidbody>();
-        pole1T = pole1.transform;
-        pole2T = pole2.transform;
-        pole1Grab = pole1.GetComponent<XRGrabInteractable>();
-        pole2Grab = pole2.GetComponent<XRGrabInteractable>();
+        moveAction = moveActionProperty.action;
+        turnAction = turnActionProperty.action;
+        jumpAction = jumpActionProperty.action;
+        flipAction = flipActionProperty.action;
     }
 
     void OnEnable()
@@ -67,11 +78,27 @@ public class Skier : MonoBehaviour
         cam.localPosition = new Vector3(0, 0, pos.y);
     }
 
-    void LateUpdate()
+    void Update()
     {
-        //Camera-based logic
+        //Ski faster when crouched
         skiSpeed = baseSkiSpeed - cam.localPosition.y * crouchSpeedIncrease;
         if (skiSpeed < 0) skiSpeed = 0;
+
+        //Input detection
+        if (isGrounded)
+        {
+            if (jumpAction.WasPressedThisFrame()) jump = true;
+        }
+        else
+        {
+            if (flipAction.IsPressed()) flip = true;
+            else if (flipAction.WasReleasedThisFrame()) flip = false;
+        }
+    }
+
+    void LateUpdate()
+    {
+        //Skis follow camera rotation
         skiParent.rotation = cam.rotation;
         skiParent.localRotation = Quaternion.Euler(0, skiParent.localEulerAngles.y, 0);
 
@@ -101,42 +128,53 @@ public class Skier : MonoBehaviour
 
     void FixedUpdate()
     {
-        RaycastHit hit;
+        //Move/Turn
+        Vector2 input = turnAction.ReadValue<Vector2>();
+        rb.AddTorque(cam.TransformDirection(new Vector3(-input.y, input.x, 0)) * turnForce, ForceMode.Acceleration);
+        input = moveAction.ReadValue<Vector2>();
+        rb.AddForce(cam.TransformDirection(new Vector3(input.x * xMoveForce, 0, input.y * zMoveForce)), ForceMode.Acceleration);
 
-        //Skier stabilization and velocity control
-        Vector3 origin = rb.position;
+        //Grounded raycast
         Vector3 currentUp = myT.up;
-        if (Physics.Raycast(origin, -currentUp, out hit, 2, groundMask))
+        if (Physics.Raycast(myT.position, -currentUp, out RaycastHit hit, 1.4f, groundMask))
         {
+            //Skier stabilization
             Vector3 groundUp = hit.normal;
             Vector3 rotationAxis = Vector3.Cross(currentUp, groundUp);
             float angle = Vector3.Angle(currentUp, groundUp);
-
             if (angle < maxAlignAngle) rb.AddTorque(rotationAxis.normalized * angle * alignStrength);
 
+            //Velocity control based on direction
             Vector3 downhill = Vector3.ProjectOnPlane(Vector3.down, groundUp).normalized;
             Vector3 skierDirection = Vector3.ProjectOnPlane(cam.forward, groundUp).normalized;
             float alignment = Vector3.Dot(downhill, skierDirection);
             rb.AddForce(Vector3.Slerp(downhill, skierDirection, Mathf.Clamp01(Mathf.Clamp01(alignment) * skierDirectionWeight)) * skiSpeed, ForceMode.Acceleration);
             rb.drag = Mathf.Lerp(minDrag, maxDrag, 1 - Mathf.Clamp01(Mathf.Abs(alignment)));
-        }
 
-        //Pole movement
-        if (Physics.Raycast(pole1.position, -pole1T.up, out hit, 0.7f, groundMask) && pole1.velocity.sqrMagnitude > 100 && pole1Grab.isSelected)
-        {
-            Vector3 groundUp = hit.normal;
-            Vector3 poleDirection = Vector3.ProjectOnPlane(pole1.velocity, groundUp).normalized;
-            Vector3 skierDirection = Vector3.ProjectOnPlane(cam.forward, groundUp).normalized;
-            float push = Vector3.Dot(poleDirection, skierDirection);
-            if (push < -0.5) rb.AddRelativeForce(Vector3.back * Mathf.Clamp(push * poleForce * pole1.velocity.sqrMagnitude, -maxPoleForce, maxPoleForce), ForceMode.VelocityChange);
+            //Jump
+            isGrounded = true;
+            if (jump)
+            {
+                rb.AddForce(cam.up * jumpForce, ForceMode.VelocityChange);
+                if (!changedFlipAxis)
+                {
+                    flipAxis = UnityEngine.Random.value < 0.5f ? Vector3.forward : Vector3.back;
+                    changedFlipAxis = true;
+                }
+                jump = false;
+            }
+            if (flip) flip = false;
         }
-        if (Physics.Raycast(pole2.position, -pole2T.up, out hit, 0.7f, groundMask) && pole2.velocity.sqrMagnitude > 100 && pole2Grab.isSelected)
+        else
         {
-            Vector3 groundUp = hit.normal;
-            Vector3 poleDirection = Vector3.ProjectOnPlane(pole2.velocity, groundUp).normalized;
-            Vector3 skierDirection = Vector3.ProjectOnPlane(cam.forward, groundUp).normalized;
-            float push = Vector3.Dot(poleDirection, skierDirection);
-            if (push < -0.5) rb.AddRelativeForce(Vector3.back * Mathf.Clamp(push * poleForce * pole1.velocity.sqrMagnitude, -maxPoleForce, maxPoleForce), ForceMode.VelocityChange);
+            //Flip
+            isGrounded = false;
+            if (jump) jump = false;
+            if (flip)
+            {
+                rb.AddRelativeTorque(cam.TransformDirection(flipAxis) * flipForce, ForceMode.Acceleration);
+                changedFlipAxis = false;
+            }
         }
     }
 }
