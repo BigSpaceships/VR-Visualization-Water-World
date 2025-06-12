@@ -50,6 +50,23 @@ public class Skier : MonoBehaviour
         pole2Grab = pole2.GetComponent<XRGrabInteractable>();
     }
 
+    void OnEnable()
+    {
+        Application.onBeforeRender += OnBeforeRender;
+    }
+
+    void OnDisable()
+    {
+        Application.onBeforeRender -= OnBeforeRender;
+    }
+
+    void OnBeforeRender()
+    {
+        //Fix camera
+        Vector3 pos = cam.localPosition;
+        cam.localPosition = new Vector3(0, 0, pos.y);
+    }
+
     void LateUpdate()
     {
         //Camera-based logic
