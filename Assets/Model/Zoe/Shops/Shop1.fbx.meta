@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: fef5b5ccaeb73ae4d92831950dfef29e
+=======
+guid: bdf6c2c08e139814bb3e8e34726a3dce
+>>>>>>> 25ebe675cca40156447de2332a1376140ad48c0f
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -35,7 +39,11 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
+<<<<<<< HEAD
     addColliders: 1
+=======
+    addColliders: 0
+>>>>>>> 25ebe675cca40156447de2332a1376140ad48c0f
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
     importPhysicalCameras: 1
@@ -46,7 +54,11 @@ ModelImporter:
     nodeNameCollisionStrategy: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
+<<<<<<< HEAD
     generateSecondaryUV: 1
+=======
+    generateSecondaryUV: 0
+>>>>>>> 25ebe675cca40156447de2332a1376140ad48c0f
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1

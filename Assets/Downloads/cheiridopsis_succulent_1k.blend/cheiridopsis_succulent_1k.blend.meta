@@ -1,5 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 7f6b71a4d1b983b49914222a35278bf9
+=======
+<<<<<<< HEAD
+guid: c3ed77eac1fd51046a4c454d24469d22
+=======
+guid: 6dcee831fe751433eacd83c3aff2a20e
+>>>>>>> bdac5641ca8f950ea7618731a8d896e254753e3c
+>>>>>>> 25ebe675cca40156447de2332a1376140ad48c0f
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -32,11 +40,21 @@ ModelImporter:
     clipAnimations: []
     isReadable: 0
   meshes:
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    lODScreenPercentages: []
+=======
+>>>>>>> 25ebe675cca40156447de2332a1376140ad48c0f
     lODScreenPercentages:
     - 0.25
     - 0.125
     - 0.0625
     - 0.01
+<<<<<<< HEAD
+=======
+>>>>>>> bdac5641ca8f950ea7618731a8d896e254753e3c
+>>>>>>> 25ebe675cca40156447de2332a1376140ad48c0f
     globalScale: 1
     meshCompression: 0
     addColliders: 0
