@@ -2255,8 +2255,8 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 512
-  xMoveForce: 4
-  zMoveForce: 8
+  xMoveForce: 5
+  zMoveForce: 10
   moveActionProperty:
     m_UseReference: 1
     m_Action:
