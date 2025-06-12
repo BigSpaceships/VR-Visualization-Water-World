@@ -8,17 +8,17 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: fir_sapling_medium_branches
-    second: {fileID: 2100000, guid: 8ff767bc17e2c1541adaae721b7dfcb8, type: 2}
+    second: {fileID: 2100000, guid: 0ba83f399a2f39c4fbb092a5beeadce1, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: fir_sapling_medium_branches_dead
-    second: {fileID: 2100000, guid: 4e397524620f8d3418233468957c31e3, type: 2}
+    second: {fileID: 2100000, guid: 0ba83f399a2f39c4fbb092a5beeadce1, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: fir_sapling_medium_twigs
-    second: {fileID: 2100000, guid: f8901cad3602a044db60528f12437fb3, type: 2}
+    second: {fileID: 2100000, guid: 94013ea59be3b404a8039a7319b6a68b, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
