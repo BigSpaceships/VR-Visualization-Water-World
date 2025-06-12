@@ -73,7 +73,7 @@ public class JesseAIRandom : MonoBehaviour {
     IEnumerator MoveToRandom() {
         Vector3 target = GetBalancedRandomNavPoint(transform.position, radius);
         if (!agent.isOnNavMesh) {
-            DebugText3D.Show(transform, "❌ Not on NavMesh", 2f); 
+            //DebugText3D.Show(transform, "❌ Not on NavMesh", 2f); 
             yield break;
         }
         agent.SetDestination(target);
