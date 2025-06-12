@@ -43,7 +43,11 @@ public class TouchScreens : MonoBehaviour {
             case "StartDive":
                 StartCoroutine(SwitchScene());
                 break;
-
+            case "TTest":
+                GameObject player = GameObject.Find("PersistentXR/XR Origin");
+                GameObject dest = GameObject.Find("PersistentXR/currentTestPoint");
+                player.transform.position = dest.transform.position;
+                break;
             default:
                 Debug.LogWarning("Unknown action: " + action);
                 break;

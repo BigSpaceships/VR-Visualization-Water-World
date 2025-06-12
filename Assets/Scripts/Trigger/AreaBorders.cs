@@ -89,6 +89,11 @@ public class AreaLoaderController : MonoBehaviour {
     }
 
     private IEnumerator LoadScene(string sceneName) {
+        var scene = SceneManager.GetSceneByName(sceneName);
+        if (scene.isLoaded) {
+            yield break;
+        }
+
         // ¼ÓÔØÐÂ³¡¾°
         AsyncOperation loadOp = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         while (!loadOp.isDone)

@@ -52,7 +52,7 @@ public class GamePublicV2 : MonoBehaviour {
         if (moveMode == MoveMode.Ground) {
             playerRb.isKinematic = false;
             playerRb.useGravity = true;
-            playerRb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+            playerRb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             if (charController != null)
                 charController.enabled = false;  // 如果你希望 CharacterController 模式在未来扩展，可以改为 true
             seaScooter.SetActive(false);
