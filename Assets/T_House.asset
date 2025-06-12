@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c509dbaa7b6f416409e3195321a2187e, type: 3}
+  m_Name: T_House
+  m_EditorClassIdentifier: 
+  PaletteLayers:
+  - {fileID: 8574412962073106934, guid: 65cc14da410e7ba4cb5e97d947bab022, type: 2}
+  - {fileID: 8574412962073106934, guid: 3861d9254cc5b804bac37efbbb21f727, type: 2}
+  - {fileID: 8574412962073106934, guid: ad26ca5623c18d44abf5598ed143b876, type: 2}
+  - {fileID: 8574412962073106934, guid: 9475c1a88e4e3ea4aa41af0af4ab9731, type: 2}
+  - {fileID: 8574412962073106934, guid: a2f7a6ee14f9497409b682d63e304b70, type: 2}
