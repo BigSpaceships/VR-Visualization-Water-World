@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.HID;
+using UnityEngine.SceneManagement;
 using static UnityEngine.GraphicsBuffer;
 
 public class GameStart : MonoBehaviour {
@@ -60,19 +61,7 @@ public class GameStart : MonoBehaviour {
         RenderSettings.fogStartDistance = 5f;
         RenderSettings.fogEndDistance = 20f;
 
-        //play task01 voice
-        AudioSource TASK_D = GameObject.Find("TASK_DStart").GetComponent<AudioSource>(); //This is Tour Center, Welcome, David.You have successfully descended to the plan...
-        TASK_D.Play();
-        StartCoroutine(WaitForSeconds(TASK_D.clip.length, () => {
-            Transform WayPoint1 = GameObject.Find("WayPoint1")?.transform;
-            waypointController.ShowWaypoint(WayPoint1);
-            GameObject g = GameObject.Find("HUD_IncomingCord");
-            AudioSource TASK_D = g.GetComponent<AudioSource>();
-
-            //AudioSource TASK_D = GameObject.Find("HUD_IncomingCord").GetComponent<AudioSource>();
-            HUD_textMessage.ShowText("INCOMING COORDINATES RPF2K1\nWAYPOINT NAVIGATION SYSTEM: ACTIVE", TASK_D);
-        }));
-        //Invoke("ShowWelcomeText", 3f); // 3秒后调用 `ShowWelcomeText`
+        StartCoroutine(TaskStart()); 
     }
 
     void OnDestroy() {
@@ -87,6 +76,62 @@ public class GameStart : MonoBehaviour {
         RenderSettings.fogColor = originalFogColor;
         RenderSettings.fogStartDistance = originalFogStartDistance;
         RenderSettings.fogEndDistance = originalFogEndDistance;
+    }
+
+
+    /* 启动：
+     * 这里是旅游中心，恭喜您已经成为我们的VIP用户，下面我将为您提供免费的导游服务，请跟随坐标并启动水下推进器，沿着指引通道前往目标位置，准备揭开海底文明遗迹的神秘面纱。
+     * 
+     * waypoint1:
+     * 尊敬的潜水探险者，千年前这座古城因海啸沉没。您已到达入口走廊，请沿着珊瑚覆盖的石制走廊前行，请注意氧气用量，保持均匀呼吸。
+     * 
+     * waypoint2:
+     * 尊敬的潜水探险者，您已抵达遗迹入口城门附近。这座宏伟的建筑经受住了时间的考验，如今已被深海缓慢吞噬。依稀可见的雕刻与风化的符文仍留存其上，暗示着这里曾经繁荣的文明。
+     * 
+     * waypoint3:
+     * 尊敬的VIP潜水探险者，您眼前即是水下城堡的核心区域，本次旅程将在此结束，请做好上浮准备。感谢您选择我们的服务，只需支付 99,999 美元，便可升级为 VIP2 尊享会员，免费开启城堡内部深度探索之旅。
+     * 
+     * waypoint4:结束
+     * 启动减压程序，准备上浮。
+     * 
+     * Start:
+       This is Tour Center, congratulations, you’re now one of our VIP members! From here on out, I’ll be your personal guide at no extra cost. Follow the coordinates we’ve sent you and fire up your underwater thrusters. Swim through the marked passage to your destination, and get ready to uncover the mysteries of the sunken civilization.
+
+        Waypoint 1:
+        Hey, adventurer—about a thousand years ago, this ancient city was swallowed by a massive tsunami. You’ve reached the entrance corridor. Glide along the coral-covered stone walkway, keep an eye on your oxygen gauge, and breathe evenly.
+
+        Waypoint 2:
+        You’re now at the ruins’ main gate. This grand arch has stood the test of time, but the sea is slowly reclaiming it. Faint carvings and weathered runes still peek through, hinting at the city’s former glory. Take a moment to look around before moving on.
+
+        Waypoint 3:
+        VIP explorer, you’ve arrived at the heart of the underwater castle—our tour ends here. Please prepare to ascend. Thanks for diving with us! For just $99,999, you can upgrade to VIP2 status and enjoy a complimentary deep exploration of the castle’s interior.
+
+        Waypoint 4 (End):
+        Initiating decompression procedure… get ready to ascend.
+     */
+
+
+
+    //整个游戏的任务开始点
+    //start point of this game, initialize and start task
+    private IEnumerator TaskStart() {
+        // 等两秒
+        yield return new WaitForSeconds(2f);
+
+        Transform WayPoint1 = GameObject.Find("WayPoint1")?.transform;
+        waypointController.ShowWaypoint(WayPoint1);
+        GameObject g = GameObject.Find("HUD_IncomingCord");
+        AudioSource TASK_D = g.GetComponent<AudioSource>();
+
+        //AudioSource TASK_D = GameObject.Find("HUD_IncomingCord").GetComponent<AudioSource>();
+        HUD_textMessage.ShowText("INCOMING COORDINATES RPF2K1\nWAYPOINT NAVIGATION SYSTEM: ACTIVE", TASK_D);
+
+        
+        yield return new WaitForSeconds(2f);
+
+        //play task01 voice
+        TASK_D = GameObject.Find("TASK_DStart").GetComponent<AudioSource>(); //This is Tour Center, Welcome, David.You have successfully descended to the plan...
+        TASK_D.Play();
     }
 
     // ✅ 一个通用的 WaitForSecondsWithCallback 实现
@@ -115,15 +160,30 @@ public class GameStart : MonoBehaviour {
         }
     }
 
+
+    private IEnumerator UnloadScene(string sceneName) {
+        // 异步卸载场景
+        AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(sceneName);
+
+        // 等待卸载完成
+        while (!unloadOp.isDone)
+            yield return null;
+
+        yield return null; // 可选：再等一帧以稳定状态
+    }
+
+
     void onWaypoint1Reached() {
+        StartCoroutine(UnloadScene("R_Area2 Under Water"));
+        return;
         HUD_textMessage.ShowText("WAYPOINT RPF2K1\nSTATUS: REACHED", null);
-        AudioSource TASK_D = GameObject.Find("TASK_D01").GetComponent<AudioSource>();
-        TASK_D.Play();
-        StartCoroutine(WaitForSeconds(TASK_D.clip.length, () => {
-            AudioSource TASK_D = GameObject.Find("HUD_IncomingCord").GetComponent<AudioSource>(); 
-            HUD_textMessage.ShowText("INCOMING COORDINATES RPF4K2\nWAYPOINT NAVIGATION SYSTEM: ACTIVE", TASK_D);
-            waypointController.ShowWaypoint(waypoint2);
-        }));
+            AudioSource TASK_D = GameObject.Find("TASK_D01").GetComponent<AudioSource>();
+            TASK_D.Play();
+            StartCoroutine(WaitForSeconds(TASK_D.clip.length, () => {
+                AudioSource TASK_D = GameObject.Find("HUD_IncomingCord").GetComponent<AudioSource>(); 
+                HUD_textMessage.ShowText("INCOMING COORDINATES RPF4K2\nWAYPOINT NAVIGATION SYSTEM: ACTIVE", TASK_D);
+                waypointController.ShowWaypoint(waypoint2);
+            }));
     }
 
     void onWaypoint2Reached() {
