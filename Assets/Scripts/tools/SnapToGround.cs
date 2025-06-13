@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 using UnityEditor;
 
 public class SnapToGround : Editor {
@@ -7,18 +7,18 @@ public class SnapToGround : Editor {
         foreach (GameObject obj in Selection.gameObjects) {
             Collider col = obj.GetComponent<Collider>();
             if (col == null) {
-                Debug.LogWarning($"¶ÔÏó [{obj.name}] Ã»ÓÐ Collider£¬Ìø¹ý¡£");
+                Debug.LogWarning($"ï¿½ï¿½ï¿½ï¿½ [{obj.name}] Ã»ï¿½ï¿½ Colliderï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
                 continue;
             }
 
-            // »ñÈ¡ÎïÌåµ×²¿ÖÐÐÄµã£¨ÊÀ½ç×ø±ê£©
+            // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½×²ï¿½ï¿½ï¿½ï¿½Äµã£¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê£©
             Vector3 bottomCenter = new Vector3(
                 col.bounds.center.x,
-                col.bounds.min.y + 0.01f, // Î¢Î¢Ì§Æð£¬±ÜÃâÉäÏß´òµ½×Ô¼º
+                col.bounds.min.y + 0.01f, // Î¢Î¢Ì§ï¿½ð£¬±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½ï¿½Ô¼ï¿½
                 col.bounds.center.z
             );
 
-            // ´Óµ×²¿ÍùÏÂ·¢ÉäÉäÏß
+            // ï¿½Óµ×²ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             if (Physics.Raycast(bottomCenter, Vector3.down, out RaycastHit hit, 5f)) {
                 float offset = col.bounds.min.y - obj.transform.position.y;
 
@@ -29,8 +29,8 @@ public class SnapToGround : Editor {
                     obj.transform.position.z
                 );
             } else {
-                Debug.LogWarning($"¶ÔÏó [{obj.name}] µ×²¿Î´¼ì²âµ½µØÃæ£¬Ìø¹ý¡£");
+                Debug.LogWarning($"ï¿½ï¿½ï¿½ï¿½ [{obj.name}] ï¿½×²ï¿½Î´ï¿½ï¿½âµ½ï¿½ï¿½ï¿½æ£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
             }
         }
     }
-}
+}*/

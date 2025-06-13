@@ -1,13 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.XR;
-using UnityEngine.XR.Interaction.Toolkit;
-using UnityEngine.XR.Interaction.Toolkit.Utilities.Tweenables.Primitives;
+using UnityEngine.SceneManagement;
 
 public class Skier : MonoBehaviour
 {
@@ -35,14 +29,20 @@ public class Skier : MonoBehaviour
     [SerializeField] int jumpForce;
     [SerializeField] int flipForce;
     [SerializeField] InputActionProperty jumpActionProperty;
+    [SerializeField] InputActionProperty jump2ActionProperty;
     InputAction jumpAction;
+    InputAction jump2Action;
     bool isGrounded = true;
     bool jump;
-    [SerializeField] InputActionProperty flipActionProperty;
-    InputAction flipAction;
-    bool flip;
-    bool changedFlipAxis;
-    Vector3 flipAxis;
+    [SerializeField] InputActionProperty leftFlipActionProperty;
+    [SerializeField] InputActionProperty rightFlipActionProperty;
+    InputAction leftFlipAction;
+    InputAction rightFlipAction;
+    bool leftFlip;
+    bool rightFlip;
+    [SerializeField] InputActionProperty resetActionProperty;
+    InputAction resetAction;
+    [SerializeField] GameObject devSim;
 
     [Header("Skis")]
     [SerializeField] Transform rightSki;
@@ -58,10 +58,16 @@ public class Skier : MonoBehaviour
         moveAction = moveActionProperty.action;
         turnAction = turnActionProperty.action;
         jumpAction = jumpActionProperty.action;
-        flipAction = flipActionProperty.action;
+        jump2Action = jump2ActionProperty.action;
+        leftFlipAction = leftFlipActionProperty.action;
+        rightFlipAction = rightFlipActionProperty.action;
+        resetAction = resetActionProperty.action;
+        #if UNITY_EDITOR
+            Instantiate(devSim);
+        #endif
     }
 
-    void OnEnable()
+    /*void OnEnable()
     {
         Application.onBeforeRender += OnBeforeRender;
     }
@@ -76,7 +82,7 @@ public class Skier : MonoBehaviour
         //Fix camera
         Vector3 pos = cam.localPosition;
         cam.localPosition = new Vector3(0, pos.y, 0);
-    }
+    }*/
 
     void Update()
     {
@@ -87,13 +93,18 @@ public class Skier : MonoBehaviour
         //Input detection
         if (isGrounded)
         {
-            if (jumpAction.WasPressedThisFrame()) jump = true;
+            if (jumpAction.WasPressedThisFrame() ||jump2Action.WasPressedThisFrame()) jump = true;
         }
         else
         {
-            if (flipAction.IsPressed()) flip = true;
-            else if (flipAction.WasReleasedThisFrame()) flip = false;
+            if (leftFlipAction.IsPressed()) leftFlip = true;
+            else if (leftFlipAction.WasReleasedThisFrame()) leftFlip = false;
+            if (rightFlipAction.IsPressed()) rightFlip = true;
+            else if (rightFlipAction.WasReleasedThisFrame()) rightFlip = false;
         }
+
+        //Reset
+        if (resetAction.WasPressedThisFrame()) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     void LateUpdate()
@@ -114,6 +125,10 @@ public class Skier : MonoBehaviour
                 rightSki.rotation = Quaternion.Slerp(rightSki.rotation, targetRotation, Time.deltaTime * skiAlignStrength);
             }
         }
+        else
+        {
+            rightSki.localRotation = Quaternion.Slerp(rightSki.localRotation, quaternion.identity, Time.deltaTime * skiAlignStrength);
+        }
         origin = leftSki.position + new Vector3(0, 0.5f, 0.7f);
         if (Physics.Raycast(origin, -leftSki.up, out hit, 2, groundMask))
         {
@@ -124,19 +139,23 @@ public class Skier : MonoBehaviour
                 leftSki.rotation = Quaternion.Slerp(leftSki.rotation, targetRotation, Time.deltaTime * skiAlignStrength);
             }
         }
+        else
+        {
+            leftSki.localRotation = Quaternion.Slerp(leftSki.localRotation, quaternion.identity, Time.deltaTime * skiAlignStrength);
+        }
     }
 
     void FixedUpdate()
     {
         //Move/Turn
         Vector2 input = turnAction.ReadValue<Vector2>();
-        rb.AddTorque(cam.TransformDirection(new Vector3(-input.y, input.x, 0)) * turnForce, ForceMode.Acceleration);
+        rb.AddTorque(skiParent.TransformDirection(new Vector3(-input.y, input.x, 0)) * turnForce, ForceMode.Acceleration);
         input = moveAction.ReadValue<Vector2>();
-        rb.AddForce(cam.TransformDirection(new Vector3(input.x * xMoveForce, 0, input.y * zMoveForce)), ForceMode.Acceleration);
+        rb.AddForce(skiParent.TransformDirection(new Vector3(input.x * xMoveForce, 0, input.y * zMoveForce)), ForceMode.Acceleration);
 
         //Grounded raycast
         Vector3 currentUp = myT.up;
-        if (Physics.Raycast(myT.position, -currentUp, out RaycastHit hit, 1.4f, groundMask))
+        if (Physics.Raycast(myT.position, -currentUp, out RaycastHit hit, 1.5f, groundMask))
         {
             //Skier stabilization
             Vector3 groundUp = hit.normal;
@@ -146,7 +165,7 @@ public class Skier : MonoBehaviour
 
             //Velocity control based on direction
             Vector3 downhill = Vector3.ProjectOnPlane(Vector3.down, groundUp).normalized;
-            Vector3 skierDirection = Vector3.ProjectOnPlane(cam.forward, groundUp).normalized;
+            Vector3 skierDirection = Vector3.ProjectOnPlane(skiParent.forward, groundUp).normalized;
             float alignment = Vector3.Dot(downhill, skierDirection);
             rb.AddForce(Vector3.Slerp(downhill, skierDirection, Mathf.Clamp01(Mathf.Clamp01(alignment) * skierDirectionWeight)) * skiSpeed, ForceMode.Acceleration);
             rb.drag = Mathf.Lerp(minDrag, maxDrag, 1 - Mathf.Clamp01(Mathf.Abs(alignment)));
@@ -155,26 +174,19 @@ public class Skier : MonoBehaviour
             isGrounded = true;
             if (jump)
             {
-                rb.AddForce(cam.up * jumpForce, ForceMode.VelocityChange);
-                if (!changedFlipAxis)
-                {
-                    flipAxis = UnityEngine.Random.value < 0.5f ? Vector3.forward : Vector3.back;
-                    changedFlipAxis = true;
-                }
+                rb.AddForce(skiParent.up * jumpForce, ForceMode.VelocityChange);
                 jump = false;
             }
-            if (flip) flip = false;
+            if (rightFlip) rightFlip = false;
+            if (leftFlip) leftFlip = false;
         }
         else
         {
             //Flip
             isGrounded = false;
             if (jump) jump = false;
-            if (flip)
-            {
-                rb.AddTorque(cam.TransformDirection(flipAxis) * flipForce, ForceMode.Acceleration);
-                changedFlipAxis = false;
-            }
+            if (leftFlip) rb.AddTorque(skiParent.TransformDirection(Vector3.forward) * flipForce, ForceMode.Acceleration);
+            if (rightFlip) rb.AddTorque(skiParent.TransformDirection(Vector3.back) * flipForce, ForceMode.Acceleration);
         }
     }
 }

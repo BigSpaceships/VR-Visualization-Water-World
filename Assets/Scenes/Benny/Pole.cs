@@ -9,7 +9,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class Pole : XRBaseInteractable
 {
     [Header("Movement")]
-    [SerializeField] Transform cam;
+    [SerializeField] Transform skiParent;
     [SerializeField] Rigidbody skier;
     [SerializeField] float poleForce = 0.2f;
     [SerializeField] int maxPoleForce = 2;
@@ -71,13 +71,13 @@ public class Pole : XRBaseInteractable
     void FixedUpdate()
     {
         if (!selected) return;
-        if (Physics.Raycast(myT.position, -myT.up, out RaycastHit hit, 0.8f, groundMask) && speed > 10)
+        if (Physics.Raycast(myT.position + myT.up * 0.7f, -myT.up, out RaycastHit hit, 1.7f, groundMask) && speed > 10)
         {
             Vector3 groundUp = hit.normal;
             Vector3 poleDirection = Vector3.ProjectOnPlane(vel, groundUp).normalized;
-            Vector3 skierDirection = Vector3.ProjectOnPlane(cam.forward, groundUp).normalized;
+            Vector3 skierDirection = Vector3.ProjectOnPlane(skiParent.forward, groundUp).normalized;
             float push = Vector3.Dot(poleDirection, skierDirection);
-            if (push < -0.5) skier.AddForce(cam.forward * Mathf.Clamp(poleForce * speed, -maxPoleForce, maxPoleForce), ForceMode.VelocityChange);
+            if (push < -0.5) skier.AddForce(skiParent.forward * Mathf.Clamp(poleForce * speed, -maxPoleForce, maxPoleForce), ForceMode.VelocityChange);
         }
     }
 
@@ -87,7 +87,7 @@ public class Pole : XRBaseInteractable
         {
             if (selected)
             {
-                Vector3 currentPos = myT.position - cam.position;
+                Vector3 currentPos = myT.position - skiParent.position;
                 vel = (currentPos - lastPos) * 10;
                 speed = vel.sqrMagnitude;
                 lastPos = currentPos;
