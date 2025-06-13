@@ -8,7 +8,6 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class Pole : XRBaseInteractable
 {
-    [Header("Movement")]
     [SerializeField] Transform skiParent;
     [SerializeField] Rigidbody skier;
     [SerializeField] float poleForce = 0.2f;
@@ -16,24 +15,34 @@ public class Pole : XRBaseInteractable
     [SerializeField] Transform rightController;
     [SerializeField] Transform leftController;
     [SerializeField] LayerMask groundMask;
+    public static Vector3 rightAttach = new Vector3(0, -0.67f, 0.05f);
+    Vector3 leftAttach;
+    SkiController rightSkiController;
+    SkiController leftSkiController;
+    SkiController skiController;
     Transform myT;
     Rigidbody rb;
+    Collider col;
     Vector3 lastPos;
     Vector3 vel;
     float speed;
     WaitForSeconds velocityWait = new WaitForSeconds(0.1f);
-    bool selected = false;
 
     protected override void Awake()
     {
         base.Awake();
         rb = GetComponent<Rigidbody>();
+        col = GetComponent<Collider>();
         myT = transform;
+        rightSkiController = rightController.GetComponent<SkiController>();
+        leftSkiController = leftController.GetComponent<SkiController>();
     }
 
     void Start()
     {
         StartCoroutine(CalculateVelocity());
+        leftAttach = rightAttach;
+        leftAttach.x *= -1;
     }
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)
@@ -41,38 +50,42 @@ public class Pole : XRBaseInteractable
         base.OnSelectEntered(args);
         rb.isKinematic = true;
         rb.interpolation = RigidbodyInterpolation.None;
+        col.enabled = false;
         if (args.interactorObject.transform.parent == rightController)
         {
             myT.parent = rightController;
-            myT.localPosition = new Vector3(0.25f, -0.7f, 0.5f);
+            myT.SetLocalPositionAndRotation(rightAttach, Quaternion.identity);
+            skiController = rightSkiController;
         }
         else if (args.interactorObject.transform.parent == leftController)
         {
             myT.parent = leftController;
-            myT.localPosition = new Vector3(-0.25f, -0.7f, 0.5f);
+            myT.SetLocalPositionAndRotation(leftAttach, Quaternion.identity);
+            skiController = leftSkiController;
         }
-        myT.localRotation = quaternion.identity;
         XRInteractorLineVisual ray = args.interactorObject.transform.GetComponent<XRInteractorLineVisual>();
         if (ray != null) ray.enabled = false;
-        selected = true;
+        skiController.Animate("Select");
     }
 
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
-        selected = false;
         base.OnSelectExited(args);
         rb.isKinematic = false;
         rb.interpolation = RigidbodyInterpolation.Interpolate;
+        col.enabled = true;
         myT.parent = null;
         XRInteractorLineVisual ray = args.interactorObject.transform.GetComponent<XRInteractorLineVisual>();
         if (ray != null) ray.enabled = true;
+        skiController.Animate("Deselect");
     }
 
     void FixedUpdate()
     {
-        if (!selected) return;
-        if (Physics.Raycast(myT.position + myT.up * 0.7f, -myT.up, out RaycastHit hit, 1.7f, groundMask) && speed > 10)
+        if (!isSelected) return;
+        if (Physics.Raycast(myT.position + myT.up * 0.7f, -myT.up, out RaycastHit hit, 1.6f, groundMask) && speed > 10)
         {
+            if (hit.collider.gameObject.layer == 3) return;
             Vector3 groundUp = hit.normal;
             Vector3 poleDirection = Vector3.ProjectOnPlane(vel, groundUp).normalized;
             Vector3 skierDirection = Vector3.ProjectOnPlane(skiParent.forward, groundUp).normalized;
@@ -85,7 +98,7 @@ public class Pole : XRBaseInteractable
     {
         while (true)
         {
-            if (selected)
+            if (isSelected)
             {
                 Vector3 currentPos = myT.position - skiParent.position;
                 vel = (currentPos - lastPos) * 10;
