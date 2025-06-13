@@ -62,6 +62,7 @@ public class ActionsController : MonoBehaviour {
                     // 1.计算目标位置
                     Vector3 targetPos = action.worldPosition;
 
+
                     // 播放跑步动画
                     animationObj.wrapMode = WrapMode.Loop;
                     animationObj.Play(param["aniName"]);
@@ -75,10 +76,12 @@ public class ActionsController : MonoBehaviour {
 
                     //移动过去
                     float speed = param.TryGetValue("speed", out var s) && float.TryParse(s, out var spd)  ? spd : 2f;
-                    yield return StartCoroutine(MoveToPosition(targetPos, speed));
+                    //yield return StartCoroutine(MoveToPosition(targetPos, speed));
+
+                    yield return StartCoroutine(MoveToPositionV2(param["aniName"], targetPos, speed));
 
                     //停止跑步动画
-                    animationObj.Stop(param["aniName"]);
+                    //animationObj.Stop(param["aniName"]);
                     AnimationState st = animationObj[param["aniName"]];
                     st.enabled = true;
                     st.time = 0f;
@@ -177,6 +180,42 @@ public class ActionsController : MonoBehaviour {
         animatedObject.rotation = targetRotation;
     }
 
+    IEnumerator MoveToPositionV2(string aniName, Vector3 target, float movingSpeed = 2f) {
+        Vector3 startPos = animatedObject.position;
+        float totalDist = Vector3.Distance(startPos, target);
+        if (totalDist < 0.01f) yield break;
 
+        // 取出动画状态
+        AnimationState st = animationObj[aniName];
+        st.wrapMode = WrapMode.Loop;
+        st.enabled = true;
+        animationObj.Play(aniName);
+
+        float duration = totalDist / movingSpeed;
+        float elapsed = 0f;
+        while (elapsed < duration) {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+
+            // 位置：3rd-order smoothstep: s(t)=3t²−2t³
+            float smoothT = t * t * (3f - 2f * t);
+            animatedObject.position = Vector3.Lerp(startPos, target, smoothT);
+
+            // 速度因子 = smoothstep 的导数：ds/dt = 6 t (1−t)
+            float speedFactor = 6f * t * (1f - t);
+            // （可选）如果想让中点速度正好 = 1，可再除以最大值 1.5f：
+            // speedFactor /= 1.5f;
+
+            // 动态调整动画播放速度
+            st.speed = speedFactor;
+
+            yield return null;
+        }
+
+        // 走完后收尾
+        animatedObject.position = target;
+        st.speed = 1f;               // 恢复正常速率
+        animationObj.Stop(aniName);
+    }
 
 }
