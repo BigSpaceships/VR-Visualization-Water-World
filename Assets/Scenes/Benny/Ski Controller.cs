@@ -6,7 +6,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class SkiController : ActionBasedController
 {
     
-    protected override void UpdateTrackingInput(XRControllerState controllerState)
+    /*protected override void UpdateTrackingInput(XRControllerState controllerState)
     {
         base.UpdateTrackingInput(controllerState);
         if (controllerState == null) return;
@@ -14,5 +14,5 @@ public class SkiController : ActionBasedController
         pos.x = Mathf.Clamp(pos.x, -0.5f, 0.5f);
         pos.z = Mathf.Clamp(pos.z, -0.5f, 0.5f);
         controllerState.position = pos;
-    }
+    }*/
 }
