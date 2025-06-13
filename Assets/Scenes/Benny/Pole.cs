@@ -77,7 +77,7 @@ public class Pole : XRBaseInteractable
             Vector3 poleDirection = Vector3.ProjectOnPlane(vel, groundUp).normalized;
             Vector3 skierDirection = Vector3.ProjectOnPlane(cam.forward, groundUp).normalized;
             float push = Vector3.Dot(poleDirection, skierDirection);
-            if (push < -0.7) skier.AddRelativeForce(Vector3.forward * Mathf.Clamp(poleForce * speed, -maxPoleForce, maxPoleForce), ForceMode.VelocityChange);
+            if (push < -0.5) skier.AddForce(cam.forward * Mathf.Clamp(poleForce * speed, -maxPoleForce, maxPoleForce), ForceMode.VelocityChange);
         }
     }
 

@@ -38,7 +38,9 @@ MonoBehaviour:
   cellDescs:
     m_Keys: 
     m_Values: []
-  m_SerializedPerSceneCellList: []
+  m_SerializedPerSceneCellList:
+  - sceneGUID: 76a39ea57f89045bd99ee14d8a2b06e9
+    cellList: 
   cellSharedDataAsset:
     m_AssetGUID: 
     m_StreamableAssetPath: 
@@ -69,8 +71,8 @@ MonoBehaviour:
   globalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  bakedSimplificationLevels: -1
-  bakedMinDistanceBetweenProbes: -1
+  bakedSimplificationLevels: 3
+  bakedMinDistanceBetweenProbes: 1
   maxSHChunkCount: -1
   L0ChunkSize: 0
   L1ChunkSize: 0

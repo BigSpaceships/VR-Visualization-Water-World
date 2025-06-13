@@ -172,7 +172,7 @@ public class Skier : MonoBehaviour
             if (jump) jump = false;
             if (flip)
             {
-                rb.AddRelativeTorque(cam.TransformDirection(flipAxis) * flipForce, ForceMode.Acceleration);
+                rb.AddTorque(cam.TransformDirection(flipAxis) * flipForce, ForceMode.Acceleration);
                 changedFlipAxis = false;
             }
         }
