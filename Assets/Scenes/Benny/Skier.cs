@@ -75,7 +75,7 @@ public class Skier : MonoBehaviour
     {
         //Fix camera
         Vector3 pos = cam.localPosition;
-        cam.localPosition = new Vector3(0, 0, pos.y);
+        cam.localPosition = new Vector3(0, pos.y, 0);
     }
 
     void Update()
@@ -172,7 +172,7 @@ public class Skier : MonoBehaviour
             if (jump) jump = false;
             if (flip)
             {
-                rb.AddRelativeTorque(cam.TransformDirection(flipAxis) * flipForce, ForceMode.Acceleration);
+                rb.AddTorque(cam.TransformDirection(flipAxis) * flipForce, ForceMode.Acceleration);
                 changedFlipAxis = false;
             }
         }

@@ -11,8 +11,8 @@ public class SkiController : ActionBasedController
         base.UpdateTrackingInput(controllerState);
         if (controllerState == null) return;
         Vector3 pos = controllerState.position;
-        pos.x = Mathf.Clamp(pos.x, -0.4f, 0.4f);
-        pos.z = Mathf.Clamp(pos.z, -0.4f, 0.4f);
+        pos.x = Mathf.Clamp(pos.x, -0.5f, 0.5f);
+        pos.z = Mathf.Clamp(pos.z, -0.5f, 0.5f);
         controllerState.position = pos;
     }
 }

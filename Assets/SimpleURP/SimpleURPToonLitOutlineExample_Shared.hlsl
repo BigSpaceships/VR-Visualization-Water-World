@@ -437,9 +437,9 @@ void AlphaClipAndLODTest(Varyings input)
 {
     DoClipTestToTargetAlphaValue(GetFinalBaseColor(input).a);
 
-    #ifdef LOD_FADE_CROSSFADE
+    /*#ifdef LOD_FADE_CROSSFADE
     LODFadeCrossFade(input.positionCS);
-    #endif
+    #endif*/
 }
 
 // copy and edit of DepthOnlyPass.hlsl
