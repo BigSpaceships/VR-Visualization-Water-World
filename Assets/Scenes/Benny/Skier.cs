@@ -21,11 +21,17 @@ public class Skier : MonoBehaviour
     [Header("Movement")]
     [SerializeField] int xMoveForce;
     [SerializeField] int zMoveForce;
+    [SerializeField] int airMoveForce;
+    float speedIncrease;
+    float initialCamHeight;
     [SerializeField] InputActionProperty moveActionProperty;
     InputAction moveAction;
-    [SerializeField] int turnForce;
+    [SerializeField] int groundTurnForce;
+    [SerializeField] int airTurnForce;
     [SerializeField] InputActionProperty turnActionProperty;
     InputAction turnAction;
+
+    [Header("Jump")]
     [SerializeField] int jumpForce;
     [SerializeField] int flipForce;
     [SerializeField] InputActionProperty jumpActionProperty;
@@ -43,11 +49,6 @@ public class Skier : MonoBehaviour
     [SerializeField] InputActionProperty resetActionProperty;
     InputAction resetAction;
     [SerializeField] GameObject devSim;
-
-    [Header("Skis")]
-    [SerializeField] Transform rightSki;
-    [SerializeField] Transform leftSki;
-    [SerializeField] int skiAlignStrength;
     Rigidbody rb;
     Transform myT;
 
@@ -62,12 +63,13 @@ public class Skier : MonoBehaviour
         leftFlipAction = leftFlipActionProperty.action;
         rightFlipAction = rightFlipActionProperty.action;
         resetAction = resetActionProperty.action;
+        initialCamHeight = cam.localPosition.y;
         #if UNITY_EDITOR
-            Instantiate(devSim);
+        Instantiate(devSim);
         #endif
     }
 
-    /*void OnEnable()
+    void OnEnable()
     {
         Application.onBeforeRender += OnBeforeRender;
     }
@@ -82,12 +84,14 @@ public class Skier : MonoBehaviour
         //Fix camera
         Vector3 pos = cam.localPosition;
         cam.localPosition = new Vector3(0, pos.y, 0);
-    }*/
+    }
 
     void Update()
     {
         //Ski faster when crouched
-        skiSpeed = baseSkiSpeed - cam.localPosition.y * crouchSpeedIncrease;
+        speedIncrease = initialCamHeight - cam.localPosition.y * crouchSpeedIncrease;
+        skiSpeed = baseSkiSpeed  + speedIncrease;
+        
         if (skiSpeed < 0) skiSpeed = 0;
 
         //Input detection
@@ -112,46 +116,14 @@ public class Skier : MonoBehaviour
         //Skis follow camera rotation
         skiParent.rotation = cam.rotation;
         skiParent.localRotation = Quaternion.Euler(0, skiParent.localEulerAngles.y, 0);
-
-        //Ski stabilization
-        RaycastHit hit;
-        Vector3 origin = rightSki.position + new Vector3(0, 0.5f, 0.7f);
-        if (Physics.Raycast(origin, -rightSki.up, out hit, 2, groundMask))
-        {
-            Vector3 groundUp = hit.normal;
-            if (Vector3.Angle(rightSki.up, groundUp) < maxAlignAngle)
-            {
-                Quaternion targetRotation = Quaternion.FromToRotation(rightSki.up, groundUp) * rightSki.rotation;
-                rightSki.rotation = Quaternion.Slerp(rightSki.rotation, targetRotation, Time.deltaTime * skiAlignStrength);
-            }
-        }
-        else
-        {
-            rightSki.localRotation = Quaternion.Slerp(rightSki.localRotation, quaternion.identity, Time.deltaTime * skiAlignStrength);
-        }
-        origin = leftSki.position + new Vector3(0, 0.5f, 0.7f);
-        if (Physics.Raycast(origin, -leftSki.up, out hit, 2, groundMask))
-        {
-            Vector3 groundUp = hit.normal;
-            if (Vector3.Angle(leftSki.up, groundUp) < maxAlignAngle)
-            {
-                Quaternion targetRotation = Quaternion.FromToRotation(leftSki.up, groundUp) * leftSki.rotation;
-                leftSki.rotation = Quaternion.Slerp(leftSki.rotation, targetRotation, Time.deltaTime * skiAlignStrength);
-            }
-        }
-        else
-        {
-            leftSki.localRotation = Quaternion.Slerp(leftSki.localRotation, quaternion.identity, Time.deltaTime * skiAlignStrength);
-        }
     }
 
     void FixedUpdate()
     {
-        //Move/Turn
-        Vector2 input = turnAction.ReadValue<Vector2>();
-        rb.AddTorque(skiParent.TransformDirection(new Vector3(-input.y, input.x, 0)) * turnForce, ForceMode.Acceleration);
-        input = moveAction.ReadValue<Vector2>();
-        rb.AddForce(skiParent.TransformDirection(new Vector3(input.x * xMoveForce, 0, input.y * zMoveForce)), ForceMode.Acceleration);
+        //Movement input
+        Vector2 turnInput = turnAction.ReadValue<Vector2>();
+        Vector2 moveInput = moveAction.ReadValue<Vector2>();
+
 
         //Grounded raycast
         Vector3 currentUp = myT.up;
@@ -170,8 +142,11 @@ public class Skier : MonoBehaviour
             rb.AddForce(Vector3.Slerp(downhill, skierDirection, Mathf.Clamp01(Mathf.Clamp01(alignment) * skierDirectionWeight)) * skiSpeed, ForceMode.Acceleration);
             rb.drag = Mathf.Lerp(minDrag, maxDrag, 1 - Mathf.Clamp01(Mathf.Abs(alignment)));
 
-            //Jump
+            //Is on ground
             isGrounded = true;
+            turnInput.y = 0;
+            rb.AddTorque(skiParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)) * groundTurnForce, ForceMode.Acceleration);
+            rb.AddForce(skiParent.TransformDirection(new Vector3(moveInput.x * (xMoveForce + speedIncrease), 0, moveInput.y * (zMoveForce + speedIncrease))), ForceMode.Acceleration);
             if (jump)
             {
                 rb.AddForce(skiParent.up * jumpForce, ForceMode.VelocityChange);
@@ -182,8 +157,10 @@ public class Skier : MonoBehaviour
         }
         else
         {
-            //Flip
+            //Is in air
             isGrounded = false;
+            rb.AddTorque(skiParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)) * airTurnForce, ForceMode.Acceleration);
+            rb.AddForce(skiParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y) * airMoveForce), ForceMode.Acceleration);
             if (jump) jump = false;
             if (leftFlip) rb.AddTorque(skiParent.TransformDirection(Vector3.forward) * flipForce, ForceMode.Acceleration);
             if (rightFlip) rb.AddTorque(skiParent.TransformDirection(Vector3.back) * flipForce, ForceMode.Acceleration);
