@@ -7,6 +7,51 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Black
+    second: {fileID: 2100000, guid: 37e4ee241bf52ca4791498ac4e3ab30a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CB_Fabric
+    second: {fileID: 2100000, guid: ec11d249f60773f41bbabd7c17c1d0d3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CB_Mud
+    second: {fileID: 2100000, guid: 56799ce167dad7343b670cd4bf79169f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CB_Mud.001
+    second: {fileID: 2100000, guid: a8ceee0bc7903ad42946d07fe3963da7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CB_Mud.002
+    second: {fileID: 2100000, guid: 7e5af903b71086849b75edb4472fe01f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CB_Pot
+    second: {fileID: 2100000, guid: 26d62040bad597e4382a3d760744c61b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CB_Pot.001
+    second: {fileID: 2100000, guid: 1c2e224e7dbb8ea48a9c862b9d535407, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CB_Pot.002
+    second: {fileID: 2100000, guid: 4eb53e63e486afd4f97fc1ec79243ac4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CB_Wood
+    second: {fileID: 2100000, guid: 576e6a1e494e7fb4b9737c0097d2ae54, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: CheckOut
     second: {fileID: 2100000, guid: ea70cbad697938a4694db844778180ec, type: 2}
   - first:
@@ -14,6 +59,16 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Cloth
     second: {fileID: 2100000, guid: 87cd5005dd3b71d42a1f3fc6b8ea3b56, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ComputerScreen
+    second: {fileID: 2100000, guid: 088ae53924ca54d45a654046f588af63, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: DarkWood
+    second: {fileID: 2100000, guid: cb5c34df7f792e343a4b3bf481e3a057, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -52,6 +107,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: e643d8e5110e1cf49843f252a18238b0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Material.001
     second: {fileID: 2100000, guid: dbebf8306e6618446b87f80c50b28b61, type: 2}
   - first:
@@ -62,13 +122,63 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: NatureLink
+    second: {fileID: 2100000, guid: cf3b733063824f040940a96b5db0fa5a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RockFloor
+    second: {fileID: 2100000, guid: d01eca23dbab5124992b649c270c2ce1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SS_WhitePlastic
+    second: {fileID: 2100000, guid: 374eed4982a005f47b000017238df6a2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: UVChecker
     second: {fileID: 2100000, guid: 10e85be46acf90d4189413c5ef1d87d5, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: WhiteMetal
+    second: {fileID: 2100000, guid: 453565ed405f1a54d8aae78cc58188be, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: WhiteMetal.001
     second: {fileID: 2100000, guid: 8d095bfc90ad9d045ad37d1a863c14f4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cheiridopsis_succulent
+    second: {fileID: 2100000, guid: 9cf90a3364e850e4c9b0c398bc13ca4d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cheiridopsis_succulent_flower
+    second: {fileID: 2100000, guid: f749aa7b669f71449bf3ccfa8bcce96c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: namaqualand_rocks_01
+    second: {fileID: 2100000, guid: aa8c288f39f06c14aaea866ab04772b1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: nettle_plant
+    second: {fileID: 2100000, guid: bcbfe9563c03ee44db0a2ad2bdd64274, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: shrub_sorrel_01
+    second: {fileID: 2100000, guid: b663dda06321b044e801ccb6236c7736, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wood
+    second: {fileID: 2100000, guid: 80b402ccd8c1ade4bbbd4d2b7051271e, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -103,7 +213,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.1
     meshCompression: 0
     addColliders: 1
     useSRGBMaterialColor: 1
@@ -158,7 +268,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
+    globalScale: 0.1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
