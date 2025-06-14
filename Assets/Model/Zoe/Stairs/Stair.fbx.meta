@@ -9,7 +9,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Stone
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     second: {fileID: 2100000, guid: 901c65ea1c5239949a714e7a134f9bd8, type: 2}
+=======
+    second: {fileID: 2100000, guid: 90b258e38b26c4443af646ecd4f5a1e5, type: 2}
+>>>>>>> Stashed changes
 =======
     second: {fileID: 2100000, guid: 90b258e38b26c4443af646ecd4f5a1e5, type: 2}
 >>>>>>> Stashed changes
