@@ -10,14 +10,14 @@ public class SkiController : ActionBasedController
     Transform myT;
     Animator animator;
 
-    protected override void UpdateTrackingInput(XRControllerState controllerState)
+    /*protected override void UpdateTrackingInput(XRControllerState controllerState)
     {
         base.UpdateTrackingInput(controllerState);
         Vector3 pos = myT.localPosition;
         pos.x = Mathf.Clamp(pos.x, -0.4f, 0.4f);
         pos.z = Mathf.Clamp(pos.z, -0.4f, 0.4f);
         myT.localPosition = pos;
-    }
+    }*/
 
     protected override void Awake()
     {
