@@ -1,4 +1,5 @@
 using Unity.Mathematics;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -7,25 +8,24 @@ public class Skier : MonoBehaviour
 {
     [Header("Skier")]
     [SerializeField] Transform skiParent;
+    [SerializeField] Transform camOffset;
     [SerializeField] Transform cam;
     [SerializeField] int alignStrength;
     [SerializeField] int maxAlignAngle;
-    [SerializeField] int baseSkiSpeed;
-    [SerializeField] int crouchSpeedIncrease;
     float skiSpeed;
     [SerializeField] float skierDirectionWeight;
     [SerializeField] float minDrag;
     [SerializeField] int maxDrag;
     [SerializeField] LayerMask groundMask;
     public static int attachedSkis;
+    [SerializeField] SkiController rightController;
+    [SerializeField] SkiController leftController;
 
     [Header("Movement")]
     [SerializeField] int normalMoveForce;
     [SerializeField] int xMoveForce;
     [SerializeField] int zMoveForce;
     [SerializeField] int airMoveForce;
-    float speedIncrease;
-    float initialCamHeight;
     [SerializeField] InputActionProperty moveActionProperty;
     InputAction moveAction;
     [SerializeField] float normalTurnForce;
@@ -33,15 +33,19 @@ public class Skier : MonoBehaviour
     [SerializeField] int airTurnForce;
     [SerializeField] InputActionProperty turnActionProperty;
     InputAction turnAction;
+    [SerializeField] InputActionProperty crouchActionProperty;
+    InputAction crouchAction;
+    [SerializeField] int baseSkiSpeed;
+    [SerializeField] int crouchHeight;
+    [SerializeField] float crouchSpeed;
+    [SerializeField] int crouchSpeedIncrease;
 
     [Header("Jump")]
     [SerializeField] int normalJumpForce;
     [SerializeField] int jumpForce;
     [SerializeField] int flipForce;
     [SerializeField] InputActionProperty jumpActionProperty;
-    [SerializeField] InputActionProperty jump2ActionProperty;
     InputAction jumpAction;
-    InputAction jump2Action;
     bool isGrounded = true;
     bool jump;
     [SerializeField] InputActionProperty leftFlipActionProperty;
@@ -52,9 +56,11 @@ public class Skier : MonoBehaviour
     bool rightFlip;
     [SerializeField] InputActionProperty resetActionProperty;
     InputAction resetAction;
+    [SerializeField] InputActionProperty toggleControllerProperty;
+    InputAction toggleController;
     [SerializeField] GameObject devSim;
     public static Rigidbody rb;
-    Transform myT;
+    public static Transform myT;
 
     void Awake()
     {
@@ -62,12 +68,12 @@ public class Skier : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         moveAction = moveActionProperty.action;
         turnAction = turnActionProperty.action;
+        crouchAction = crouchActionProperty.action;
         jumpAction = jumpActionProperty.action;
-        jump2Action = jump2ActionProperty.action;
         leftFlipAction = leftFlipActionProperty.action;
         rightFlipAction = rightFlipActionProperty.action;
         resetAction = resetActionProperty.action;
-        initialCamHeight = cam.localPosition.y;
+        toggleController = toggleControllerProperty.action;
         #if UNITY_EDITOR
         Instantiate(devSim);
         #endif
@@ -75,13 +81,6 @@ public class Skier : MonoBehaviour
 
     void OnEnable()
     {
-        moveAction.Enable();
-        turnAction.Enable();
-        jumpAction.Enable();
-        jump2Action.Enable();
-        leftFlipAction.Enable();
-        rightFlipAction.Enable();
-        resetAction.Enable();
         Application.onBeforeRender += OnBeforeRender;
     }
 
@@ -92,23 +91,16 @@ public class Skier : MonoBehaviour
 
     void OnBeforeRender()
     {
-        //Fix camera
-        Vector3 pos = cam.localPosition;
-        cam.localPosition = new Vector3(0, pos.y, 0);
+        //Clamp camera position
+        cam.localPosition = new Vector3(0, cam.localPosition.y, 0);
     }
 
     void Update()
     {
-        //Ski faster when crouched
-        speedIncrease = initialCamHeight - cam.localPosition.y * crouchSpeedIncrease;
-        skiSpeed = baseSkiSpeed  + speedIncrease;
-        
-        if (skiSpeed < 0) skiSpeed = 0;
-
         //Input detection
         if (isGrounded)
         {
-            if (jumpAction.WasPressedThisFrame() || jump2Action.WasPressedThisFrame()) jump = true;
+            if (jumpAction.WasPressedThisFrame()) jump = true;
         }
         else if (attachedSkis > 0)
         {
@@ -117,9 +109,26 @@ public class Skier : MonoBehaviour
             if (rightFlipAction.IsPressed()) rightFlip = true;
             else if (rightFlipAction.WasReleasedThisFrame()) rightFlip = false;
         }
-
-        //Reset
         if (resetAction.WasPressedThisFrame()) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (toggleController.WasPressedThisFrame())
+        {
+            rightController.SwitchController();
+            leftController.SwitchController();
+        }
+
+        //Crouch mechanics
+        float height = camOffset.localPosition.y;
+        if (crouchAction.IsPressed())
+        {
+            skiSpeed = baseSkiSpeed + crouchSpeedIncrease;
+            if (height != crouchHeight) height = Mathf.Lerp(height, crouchHeight, Mathf.Clamp01(Time.deltaTime * crouchSpeed));
+        }
+        else
+        {
+            skiSpeed = baseSkiSpeed;
+            if (height != 1.7f) height = Mathf.Lerp(height, 1.7f, Mathf.Clamp01(Time.deltaTime * crouchSpeed));
+        }
+        camOffset.localPosition = new Vector3(0, height, 0);
     }
 
     void LateUpdate()
@@ -135,15 +144,16 @@ public class Skier : MonoBehaviour
         Vector2 turnInput = turnAction.ReadValue<Vector2>();
         Vector2 moveInput = moveAction.ReadValue<Vector2>();
         Vector3 currentUp = myT.up;
-        
+
         //No skis
         if (attachedSkis == 0)
         {
-            rb.AddTorque(skiParent.TransformDirection(new Vector3(0, turnInput.x, 0)) * normalTurnForce, ForceMode.VelocityChange);
-            rb.AddForce(skiParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y) * normalMoveForce), ForceMode.VelocityChange);
-            if (Physics.Raycast(myT.position + currentUp, -currentUp, 1.1f, groundMask))
+            if (Physics.Raycast(myT.position + currentUp * 1.7f, -currentUp, 1.8f, groundMask))
             {
                 isGrounded = true;
+                Quaternion targetRotation = myT.rotation * Quaternion.Euler(new Vector3(0, turnInput.x, 0) * normalTurnForce);
+                myT.rotation = Quaternion.Slerp(myT.rotation, targetRotation, Mathf.Clamp01(Time.fixedDeltaTime));
+                rb.AddForce(skiParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y) * normalMoveForce), ForceMode.VelocityChange);
                 if (jump)
                 {
                     rb.AddForce(skiParent.up * normalJumpForce, ForceMode.VelocityChange);
@@ -161,7 +171,7 @@ public class Skier : MonoBehaviour
         }
 
         //Grounded raycast
-        if (Physics.Raycast(myT.position + currentUp, -currentUp, out RaycastHit hit, 1.1f, groundMask))
+        if (Physics.Raycast(myT.position + currentUp * 1.7f, -currentUp, out RaycastHit hit, 1.9f, groundMask))
         {
             //Skier stabilization
             Vector3 groundUp = hit.normal;
@@ -178,9 +188,8 @@ public class Skier : MonoBehaviour
 
             //Is on ground
             isGrounded = true;
-            turnInput.y = 0;
-            rb.AddTorque(skiParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)) * groundTurnForce, ForceMode.Acceleration);
-            rb.AddForce(skiParent.TransformDirection(new Vector3(moveInput.x * (xMoveForce + speedIncrease), 0, moveInput.y * (zMoveForce + speedIncrease))), ForceMode.Acceleration);
+            rb.AddTorque(skiParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)) * (groundTurnForce + crouchSpeedIncrease), ForceMode.Acceleration);
+            rb.AddForce(skiParent.TransformDirection(new Vector3(moveInput.x * (xMoveForce + crouchSpeedIncrease), 0, moveInput.y * (zMoveForce + crouchSpeedIncrease))), ForceMode.Acceleration);
             if (jump)
             {
                 rb.AddForce(skiParent.up * jumpForce, ForceMode.VelocityChange);
@@ -193,6 +202,7 @@ public class Skier : MonoBehaviour
         {
             //Is in air
             isGrounded = false;
+            rb.drag = minDrag;
             rb.AddTorque(skiParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)) * airTurnForce, ForceMode.Acceleration);
             rb.AddForce(skiParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y) * airMoveForce), ForceMode.Acceleration);
             if (jump) jump = false;
