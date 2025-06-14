@@ -63,7 +63,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Emissison: 0
+    - _Emissison: 0.25
     - _HeightBlend: 1
     - _HeightBlendWorld: 0
     - _QueueControl: 0

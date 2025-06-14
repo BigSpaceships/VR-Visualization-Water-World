@@ -2162,7 +2162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 1
-  size: {x: 103.01, y: 8.7751, z: 103.01}
+  size: {x: 103.01, y: 23.001339, z: 103.01}
   overrideRendererFilters: 0
   minRendererVolumeSize: 0.1
   objectLayerMask:
@@ -2202,7 +2202,7 @@ Transform:
   m_GameObject: {fileID: 304889385}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.799999, y: 2.8824499, z: -1.5999985}
+  m_LocalPosition: {x: 5.5, y: 10.0006695, z: -1.5999985}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5668,7 +5668,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bakingSet: {fileID: 11400000, guid: 678974d17b4016544bfb41f9369f9c9d, type: 2}
-  sceneGUID: b284d3e90017cbf428c4ab539e01f4e6
+  sceneGUID: fc3be25818423e74292096544a3a3314
   obsoleteAsset: {fileID: 0}
   obsoleteCellSharedDataAsset: {fileID: 0}
   obsoleteCellSupportDataAsset: {fileID: 0}
