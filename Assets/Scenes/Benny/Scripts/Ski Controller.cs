@@ -7,26 +7,27 @@ public class SkiController : ActionBasedController
 {
     [SerializeField] Transform controllerModel;
     [SerializeField] bool hands;
+    Transform myT;
     Animator animator;
 
     /*protected override void UpdateTrackingInput(XRControllerState controllerState)
     {
         base.UpdateTrackingInput(controllerState);
-        if (controllerState == null) return;
-        Vector3 pos = controllerState.position;
-        pos.x = Mathf.Clamp(pos.x, -0.5f, 0.5f);
-        pos.z = Mathf.Clamp(pos.z, -0.5f, 0.5f);
-        controllerState.position = pos;
+        Vector3 pos = myT.localPosition;
+        pos.x = Mathf.Clamp(pos.x, -0.4f, 0.4f);
+        pos.z = Mathf.Clamp(pos.z, -0.4f, 0.4f);
+        myT.localPosition = pos;
     }*/
 
     protected override void Awake()
     {
         base.Awake();
+        myT = transform;
         if (hands)
         {
             controllerModel.gameObject.SetActive(false);
             animator = model.GetComponent<Animator>();
-            Pole.rightAttach = new Vector3(0.03f, -0.65f, -0.03f);
+            Pole.rightAttach = new Vector3(0.03f, -1.28f, -0.03f);
         }
         else
         {
