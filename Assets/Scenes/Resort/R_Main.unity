@@ -466,7 +466,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &30354529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5256,7 +5256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 1
-  size: {x: 103.21863, y: 7.7710514, z: 109.67752}
+  size: {x: 103.21863, y: 7.7710505, z: 109.67752}
   overrideRendererFilters: 0
   minRendererVolumeSize: 0.1
   objectLayerMask:
@@ -5296,7 +5296,7 @@ Transform:
   m_GameObject: {fileID: 304889385}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.1043129, y: -1.6249948, z: 3.3337593}
+  m_LocalPosition: {x: 0.1043129, y: -1.6249952, z: 3.3337593}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9291,7 +9291,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: ae1f0ebaf163c1b458e570da40520760, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 90b258e38b26c4443af646ecd4f5a1e5, type: 2}
+      objectReference: {fileID: 2100000, guid: 2edfd4d5f607e4d4bac8abfe643bc7db, type: 2}
     - target: {fileID: 919132149155446097, guid: ae1f0ebaf163c1b458e570da40520760, type: 3}
       propertyPath: m_Name
       value: Straight (13)
@@ -11130,7 +11130,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: ae1f0ebaf163c1b458e570da40520760, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 90b258e38b26c4443af646ecd4f5a1e5, type: 2}
+      objectReference: {fileID: 2100000, guid: 2edfd4d5f607e4d4bac8abfe643bc7db, type: 2}
     - target: {fileID: 919132149155446097, guid: ae1f0ebaf163c1b458e570da40520760, type: 3}
       propertyPath: m_Name
       value: Straight (1)
@@ -13401,7 +13401,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: ae1f0ebaf163c1b458e570da40520760, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 90b258e38b26c4443af646ecd4f5a1e5, type: 2}
+      objectReference: {fileID: 2100000, guid: 2edfd4d5f607e4d4bac8abfe643bc7db, type: 2}
     - target: {fileID: 919132149155446097, guid: ae1f0ebaf163c1b458e570da40520760, type: 3}
       propertyPath: m_Name
       value: Straight
