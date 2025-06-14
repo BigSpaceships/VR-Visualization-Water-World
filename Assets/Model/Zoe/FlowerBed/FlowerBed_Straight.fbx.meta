@@ -3,12 +3,27 @@ guid: 027748158d719a74cb724e85a1ca68fb
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CB_Mud
+    second: {fileID: -410293012483091933, guid: 7d57c473db106ee45b10a5a63d9e3d97, type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CB_WhitePlastic
+    second: {fileID: 2100000, guid: 0f91cbdf66c7fa14baecb07a57cbfc34, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: shrub_sorrel_01
+    second: {fileID: 2100000, guid: 4aeb173520f22054898357012cb39913, type: 2}
   materials:
     materialImportMode: 1
-    materialName: 3
+    materialName: 1
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
