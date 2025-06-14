@@ -23,31 +23,31 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Donna/TestSwitchScene2.unity
     guid: e7d9d72d15daf7245a924510875e36fc
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Resort/R_Main.unity
     guid: b284d3e90017cbf428c4ab539e01f4e6
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Resort/R_Area2 Under Water.unity
     guid: 9971673126a0dc942b236ab4159162dc
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Resort/R_Area1.unity
     guid: b53546c51c43caf478efd70750974649
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Resort/R_Area2.unity
     guid: 8131007796b92d141b90107410321213
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Resort/R_Area3.unity
     guid: 9f6ab1cc96a6c7d4f83c97a2fba3bbc1
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Resort/R_Area4.unity
     guid: 6888f320c5aba1448a65636e01d9bfd6
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Resort/R_Area4 Castle.unity
     guid: f410b513f6b693f408b049e7300e92f8
-  - enabled: 0
-    path: Assets/Scenes/Resort/R_Area4 ShoppingMall.unity
+  - enabled: 1
+    path: Assets/Scenes/Resort/R_Area5 ShoppingMall.unity
     guid: 56e171620d978d84db751b3efbf7cf68
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Resort/R_Area5.unity
     guid: 80e9287b1f18b4c47b496abb8358e3bf
   - enabled: 1
