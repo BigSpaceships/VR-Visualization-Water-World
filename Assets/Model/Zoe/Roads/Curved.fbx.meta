@@ -10,6 +10,7 @@ ModelImporter:
       name: UVChecker
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     second: {instanceID: 0}
   - first:
       type: UnityEngine:Material
@@ -19,6 +20,8 @@ ModelImporter:
 =======
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
     second: {fileID: 2100000, guid: 826014c8ac8d2b34fbb9405209e16928, type: 2}
   - first:
       type: UnityEngine:Material
@@ -26,6 +29,9 @@ ModelImporter:
       name: UVChecker.002
     second: {fileID: 2100000, guid: 2edfd4d5f607e4d4bac8abfe643bc7db, type: 2}
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
