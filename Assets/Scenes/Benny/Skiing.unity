@@ -273,7 +273,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 336540531358006721, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.226
+      value: -1.23
       objectReference: {fileID: 0}
     - target: {fileID: 374970797179562753, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -612,6 +612,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 939649882}
     m_Modifications:
+    - target: {fileID: 109434732395284505, guid: 65847589f926b734d9eaed6e25f0046b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 109434732395284507, guid: 65847589f926b734d9eaed6e25f0046b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 109434732395284509, guid: 65847589f926b734d9eaed6e25f0046b, type: 3}
       propertyPath: m_Name
       value: Left Hand Model
@@ -2725,7 +2733,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7873184977108000993, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
       propertyPath: m_RequestedTrackingOriginMode
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7883545459964871621, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3912,6 +3920,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 336540531358006721, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.23
+      objectReference: {fileID: 0}
     - target: {fileID: 374970797179562753, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -118.46
