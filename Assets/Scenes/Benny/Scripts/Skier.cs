@@ -180,8 +180,8 @@ public class Skier : MonoBehaviour
                 if (!isGrounded)
                 {
                     isGrounded = true;
-                    if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.75f, 0.1f);
-                    if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.1f);
+                    if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                    if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
                 }
                 if (jump)
                 {
@@ -219,8 +219,8 @@ public class Skier : MonoBehaviour
             if (!isGrounded)
             {
                 isGrounded = true;
-                if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.75f, 0.1f);
-                if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.1f);
+                if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
             }
             rb.AddTorque(skiParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)) * (groundTurnForce + crouchSpeedIncrease), ForceMode.Acceleration);
             rb.AddForce(skiParent.TransformDirection(new Vector3(moveInput.x * (xMoveForce + crouchSpeedIncrease), 0, moveInput.y * (zMoveForce + crouchSpeedIncrease))), ForceMode.Acceleration);
@@ -261,8 +261,8 @@ public class Skier : MonoBehaviour
         //collisionNormal = collision.GetContact(0).normal;
         if (!isGrounded)
         {
-            if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.75f, 0.1f);
-            if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.1f);
+            if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+            if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
         }
     }
     void OnCollisionStay(Collision collision)
