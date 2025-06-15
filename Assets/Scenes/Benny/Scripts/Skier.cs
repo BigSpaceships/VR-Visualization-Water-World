@@ -49,7 +49,7 @@ public class Skier : MonoBehaviour
     InputAction jumpAction;
     bool isGrounded = true;
     bool colliding;
-    Vector3 collisionNormal;
+    //Vector3 collisionNormal;
     bool jump;
     [SerializeField] InputActionProperty leftFlipActionProperty;
     [SerializeField] InputActionProperty rightFlipActionProperty;
@@ -214,11 +214,6 @@ public class Skier : MonoBehaviour
         }
         else if (colliding)
         {
-            //Skier stabilization
-            Vector3 groundUp = collisionNormal;
-            Vector3 rotationAxis = Vector3.Cross(currentUp, groundUp);
-            rb.AddTorque(rotationAxis.normalized * Vector3.Angle(currentUp, groundUp) * alignStrength);
-
             //Is tilted on ground
             rb.AddTorque(skiParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)) * (groundTurnForce + crouchSpeedIncrease), ForceMode.Acceleration);
             rb.AddForce(skiParent.TransformDirection(new Vector3(moveInput.x * (xMoveForce + crouchSpeedIncrease), 0, moveInput.y * (zMoveForce + crouchSpeedIncrease))), ForceMode.Acceleration);
@@ -243,17 +238,17 @@ public class Skier : MonoBehaviour
     {
         if (collision.gameObject.layer != 9) return;
         colliding = true;
-        collisionNormal = collision.GetContact(0).normal;
+        /*collisionNormal = collision.GetContact(0).normal;
         UnityEngine.XR.InputDevice device = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
         if (device.isValid && device.TryGetHapticCapabilities(out HapticCapabilities capabilities) && capabilities.supportsImpulse) device.SendHapticImpulse(0, 1, 0.25f);
         device = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
-        if (device.isValid && device.TryGetHapticCapabilities(out capabilities) && capabilities.supportsImpulse) device.SendHapticImpulse(0, 1, 0.25f);
+        if (device.isValid && device.TryGetHapticCapabilities(out capabilities) && capabilities.supportsImpulse) device.SendHapticImpulse(0, 1, 0.25f);*/
     }
     void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.layer != 9) return;
         if (!colliding) colliding = true;
-        collisionNormal = collision.GetContact(0).normal;
+        //collisionNormal = collision.GetContact(0).normal;
     }
 
     void OnCollisionExit(Collision collision)

@@ -22,8 +22,8 @@ public class Skis : XRBaseInteractable
     SkiController leftSkiController;
     SkiController rightSkiController;
     SkiController skiController;
-    bool colliding;
-    Vector3 collisionNormal;
+    //bool colliding;
+    //Vector3 collisionNormal;
 
     protected override void Awake()
     {
@@ -43,11 +43,6 @@ public class Skis : XRBaseInteractable
         if (Physics.Raycast(myT.position + myT.up * 0.5f, -myT.up, out RaycastHit hit, 0.6f, groundMask))
         {
             Quaternion targetRotation = Quaternion.FromToRotation(myT.up, hit.normal) * myT.rotation;
-            myT.rotation = Quaternion.Slerp(myT.rotation, targetRotation, Mathf.Clamp01(Time.deltaTime * alignStrength));
-        }
-        else if (colliding)
-        {
-            Quaternion targetRotation = Quaternion.FromToRotation(myT.up, collisionNormal) * myT.rotation;
             myT.rotation = Quaternion.Slerp(myT.rotation, targetRotation, Mathf.Clamp01(Time.deltaTime * alignStrength));
         }
         else myT.localRotation = Quaternion.Slerp(myT.localRotation, Quaternion.identity, Mathf.Clamp01(Time.deltaTime * alignStrength));
@@ -146,23 +141,23 @@ public class Skis : XRBaseInteractable
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    /*void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer != 9) return;
         colliding = true;
-        collisionNormal = collision.GetContact(0).normal;
+        //collisionNormal = collision.GetContact(0).normal;
     }
 
     void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.layer != 9) return;
         if (!colliding) colliding = true;
-        collisionNormal = collision.GetContact(0).normal;
+        //collisionNormal = collision.GetContact(0).normal;
     }
 
     void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.layer != 9) return;
         colliding = false;
-    }
+    }*/
 }
