@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 using UnityEditor;
 
 public class SnapToGround : Editor {
@@ -33,4 +33,4 @@ public class SnapToGround : Editor {
             }
         }
     }
-}
+}*/

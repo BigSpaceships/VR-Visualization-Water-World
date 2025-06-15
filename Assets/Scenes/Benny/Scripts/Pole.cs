@@ -4,19 +4,22 @@ using System.Data.SqlTypes;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class Pole : XRBaseInteractable
 {
+    [SerializeField] Transform objectParent;
     [SerializeField] Transform skiParent;
     [SerializeField] Rigidbody skier;
+    [SerializeField] Color poleColor;
     [SerializeField] float poleForce = 0.2f;
     [SerializeField] int maxPoleForce = 2;
     [SerializeField] Transform rightController;
     [SerializeField] Transform leftController;
     [SerializeField] LayerMask groundMask;
-    public static Vector3 rightAttach = new Vector3(0, -1.3f, 0.05f);
-    Vector3 leftAttach;
+    public static Vector3 rightAttach;
+    public static Vector3 leftAttach;
     SkiController rightSkiController;
     SkiController leftSkiController;
     SkiController skiController;
@@ -38,17 +41,18 @@ public class Pole : XRBaseInteractable
         myT = transform;
         rightSkiController = rightController.GetComponent<SkiController>();
         leftSkiController = leftController.GetComponent<SkiController>();
+        myT.GetChild(1).GetComponent<Renderer>().material.color = poleColor;
+        myT.GetChild(2).GetComponent<Renderer>().material.color = poleColor;
     }
 
     void Start()
     {
         StartCoroutine(CalculateVelocity());
-        leftAttach = rightAttach;
-        leftAttach.x *= -1;
     }
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
+        //Grabbing mechanics
         base.OnSelectEntered(args);
         rb.isKinematic = true;
         rb.interpolation = RigidbodyInterpolation.None;
@@ -65,6 +69,7 @@ public class Pole : XRBaseInteractable
             myT.SetLocalPositionAndRotation(leftAttach, new Quaternion(0, 0, -1, 0));
             skiController = leftSkiController;
         }
+        skiController.attachedPole = this;
         XRInteractorLineVisual ray = args.interactorObject.transform.GetComponent<XRInteractorLineVisual>();
         if (ray != null) ray.enabled = false;
         skiController.Animate("Select");
@@ -72,20 +77,30 @@ public class Pole : XRBaseInteractable
 
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
+        //Releasing mechanics
         base.OnSelectExited(args);
         rb.isKinematic = false;
         rb.interpolation = RigidbodyInterpolation.Interpolate;
         for (int i = 0; i < colliderCount; i++) cols[i].enabled = true;
-        myT.parent = null;
+        myT.parent = objectParent;
+        skiController.attachedPole = null;
         XRInteractorLineVisual ray = args.interactorObject.transform.GetComponent<XRInteractorLineVisual>();
         if (ray != null) ray.enabled = true;
         skiController.Animate("Deselect");
     }
 
+    public void SwitchController()
+    {
+        //Switch local position when toggling hands/controller
+        if (skiController == rightSkiController) myT.localPosition = rightAttach;
+        else if (skiController == leftSkiController) myT.localPosition = leftAttach;
+    }
+
     void FixedUpdate()
     {
+        //Pole push
         if (!isSelected || Skier.attachedSkis == 0) return;
-        if (Physics.Raycast(myT.position - myT.up * 1.25f, myT.up, out RaycastHit hit, 1.7f, groundMask) && speed > 10)
+        if (Physics.Raycast(myT.position - myT.up * 1.25f, myT.up, out RaycastHit hit, 2, groundMask) && speed > 10)
         {
             if (hit.collider.gameObject.layer == 3) return;
             Vector3 groundUp = hit.normal;
@@ -98,6 +113,7 @@ public class Pole : XRBaseInteractable
 
     IEnumerator CalculateVelocity()
     {
+        //Calculate pole velocity for push mechanics
         while (true)
         {
             if (isSelected && Skier.attachedSkis > 0)
