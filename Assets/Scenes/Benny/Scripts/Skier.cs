@@ -64,6 +64,10 @@ public class Skier : MonoBehaviour
     [SerializeField] GameObject devSim;
     public static Rigidbody rb;
     public static Transform myT;
+    UnityEngine.XR.InputDevice rightDevice;
+    UnityEngine.XR.InputDevice leftDevice;
+    bool rightHaptics;
+    bool leftHaptics;
 
     void Awake()
     {
@@ -85,6 +89,12 @@ public class Skier : MonoBehaviour
     void Start()
     {
         camOffset.localPosition = new Vector3(0, 1.7f, 0);
+        rightDevice = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
+        if (rightDevice.isValid && rightDevice.TryGetHapticCapabilities(out HapticCapabilities capabilities) && capabilities.supportsImpulse) rightHaptics = true;
+        else rightHaptics = false;
+        leftDevice = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
+        if (leftDevice.isValid && leftDevice.TryGetHapticCapabilities(out capabilities) && capabilities.supportsImpulse) leftHaptics = true;
+        else leftHaptics = false;
     }
 
     void OnEnable()
@@ -143,7 +153,7 @@ public class Skier : MonoBehaviour
         if (attachedSkis == 0)
         {
             Quaternion targetRotation = myT.rotation * Quaternion.Euler(new Vector3(0, turnAction.ReadValue<Vector2>().x, 0));
-            myT.rotation = Quaternion.Slerp(myT.rotation, targetRotation, Mathf.Clamp01(Time.fixedDeltaTime) * normalTurnForce * Time.deltaTime);
+            myT.rotation = Quaternion.Slerp(myT.rotation, targetRotation, Mathf.Clamp01(normalTurnForce * Time.deltaTime));
         }
     }
 
@@ -201,7 +211,12 @@ public class Skier : MonoBehaviour
             rb.drag = Mathf.Lerp(rb.drag, targetDrag, perpDeceleration);
 
             //Is on ground
-            isGrounded = true;
+            if (!isGrounded)
+            {
+                isGrounded = true;
+                if (rightHaptics) rightDevice.SendHapticImpulse(0, 1, 0.25f);
+                if (leftHaptics) leftDevice.SendHapticImpulse(0, 1, 0.25f);
+            }
             rb.AddTorque(skiParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)) * (groundTurnForce + crouchSpeedIncrease), ForceMode.Acceleration);
             rb.AddForce(skiParent.TransformDirection(new Vector3(moveInput.x * (xMoveForce + crouchSpeedIncrease), 0, moveInput.y * (zMoveForce + crouchSpeedIncrease))), ForceMode.Acceleration);
             if (jump)
@@ -224,7 +239,7 @@ public class Skier : MonoBehaviour
         else
         {
             //Is in air
-            isGrounded = false;
+            if (isGrounded) isGrounded = false;
             rb.drag = minDrag;
             rb.AddTorque(skiParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)) * airTurnForce, ForceMode.Acceleration);
             rb.AddForce(skiParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y) * airMoveForce), ForceMode.Acceleration);
@@ -238,11 +253,12 @@ public class Skier : MonoBehaviour
     {
         if (collision.gameObject.layer != 9) return;
         colliding = true;
-        /*collisionNormal = collision.GetContact(0).normal;
-        UnityEngine.XR.InputDevice device = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
-        if (device.isValid && device.TryGetHapticCapabilities(out HapticCapabilities capabilities) && capabilities.supportsImpulse) device.SendHapticImpulse(0, 1, 0.25f);
-        device = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
-        if (device.isValid && device.TryGetHapticCapabilities(out capabilities) && capabilities.supportsImpulse) device.SendHapticImpulse(0, 1, 0.25f);*/
+        //collisionNormal = collision.GetContact(0).normal;
+        if (!isGrounded)
+        {
+            if (rightHaptics) rightDevice.SendHapticImpulse(0, 1, 0.25f);
+            if (leftHaptics) leftDevice.SendHapticImpulse(0, 1, 0.25f);
+        }
     }
     void OnCollisionStay(Collision collision)
     {
