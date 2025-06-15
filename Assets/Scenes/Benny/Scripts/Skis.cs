@@ -6,7 +6,6 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class Skis : XRBaseInteractable
 {
     [SerializeField] float alignStrength;
-    [SerializeField] int maxAlignAngle;
     [SerializeField] LayerMask groundMask;
     [SerializeField] Transform skiParent;
     [SerializeField] Transform objectParent;
@@ -23,6 +22,8 @@ public class Skis : XRBaseInteractable
     SkiController leftSkiController;
     SkiController rightSkiController;
     SkiController skiController;
+    bool colliding;
+    Vector3 collisionNormal;
 
     protected override void Awake()
     {
@@ -41,12 +42,13 @@ public class Skis : XRBaseInteractable
         //Ski stabilization
         if (Physics.Raycast(myT.position + myT.up * 0.5f, -myT.up, out RaycastHit hit, 0.6f, groundMask))
         {
-            Vector3 groundUp = hit.normal;
-            if (Vector3.Angle(myT.up, groundUp) < maxAlignAngle)
-            {
-                Quaternion targetRotation = Quaternion.FromToRotation(myT.up, groundUp) * myT.rotation;
-                myT.rotation = Quaternion.Slerp(myT.rotation, targetRotation, Mathf.Clamp01(Time.deltaTime * alignStrength));
-            }
+            Quaternion targetRotation = Quaternion.FromToRotation(myT.up, hit.normal) * myT.rotation;
+            myT.rotation = Quaternion.Slerp(myT.rotation, targetRotation, Mathf.Clamp01(Time.deltaTime * alignStrength));
+        }
+        else if (colliding)
+        {
+            Quaternion targetRotation = Quaternion.FromToRotation(myT.up, collisionNormal) * myT.rotation;
+            myT.rotation = Quaternion.Slerp(myT.rotation, targetRotation, Mathf.Clamp01(Time.deltaTime * alignStrength));
         }
         else myT.localRotation = Quaternion.Slerp(myT.localRotation, Quaternion.identity, Mathf.Clamp01(Time.deltaTime * alignStrength));
     }
@@ -142,5 +144,25 @@ public class Skis : XRBaseInteractable
             else rb.AddRelativeForce(new Vector3(1, 0, Random.value) * Random.Range(minDeselectForce, maxDeselectForce), ForceMode.VelocityChange);
             rb.AddRelativeTorque(new Vector3(0, Random.value, 1).normalized * Random.Range(minDeselectForce, maxDeselectForce), ForceMode.VelocityChange);
         }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer != 9) return;
+        colliding = true;
+        collisionNormal = collision.GetContact(0).normal;
+    }
+
+    void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.layer != 9) return;
+        if (!colliding) colliding = true;
+        collisionNormal = collision.GetContact(0).normal;
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.layer != 9) return;
+        colliding = false;
     }
 }

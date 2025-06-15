@@ -1,8 +1,9 @@
-using Unity.Mathematics;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Inputs;
 
 public class Skier : MonoBehaviour
 {
@@ -11,18 +12,18 @@ public class Skier : MonoBehaviour
     [SerializeField] Transform camOffset;
     [SerializeField] Transform cam;
     [SerializeField] int alignStrength;
-    [SerializeField] int maxAlignAngle;
     float skiSpeed;
     [SerializeField] float skierDirectionWeight;
     [SerializeField] float minDrag;
     [SerializeField] int maxDrag;
+    [SerializeField] float perpDeceleration;
     [SerializeField] LayerMask groundMask;
     public static int attachedSkis;
     [SerializeField] SkiController rightController;
     [SerializeField] SkiController leftController;
 
     [Header("Movement")]
-    [SerializeField] int normalMoveForce;
+    [SerializeField] float normalMoveForce;
     [SerializeField] int xMoveForce;
     [SerializeField] int zMoveForce;
     [SerializeField] int airMoveForce;
@@ -47,6 +48,8 @@ public class Skier : MonoBehaviour
     [SerializeField] InputActionProperty jumpActionProperty;
     InputAction jumpAction;
     bool isGrounded = true;
+    bool colliding;
+    Vector3 collisionNormal;
     bool jump;
     [SerializeField] InputActionProperty leftFlipActionProperty;
     [SerializeField] InputActionProperty rightFlipActionProperty;
@@ -74,9 +77,14 @@ public class Skier : MonoBehaviour
         rightFlipAction = rightFlipActionProperty.action;
         resetAction = resetActionProperty.action;
         toggleController = toggleControllerProperty.action;
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         Instantiate(devSim);
-        #endif
+#endif
+    }
+
+    void Start()
+    {
+        camOffset.localPosition = new Vector3(0, 1.7f, 0);
     }
 
     void OnEnable()
@@ -92,7 +100,7 @@ public class Skier : MonoBehaviour
     void OnBeforeRender()
     {
         //Clamp camera position
-        cam.localPosition = new Vector3(0, cam.localPosition.y, 0);
+        cam.localPosition = Vector3.zero;
     }
 
     void Update()
@@ -102,13 +110,14 @@ public class Skier : MonoBehaviour
         {
             if (jumpAction.WasPressedThisFrame()) jump = true;
         }
-        else if (attachedSkis > 0)
+        else
         {
-            if (leftFlipAction.IsPressed()) leftFlip = true;
-            else if (leftFlipAction.WasReleasedThisFrame()) leftFlip = false;
-            if (rightFlipAction.IsPressed()) rightFlip = true;
-            else if (rightFlipAction.WasReleasedThisFrame()) rightFlip = false;
+            if (leftFlipAction.IsPressed() && attachedSkis > 0 && !colliding) leftFlip = true;
+            if (rightFlipAction.IsPressed() && attachedSkis > 0 && !colliding) rightFlip = true;
         }
+        if (leftFlipAction.WasReleasedThisFrame()) leftFlip = false;
+        if (rightFlipAction.WasReleasedThisFrame()) rightFlip = false;
+
         if (resetAction.WasPressedThisFrame()) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         if (toggleController.WasPressedThisFrame())
         {
@@ -129,6 +138,13 @@ public class Skier : MonoBehaviour
             if (height != 1.7f) height = Mathf.Lerp(height, 1.7f, Mathf.Clamp01(Time.deltaTime * crouchSpeed));
         }
         camOffset.localPosition = new Vector3(0, height, 0);
+
+        //No ski turning
+        if (attachedSkis == 0)
+        {
+            Quaternion targetRotation = myT.rotation * Quaternion.Euler(new Vector3(0, turnAction.ReadValue<Vector2>().x, 0));
+            myT.rotation = Quaternion.Slerp(myT.rotation, targetRotation, Mathf.Clamp01(Time.fixedDeltaTime) * normalTurnForce * Time.deltaTime);
+        }
     }
 
     void LateUpdate()
@@ -148,12 +164,10 @@ public class Skier : MonoBehaviour
         //No skis
         if (attachedSkis == 0)
         {
+            rb.AddForce(skiParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y) * normalMoveForce), ForceMode.VelocityChange);
             if (Physics.Raycast(myT.position + currentUp * 1.7f, -currentUp, 1.8f, groundMask))
             {
                 isGrounded = true;
-                Quaternion targetRotation = myT.rotation * Quaternion.Euler(new Vector3(0, turnInput.x, 0) * normalTurnForce);
-                myT.rotation = Quaternion.Slerp(myT.rotation, targetRotation, Mathf.Clamp01(Time.fixedDeltaTime));
-                rb.AddForce(skiParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y) * normalMoveForce), ForceMode.VelocityChange);
                 if (jump)
                 {
                     rb.AddForce(skiParent.up * normalJumpForce, ForceMode.VelocityChange);
@@ -162,7 +176,7 @@ public class Skier : MonoBehaviour
             }
             else
             {
-                isGrounded = false;
+                if (!colliding) isGrounded = false;
                 if (jump) jump = false;
             }
             if (rightFlip) rightFlip = false;
@@ -176,15 +190,15 @@ public class Skier : MonoBehaviour
             //Skier stabilization
             Vector3 groundUp = hit.normal;
             Vector3 rotationAxis = Vector3.Cross(currentUp, groundUp);
-            float angle = Vector3.Angle(currentUp, groundUp);
-            if (angle < maxAlignAngle) rb.AddTorque(rotationAxis.normalized * angle * alignStrength);
+            rb.AddTorque(rotationAxis.normalized * Vector3.Angle(currentUp, groundUp) * alignStrength);
 
             //Velocity control based on direction
             Vector3 downhill = Vector3.ProjectOnPlane(Vector3.down, groundUp).normalized;
             Vector3 skierDirection = Vector3.ProjectOnPlane(skiParent.forward, groundUp).normalized;
             float alignment = Vector3.Dot(downhill, skierDirection);
             rb.AddForce(Vector3.Slerp(downhill, skierDirection, Mathf.Clamp01(Mathf.Clamp01(alignment) * skierDirectionWeight)) * skiSpeed, ForceMode.Acceleration);
-            rb.drag = Mathf.Lerp(minDrag, maxDrag, 1 - Mathf.Clamp01(Mathf.Abs(alignment)));
+            float targetDrag = Mathf.Lerp(minDrag, maxDrag, 1 - Mathf.Clamp01(Mathf.Abs(alignment)));
+            rb.drag = Mathf.Lerp(rb.drag, targetDrag, perpDeceleration);
 
             //Is on ground
             isGrounded = true;
@@ -195,6 +209,20 @@ public class Skier : MonoBehaviour
                 rb.AddForce(skiParent.up * jumpForce, ForceMode.VelocityChange);
                 jump = false;
             }
+            if (rightFlip) rightFlip = false;
+            if (leftFlip) leftFlip = false;
+        }
+        else if (colliding)
+        {
+            //Skier stabilization
+            Vector3 groundUp = collisionNormal;
+            Vector3 rotationAxis = Vector3.Cross(currentUp, groundUp);
+            rb.AddTorque(rotationAxis.normalized * Vector3.Angle(currentUp, groundUp) * alignStrength);
+
+            //Is tilted on ground
+            rb.AddTorque(skiParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)) * (groundTurnForce + crouchSpeedIncrease), ForceMode.Acceleration);
+            rb.AddForce(skiParent.TransformDirection(new Vector3(moveInput.x * (xMoveForce + crouchSpeedIncrease), 0, moveInput.y * (zMoveForce + crouchSpeedIncrease))), ForceMode.Acceleration);
+            if (jump) jump = false;
             if (rightFlip) rightFlip = false;
             if (leftFlip) leftFlip = false;
         }
@@ -209,5 +237,28 @@ public class Skier : MonoBehaviour
             if (leftFlip) rb.AddTorque(skiParent.TransformDirection(Vector3.forward) * flipForce, ForceMode.Acceleration);
             if (rightFlip) rb.AddTorque(skiParent.TransformDirection(Vector3.back) * flipForce, ForceMode.Acceleration);
         }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer != 9) return;
+        colliding = true;
+        collisionNormal = collision.GetContact(0).normal;
+        UnityEngine.XR.InputDevice device = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
+        if (device.isValid && device.TryGetHapticCapabilities(out HapticCapabilities capabilities) && capabilities.supportsImpulse) device.SendHapticImpulse(0, 1, 0.25f);
+        device = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
+        if (device.isValid && device.TryGetHapticCapabilities(out capabilities) && capabilities.supportsImpulse) device.SendHapticImpulse(0, 1, 0.25f);
+    }
+    void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.layer != 9) return;
+        if (!colliding) colliding = true;
+        collisionNormal = collision.GetContact(0).normal;
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.layer != 9) return;
+        colliding = false;
     }
 }
