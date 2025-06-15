@@ -9256,7 +9256,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6713470029137982152, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
       propertyPath: m_StopLineAtFirstRaycastHit
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6713470029137982152, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
       propertyPath: m_OverrideInteractorLineLength
@@ -9272,7 +9272,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6817704503078235715, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
       propertyPath: m_StopLineAtFirstRaycastHit
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6817704503078235715, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
       propertyPath: m_OverrideInteractorLineLength
@@ -11689,7 +11689,6 @@ MonoBehaviour:
   camOffset: {fileID: 1879845518}
   cam: {fileID: 1731298975}
   alignStrength: 15
-  maxAlignAngle: 70
   skierDirectionWeight: 2
   minDrag: 0.1
   maxDrag: 5
@@ -11715,7 +11714,7 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 6972639530819350904, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  normalTurnForce: 90
+  normalTurnForce: 120
   groundTurnForce: 10
   airTurnForce: 15
   turnActionProperty:
