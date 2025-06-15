@@ -96,7 +96,6 @@ public class ActionsController : MonoBehaviour {
                     animationObj.Play(param["aniName"]);
 
                     // 先朝向目标转身
-                    Debug.Log($"target:{action.worldRotation}, this: {animatedObject.rotation}");
                     yield return StartCoroutine(RotateToRotation(action.worldRotation, turnSpeed));
 
                     //停止跑步动画
