@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -11,17 +12,20 @@ public class Skis : XRBaseInteractable
     [SerializeField] Transform objectParent;
     [SerializeField] Vector3 leftAttach;
     [SerializeField] Vector3 rightAttach;
-    [SerializeField] Transform leftController;
-    [SerializeField] Transform rightController;
-    [SerializeField] float minDeselectForce;
-    [SerializeField] float maxDeselectForce;
+    [SerializeField] float minReleaseForce;
+    [SerializeField] float maxReleaseForce;
     [SerializeField] Color skiColor;
+    [SerializeField] int attachSpeed;
     Transform myT;
     Rigidbody rb;
+    Collider col;
     bool selected;
-    SkiController leftSkiController;
-    SkiController rightSkiController;
+    public static SkiController leftSkiController;
+    public static SkiController rightSkiController;
+    Transform leftController;
+    Transform rightController;
     SkiController skiController;
+    Coroutine coroutine;
     //bool colliding;
     //Vector3 collisionNormal;
 
@@ -30,9 +34,15 @@ public class Skis : XRBaseInteractable
         base.Awake();
         myT = transform;
         rb = GetComponent<Rigidbody>();
-        leftSkiController = leftController.GetComponent<SkiController>();
-        rightSkiController = rightController.GetComponent<SkiController>();
-        myT.GetChild(0).GetComponent<Renderer>().material.color = skiColor;
+        Transform model = myT.GetChild(0);
+        col = model.GetComponent<Collider>();
+        model.GetComponent<Renderer>().material.color = skiColor;
+    }
+
+    void Start()
+    {
+        leftController = leftSkiController.transform;
+        rightController = rightSkiController.transform;
     }
 
     void Update()
@@ -51,6 +61,7 @@ public class Skis : XRBaseInteractable
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         //Which foot to put ski on
+        if (coroutine != null) StopCoroutine(coroutine);
         base.OnSelectEntered(args);
         Vector3 attach = Vector3.zero;
         if (myT.parent == objectParent)
@@ -75,6 +86,7 @@ public class Skis : XRBaseInteractable
                 {
                     interactionManager.SelectEnter(interactorObject, leftSkiController.attachedSki);
                     interactionManager.SelectExit(interactorObject, this);
+                    coroutine = null;
                     interactionManager.SelectEnter(interactorObject, this);
                     return;
                 }
@@ -97,15 +109,15 @@ public class Skis : XRBaseInteractable
                 {
                     interactionManager.SelectEnter(interactorObject, rightSkiController.attachedSki);
                     interactionManager.SelectExit(interactorObject, this);
+                    coroutine = null;
                     interactionManager.SelectEnter(interactorObject, this);
                     return;
                 }
             }
 
             //Grabbing mechanics
-            myT.parent = skiParent;
-            myT.SetLocalPositionAndRotation(attach, Quaternion.identity);
             if (rb != null) Destroy(rb);
+            myT.parent = skiParent;
             Skier.attachedSkis++;
             if (Skier.attachedSkis == 1)
             {
@@ -113,13 +125,17 @@ public class Skis : XRBaseInteractable
                 Skier.rb.freezeRotation = false;
                 Skier.rb.drag = 0.1f;
             }
+            col.enabled = false;
+            coroutine = StartCoroutine(Selected(attach, Quaternion.identity));
             interactionManager.SelectExit(interactorObject, this);
             selected = true;
         }
         else
         {
             //Releasing mechanics
+            if (coroutine != null) StopCoroutine(coroutine);
             selected = false;
+            col.enabled = true;
             skiController.attachedSki = null;
             Skier.attachedSkis--;
             if (Skier.attachedSkis == 0)
@@ -135,10 +151,28 @@ public class Skis : XRBaseInteractable
             rb.drag = rb.angularDrag = 1;
             rb.interpolation = RigidbodyInterpolation.Interpolate;
             rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
-            if (skiController == leftSkiController) rb.AddRelativeForce(new Vector3(-1, 0, Random.value) * Random.Range(minDeselectForce, maxDeselectForce), ForceMode.VelocityChange);
-            else rb.AddRelativeForce(new Vector3(1, 0, Random.value) * Random.Range(minDeselectForce, maxDeselectForce), ForceMode.VelocityChange);
-            rb.AddRelativeTorque(new Vector3(0, Random.value, 1).normalized * Random.Range(minDeselectForce, maxDeselectForce), ForceMode.VelocityChange);
+            if (skiController == leftSkiController) rb.AddRelativeForce(new Vector3(-1, 0, Random.Range(-1f, 1f)) * Random.Range(minReleaseForce, maxReleaseForce), ForceMode.VelocityChange);
+            else rb.AddRelativeForce(new Vector3(1, 0, Random.Range(-1f, 1f)) * Random.Range(minReleaseForce, maxReleaseForce), ForceMode.VelocityChange);
+            rb.AddRelativeTorque(new Vector3(0, Random.Range(-1f, 1f), 0) * Random.Range(minReleaseForce, maxReleaseForce), ForceMode.VelocityChange);
+            coroutine = null;
         }
+    }
+
+    IEnumerator Selected(Vector3 targetPos, Quaternion targetRot)
+    {
+        //Force grab
+        Vector3 pos = myT.localPosition;
+        Quaternion rot = myT.localRotation;
+        while (!Skier.EqualVectors(pos, targetPos) || !Skier.EqualVectors(rot.eulerAngles, targetRot.eulerAngles))
+        {
+            pos = Vector3.Lerp(pos, targetPos, Time.deltaTime * attachSpeed);
+            rot = Quaternion.Slerp(rot, targetRot, Time.deltaTime * attachSpeed);
+            myT.SetLocalPositionAndRotation(pos, rot);
+            yield return null;
+        }
+        myT.SetLocalPositionAndRotation(targetPos, targetRot);
+        col.enabled = true;
+        coroutine = null;
     }
 
     /*void OnCollisionEnter(Collision collision)

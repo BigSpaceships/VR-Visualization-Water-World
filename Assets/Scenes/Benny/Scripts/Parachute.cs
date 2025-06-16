@@ -1,6 +1,7 @@
-using System;
+
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class Parachute : XRBaseInteractable
@@ -8,91 +9,124 @@ public class Parachute : XRBaseInteractable
     [Header("Custom Fields")]
     [SerializeField] Transform selectedParent;
     [SerializeField] int attachSpeed;
-    [SerializeField] XRInteractorLineVisual leftRay;
-    [SerializeField] XRInteractorLineVisual rightRay;
-    [SerializeField] SkiController leftSkiController;
-    [SerializeField] SkiController rightSkiController;
+    [SerializeField] XRRayInteractor leftRay;
+    [SerializeField] XRRayInteractor rightRay;
+    [SerializeField] XRInteractorLineVisual leftRayVisual;
+    [SerializeField] XRInteractorLineVisual rightRayVisual;
+    [SerializeField] LayerMask colExclude;
+    [SerializeField] InteractionLayerMask grabLayer;
+    [SerializeField] InteractionLayerMask parachuteLayer;
+    [SerializeField] float minReleaseForce;
+    [SerializeField] float maxReleaseForce;
+    [SerializeField] InputActionProperty leftGripProperty;
+    [SerializeField] InputActionProperty rightGripProperty;
+    public static SkiController leftSkiController;
+    public static SkiController rightSkiController;
+    SkiController skiController;
+    IXRSelectInteractor selectInteractor;
+    InputAction leftGrip;
+    InputAction rightGrip;
     Collider[] cols;
+    int colCount;
     Transform myT;
     Rigidbody rb;
     Animator animator;
-    bool selecting;
+    Coroutine coroutine;
 
     protected override void Awake()
     {
         base.Awake();
         myT = transform;
-        Transform parachute = myT.GetChild(0);
-        Transform offset = parachute.GetChild(0);
-        cols = new Collider[] { offset.GetChild(0).GetChild(0).GetComponent<Collider>(), offset.GetChild(1).GetComponent<Collider>() };
+        cols = GetComponentsInChildren<Collider>();
+        colCount = cols.Length;
         rb = GetComponent<Rigidbody>();
-        animator = parachute.GetComponent<Animator>();
+        animator = myT.GetChild(0).GetComponent<Animator>();
+        leftGrip = leftGripProperty.action;
+        rightGrip = rightGripProperty.action;
+    }
+
+    void Update()
+    {
+        //Both controllers can release parachute
+        if (!isSelected) return;
+        if (skiController == leftSkiController && rightGrip.WasPressedThisFrame()) interactionManager.SelectExit(selectInteractor, this);
+        else if (skiController == rightSkiController && leftGrip.WasPressedThisFrame()) interactionManager.SelectExit(selectInteractor, this);
     }
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
-        if (selecting) return;
-        selecting = true;
+        //Selected parachute
         base.OnSelectEntered(args);
+        if (coroutine != null) StopCoroutine(coroutine);
         Pole pole = leftSkiController.attachedPole;
         if (pole != null) interactionManager.SelectExit(pole.selectInteractor, pole);
         pole = rightSkiController.attachedPole;
         if (pole != null) interactionManager.SelectExit(pole.selectInteractor, pole);
-        StartCoroutine(Selected(new Vector3(0, 1.6f, 0.25f), Quaternion.Euler(0, -90, 0)));
+        rb.isKinematic = true;
+        rb.interpolation = RigidbodyInterpolation.None;
+        for (int i = 0; i < colCount; i++)
+        {
+            Collider col = cols[i];
+            col.enabled = false;
+            col.excludeLayers = colExclude;
+        }
+        leftRayVisual.enabled = rightRayVisual.enabled = false;
+        leftRay.interactionLayers = rightRay.interactionLayers = parachuteLayer;
+        selectInteractor = args.interactorObject;
+        skiController = selectInteractor.transform.parent.GetComponent<SkiController>();
+        myT.parent = selectedParent;
+        animator.SetTrigger("Unfurl");
+        Skier.paragliding = Rope.paragliding = true;
+        coroutine = StartCoroutine(Selected(new Vector3(0, 1.6f, 0.25f), Quaternion.Euler(0, -90, 0)));
     }
 
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
-        if (selecting) return;
-        selecting = true;
+        //Released parachute
         base.OnSelectExited(args);
-        StartCoroutine(Deselected(new Vector3(0, 0.2f, 2)));
+        if (coroutine != null) StopCoroutine(coroutine);
+        Skier.paragliding = Rope.paragliding = false;
+        myT.parent = null;
+        rb.isKinematic = false;
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        animator.SetTrigger("Close");
+        rb.AddRelativeForce(new Vector3(1, 0, Random.Range(-1f, 1f)) * Random.Range(minReleaseForce, maxReleaseForce), ForceMode.VelocityChange);
+        rb.AddRelativeTorque(new Vector3(0, Random.Range(-1f, 1f), 0) * Random.Range(minReleaseForce, maxReleaseForce), ForceMode.VelocityChange);
+        for (int i = 0; i < colCount; i++)
+        {
+            Collider col = cols[i];
+            col.enabled = true;
+            col.excludeLayers = 0;
+        }
+        leftRayVisual.enabled = rightRayVisual.enabled = true;
+        leftRay.interactionLayers = rightRay.interactionLayers = grabLayer;
+        leftSkiController.Animate("Deselect");
+        rightSkiController.Animate("Deselect");
+        coroutine = StartCoroutine(Deselected());
     }
 
     IEnumerator Selected(Vector3 targetPos, Quaternion targetRot)
     {
-        rb.isKinematic = true;
-        rb.interpolation = RigidbodyInterpolation.None;
-        for (int i = 0; i < 2; i++) cols[i].enabled = false;
-        leftRay.enabled = rightRay.enabled = false;
-        myT.parent = selectedParent;
-        animator.SetTrigger("Unfurl");
+        //Force grab
         Vector3 pos = myT.localPosition;
         Quaternion rot = myT.localRotation;
-        while (!EqualVectors(pos, targetPos) || !EqualVectors(rot.eulerAngles, targetRot.eulerAngles))
+        while (!Skier.EqualVectors(pos, targetPos) || !Skier.EqualVectors(rot.eulerAngles, targetRot.eulerAngles))
         {
-            myT.localPosition = pos = Vector3.Lerp(pos, targetPos, Time.deltaTime * attachSpeed);
-            myT.localRotation = rot = Quaternion.Slerp(rot, targetRot, Time.deltaTime * attachSpeed);
+            pos = Vector3.Lerp(pos, targetPos, Time.deltaTime * attachSpeed);
+            rot = Quaternion.Slerp(rot, targetRot, Time.deltaTime * attachSpeed);
+            myT.SetLocalPositionAndRotation(pos, rot);
             yield return null;
         }
-        myT.localPosition = targetPos;
-        myT.localRotation = targetRot;
-        Skier.paragliding = true;
-        selecting = false;
-    }
-    IEnumerator Deselected(Vector3 targetPos)
-    {
-        Skier.paragliding = false;
-        animator.SetTrigger("Close");
-        Vector3 pos = myT.localPosition;
-        while (!EqualVectors(pos, targetPos))
-        {
-            myT.localPosition = pos = Vector3.Lerp(pos, targetPos, Time.deltaTime * attachSpeed);
-            yield return null;
-        }
-        myT.localPosition = targetPos;
-        myT.parent = null;
+        myT.SetLocalPositionAndRotation(targetPos, targetRot);
         while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1) yield return null;
-        for (int i = 0; i < 2; i++) cols[i].enabled = true;
-        rb.isKinematic = false;
-        rb.interpolation = RigidbodyInterpolation.Interpolate;
-        leftRay.enabled = rightRay.enabled = true;
-        selecting = false;
+        for (int i = 0; i < colCount; i++) cols[i].enabled = true;
+        coroutine = null;
     }
 
-    bool EqualVectors(Vector3 vector, Vector3 target, float threshold = 0.1f)
+    IEnumerator Deselected()
     {
-        if (Mathf.Abs(vector.x - target.x) < threshold && Mathf.Abs(vector.y - target.y) < threshold && Mathf.Abs(vector.z - target.z) < threshold) return true;
-        return false;
+        //Rapid grab queue handling
+        while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1) yield return null;
+        coroutine = null;
     }
 }

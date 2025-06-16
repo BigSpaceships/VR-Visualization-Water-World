@@ -17,8 +17,9 @@ public class Skier : MonoBehaviour
     [SerializeField] float perpDeceleration;
     [SerializeField] LayerMask groundMask;
     public static int attachedSkis;
-    [SerializeField] SkiController rightController;
     [SerializeField] SkiController leftController;
+    [SerializeField] SkiController rightController;
+    [SerializeField] bool hands = true;
 
     [Header("Movement")]
     [SerializeField] float normalMoveForce;
@@ -69,6 +70,10 @@ public class Skier : MonoBehaviour
 
     [Header("Paraglider")]
     public static bool paragliding;
+    [SerializeField] Transform leftHandRopeTarget;
+    [SerializeField] Transform rightHandRopeTarget;
+    [SerializeField] Transform leftControllerRopeTarget;
+    [SerializeField] Transform rightControllerRopeTarget;
 
     void Awake()
     {
@@ -83,8 +88,30 @@ public class Skier : MonoBehaviour
         rightFlipAction = rightFlipActionProperty.action;
         resetAction = resetActionProperty.action;
         toggleController = toggleControllerProperty.action;
+        Skis.rightSkiController = Pole.rightSkiController = Parachute.rightSkiController = Rope.rightController = rightController;
+        Skis.leftSkiController = Pole.leftSkiController = Parachute.leftSkiController = Rope.leftController = leftController;
+
+        if (hands)
+        {
+            Rope.leftTarget = leftHandRopeTarget;
+            Rope.rightTarget = rightHandRopeTarget;
+            Pole.leftAttach = new Vector3(-0.035f, -1.28f, -0.03f);
+            Pole.rightAttach = new Vector3(0.035f, -1.28f, -0.03f);
+            leftController.SwitchController(true);
+            rightController.SwitchController(true);
+        }
+        else
+        {
+            Rope.leftTarget = leftControllerRopeTarget;
+            Rope.rightTarget = rightControllerRopeTarget;
+            Pole.leftAttach = new Vector3(0, -1.3f, 0.05f);
+            Pole.rightAttach = new Vector3(0, -1.3f, 0.05f);
+            leftController.SwitchController(false);
+            rightController.SwitchController(false);
+        }
+
 #if UNITY_EDITOR
-        Instantiate(devSim);
+            Instantiate(devSim);
 #endif
     }
 
@@ -118,14 +145,14 @@ public class Skier : MonoBehaviour
     void Update()
     {
         //Input detection
-        if (isGrounded)
+        if (isGrounded && !colliding)
         {
             if (jumpAction.WasPressedThisFrame()) jump = true;
         }
         else
         {
-            if (leftFlipAction.IsPressed() && attachedSkis > 0 && !colliding) leftFlip = true;
-            if (rightFlipAction.IsPressed() && attachedSkis > 0 && !colliding) rightFlip = true;
+            if (leftFlipAction.IsPressed() && attachedSkis > 0) leftFlip = true;
+            if (rightFlipAction.IsPressed() && attachedSkis > 0) rightFlip = true;
         }
         if (leftFlipAction.WasReleasedThisFrame()) leftFlip = false;
         if (rightFlipAction.WasReleasedThisFrame()) rightFlip = false;
@@ -133,8 +160,24 @@ public class Skier : MonoBehaviour
         if (resetAction.WasPressedThisFrame()) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         if (toggleController.WasPressedThisFrame())
         {
-            rightController.SwitchController();
-            leftController.SwitchController();
+            hands = !hands;
+            if (hands)
+            {
+                Rope.leftTarget = leftHandRopeTarget;
+                Rope.rightTarget = rightHandRopeTarget;
+                leftController.SwitchController(true);
+                rightController.SwitchController(true);
+                Pole.rightAttach = new Vector3(0.035f, -1.28f, -0.03f);
+                Pole.leftAttach = new Vector3(-0.035f, -1.28f, -0.03f);
+            }
+            else
+            {
+                Rope.leftTarget = leftControllerRopeTarget;
+                Rope.rightTarget = rightControllerRopeTarget;
+                leftController.SwitchController(false);
+                rightController.SwitchController(false);
+                Pole.rightAttach = Pole.leftAttach = new Vector3(0, -1.3f, 0.05f);
+            }
         }
         if (paragliding) return;
 
@@ -155,8 +198,8 @@ public class Skier : MonoBehaviour
         //No ski turning
         if (attachedSkis == 0)
         {
-            Quaternion targetRotation = myT.rotation * Quaternion.Euler(new Vector3(0, turnAction.ReadValue<Vector2>().x, 0));
-            myT.rotation = Quaternion.Slerp(myT.rotation, targetRotation, normalTurnForce * Time.deltaTime);
+            Quaternion targetRotation = myT.rotation * Quaternion.Euler(new Vector3(0, turnAction.ReadValue<Vector2>().x * normalTurnForce, 0));
+            myT.rotation = Quaternion.Slerp(myT.rotation, targetRotation, Time.deltaTime);
         }
     }
 
@@ -169,12 +212,16 @@ public class Skier : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (paragliding) return;
-
         //Movement input
         Vector2 turnInput = turnAction.ReadValue<Vector2>();
         Vector2 moveInput = moveAction.ReadValue<Vector2>();
         Vector3 currentUp = myT.up;
+
+        //Paragliding mechanics
+        if (paragliding)
+        {
+            return;
+        }
 
         //No skis
         if (attachedSkis == 0)
@@ -196,7 +243,12 @@ public class Skier : MonoBehaviour
             }
             else
             {
-                if (!colliding) isGrounded = false;
+                if (colliding && !isGrounded)
+                {
+                    isGrounded = true;
+                    if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                    if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                }
                 if (jump) jump = false;
             }
             if (rightFlip) rightFlip = false;
@@ -242,6 +294,12 @@ public class Skier : MonoBehaviour
             //Is tilted on ground
             rb.AddTorque(interactableParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)) * (groundTurnForce + crouchSpeedIncrease), ForceMode.Acceleration);
             rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x * (xMoveForce + crouchSpeedIncrease), 0, moveInput.y * (zMoveForce + crouchSpeedIncrease))), ForceMode.Acceleration);
+            if (!isGrounded)
+            {
+                isGrounded = true;
+                if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+            }
             if (jump) jump = false;
             if (rightFlip) rightFlip = false;
             if (leftFlip) leftFlip = false;
@@ -281,5 +339,11 @@ public class Skier : MonoBehaviour
     {
         if (collision.gameObject.layer != 9) return;
         colliding = false;
+    }
+
+    public static bool EqualVectors(Vector3 vector, Vector3 target, float threshold = 0.1f)
+    {
+        if (Mathf.Abs(vector.x - target.x) < threshold && Mathf.Abs(vector.y - target.y) < threshold && Mathf.Abs(vector.z - target.z) < threshold) return true;
+        return false;
     }
 }
