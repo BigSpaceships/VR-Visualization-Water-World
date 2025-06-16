@@ -34,18 +34,21 @@ MonoBehaviour:
       m_Keys:
       - 76a39ea57f89045bd99ee14d8a2b06e9
       - b53546c51c43caf478efd70750974649
+      - 8131007796b92d141b90107410321213
       - 9f6ab1cc96a6c7d4f83c97a2fba3bbc1
       - 56e171620d978d84db751b3efbf7cf68
       - b284d3e90017cbf428c4ab539e01f4e6
       m_Values:
       - {fileID: 11400000, guid: 4debaed24202d4ae4862d0bb116b8c83, type: 2}
       - {fileID: 11400000, guid: 1c7b5bed545758b4782904683152b00e, type: 2}
+      - {fileID: 11400000, guid: be7527df2fe95f84bad1176bb7ff7591, type: 2}
       - {fileID: 11400000, guid: 3ebcb5dd85d15cb45a15f9df62dfeb85, type: 2}
       - {fileID: 11400000, guid: 8776f2f00963afd4d83e5fafe026258d, type: 2}
       - {fileID: 11400000, guid: 678974d17b4016544bfb41f9369f9c9d, type: 2}
     bakingSets:
     - {fileID: 11400000, guid: 4debaed24202d4ae4862d0bb116b8c83, type: 2}
     - {fileID: 11400000, guid: 1c7b5bed545758b4782904683152b00e, type: 2}
+    - {fileID: 11400000, guid: be7527df2fe95f84bad1176bb7ff7591, type: 2}
     - {fileID: 11400000, guid: 3ebcb5dd85d15cb45a15f9df62dfeb85, type: 2}
     - {fileID: 11400000, guid: 8776f2f00963afd4d83e5fafe026258d, type: 2}
     - {fileID: 11400000, guid: 678974d17b4016544bfb41f9369f9c9d, type: 2}
@@ -56,6 +59,7 @@ MonoBehaviour:
       - b284d3e90017cbf428c4ab539e01f4e6
       - fc3be25818423e74292096544a3a3314
       - b53546c51c43caf478efd70750974649
+      - 8131007796b92d141b90107410321213
       m_Values:
       - m_Center: {x: 0, y: 0, z: 0}
         m_Extent: {x: 81, y: 81, z: 81}
@@ -67,6 +71,8 @@ MonoBehaviour:
         m_Extent: {x: 81, y: 81, z: 81}
       - m_Center: {x: 202.5, y: 0, z: 0}
         m_Extent: {x: 202.5, y: 81, z: 324}
+      - m_Center: {x: NaN, y: NaN, z: NaN}
+        m_Extent: {x: NaN, y: NaN, z: NaN}
     hasProbeVolumes:
       m_Keys:
       - 56e171620d978d84db751b3efbf7cf68
@@ -75,7 +81,8 @@ MonoBehaviour:
       - 76a39ea57f89045bd99ee14d8a2b06e9
       - fc3be25818423e74292096544a3a3314
       - b53546c51c43caf478efd70750974649
-      m_Values: 000101000101
+      - 8131007796b92d141b90107410321213
+      m_Values: 00010100010101
   m_ShaderStrippingSetting:
     m_Version: 0
     m_ExportShaderVariants: 1
