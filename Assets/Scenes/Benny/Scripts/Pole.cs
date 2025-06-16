@@ -1,14 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Data.SqlTypes;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class Pole : XRBaseInteractable
 {
+    [Header("Custom Fields")]
     [SerializeField] Transform objectParent;
     [SerializeField] Transform skiParent;
     [SerializeField] Rigidbody skier;
@@ -20,13 +16,13 @@ public class Pole : XRBaseInteractable
     [SerializeField] LayerMask groundMask;
     public static Vector3 rightAttach;
     public static Vector3 leftAttach;
+    public IXRSelectInteractor selectInteractor;
     SkiController rightSkiController;
     SkiController leftSkiController;
     SkiController skiController;
     Transform myT;
     Rigidbody rb;
     Collider[] cols;
-    int colliderCount;
     Vector3 lastPos;
     Vector3 vel;
     float speed;
@@ -36,9 +32,8 @@ public class Pole : XRBaseInteractable
     {
         base.Awake();
         rb = GetComponent<Rigidbody>();
-        cols = GetComponentsInChildren<Collider>();
-        colliderCount = cols.Length;
         myT = transform;
+        cols = new Collider[] {myT.GetChild(0).GetComponent<Collider>(), myT.GetChild(1).GetComponent<Collider>(), myT.GetChild(2).GetComponent<Collider>()};
         rightSkiController = rightController.GetComponent<SkiController>();
         leftSkiController = leftController.GetComponent<SkiController>();
         myT.GetChild(1).GetComponent<Renderer>().material.color = poleColor;
@@ -56,21 +51,24 @@ public class Pole : XRBaseInteractable
         base.OnSelectEntered(args);
         rb.isKinematic = true;
         rb.interpolation = RigidbodyInterpolation.None;
-        for (int i = 0; i < colliderCount; i++) cols[i].enabled = false;
-        if (args.interactorObject.transform.parent == rightController)
+        for (int i = 0; i < 3; i++) cols[i].enabled = false;
+        selectInteractor = args.interactorObject;
+        Transform interactorObject = selectInteractor.transform;
+        Transform interactor = interactorObject.parent;
+        if (interactor == rightController)
         {
             myT.parent = rightController;
             myT.SetLocalPositionAndRotation(rightAttach, new Quaternion(0, 0, -1, 0));
             skiController = rightSkiController;
         }
-        else if (args.interactorObject.transform.parent == leftController)
+        else if (interactor == leftController)
         {
             myT.parent = leftController;
             myT.SetLocalPositionAndRotation(leftAttach, new Quaternion(0, 0, -1, 0));
             skiController = leftSkiController;
         }
         skiController.attachedPole = this;
-        XRInteractorLineVisual ray = args.interactorObject.transform.GetComponent<XRInteractorLineVisual>();
+        XRInteractorLineVisual ray = interactorObject.GetComponent<XRInteractorLineVisual>();
         if (ray != null) ray.enabled = false;
         skiController.Animate("Select");
     }
@@ -81,7 +79,8 @@ public class Pole : XRBaseInteractable
         base.OnSelectExited(args);
         rb.isKinematic = false;
         rb.interpolation = RigidbodyInterpolation.Interpolate;
-        for (int i = 0; i < colliderCount; i++) cols[i].enabled = true;
+        for (int i = 0; i < 3; i++) cols[i].enabled = true;
+        selectInteractor = null;
         myT.parent = objectParent;
         skiController.attachedPole = null;
         XRInteractorLineVisual ray = args.interactorObject.transform.GetComponent<XRInteractorLineVisual>();

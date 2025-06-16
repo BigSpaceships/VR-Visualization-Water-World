@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class SkiController : ActionBasedController
 {
+    [Header("Custom Fields")]
     [SerializeField] Transform controllerModel;
     [SerializeField] Transform handModel;
     [SerializeField] bool hands;
@@ -21,7 +20,6 @@ public class SkiController : ActionBasedController
         pos.z = Mathf.Clamp(pos.z, -0.4f, 0.4f);
         myT.localPosition = pos;
     }*/
-    
 
     protected override void Awake()
     {

@@ -1,10 +1,10 @@
-using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class Skis : XRBaseInteractable
 {
+    [Header("Custom Fields")]
     [SerializeField] float alignStrength;
     [SerializeField] LayerMask groundMask;
     [SerializeField] Transform skiParent;
@@ -113,7 +113,7 @@ public class Skis : XRBaseInteractable
                 Skier.rb.freezeRotation = false;
                 Skier.rb.drag = 0.1f;
             }
-            interactionManager.SelectExit(args.interactorObject, this);
+            interactionManager.SelectExit(interactorObject, this);
             selected = true;
         }
         else
