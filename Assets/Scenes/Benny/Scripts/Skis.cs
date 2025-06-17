@@ -156,7 +156,7 @@ public class Skis : XRBaseInteractable
     {
         //Force grab
         myT.GetLocalPositionAndRotation(out Vector3 pos, out Quaternion rot);
-        while (!Skier.EqualVectors(pos, targetPos) || !Skier.EqualVectors(rot.eulerAngles, targetRot.eulerAngles))
+        while (!Manager.EqualVectors(pos, targetPos) || !Manager.EqualVectors(rot.eulerAngles, targetRot.eulerAngles))
         {
             pos = Vector3.Lerp(pos, targetPos, Time.deltaTime * attachSpeed);
             rot = Quaternion.Slerp(rot, targetRot, Time.deltaTime * attachSpeed);

@@ -8,6 +8,7 @@ public class Parachute : XRBaseInteractable
 {
     [Header("Custom Fields")]
     [SerializeField] Transform selectedParent;
+    [SerializeField] Transform objectParent;
     [SerializeField] int attachSpeed;
     [SerializeField] XRRayInteractor leftRay;
     [SerializeField] XRRayInteractor rightRay;
@@ -20,6 +21,7 @@ public class Parachute : XRBaseInteractable
     [SerializeField] float maxReleaseForce;
     [SerializeField] InputActionProperty leftGripProperty;
     [SerializeField] InputActionProperty rightGripProperty;
+    [SerializeField] Color parachuteColor;
     public static SkiController leftSkiController;
     public static SkiController rightSkiController;
     SkiController skiController;
@@ -27,6 +29,7 @@ public class Parachute : XRBaseInteractable
     InputAction leftGrip;
     InputAction rightGrip;
     Collider[] cols;
+    Rope[] ropes;
     int colCount;
     Transform myT;
     Rigidbody rb;
@@ -40,7 +43,12 @@ public class Parachute : XRBaseInteractable
         cols = GetComponentsInChildren<Collider>();
         colCount = cols.Length;
         rb = GetComponent<Rigidbody>();
-        animator = myT.GetChild(0).GetComponent<Animator>();
+        Transform model = myT.GetChild(0);
+        animator = model.GetComponent<Animator>();
+        Transform offset = model.GetChild(0);
+        offset.GetChild(0).GetComponent<Renderer>().material.color = parachuteColor;
+        ropes = new Rope[34];
+        for (int i = 0; i < 34; i++) ropes[i] = offset.GetChild(i + 1).GetComponent<Rope>();
         leftGrip = leftGripProperty.action;
         rightGrip = rightGripProperty.action;
     }
@@ -76,7 +84,9 @@ public class Parachute : XRBaseInteractable
         skiController = selectInteractor.transform.parent.GetComponent<SkiController>();
         myT.parent = selectedParent;
         animator.SetTrigger("Unfurl");
-        Skier.paragliding = Rope.paragliding = true;
+        Skier.paragliding = true;
+        Skier.parachute = myT;
+        for (int i = 0; i < 34; i++) ropes[i].paragliding = true;
         coroutine = StartCoroutine(Selected(new Vector3(0, 1.7f, 0.5f), Quaternion.Euler(0, -90, 0)));
     }
 
@@ -85,8 +95,9 @@ public class Parachute : XRBaseInteractable
         //Released parachute
         base.OnSelectExited(args);
         if (coroutine != null) StopCoroutine(coroutine);
-        Skier.paragliding = Rope.paragliding = false;
-        myT.parent = null;
+        Skier.paragliding = false;
+        for (int i = 0; i < 34; i++) ropes[i].paragliding = false;
+        myT.parent = objectParent;
         rb.isKinematic = false;
         rb.interpolation = RigidbodyInterpolation.Interpolate;
         animator.SetTrigger("Close");
@@ -109,7 +120,7 @@ public class Parachute : XRBaseInteractable
     {
         //Force grab
         myT.GetLocalPositionAndRotation(out Vector3 pos, out Quaternion rot);
-        while (!Skier.EqualVectors(pos, targetPos) || !Skier.EqualVectors(rot.eulerAngles, targetRot.eulerAngles))
+        while (!Manager.EqualVectors(pos, targetPos) || !Manager.EqualVectors(rot.eulerAngles, targetRot.eulerAngles))
         {
             pos = Vector3.Lerp(pos, targetPos, Time.deltaTime * attachSpeed);
             rot = Quaternion.Slerp(rot, targetRot, Time.deltaTime * attachSpeed);

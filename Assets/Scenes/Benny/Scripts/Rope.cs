@@ -15,7 +15,7 @@ public class Rope : MonoBehaviour
     Vector3 releaseTarget;
     public static Transform leftTarget;
     public static Transform rightTarget;
-    public static bool paragliding;
+    public bool paragliding;
 
     void Awake()
     {
@@ -39,7 +39,7 @@ public class Rope : MonoBehaviour
                 attachProgress = 0;
                 releaseTarget = new Vector3(Random.Range(-maxReleaseRadius, maxReleaseRadius), 0, Random.Range(-maxReleaseRadius, maxReleaseRadius));
             }
-            if (!Skier.EqualVectors(releaseTarget, line.GetPosition(1), 0.01f))
+            if (!Manager.EqualVectors(releaseTarget, line.GetPosition(1), 0.01f))
             {
                 Vector3 pos = myT.position;
                 line.SetPositions(new Vector3[] { pos, Vector3.Lerp(line.GetPosition(1), pos + releaseTarget, attachSpeed * Time.deltaTime) });
