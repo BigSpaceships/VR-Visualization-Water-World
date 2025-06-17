@@ -349,6 +349,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
       value: 1
       objectReference: {fileID: 0}
@@ -376,6 +380,18 @@ PrefabInstance:
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: grabLayer.m_Bits
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: poleLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4480312145933639111, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Name
       value: Pole2 (6)
@@ -386,7 +402,7 @@ PrefabInstance:
       objectReference: {fileID: 1100302732}
     - target: {fileID: 6625184646934543083, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_VersionIndex
-      value: 3298
+      value: 3307
       objectReference: {fileID: 0}
     - target: {fileID: 9038746385494847567, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Mesh
@@ -696,7 +712,7 @@ PrefabInstance:
       objectReference: {fileID: 782548711}
     - target: {fileID: 4465898669497631857, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_VersionIndex
-      value: 1789
+      value: 1798
       objectReference: {fileID: 0}
     - target: {fileID: 5283859318543416812, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attach.x
@@ -735,6 +751,10 @@ PrefabInstance:
       value: 0.56078434
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
       value: -0.14
       objectReference: {fileID: 0}
@@ -755,6 +775,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 939649882}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: maxReleaseForce
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: minReleaseForce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
@@ -764,11 +792,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8752453215184711597, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_Name
@@ -889,6 +921,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
       value: 1
       objectReference: {fileID: 0}
@@ -916,6 +952,18 @@ PrefabInstance:
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: grabLayer.m_Bits
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: poleLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4480312145933639111, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Name
       value: Pole2 (1)
@@ -926,7 +974,7 @@ PrefabInstance:
       objectReference: {fileID: 1011444441}
     - target: {fileID: 6625184646934543083, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_VersionIndex
-      value: 3298
+      value: 3307
       objectReference: {fileID: 0}
     - target: {fileID: 9038746385494847567, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Mesh
@@ -1036,7 +1084,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3475118261464492563, guid: 9f3369e30fbd31f4bb596b1a99babe83, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1603194258}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f3369e30fbd31f4bb596b1a99babe83, type: 3}
 --- !u!4 &163543302 stripped
@@ -1106,7 +1157,7 @@ PrefabInstance:
       objectReference: {fileID: 1447906826}
     - target: {fileID: 4465898669497631857, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_VersionIndex
-      value: 1789
+      value: 1798
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attach.x
@@ -1137,6 +1188,10 @@ PrefabInstance:
       value: 0.56078434
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
       value: -0.14
       objectReference: {fileID: 0}
@@ -1157,6 +1212,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 939649882}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: maxReleaseForce
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: minReleaseForce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
@@ -1166,11 +1229,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8752453215184711597, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_Name
@@ -1221,11 +1288,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!64 &205713628 stripped
-MeshCollider:
-  m_CorrespondingSourceObject: {fileID: 2763792811920232992, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
-  m_PrefabInstance: {fileID: 5142755484772230493}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &234715076 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9146015503685400394, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
@@ -1433,6 +1495,37 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &351212415
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 351212416}
+  m_Layer: 0
+  m_Name: Attach
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &351212416
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 351212415}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.01, y: 0.026, z: 0.018}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 752095724}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &365394548
 Mesh:
   m_ObjectHideFlags: 0
@@ -1663,6 +1756,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
       value: 1
       objectReference: {fileID: 0}
@@ -1690,6 +1787,18 @@ PrefabInstance:
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: grabLayer.m_Bits
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: poleLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4480312145933639111, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Name
       value: Pole2
@@ -1700,7 +1809,7 @@ PrefabInstance:
       objectReference: {fileID: 306725453}
     - target: {fileID: 6625184646934543083, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_VersionIndex
-      value: 3298
+      value: 3307
       objectReference: {fileID: 0}
     - target: {fileID: 9038746385494847567, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Mesh
@@ -2132,6 +2241,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
       value: 1
       objectReference: {fileID: 0}
@@ -2159,6 +2272,18 @@ PrefabInstance:
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: grabLayer.m_Bits
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: poleLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4480312145933639111, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Name
       value: Pole1 (6)
@@ -2169,7 +2294,7 @@ PrefabInstance:
       objectReference: {fileID: 1399664833}
     - target: {fileID: 6625184646934543083, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_VersionIndex
-      value: 3305
+      value: 3314
       objectReference: {fileID: 0}
     - target: {fileID: 9038746385494847567, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Mesh
@@ -2247,7 +2372,7 @@ PrefabInstance:
       objectReference: {fileID: 2044911610}
     - target: {fileID: 4465898669497631857, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_VersionIndex
-      value: 1789
+      value: 1798
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attach.x
@@ -2278,6 +2403,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
       value: -0.14
       objectReference: {fileID: 0}
@@ -2298,6 +2427,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 939649882}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: maxReleaseForce
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: minReleaseForce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
@@ -2307,11 +2444,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8752453215184711597, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_Name
@@ -2593,7 +2734,7 @@ PrefabInstance:
       objectReference: {fileID: 1997726528}
     - target: {fileID: 4465898669497631857, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_VersionIndex
-      value: 1789
+      value: 1798
       objectReference: {fileID: 0}
     - target: {fileID: 5283859318543416812, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attach.x
@@ -2632,6 +2773,10 @@ PrefabInstance:
       value: 0.23529412
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
       value: -0.14
       objectReference: {fileID: 0}
@@ -2652,6 +2797,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 939649882}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: maxReleaseForce
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: minReleaseForce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
@@ -2661,11 +2814,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8752453215184711597, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_Name
@@ -2787,7 +2944,7 @@ PrefabInstance:
       objectReference: {fileID: 1204520767}
     - target: {fileID: 4465898669497631857, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_VersionIndex
-      value: 1789
+      value: 1798
       objectReference: {fileID: 0}
     - target: {fileID: 5283859318543416812, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attach.x
@@ -2826,6 +2983,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
       value: -0.14
       objectReference: {fileID: 0}
@@ -2846,6 +3007,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 939649882}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: maxReleaseForce
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: minReleaseForce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
@@ -2855,11 +3024,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8752453215184711597, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_Name
@@ -3132,9 +3305,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: XR Controller Left
       objectReference: {fileID: 0}
+    - target: {fileID: 8758423527188247893, guid: 1392f805216c47742996d4742c80721c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8270855663187062767, guid: 1392f805216c47742996d4742c80721c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1501993265}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1392f805216c47742996d4742c80721c, type: 3}
 --- !u!4 &654339960 stripped
@@ -3207,6 +3387,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
       value: 1
       objectReference: {fileID: 0}
@@ -3234,6 +3418,18 @@ PrefabInstance:
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: grabLayer.m_Bits
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: poleLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4480312145933639111, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Name
       value: Pole2 (3)
@@ -3244,7 +3440,7 @@ PrefabInstance:
       objectReference: {fileID: 1065293157}
     - target: {fileID: 6625184646934543083, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_VersionIndex
-      value: 3298
+      value: 3307
       objectReference: {fileID: 0}
     - target: {fileID: 9038746385494847567, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Mesh
@@ -3322,7 +3518,7 @@ PrefabInstance:
       objectReference: {fileID: 1416037367}
     - target: {fileID: 4465898669497631857, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_VersionIndex
-      value: 1789
+      value: 1798
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attach.x
@@ -3353,6 +3549,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
       value: -0.14
       objectReference: {fileID: 0}
@@ -3373,6 +3573,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 939649882}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: maxReleaseForce
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: minReleaseForce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
@@ -3382,11 +3590,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8752453215184711597, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_Name
@@ -3631,7 +3843,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 109434732395451517, guid: 65847589f926b734d9eaed6e25f0046b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1589299404}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65847589f926b734d9eaed6e25f0046b, type: 3}
 --- !u!4 &673942567 stripped
@@ -3704,6 +3919,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
       value: 1
       objectReference: {fileID: 0}
@@ -3731,6 +3950,18 @@ PrefabInstance:
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: grabLayer.m_Bits
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: poleLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4480312145933639111, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Name
       value: Pole1 (4)
@@ -3741,7 +3972,7 @@ PrefabInstance:
       objectReference: {fileID: 2092867718}
     - target: {fileID: 6625184646934543083, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_VersionIndex
-      value: 3305
+      value: 3314
       objectReference: {fileID: 0}
     - target: {fileID: 9038746385494847567, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Mesh
@@ -4247,7 +4478,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 5686134208185136530, guid: 1fd3a7c43c8190f4d8c167ebde694364, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 351212416}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1fd3a7c43c8190f4d8c167ebde694364, type: 3}
 --- !u!4 &752095724 stripped
@@ -4585,38 +4819,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &785249111 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5099746194735249002, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
-  m_PrefabInstance: {fileID: 5142755484772230493}
-  m_PrefabAsset: {fileID: 0}
---- !u!54 &785249114
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 785249111}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 1
-  m_AngularDrag: 1
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 1
-  m_Constraints: 0
-  m_CollisionDetection: 2
 --- !u!1 &785945285 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8752453215184711597, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
@@ -5261,6 +5463,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
       value: 1
       objectReference: {fileID: 0}
@@ -5288,6 +5494,18 @@ PrefabInstance:
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: grabLayer.m_Bits
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: poleLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4480312145933639111, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Name
       value: Pole1 (2)
@@ -5298,7 +5516,7 @@ PrefabInstance:
       objectReference: {fileID: 1244311734}
     - target: {fileID: 6625184646934543083, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_VersionIndex
-      value: 3305
+      value: 3314
       objectReference: {fileID: 0}
     - target: {fileID: 9038746385494847567, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Mesh
@@ -5658,7 +5876,7 @@ PrefabInstance:
       objectReference: {fileID: 574617555}
     - target: {fileID: 4465898669497631857, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_VersionIndex
-      value: 1789
+      value: 1798
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attach.x
@@ -5689,6 +5907,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
       value: -0.14
       objectReference: {fileID: 0}
@@ -5709,6 +5931,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 939649882}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: maxReleaseForce
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: minReleaseForce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
@@ -5718,11 +5948,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8752453215184711597, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_Name
@@ -6003,6 +6237,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
       value: 1
       objectReference: {fileID: 0}
@@ -6030,6 +6268,18 @@ PrefabInstance:
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: grabLayer.m_Bits
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: poleLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4480312145933639111, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Name
       value: Pole1 (5)
@@ -6040,7 +6290,7 @@ PrefabInstance:
       objectReference: {fileID: 761106092}
     - target: {fileID: 6625184646934543083, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_VersionIndex
-      value: 3305
+      value: 3314
       objectReference: {fileID: 0}
     - target: {fileID: 9038746385494847567, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Mesh
@@ -6121,6 +6371,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
       value: 1
       objectReference: {fileID: 0}
@@ -6148,6 +6402,18 @@ PrefabInstance:
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: grabLayer.m_Bits
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: poleLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4480312145933639111, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Name
       value: Pole2 (7)
@@ -6158,7 +6424,7 @@ PrefabInstance:
       objectReference: {fileID: 45257001}
     - target: {fileID: 6625184646934543083, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_VersionIndex
-      value: 3298
+      value: 3307
       objectReference: {fileID: 0}
     - target: {fileID: 9038746385494847567, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Mesh
@@ -6911,7 +7177,7 @@ PrefabInstance:
       objectReference: {fileID: 392190744}
     - target: {fileID: 4465898669497631857, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_VersionIndex
-      value: 1789
+      value: 1798
       objectReference: {fileID: 0}
     - target: {fileID: 5283859318543416812, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attach.x
@@ -6950,6 +7216,10 @@ PrefabInstance:
       value: 0.78431374
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
       value: -0.14
       objectReference: {fileID: 0}
@@ -6970,6 +7240,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 939649882}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: maxReleaseForce
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: minReleaseForce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
@@ -6979,11 +7257,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8752453215184711597, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_Name
@@ -7402,6 +7684,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
       value: 1
       objectReference: {fileID: 0}
@@ -7429,6 +7715,18 @@ PrefabInstance:
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: grabLayer.m_Bits
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: poleLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4480312145933639111, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Name
       value: Pole2 (5)
@@ -7439,7 +7737,7 @@ PrefabInstance:
       objectReference: {fileID: 1170262108}
     - target: {fileID: 6625184646934543083, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_VersionIndex
-      value: 3298
+      value: 3307
       objectReference: {fileID: 0}
     - target: {fileID: 9038746385494847567, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Mesh
@@ -7517,7 +7815,7 @@ PrefabInstance:
       objectReference: {fileID: 1452984005}
     - target: {fileID: 4465898669497631857, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_VersionIndex
-      value: 1789
+      value: 1798
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attach.x
@@ -7548,6 +7846,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
       value: -0.14
       objectReference: {fileID: 0}
@@ -7568,6 +7870,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 939649882}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: maxReleaseForce
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: minReleaseForce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
@@ -7577,11 +7887,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8752453215184711597, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_Name
@@ -8808,6 +9122,37 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1501993264
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1501993265}
+  m_Layer: 0
+  m_Name: Attach
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1501993265
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501993264}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.05}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 654339960}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1573574639
 GameObject:
   m_ObjectHideFlags: 0
@@ -8901,6 +9246,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 150487912}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1589299403
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1589299404}
+  m_Layer: 0
+  m_Name: Attach
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1589299404
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589299403}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.01, y: 0.026, z: 0.018}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 673942567}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1598667153
 GameObject:
   m_ObjectHideFlags: 0
@@ -8993,6 +9369,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 150487912}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1603194257
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1603194258}
+  m_Layer: 0
+  m_Name: Attach
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1603194258
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603194257}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: -0.05}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 163543302}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1628795986
 GameObject:
@@ -9280,6 +9687,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
       value: 1
       objectReference: {fileID: 0}
@@ -9307,6 +9718,18 @@ PrefabInstance:
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: grabLayer.m_Bits
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: poleLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4480312145933639111, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Name
       value: Pole1 (7)
@@ -9317,7 +9740,7 @@ PrefabInstance:
       objectReference: {fileID: 971645939}
     - target: {fileID: 6625184646934543083, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_VersionIndex
-      value: 3305
+      value: 3314
       objectReference: {fileID: 0}
     - target: {fileID: 9038746385494847567, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Mesh
@@ -10231,7 +10654,6 @@ MonoBehaviour:
   m_ButtonPressPoint: 0.5
   controllerModel: {fileID: 654339960}
   handModel: {fileID: 673942567}
-  hands: 0
   attachedPole: {fileID: 0}
   attachedSki: {fileID: 0}
 --- !u!1 &1732566662 stripped
@@ -10496,6 +10918,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
       value: 1
       objectReference: {fileID: 0}
@@ -10523,6 +10949,18 @@ PrefabInstance:
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: grabLayer.m_Bits
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: poleLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4480312145933639111, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Name
       value: Pole1 (1)
@@ -10533,7 +10971,7 @@ PrefabInstance:
       objectReference: {fileID: 1387803719}
     - target: {fileID: 6625184646934543083, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_VersionIndex
-      value: 3305
+      value: 3314
       objectReference: {fileID: 0}
     - target: {fileID: 9038746385494847567, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Mesh
@@ -10614,6 +11052,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
       value: 1
       objectReference: {fileID: 0}
@@ -10641,6 +11083,18 @@ PrefabInstance:
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: grabLayer.m_Bits
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: poleLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4480312145933639111, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Name
       value: Pole2 (2)
@@ -10651,7 +11105,7 @@ PrefabInstance:
       objectReference: {fileID: 1134138067}
     - target: {fileID: 6625184646934543083, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_VersionIndex
-      value: 3298
+      value: 3307
       objectReference: {fileID: 0}
     - target: {fileID: 9038746385494847567, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Mesh
@@ -10732,6 +11186,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
       value: 1
       objectReference: {fileID: 0}
@@ -10759,6 +11217,18 @@ PrefabInstance:
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: grabLayer.m_Bits
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: poleLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4480312145933639111, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Name
       value: Pole2 (4)
@@ -10769,7 +11239,7 @@ PrefabInstance:
       objectReference: {fileID: 1190099874}
     - target: {fileID: 6625184646934543083, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_VersionIndex
-      value: 3298
+      value: 3307
       objectReference: {fileID: 0}
     - target: {fileID: 9038746385494847567, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Mesh
@@ -10789,11 +11259,6 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 9014170783728641054, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
   m_PrefabInstance: {fileID: 1731298970}
-  m_PrefabAsset: {fileID: 0}
---- !u!64 &1901344179 stripped
-MeshCollider:
-  m_CorrespondingSourceObject: {fileID: 6900760892823480228, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
-  m_PrefabInstance: {fileID: 5142755484772230493}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1923692893
 PrefabInstance:
@@ -10860,6 +11325,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
       value: 1
       objectReference: {fileID: 0}
@@ -10887,6 +11356,18 @@ PrefabInstance:
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: grabLayer.m_Bits
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: poleLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4480312145933639111, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Name
       value: Pole1 (3)
@@ -10897,7 +11378,7 @@ PrefabInstance:
       objectReference: {fileID: 2123809992}
     - target: {fileID: 6625184646934543083, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_VersionIndex
-      value: 3305
+      value: 3314
       objectReference: {fileID: 0}
     - target: {fileID: 9038746385494847567, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Mesh
@@ -11072,7 +11553,7 @@ PrefabInstance:
       objectReference: {fileID: 732718678}
     - target: {fileID: 4465898669497631857, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_VersionIndex
-      value: 1789
+      value: 1798
       objectReference: {fileID: 0}
     - target: {fileID: 5283859318543416812, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attach.x
@@ -11111,6 +11592,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
       value: -0.14
       objectReference: {fileID: 0}
@@ -11131,6 +11616,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 939649882}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: maxReleaseForce
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: minReleaseForce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
@@ -11140,11 +11633,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8752453215184711597, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_Name
@@ -11266,7 +11763,7 @@ PrefabInstance:
       objectReference: {fileID: 1782445126}
     - target: {fileID: 4465898669497631857, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_VersionIndex
-      value: 1789
+      value: 1798
       objectReference: {fileID: 0}
     - target: {fileID: 5283859318543416812, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attach.x
@@ -11305,6 +11802,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
       value: -0.14
       objectReference: {fileID: 0}
@@ -11325,6 +11826,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 939649882}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: maxReleaseForce
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: minReleaseForce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
@@ -11334,11 +11843,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8752453215184711597, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_Name
@@ -11627,7 +12140,6 @@ MonoBehaviour:
   m_ButtonPressPoint: 0.5
   controllerModel: {fileID: 163543302}
   handModel: {fileID: 752095724}
-  hands: 0
   attachedPole: {fileID: 0}
   attachedSki: {fileID: 0}
 --- !u!43 &1997726528
@@ -11861,7 +12373,7 @@ PrefabInstance:
       objectReference: {fileID: 1299011234}
     - target: {fileID: 4465898669497631857, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_VersionIndex
-      value: 1789
+      value: 1798
       objectReference: {fileID: 0}
     - target: {fileID: 5283859318543416812, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attach.x
@@ -11900,6 +12412,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
       value: -0.14
       objectReference: {fileID: 0}
@@ -11920,6 +12436,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 939649882}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: maxReleaseForce
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: minReleaseForce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
@@ -11929,11 +12453,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8752453215184711597, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_Name
@@ -12071,8 +12599,9 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 512
-  rightController: {fileID: 1952920600}
   leftController: {fileID: 1732533034}
+  rightController: {fileID: 1952920600}
+  hands: 1
   normalMoveForce: 0.5
   xMoveForce: 7
   zMoveForce: 10
@@ -12089,7 +12618,7 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 6972639530819350904, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  normalTurnForce: 120
+  normalTurnForce: 90
   groundTurnForce: 10
   airTurnForce: 15
   turnActionProperty:
@@ -12184,6 +12713,10 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: 4702970503924585660, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   devSim: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
+  leftHandRopeTarget: {fileID: 1589299404}
+  rightHandRopeTarget: {fileID: 351212416}
+  leftControllerRopeTarget: {fileID: 1501993265}
+  rightControllerRopeTarget: {fileID: 1603194258}
 --- !u!43 &2044911610
 Mesh:
   m_ObjectHideFlags: 0
@@ -12838,7 +13371,7 @@ PrefabInstance:
       objectReference: {fileID: 947943994}
     - target: {fileID: 4465898669497631857, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_VersionIndex
-      value: 1789
+      value: 1798
       objectReference: {fileID: 0}
     - target: {fileID: 5283859318543416812, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attach.x
@@ -12877,6 +13410,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
       value: -0.14
       objectReference: {fileID: 0}
@@ -12897,6 +13434,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 939649882}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: maxReleaseForce
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: minReleaseForce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
@@ -12906,11 +13451,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8752453215184711597, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_Name
@@ -13028,7 +13577,7 @@ PrefabInstance:
       objectReference: {fileID: 2077223287}
     - target: {fileID: 4465898669497631857, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_VersionIndex
-      value: 1789
+      value: 1798
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attach.x
@@ -13059,6 +13608,10 @@ PrefabInstance:
       value: 0.23529412
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
       value: -0.14
       objectReference: {fileID: 0}
@@ -13079,6 +13632,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 939649882}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: maxReleaseForce
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: minReleaseForce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
@@ -13088,11 +13649,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8752453215184711597, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_Name
@@ -13370,7 +13935,7 @@ PrefabInstance:
       objectReference: {fileID: 640589325}
     - target: {fileID: 4465898669497631857, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_VersionIndex
-      value: 1789
+      value: 1798
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attach.x
@@ -13401,6 +13966,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
       value: -0.14
       objectReference: {fileID: 0}
@@ -13421,6 +13990,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 939649882}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: maxReleaseForce
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: minReleaseForce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
@@ -13430,11 +14007,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8752453215184711597, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_Name
@@ -13547,7 +14128,7 @@ PrefabInstance:
       objectReference: {fileID: 365394548}
     - target: {fileID: 4465898669497631857, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_VersionIndex
-      value: 1789
+      value: 1798
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attach.x
@@ -13578,6 +14159,10 @@ PrefabInstance:
       value: 0.78431374
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
       value: -0.14
       objectReference: {fileID: 0}
@@ -13598,6 +14183,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 939649882}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: maxReleaseForce
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: minReleaseForce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
@@ -13607,11 +14200,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8752453215184711597, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: m_Name
@@ -13722,6 +14319,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: attachSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
       value: 1
       objectReference: {fileID: 0}
@@ -13749,6 +14350,18 @@ PrefabInstance:
       propertyPath: rightController
       value: 
       objectReference: {fileID: 1952920596}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: grabLayer.m_Bits
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: poleLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4480312145933639111, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Name
       value: Pole1
@@ -13759,7 +14372,7 @@ PrefabInstance:
       objectReference: {fileID: 662455}
     - target: {fileID: 6625184646934543083, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_VersionIndex
-      value: 3305
+      value: 3314
       objectReference: {fileID: 0}
     - target: {fileID: 9038746385494847567, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_Mesh
@@ -13783,9 +14396,317 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 77549496166933916, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 939649882}
+    - target: {fileID: 77549496166933916, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 77549496166933916, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 133772527344845212, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 939649882}
+    - target: {fileID: 133772527344845212, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 133772527344845212, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 223651742019100881, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 939649882}
+    - target: {fileID: 223651742019100881, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 223651742019100881, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 706465517636033290, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 1952920596}
+    - target: {fileID: 706465517636033290, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: handedness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 706465517636033290, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 706465517636033290, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 730082404228079934, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 1952920596}
+    - target: {fileID: 730082404228079934, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: handedness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 730082404228079934, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 730082404228079934, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 732668749780511854, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 939649882}
+    - target: {fileID: 732668749780511854, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 732668749780511854, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 997557457676655522, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 939649882}
+    - target: {fileID: 997557457676655522, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 997557457676655522, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1644310273838042821, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 939649882}
+    - target: {fileID: 1644310273838042821, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1644310273838042821, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1667581752138937882, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 1952920596}
+    - target: {fileID: 1667581752138937882, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: handedness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1667581752138937882, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1667581752138937882, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1922481995825806605, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 1952920596}
+    - target: {fileID: 1922481995825806605, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: handedness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1922481995825806605, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1922481995825806605, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1962145365438448690, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 1952920596}
+    - target: {fileID: 1962145365438448690, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: handedness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1962145365438448690, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1962145365438448690, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2029164677540520293, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 939649882}
+    - target: {fileID: 2029164677540520293, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2029164677540520293, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2849631987870381527, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: m_Drag
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2849631987870381527, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: m_AngularDrag
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3499488064077587896, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 1952920596}
+    - target: {fileID: 3499488064077587896, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: handedness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3499488064077587896, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3499488064077587896, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3507367144545308903, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 1952920596}
+    - target: {fileID: 3507367144545308903, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: handedness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3507367144545308903, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3507367144545308903, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4136872334708264951, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: m_AnimatePhysics
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4218487976235629068, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 1952920596}
+    - target: {fileID: 4218487976235629068, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: handedness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4218487976235629068, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4218487976235629068, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355579753508058102, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 1952920596}
+    - target: {fileID: 4355579753508058102, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: handedness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355579753508058102, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355579753508058102, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4383713607751263317, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 4529426600914831755, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 1952920596}
+    - target: {fileID: 4529426600914831755, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: handedness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4529426600914831755, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4529426600914831755, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4757240670825685139, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 939649882}
+    - target: {fileID: 4757240670825685139, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4757240670825685139, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5099746194735249002, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
       propertyPath: m_Name
       value: ParachuteParent
+      objectReference: {fileID: 0}
+    - target: {fileID: 5334942093180109210, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 1952920596}
+    - target: {fileID: 5334942093180109210, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: handedness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5334942093180109210, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5334942093180109210, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5587434217180759698, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 1952920596}
+    - target: {fileID: 5587434217180759698, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: handedness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5587434217180759698, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5587434217180759698, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5661385202719127476, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.2
       objectReference: {fileID: 0}
     - target: {fileID: 5715847859640594786, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13827,22 +14748,146 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6179201042121741396, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 1952920596}
+    - target: {fileID: 6179201042121741396, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: handedness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6179201042121741396, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6179201042121741396, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6188948506331802505, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 1952920596}
+    - target: {fileID: 6188948506331802505, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: handedness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6188948506331802505, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6188948506331802505, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6208725498428046372, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 939649882}
+    - target: {fileID: 6208725498428046372, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6208725498428046372, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6217810050581443185, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 1952920596}
+    - target: {fileID: 6217810050581443185, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: handedness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6217810050581443185, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6217810050581443185, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6476857103356220426, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 939649882}
+    - target: {fileID: 6476857103356220426, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6476857103356220426, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6551014457142446207, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 939649882}
+    - target: {fileID: 6551014457142446207, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6551014457142446207, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6607586960617681723, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 939649882}
+    - target: {fileID: 6607586960617681723, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6607586960617681723, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6735994196810136107, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 939649882}
+    - target: {fileID: 6735994196810136107, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6735994196810136107, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6787420322946340218, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
       propertyPath: leftRay
       value: 
-      objectReference: {fileID: 1190126099}
+      objectReference: {fileID: 234715076}
     - target: {fileID: 6787420322946340218, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
       propertyPath: rightRay
       value: 
-      objectReference: {fileID: 943632187}
+      objectReference: {fileID: 943632185}
     - target: {fileID: 6787420322946340218, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
-      propertyPath: xrOrigin
+      propertyPath: leftRayVisual
       value: 
-      objectReference: {fileID: 2040374533}
+      objectReference: {fileID: 1190126099}
+    - target: {fileID: 6787420322946340218, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: rightRayVisual
+      value: 
+      objectReference: {fileID: 943632187}
     - target: {fileID: 6787420322946340218, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
       propertyPath: selectedParent
       value: 
       objectReference: {fileID: 301764970}
+    - target: {fileID: 6787420322946340218, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseForce
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6787420322946340218, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: minReleaseForce
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6787420322946340218, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: grabLayer.m_Bits
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6787420322946340218, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
       propertyPath: leftSkiController
       value: 
@@ -13852,28 +14897,117 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1952920600}
     - target: {fileID: 6787420322946340218, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
-      propertyPath: m_Colliders.Array.size
-      value: 0
+      propertyPath: parachuteLayer.m_Bits
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 6787420322946340218, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
-      propertyPath: selectedColMask.m_Bits
-      value: 4
+      propertyPath: m_InteractionLayers.m_Bits
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 6787420322946340218, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
-      propertyPath: 'm_Colliders.Array.data[0]'
+      propertyPath: leftGripProperty.m_Reference
       value: 
-      objectReference: {fileID: 1901344179}
+      objectReference: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f, type: 3}
     - target: {fileID: 6787420322946340218, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
-      propertyPath: 'm_Colliders.Array.data[1]'
+      propertyPath: rightGripProperty.m_Reference
       value: 
-      objectReference: {fileID: 205713628}
+      objectReference: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+    - target: {fileID: 6787420322946340218, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: leftGripProperty.m_UseReference
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6787420322946340218, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: leftGripProperty.m_Action.m_Name
+      value: Left Grip Property
+      objectReference: {fileID: 0}
+    - target: {fileID: 6787420322946340218, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: rightGripProperty.m_UseReference
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6787420322946340218, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: rightGripProperty.m_Action.m_Name
+      value: Right Grip Property
+      objectReference: {fileID: 0}
+    - target: {fileID: 6847725841048999585, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 939649882}
+    - target: {fileID: 6847725841048999585, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6847725841048999585, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7169735077172332023, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 939649882}
+    - target: {fileID: 7169735077172332023, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7169735077172332023, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8194336918167093974, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 939649882}
+    - target: {fileID: 8194336918167093974, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8194336918167093974, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8269431200604846788, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 1952920596}
+    - target: {fileID: 8269431200604846788, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: handedness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8269431200604846788, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8269431200604846788, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8905015692512652076, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 939649882}
+    - target: {fileID: 8905015692512652076, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8905015692512652076, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8976879048551051676, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: hand
+      value: 
+      objectReference: {fileID: 939649882}
+    - target: {fileID: 8976879048551051676, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: attachSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8976879048551051676, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+      propertyPath: maxReleaseRadius
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5099746194735249002, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 785249114}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
