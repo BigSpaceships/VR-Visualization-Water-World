@@ -20,8 +20,8 @@ public class Pole : XRBaseInteractable
     public IXRSelectInteractor selectInteractor;
     public static SkiController rightSkiController;
     public static SkiController leftSkiController;
-    Transform rightController;
-    Transform leftController;
+    public static Transform rightController;
+    public static Transform leftController;
     SkiController skiController;
     Transform myT;
     Rigidbody rb;
@@ -44,8 +44,6 @@ public class Pole : XRBaseInteractable
 
     void Start()
     {
-        leftController = leftSkiController.transform;
-        rightController = rightSkiController.transform;
         StartCoroutine(CalculateVelocity());
     }
 
@@ -84,8 +82,7 @@ public class Pole : XRBaseInteractable
     IEnumerator Selected(Vector3 targetPos, Quaternion targetRot)
     {
         //Force grab
-        Vector3 pos = myT.localPosition;
-        Quaternion rot = myT.localRotation;
+        myT.GetLocalPositionAndRotation(out Vector3 pos, out Quaternion rot);
         while (!Skier.EqualVectors(pos, targetPos) || !Skier.EqualVectors(rot.eulerAngles, targetRot.eulerAngles))
         {
             pos = Vector3.Lerp(pos, targetPos, Time.deltaTime * attachSpeed);

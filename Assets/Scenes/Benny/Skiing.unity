@@ -4819,6 +4819,11 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!4 &785249116 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5715847859640594786, guid: df5ae3f73af0f4480b1a8a685f96301d, type: 3}
+  m_PrefabInstance: {fileID: 5142755484772230493}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &785945285 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8752453215184711597, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
@@ -12599,8 +12604,8 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 512
-  leftController: {fileID: 1732533034}
-  rightController: {fileID: 1952920600}
+  leftController: {fileID: 939649882}
+  rightController: {fileID: 1952920596}
   hands: 1
   normalMoveForce: 0.5
   xMoveForce: 7
@@ -12617,7 +12622,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 6972639530819350904, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+    m_Reference: {fileID: -8198699208435500284, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   normalTurnForce: 90
   groundTurnForce: 10
   airTurnForce: 15
@@ -12632,7 +12637,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -8198699208435500284, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+    m_Reference: {fileID: 6972639530819350904, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   crouchActionProperty:
     m_UseReference: 1
     m_Action:
@@ -12717,6 +12722,13 @@ MonoBehaviour:
   rightHandRopeTarget: {fileID: 351212416}
   leftControllerRopeTarget: {fileID: 1501993265}
   rightControllerRopeTarget: {fileID: 1603194258}
+  parachute: {fileID: 785249116}
+  parachuteAdjustmentSpeed: 0.5
+  paraglideDrag: 10
+  paraglideJumpForce: 20
+  glideForce: 40
+  paraglideTurnForce: 0.01
+  parachuteVelocityOffset: 0.05
 --- !u!43 &2044911610
 Mesh:
   m_ObjectHideFlags: 0

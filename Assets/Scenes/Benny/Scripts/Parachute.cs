@@ -108,8 +108,7 @@ public class Parachute : XRBaseInteractable
     IEnumerator Selected(Vector3 targetPos, Quaternion targetRot)
     {
         //Force grab
-        Vector3 pos = myT.localPosition;
-        Quaternion rot = myT.localRotation;
+        myT.GetLocalPositionAndRotation(out Vector3 pos, out Quaternion rot);
         while (!Skier.EqualVectors(pos, targetPos) || !Skier.EqualVectors(rot.eulerAngles, targetRot.eulerAngles))
         {
             pos = Vector3.Lerp(pos, targetPos, Time.deltaTime * attachSpeed);

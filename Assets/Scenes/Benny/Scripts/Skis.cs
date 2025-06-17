@@ -22,8 +22,8 @@ public class Skis : XRBaseInteractable
     bool selected;
     public static SkiController leftSkiController;
     public static SkiController rightSkiController;
-    Transform leftController;
-    Transform rightController;
+    public static Transform leftController;
+    public static Transform rightController;
     SkiController skiController;
     Coroutine coroutine;
     //bool colliding;
@@ -37,12 +37,6 @@ public class Skis : XRBaseInteractable
         Transform model = myT.GetChild(0);
         col = model.GetComponent<Collider>();
         model.GetComponent<Renderer>().material.color = skiColor;
-    }
-
-    void Start()
-    {
-        leftController = leftSkiController.transform;
-        rightController = rightSkiController.transform;
     }
 
     void Update()
@@ -161,8 +155,7 @@ public class Skis : XRBaseInteractable
     IEnumerator Selected(Vector3 targetPos, Quaternion targetRot)
     {
         //Force grab
-        Vector3 pos = myT.localPosition;
-        Quaternion rot = myT.localRotation;
+        myT.GetLocalPositionAndRotation(out Vector3 pos, out Quaternion rot);
         while (!Skier.EqualVectors(pos, targetPos) || !Skier.EqualVectors(rot.eulerAngles, targetRot.eulerAngles))
         {
             pos = Vector3.Lerp(pos, targetPos, Time.deltaTime * attachSpeed);
