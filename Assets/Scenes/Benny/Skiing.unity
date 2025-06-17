@@ -17501,12 +17501,12 @@ MonoBehaviour:
   leftControllerRopeTarget: {fileID: 1501993265}
   rightControllerRopeTarget: {fileID: 1603194258}
   parachute: {fileID: 785249116}
-  parachuteAdjustmentSpeed: 0.5
+  parachuteAdjustmentSpeed: 1
   paraglideDrag: 10
   paraglideJumpForce: 20
   glideForce: 40
-  paraglideTurnForce: 0.01
-  parachuteVelocityOffset: 0.05
+  paraglideTurnForce: 0.08
+  parachuteVelocityOffset: 0.03
 --- !u!43 &2044911610
 Mesh:
   m_ObjectHideFlags: 0

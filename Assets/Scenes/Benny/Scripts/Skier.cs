@@ -82,7 +82,7 @@ public class Skier : MonoBehaviour
     [SerializeField] Transform leftControllerRopeTarget;
     [SerializeField] Transform rightControllerRopeTarget;
     [SerializeField] Transform parachute;
-    [SerializeField] float parachuteAdjustmentSpeed;
+    [SerializeField] int parachuteAdjustmentSpeed;
     [SerializeField] int paraglideDrag;
     [SerializeField] int paraglideJumpForce;
     WaitForSeconds updraftWait = new WaitForSeconds(0.25f);
@@ -202,14 +202,14 @@ public class Skier : MonoBehaviour
         }
 
         //No ski turning
-        if (attachedSkis == 0)
+        if (attachedSkis == 0 && (!paragliding || isGrounded))
         {
             Quaternion targetRotation = myT.rotation * Quaternion.Euler(new Vector3(0, turnAction.ReadValue<Vector2>().x * normalTurnForce, 0));
             myT.rotation = Quaternion.Slerp(myT.rotation, targetRotation, Time.deltaTime);
         }
 
         //Crouch mechanics
-        if (paragliding) return;
+            if (paragliding) return;
         float height = camOffset.localPosition.y;
         if (crouchAction.IsPressed())
         {
@@ -242,6 +242,18 @@ public class Skier : MonoBehaviour
         //Paragliding mechanics
         if (paragliding)
         {
+            //Parachute adjustment
+            Vector3 leftPos = interactableParent.InverseTransformPoint(leftController.position);
+            Vector3 rightPos = interactableParent.InverseTransformPoint(rightController.position);
+            float roll = Vector3.SignedAngle(Vector3.right, Vector3.ProjectOnPlane(rightPos - leftPos, Vector3.forward).normalized, Vector3.forward);
+            roll = Mathf.Clamp(roll / 2, -45, 45);
+            if (Mathf.Abs(roll) < 15) roll = 0;
+            float t = Mathf.Clamp01(parachuteAdjustmentSpeed * Time.fixedDeltaTime);
+            parachute.GetLocalPositionAndRotation(out Vector3 pos, out Quaternion qRot);
+            Vector3 rot = qRot.eulerAngles;
+            Vector3 targetPos = (leftPos + rightPos) / 2 + new Vector3(0, 0.1f + rb.velocity.y * parachuteVelocityOffset, 0.2f);
+            parachute.SetLocalPositionAndRotation(Vector3.Lerp(pos, targetPos, t), Quaternion.Slerp(qRot, Quaternion.Euler(new Vector3(roll, rot.y, 0)), t));
+            
             //Is grounded
             if (Physics.Raycast(myT.position + currentUp * 1.7f, -currentUp, out hit, 1.75f, groundMask) && colliding)
             {
@@ -251,6 +263,7 @@ public class Skier : MonoBehaviour
                     if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
                     if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
                 }
+
                 //Regular paragliding
                 if (attachedSkis == 0)
                 {
@@ -324,20 +337,13 @@ public class Skier : MonoBehaviour
                 }
                 if (jump) jump = false;
                 if (isGrounded) isGrounded = false;
-                rb.AddForce(interactableParent.forward * glideForce, ForceMode.Acceleration);
-                Vector3 leftRawPos = leftController.localPosition;
-                Vector3 rightRawPos = rightController.localPosition;
 
-                Vector3 leftPos = Vector3.ProjectOnPlane(leftRawPos, cam.forward);
-                Vector3 rightPos = Vector3.ProjectOnPlane(rightRawPos, cam.forward);
-                float roll = Mathf.Clamp(Vector3.SignedAngle(cam.right, rightPos - leftPos, cam.forward) / 2, -45, 45);
-                float t = Mathf.Clamp01(parachuteAdjustmentSpeed * Time.fixedDeltaTime);
-                parachute.GetLocalPositionAndRotation(out Vector3 pos, out Quaternion qRot);
-                Vector3 rot = qRot.eulerAngles;
-                rb.AddTorque(interactableParent.up * Mathf.Lerp(rot.x, roll, t) * paraglideTurnForce, ForceMode.Acceleration);
+                //Gliding/steering
+                rb.AddForce(interactableParent.forward * glideForce, ForceMode.Acceleration);
+                float startValue = rot.x;
+                if (startValue > 180) startValue -= 360;
+                rb.AddTorque(-interactableParent.up * Mathf.Lerp(startValue, roll, t) * paraglideTurnForce, ForceMode.Acceleration);
                 if (leftSpeed > 0.7f && rightSpeed > 0.7f && Vector3.Dot(leftVel.normalized, interactableParent.up) < -0.7f && Vector3.Dot(rightVel.normalized, interactableParent.up) < -0.7f) StartCoroutine(Updraft((int)(leftSpeed + rightSpeed) * 200, 2, false));
-                Vector3 targetPos = (leftRawPos + rightRawPos) / 2 + new Vector3(0, 1.6f + rb.velocity.y * parachuteVelocityOffset, 0.5f);
-                parachute.SetLocalPositionAndRotation(Vector3.Lerp(pos, targetPos, t), Quaternion.Slerp(qRot, Quaternion.Euler(new Vector3(roll, rot.y, 0)), t));
             }
             if (rightFlip) rightFlip = false;
             if (leftFlip) leftFlip = false;
