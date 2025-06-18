@@ -346,9 +346,9 @@ public class Skier : MonoBehaviour
                 float startValue = rot.x;
                 if (startValue > 180) startValue -= 360;
                 rb.AddTorque(-interactableParent.up * Mathf.Lerp(startValue, roll, t) * paraglideTurnForce, ForceMode.Acceleration);
-                if (leftSpeed > 0.5f && rightSpeed > 0.5f && Vector3.Dot(leftVel.normalized, interactableParent.up) < -0.7f && Vector3.Dot(rightVel.normalized, interactableParent.up) < -0.7f)
+                if (leftSpeed > 1 && rightSpeed > 1 && Vector3.Dot(leftVel.normalized, interactableParent.up) < -0.7f && Vector3.Dot(rightVel.normalized, interactableParent.up) < -0.7f)
                 {
-                    StartCoroutine(Updraft(10, (leftSpeed + rightSpeed) * 5, interactableParent.up, false));
+                    StartCoroutine(Updraft(10, (leftSpeed + rightSpeed) * 2, interactableParent.up, false));
                 }
             }
             if (rightFlip) rightFlip = false;
