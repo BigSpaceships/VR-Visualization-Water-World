@@ -127,7 +127,7 @@ public class Pole : XRBaseInteractable
     void FixedUpdate()
     {
         //Pole push
-        if (!isSelected || Skier.attachedSkis == 0) return;
+        if (!isSelected || Skier.attachedSkis == 0 || coroutine != null) return;
         if (Physics.Raycast(myT.position - myT.up * 1.25f, myT.up, out RaycastHit hit, 2, groundMask) && speed > 10)
         {
             if (hit.collider.gameObject.layer == 3) return;
@@ -144,7 +144,7 @@ public class Pole : XRBaseInteractable
         //Calculate pole velocity for push mechanics
         while (true)
         {
-            if (isSelected && Skier.attachedSkis > 0)
+            if (isSelected && Skier.attachedSkis > 0 && coroutine == null)
             {
                 Vector3 currentPos = myT.position - skiParent.position;
                 vel = (currentPos - lastPos) * 10;

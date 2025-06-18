@@ -110,15 +110,19 @@ public class Skis : XRBaseInteractable
             }
 
             //Grabbing mechanics
-            if (rb != null) Destroy(rb);
+            if (rb != null)
+            {
+                Destroy(rb);
+                rb = null;
+            }
             myT.parent = skiParent;
             Skier.attachedSkis++;
             if (Skier.attachedSkis == 1)
             {
                 Skier.myT.position += new Vector3(0, 0.05f, 0);
                 Rigidbody skierRb = Skier.rb;
-                skierRb.freezeRotation = false;
-                skierRb.drag = 0.1f;
+                skierRb.freezeRotation = skierRb.useGravity = false;
+                skierRb.drag = 1;
             }
             col.enabled = false;
             coroutine = StartCoroutine(Selected(attach, Quaternion.identity));
@@ -136,13 +140,16 @@ public class Skis : XRBaseInteractable
             if (Skier.attachedSkis == 0)
             {
                 Rigidbody skierRb = Skier.rb;
-                skierRb.freezeRotation = true;
+                skierRb.freezeRotation = skierRb.useGravity = true;
                 skierRb.drag = 3;
             }
             interactionManager.SelectExit(args.interactorObject, this);
             myT.parent = objectParent;
-            rb = myT.AddComponent<Rigidbody>();
-            if (rb == null) rb = GetComponent<Rigidbody>();
+            if (rb == null)
+            {
+                rb = myT.AddComponent<Rigidbody>();
+                rb = GetComponent<Rigidbody>();
+            }
             rb.mass = 0.7f;
             rb.drag = rb.angularDrag = 1;
             rb.interpolation = RigidbodyInterpolation.Interpolate;

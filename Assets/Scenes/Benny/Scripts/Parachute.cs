@@ -14,7 +14,6 @@ public class Parachute : XRBaseInteractable
     [SerializeField] XRRayInteractor rightRay;
     [SerializeField] XRInteractorLineVisual leftRayVisual;
     [SerializeField] XRInteractorLineVisual rightRayVisual;
-    [SerializeField] LayerMask colExclude;
     [SerializeField] InteractionLayerMask grabLayer;
     [SerializeField] InteractionLayerMask parachuteLayer;
     [SerializeField] float minReleaseForce;
@@ -72,12 +71,7 @@ public class Parachute : XRBaseInteractable
         if (pole != null) interactionManager.SelectExit(pole.selectInteractor, pole);
         rb.isKinematic = true;
         rb.interpolation = RigidbodyInterpolation.None;
-        for (int i = 0; i < colCount; i++)
-        {
-            Collider col = cols[i];
-            col.enabled = false;
-            col.excludeLayers = colExclude;
-        }
+        for (int i = 0; i < colCount; i++) cols[i].enabled = false;
         leftRayVisual.enabled = rightRayVisual.enabled = false;
         leftRay.interactionLayers = rightRay.interactionLayers = parachuteLayer;
         selectInteractor = args.interactorObject;
@@ -86,7 +80,6 @@ public class Parachute : XRBaseInteractable
         animator.SetTrigger("Unfurl");
         Skier.paragliding = true;
         Skier.parachute = myT;
-        Skier.rb.drag = 5;
         for (int i = 0; i < 34; i++) ropes[i].paragliding = true;
         coroutine = StartCoroutine(Selected(new Vector3(0, 1.65f, 0.5f), Quaternion.Euler(0, -90, 0)));
     }
@@ -104,12 +97,7 @@ public class Parachute : XRBaseInteractable
         animator.SetTrigger("Close");
         rb.AddRelativeForce(new Vector3(1, 0, Random.Range(-1f, 1f)) * Random.Range(minReleaseForce, maxReleaseForce), ForceMode.VelocityChange);
         rb.AddRelativeTorque(new Vector3(0, Random.Range(-1f, 1f), 0) * Random.Range(minReleaseForce, maxReleaseForce), ForceMode.VelocityChange);
-        for (int i = 0; i < colCount; i++)
-        {
-            Collider col = cols[i];
-            col.enabled = true;
-            col.excludeLayers = 0;
-        }
+        for (int i = 0; i < colCount; i++) cols[i].enabled = true;
         leftRayVisual.enabled = rightRayVisual.enabled = true;
         leftRay.interactionLayers = rightRay.interactionLayers = grabLayer;
         leftSkiController.Animate("Deselect");
@@ -130,7 +118,6 @@ public class Parachute : XRBaseInteractable
         }
         myT.SetLocalPositionAndRotation(targetPos, targetRot);
         while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1) yield return null;
-        for (int i = 0; i < colCount; i++) cols[i].enabled = true;
         coroutine = null;
     }
 

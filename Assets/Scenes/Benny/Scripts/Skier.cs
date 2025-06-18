@@ -1,4 +1,5 @@
 using System.Collections;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -12,7 +13,7 @@ public class Skier : MonoBehaviour
     Transform interactableParent;
     [SerializeField] int alignStrength;
     float skiSpeed;
-    [SerializeField] float skierDirectionWeight;
+    [SerializeField] int skiGravity;
     [SerializeField] float minDrag;
     [SerializeField] int maxDrag;
     [SerializeField] float perpDeceleration;
@@ -156,7 +157,8 @@ public class Skier : MonoBehaviour
     void OnBeforeRender()
     {
         //Clamp camera position
-        cam.localPosition = Vector3.zero;
+        Vector3 pos = cam.localPosition;
+        cam.localPosition = new Vector3(Mathf.Clamp(pos.x, -0.5f, 0.5f), Mathf.Clamp(pos.y, -0.5f, 0.5f), Mathf.Clamp(pos.z, -0.5f, 0.5f));
     }
 
     void Update()
@@ -197,15 +199,8 @@ public class Skier : MonoBehaviour
             }
         }
 
-        //No ski turning
-        if (attachedSkis == 0 && (!paragliding || isGrounded))
-        {
-            Quaternion targetRotation = myT.rotation * Quaternion.Euler(new Vector3(0, turnAction.ReadValue<Vector2>().x * normalTurnForce, 0));
-            myT.rotation = Quaternion.Slerp(myT.rotation, targetRotation, Time.deltaTime);
-        }
-
         //Crouch mechanics
-            if (paragliding) return;
+        if (paragliding) return;
         float height = camOffset.localPosition.y;
         if (crouchAction.IsPressed())
         {
@@ -251,40 +246,47 @@ public class Skier : MonoBehaviour
             parachute.SetLocalPositionAndRotation(Vector3.Lerp(pos, targetPos, t), Quaternion.Slerp(qRot, Quaternion.Euler(new Vector3(roll, rot.y, 0)), t));
 
             //Is grounded
-            if (Physics.Raycast(myT.position + currentUp * 1.7f, -currentUp, out hit, 1.75f, groundMask) && colliding)
+            if (Physics.Raycast(myT.position + currentUp * 1.7f, -currentUp, out hit, 1.8f, groundMask) && colliding)
             {
-                if (!isGrounded)
-                {
-                    isGrounded = rb.useGravity = true;
-                    if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
-                    if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
-                }
-
                 //Regular paragliding
                 if (attachedSkis == 0)
                 {
-                    if (!rb.freezeRotation)
+                    if (!isGrounded)
                     {
-                        rb.freezeRotation = true;
+                        isGrounded = rb.useGravity = rb.freezeRotation = true;
                         rb.drag = 3;
+                        if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                        if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
                     }
+                    myT.Rotate(new Vector3(0, turnAction.ReadValue<Vector2>().x * normalTurnForce * Time.fixedDeltaTime, 0));
                     rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y) * normalMoveForce), ForceMode.VelocityChange);
                 }
                 //Parachute skiing (speedrunning)
                 else
                 {
-                    //Skier stabilization
-                    Vector3 groundUp = hit.normal;
-                    Vector3 rotationAxis = Vector3.Cross(currentUp, groundUp);
-                    rb.AddTorque(rotationAxis.normalized * Vector3.Angle(currentUp, groundUp) * alignStrength);
-
-                    //Velocity control based on direction
-                    Vector3 downhill = Vector3.ProjectOnPlane(Vector3.down, groundUp).normalized;
-                    Vector3 skierDirection = Vector3.ProjectOnPlane(interactableParent.forward, groundUp).normalized;
-                    float alignment = Vector3.Dot(downhill, skierDirection);
-                    rb.AddForce(Vector3.Slerp(downhill, skierDirection, Mathf.Clamp01(Mathf.Clamp01(alignment) * skierDirectionWeight)) * skiSpeed, ForceMode.Acceleration);
-                    float targetDrag = Mathf.Lerp(minDrag, maxDrag, 1 - Mathf.Clamp01(Mathf.Abs(alignment)));
-                    rb.drag = Mathf.Lerp(rb.drag, targetDrag, perpDeceleration);
+                    if (!isGrounded)
+                    {
+                        isGrounded = true;
+                        rb.useGravity = false;
+                        if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                        if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                    }
+                    rb.AddForce(Vector3.down * skiGravity);
+                    if (hit.collider.gameObject.layer != 14)
+                    {
+                        //Skier stabilization
+                        Vector3 groundUp = hit.normal;
+                        Vector3 rotationAxis = Vector3.Cross(currentUp, groundUp);
+                        rb.AddTorque(rotationAxis.normalized * Vector3.Angle(currentUp, groundUp) * alignStrength);
+                        //Velocity control based on direction
+                        Vector3 downhill = Vector3.ProjectOnPlane(Vector3.down, groundUp).normalized;
+                        Vector3 skierDirection = Vector3.ProjectOnPlane(interactableParent.forward, groundUp).normalized;
+                        float alignment = Vector3.Dot(downhill, skierDirection);
+                        rb.AddForce(skierDirection * skiSpeed * Mathf.Clamp01(alignment + 1), ForceMode.Acceleration);
+                        float targetDrag = Mathf.Lerp(minDrag, maxDrag, 1 - Mathf.Clamp01(Mathf.Abs(alignment) * 1.5f));
+                        rb.drag = Mathf.Lerp(rb.drag, targetDrag, perpDeceleration);
+                    }
+                    else rb.drag = 3;
                     rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x * xMoveForce, 0, moveInput.y * zMoveForce)), ForceMode.Acceleration);
                     rb.AddTorque(interactableParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)) * groundTurnForce, ForceMode.Acceleration);
                 }
@@ -299,45 +301,52 @@ public class Skier : MonoBehaviour
             //Is tilted on ground
             else if (colliding)
             {
-                if (!isGrounded)
-                {
-                    isGrounded = rb.useGravity = true;
-                    if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
-                    if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
-                }
                 if (attachedSkis > 0)
                 {
-                    if (rb.drag != minDrag) rb.drag = minDrag;
+                    if (!isGrounded)
+                    {
+                        isGrounded = true;
+                        rb.useGravity = false;
+                        rb.freezeRotation = true;
+                        rb.drag = minDrag;
+                        if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                        if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                    }
+                    rb.AddForce(Vector3.down * skiGravity);
                     rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x * xMoveForce, 0, moveInput.y * zMoveForce)), ForceMode.Acceleration);
                     rb.AddTorque(interactableParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)) * groundTurnForce, ForceMode.Acceleration);
                 }
-                else
+                else if (!isGrounded)
                 {
-                    if (!rb.freezeRotation)
-                    {
-                        rb.freezeRotation = true;
-                        rb.drag = 3;
-                    }
+                    isGrounded = rb.useGravity = true;
+                    rb.freezeRotation = true;
+                    rb.drag = 3;
+                    if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                    if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
                 }
                 if (jump) jump = false;
             }
             //Is in air
             else
             {
-                if (rb.freezeRotation) rb.freezeRotation = false;
                 if (jump) jump = false;
-                if (isGrounded) isGrounded = rb.useGravity = false;
+                if (isGrounded)
+                {
+                    isGrounded = rb.useGravity = rb.freezeRotation = false;
+                    rb.drag = 5;
+                }
 
                 //Gliding/steering
                 float distance = Vector3.Distance(leftPos, rightPos);
+                if (distance < 0.02f) distance = 0.02f;
                 Vector3 scale = parachute.localScale;
                 parachute.localScale = new Vector3(scale.x, scale.y, Mathf.Lerp(scale.z, Mathf.Clamp(distance * 5, 0.5f, 1.2f), t));
-                rb.AddForce(Vector3.down * paraglideGravity * Mathf.Clamp(5 - distance * 20, 0.2f, 5));
+                rb.AddForce(Vector3.down * paraglideGravity * Mathf.Clamp(0.2f / distance, 0.2f, 10));
                 rb.AddForce(interactableParent.forward * glideForce, ForceMode.Acceleration);
                 float startValue = rot.x;
                 if (startValue > 180) startValue -= 360;
                 rb.AddTorque(-interactableParent.up * Mathf.Lerp(startValue, roll, t) * paraglideTurnForce, ForceMode.Acceleration);
-                if (leftSpeed > 0.7f && rightSpeed > 0.7f && Vector3.Dot(leftVel.normalized, interactableParent.up) < -0.7f && Vector3.Dot(rightVel.normalized, interactableParent.up) < -0.7f)
+                if (leftSpeed > 0.5f && rightSpeed > 0.5f && Vector3.Dot(leftVel.normalized, interactableParent.up) < -0.7f && Vector3.Dot(rightVel.normalized, interactableParent.up) < -0.7f)
                 {
                     StartCoroutine(Updraft(10, (leftSpeed + rightSpeed) * 5, interactableParent.up, false));
                 }
@@ -355,6 +364,7 @@ public class Skier : MonoBehaviour
                 rb.freezeRotation = true;
                 rb.drag = minDrag;
             }
+            myT.Rotate(new Vector3(0, turnAction.ReadValue<Vector2>().x * normalTurnForce * Time.fixedDeltaTime, 0));
             rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y) * normalMoveForce), ForceMode.VelocityChange);
             if (Physics.Raycast(myT.position + currentUp * 1.7f, -currentUp, 1.75f, groundMask) && colliding)
             {
@@ -379,7 +389,6 @@ public class Skier : MonoBehaviour
                     if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
                     if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
                 }
-                else if (isGrounded) isGrounded = false;
                 if (jump) jump = false;
             }
             if (rightFlip) rightFlip = false;
@@ -388,28 +397,31 @@ public class Skier : MonoBehaviour
         }
 
         //Attached skis
-        if (Physics.Raycast(myT.position + currentUp * 1.7f, -currentUp, out hit, 1.8f, groundMask))
+        rb.AddForce(Vector3.down * skiGravity);
+        if (Physics.Raycast(myT.position + currentUp * 1.7f, -currentUp, out hit, 1.9f, groundMask))
         {
-            //Skier stabilization
-            Vector3 groundUp = hit.normal;
-            Vector3 rotationAxis = Vector3.Cross(currentUp, groundUp);
-            rb.AddTorque(rotationAxis.normalized * Vector3.Angle(currentUp, groundUp) * alignStrength);
-
-            //Velocity control based on direction
-            Vector3 downhill = Vector3.ProjectOnPlane(Vector3.down, groundUp).normalized;
-            Vector3 skierDirection = Vector3.ProjectOnPlane(interactableParent.forward, groundUp).normalized;
-            float alignment = Vector3.Dot(downhill, skierDirection);
-            rb.AddForce(Vector3.Slerp(downhill, skierDirection, Mathf.Clamp01(Mathf.Clamp01(alignment) * skierDirectionWeight)) * skiSpeed, ForceMode.Acceleration);
-            float targetDrag = Mathf.Lerp(minDrag, maxDrag, 1 - Mathf.Clamp01(Mathf.Abs(alignment)));
-            rb.drag = Mathf.Lerp(rb.drag, targetDrag, perpDeceleration);
-
-            //Is on ground
             if (!isGrounded)
             {
                 isGrounded = true;
                 if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
                 if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
             }
+
+            if (hit.collider.gameObject.layer != 14)
+            {
+                //Skier stabilization
+                Vector3 groundUp = hit.normal;
+                Vector3 rotationAxis = Vector3.Cross(currentUp, groundUp);
+                rb.AddTorque(rotationAxis.normalized * Vector3.Angle(currentUp, groundUp) * alignStrength);
+                //Velocity control based on direction
+                Vector3 downhill = Vector3.ProjectOnPlane(Vector3.down, groundUp).normalized;
+                Vector3 skierDirection = Vector3.ProjectOnPlane(interactableParent.forward, groundUp).normalized;
+                float alignment = Vector3.Dot(downhill, skierDirection);
+                rb.AddForce(skierDirection * skiSpeed * Mathf.Clamp01(alignment + 1), ForceMode.Acceleration);
+                float targetDrag = Mathf.Lerp(minDrag, maxDrag, 1 - Mathf.Clamp01(Mathf.Abs(alignment) * 1.5f));
+                rb.drag = Mathf.Lerp(rb.drag, targetDrag, perpDeceleration);
+            }
+            else rb.drag = 3;
             rb.AddTorque(interactableParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)) * (groundTurnForce + crouchSpeedIncrease), ForceMode.Acceleration);
             rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x * (xMoveForce + crouchSpeedIncrease), 0, moveInput.y * (zMoveForce + crouchSpeedIncrease))), ForceMode.Acceleration);
             if (jump)
@@ -423,14 +435,14 @@ public class Skier : MonoBehaviour
         else if (colliding)
         {
             //Is tilted on ground
-            rb.AddTorque(interactableParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)) * (groundTurnForce + crouchSpeedIncrease), ForceMode.Acceleration);
-            rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x * (xMoveForce + crouchSpeedIncrease), 0, moveInput.y * (zMoveForce + crouchSpeedIncrease))), ForceMode.Acceleration);
             if (!isGrounded)
             {
                 isGrounded = true;
                 if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
                 if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
             }
+            rb.AddTorque(interactableParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)) * (groundTurnForce + crouchSpeedIncrease), ForceMode.Acceleration);
+            rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x * (xMoveForce + crouchSpeedIncrease), 0, moveInput.y * (zMoveForce + crouchSpeedIncrease))), ForceMode.Acceleration);
             if (jump) jump = false;
             if (rightFlip) rightFlip = false;
             if (leftFlip) leftFlip = false;
@@ -483,7 +495,7 @@ public class Skier : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer != 9) return;
+        if ((groundMask & (1 << collision.gameObject.layer)) == 0) return;
         colliding = true;
         //collisionNormal = collision.GetContact(0).normal;
         if (!isGrounded)
@@ -494,14 +506,13 @@ public class Skier : MonoBehaviour
     }
     void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.layer != 9) return;
+        if ((groundMask & (1 << collision.gameObject.layer)) == 0) return;
         if (!colliding) colliding = true;
         //collisionNormal = collision.GetContact(0).normal;
     }
-
     void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.layer != 9) return;
+        if ((groundMask & (1 << collision.gameObject.layer)) == 0) return;
         colliding = false;
     }
 }

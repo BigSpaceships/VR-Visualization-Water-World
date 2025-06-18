@@ -6,18 +6,25 @@ public class SkiController : ActionBasedController
     [Header("Custom Fields")]
     [SerializeField] Transform controllerModel;
     [SerializeField] Transform handModel;
+    Transform myT;
     Animator animator;
     public Pole attachedPole;
     public Skis attachedSki;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        myT = transform;
+    }
 
     /*protected override void UpdateTrackingInput(XRControllerState controllerState)
     {
         //Clamp controller position
         base.UpdateTrackingInput(controllerState);
-        Vector3 pos = myT.localPosition;
-        pos.x = Mathf.Clamp(pos.x, -0.4f, 0.4f);
-        pos.z = Mathf.Clamp(pos.z, -0.4f, 0.4f);
-        myT.localPosition = pos;
+        Vector3 pos = controllerState.position;
+        pos.x = Mathf.Clamp(pos.x, -1, 1);
+        pos.z = Mathf.Clamp(pos.z, -1, 1);
+        controllerState.position = pos;
     }*/
 
     public void SwitchController(bool hands)
