@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8057033320831480890}
   - component: {fileID: 3068767536750127621}
   - component: {fileID: 2533325890021005954}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 7589637073874262694}
   - component: {fileID: 9025492830476736783}
   - component: {fileID: 8374401383109050810}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -253,7 +253,7 @@ GameObject:
   - component: {fileID: 6153155348820337300}
   - component: {fileID: 4878878794801942581}
   - component: {fileID: 7852202595535818785}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Image_BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,7 +329,7 @@ GameObject:
   - component: {fileID: 1363595763006300602}
   - component: {fileID: 6801198048230014492}
   - component: {fileID: 6805396941923135539}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -434,7 +434,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8838646732858452338}
   - component: {fileID: 65528450011386240}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -489,7 +489,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7523726073588733317}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ScreenPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -523,7 +523,7 @@ GameObject:
   - component: {fileID: 4124653812671966406}
   - component: {fileID: 7770456399319561679}
   - component: {fileID: 2613502718014422386}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text_Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -668,7 +668,7 @@ GameObject:
   - component: {fileID: 8324500686084263339}
   - component: {fileID: 8107940169121203967}
   - component: {fileID: 1106955425565726541}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text_Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -819,7 +819,7 @@ GameObject:
   - component: {fileID: 3107058824092824737}
   - component: {fileID: 1853587729544580014}
   - component: {fileID: 8911999562025829642}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -958,7 +958,7 @@ GameObject:
   - component: {fileID: 7552758315601942988}
   - component: {fileID: 3983680288233896602}
   - component: {fileID: 8114120373208647707}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1142,6 +1142,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d55c0ceb1f57dad489c04c6535927610, type: 3}
       propertyPath: m_Name
       value: Controller
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d55c0ceb1f57dad489c04c6535927610, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d55c0ceb1f57dad489c04c6535927610, type: 3}
       propertyPath: m_StaticEditorFlags

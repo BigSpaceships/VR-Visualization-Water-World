@@ -350,7 +350,7 @@ PrefabInstance:
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
@@ -387,6 +387,10 @@ PrefabInstance:
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleLayer.m_Bits
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16904
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_InteractionLayers.m_Bits
@@ -498,7 +502,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 29435145}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: StairGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -903,7 +907,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
@@ -944,6 +948,10 @@ PrefabInstance:
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16896
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
@@ -1073,7 +1081,7 @@ PrefabInstance:
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
@@ -1110,6 +1118,10 @@ PrefabInstance:
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleLayer.m_Bits
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16904
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_InteractionLayers.m_Bits
@@ -1340,7 +1352,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
@@ -1381,6 +1393,10 @@ PrefabInstance:
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16896
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
@@ -2282,7 +2298,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -2364,7 +2380,7 @@ PrefabInstance:
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
@@ -2401,6 +2417,10 @@ PrefabInstance:
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleLayer.m_Bits
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16904
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_InteractionLayers.m_Bits
@@ -2913,7 +2933,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -2995,7 +3015,7 @@ PrefabInstance:
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
@@ -3032,6 +3052,10 @@ PrefabInstance:
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleLayer.m_Bits
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16904
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_InteractionLayers.m_Bits
@@ -3237,7 +3261,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -3347,7 +3371,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
@@ -3388,6 +3412,10 @@ PrefabInstance:
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16896
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
@@ -3717,7 +3745,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
@@ -3758,6 +3786,10 @@ PrefabInstance:
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16896
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
@@ -3927,7 +3959,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
@@ -3968,6 +4000,10 @@ PrefabInstance:
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16896
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
@@ -4331,7 +4367,7 @@ PrefabInstance:
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
@@ -4368,6 +4404,10 @@ PrefabInstance:
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleLayer.m_Bits
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16904
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_InteractionLayers.m_Bits
@@ -4493,7 +4533,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
@@ -4534,6 +4574,10 @@ PrefabInstance:
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16896
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
@@ -4824,7 +4868,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -5111,7 +5155,7 @@ PrefabInstance:
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
@@ -5148,6 +5192,10 @@ PrefabInstance:
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleLayer.m_Bits
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16904
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_InteractionLayers.m_Bits
@@ -5293,7 +5341,7 @@ GameObject:
   - component: {fileID: 728722842}
   - component: {fileID: 728722841}
   - component: {fileID: 728722840}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6256,7 +6304,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -6912,7 +6960,7 @@ PrefabInstance:
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
@@ -6949,6 +6997,10 @@ PrefabInstance:
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleLayer.m_Bits
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16904
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_InteractionLayers.m_Bits
@@ -7458,7 +7510,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
@@ -7499,6 +7551,10 @@ PrefabInstance:
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16896
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
@@ -7788,7 +7844,7 @@ PrefabInstance:
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
@@ -7825,6 +7881,10 @@ PrefabInstance:
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleLayer.m_Bits
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16904
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_InteractionLayers.m_Bits
@@ -7922,7 +7982,7 @@ PrefabInstance:
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
@@ -7959,6 +8019,10 @@ PrefabInstance:
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleLayer.m_Bits
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16904
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_InteractionLayers.m_Bits
@@ -8285,7 +8349,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -8431,7 +8495,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -9059,7 +9123,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
@@ -9100,6 +9164,10 @@ PrefabInstance:
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16896
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
@@ -9527,7 +9595,7 @@ PrefabInstance:
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
@@ -9564,6 +9632,10 @@ PrefabInstance:
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleLayer.m_Bits
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16904
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_InteractionLayers.m_Bits
@@ -9725,7 +9797,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -9835,7 +9907,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
@@ -9876,6 +9948,10 @@ PrefabInstance:
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16896
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
@@ -11264,7 +11340,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -11410,7 +11486,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -11952,7 +12028,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -12070,7 +12146,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1654838026}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: StairGroup (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12228,7 +12304,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -12321,7 +12397,7 @@ PrefabInstance:
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
@@ -12358,6 +12434,10 @@ PrefabInstance:
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleLayer.m_Bits
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16904
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_InteractionLayers.m_Bits
@@ -12519,7 +12599,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -13041,7 +13121,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9032954039820430273, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
       propertyPath: m_ConeCastAngle
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9032954039820430273, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
       propertyPath: m_AllowAnchorControl
@@ -13049,7 +13129,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9032954039820430273, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
       propertyPath: m_MaxRaycastDistance
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 9032954039820430273, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
       propertyPath: m_RaycastMask.m_Bits
@@ -13093,7 +13173,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9146015503685400394, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
       propertyPath: m_ConeCastAngle
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9146015503685400394, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
       propertyPath: m_AllowAnchorControl
@@ -13101,7 +13181,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9146015503685400394, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
       propertyPath: m_MaxRaycastDistance
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 9146015503685400394, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
       propertyPath: m_RaycastMask.m_Bits
@@ -13483,7 +13563,7 @@ GameObject:
   - component: {fileID: 1763941130}
   - component: {fileID: 1763941129}
   - component: {fileID: 1763941128}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Terrain_(500.00, 0.00, 500.00)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13860,7 +13940,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -13942,7 +14022,7 @@ PrefabInstance:
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
@@ -13979,6 +14059,10 @@ PrefabInstance:
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleLayer.m_Bits
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16904
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_InteractionLayers.m_Bits
@@ -14140,7 +14224,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -14222,7 +14306,7 @@ PrefabInstance:
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
@@ -14259,6 +14343,10 @@ PrefabInstance:
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleLayer.m_Bits
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16904
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_InteractionLayers.m_Bits
@@ -14356,7 +14444,7 @@ PrefabInstance:
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
@@ -14393,6 +14481,10 @@ PrefabInstance:
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleLayer.m_Bits
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16904
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_InteractionLayers.m_Bits
@@ -14554,7 +14646,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -14700,7 +14792,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -14851,7 +14943,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -14933,7 +15025,7 @@ PrefabInstance:
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
@@ -14970,6 +15062,10 @@ PrefabInstance:
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleLayer.m_Bits
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16904
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_InteractionLayers.m_Bits
@@ -15200,7 +15296,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
@@ -15241,6 +15337,10 @@ PrefabInstance:
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16896
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
@@ -15313,7 +15413,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1934160335}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: StairGroup (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15447,7 +15547,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
@@ -15488,6 +15588,10 @@ PrefabInstance:
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16896
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
@@ -15681,7 +15785,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -16062,7 +16166,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -16208,7 +16312,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -16354,7 +16458,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -16665,7 +16769,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -16787,7 +16891,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
@@ -16828,6 +16932,10 @@ PrefabInstance:
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16896
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
@@ -17021,7 +17129,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ccf04721030c2cb4fb243e9206be44e8, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -17112,13 +17220,13 @@ MonoBehaviour:
   camOffset: {fileID: 1879845518}
   cam: {fileID: 1731298975}
   alignStrength: 15
-  skierDirectionWeight: 2
-  minDrag: 0.1
-  maxDrag: 5
+  skiGravity: 1500
+  minDrag: 1
+  maxDrag: 3
   perpDeceleration: 0.5
   groundMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 16896
   leftController: {fileID: 939649882}
   rightController: {fileID: 1952920596}
   hands: 1
@@ -17138,7 +17246,7 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: -8198699208435500284, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  normalTurnForce: 90
+  normalTurnForce: 60
   groundTurnForce: 10
   airTurnForce: 15
   turnActionProperty:
@@ -17165,13 +17273,13 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 5902736961535794188, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  baseSkiSpeed: 1
+  baseSkiSpeed: 20
   crouchHeight: 1
   crouchSpeed: 5
-  crouchSpeedIncrease: 2
+  crouchSpeedIncrease: 10
   normalJumpForce: 15
-  jumpForce: 25
-  paraglideJumpForce: 30
+  jumpForce: 20
+  paraglideJumpForce: 25
   flipForce: 15
   jumpActionProperty:
     m_UseReference: 1
@@ -17417,7 +17525,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2049451501}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: StairGroup (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17881,7 +17989,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
@@ -17922,6 +18030,10 @@ PrefabInstance:
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16896
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
@@ -18079,7 +18191,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
@@ -18120,6 +18232,10 @@ PrefabInstance:
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16896
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
@@ -18437,7 +18553,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
@@ -18478,6 +18594,10 @@ PrefabInstance:
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16896
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
@@ -18630,7 +18750,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: leftAttach.x
@@ -18671,6 +18791,10 @@ PrefabInstance:
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: minDeselectForce
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16896
       objectReference: {fileID: 0}
     - target: {fileID: 5433291177539491262, guid: 63183c7e745e14936b85531de7bbd6fc, type: 3}
       propertyPath: deselectDirection.x
@@ -18790,7 +18914,7 @@ PrefabInstance:
       objectReference: {fileID: 301764970}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: attachSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleColor.a
@@ -18827,6 +18951,10 @@ PrefabInstance:
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: poleLayer.m_Bits
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 16904
       objectReference: {fileID: 0}
     - target: {fileID: 4186779620856973760, guid: 937ed3f5e92b1438dbba029899e3bfa5, type: 3}
       propertyPath: m_InteractionLayers.m_Bits
@@ -18959,17 +19087,49 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 95946663736278414, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 256546442252074408, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 397868216363939276, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 412937401688987235, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 510873997590324376, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 651988455180410032, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 724816055778413532, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 771784029236575410, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 1009173288312687750, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -97.08
+      value: -107.91594
       objectReference: {fileID: 0}
     - target: {fileID: 1009173288312687750, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 572.06
+      value: 576.6928
       objectReference: {fileID: 0}
     - target: {fileID: 1009173288312687750, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -194.1
+      value: -143.9047
       objectReference: {fileID: 0}
     - target: {fileID: 1009173288312687750, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
       propertyPath: m_LocalRotation.w
@@ -19019,9 +19179,137 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
       value: R_Area2 Under Water
       objectReference: {fileID: 0}
+    - target: {fileID: 2362190393795360752, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2364298531075168390, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2626205538158197683, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2687333013114455069, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2819482185338410073, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 3399929356362220134, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 3626859253113044182, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 3677951754837787199, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 3718340436447117139, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 3784325299066686410, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340276694168641318, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400088609029522467, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 4445148554875106562, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4716464326835086541, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5193466589987598847, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5457578443455270220, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 5912992105827300940, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
       propertyPath: m_Name
       value: Heli
+      objectReference: {fileID: 0}
+    - target: {fileID: 5912992105827300940, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274649511971475819, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6853914599650691329, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6958536591713960619, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7043624584505030811, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151898925104153778, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7181927659155576352, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7215112078526626750, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7235869389399430859, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7262547601733538498, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7429399261661452475, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527583427698056052, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568272240874175813, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596948775619973643, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599375395373845254, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 8869461225711263308, guid: b1dfc682efabc4fd69a183878232df48, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
