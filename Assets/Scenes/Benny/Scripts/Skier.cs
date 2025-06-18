@@ -24,6 +24,7 @@ public class Skier : MonoBehaviour
     SkiController leftSkiController;
     SkiController rightSkiController;
     [SerializeField] bool hands = true;
+    [SerializeField] Manager manager;
 
     [Header("Movement")]
     [SerializeField] float normalMoveForce;
@@ -176,7 +177,7 @@ public class Skier : MonoBehaviour
         if (leftFlipAction.WasReleasedThisFrame()) leftFlip = false;
         if (rightFlipAction.WasReleasedThisFrame()) rightFlip = false;
 
-        if (resetAction.WasPressedThisFrame()) SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);;
+        if (resetAction.WasPressedThisFrame()) manager.ReloadScene(0.5f);
         if (toggleController.WasPressedThisFrame())
         {
             hands = !hands;
@@ -200,7 +201,6 @@ public class Skier : MonoBehaviour
         }
 
         //Crouch mechanics
-        if (paragliding) return;
         float height = camOffset.localPosition.y;
         if (crouchAction.IsPressed())
         {
@@ -288,7 +288,7 @@ public class Skier : MonoBehaviour
                     }
                     else rb.drag = 3;
                     rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x * xMoveForce, 0, moveInput.y * zMoveForce)), ForceMode.Acceleration);
-                    rb.AddTorque(interactableParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)) * groundTurnForce, ForceMode.Acceleration);
+                    rb.AddTorque(interactableParent.TransformDirection(new Vector3(0, turnInput.x, 0)) * groundTurnForce, ForceMode.Acceleration);
                 }
                 if (jump)
                 {
@@ -422,7 +422,7 @@ public class Skier : MonoBehaviour
                 rb.drag = Mathf.Lerp(rb.drag, targetDrag, perpDeceleration);
             }
             else rb.drag = 3;
-            rb.AddTorque(interactableParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)) * (groundTurnForce + crouchSpeedIncrease), ForceMode.Acceleration);
+            rb.AddTorque(interactableParent.TransformDirection(new Vector3(0, turnInput.x, 0)) * (groundTurnForce + crouchSpeedIncrease), ForceMode.Acceleration);
             rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x * (xMoveForce + crouchSpeedIncrease), 0, moveInput.y * (zMoveForce + crouchSpeedIncrease))), ForceMode.Acceleration);
             if (jump)
             {
