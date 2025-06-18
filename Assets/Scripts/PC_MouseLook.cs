@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR;
+using UnityEngine.XR.Interaction.Toolkit.Inputs.Simulation;
 
 public class PC_MouseLook : MonoBehaviour {
     public Transform cameraTransform; // 绑定 Main Camera
@@ -24,7 +25,7 @@ public class PC_MouseLook : MonoBehaviour {
 
     void Start() {
         // 检测是否有 VR 设备
-        isVRActive = XRSettings.isDeviceActive;
+        isVRActive = checkVRActive();
 
         if (!isVRActive) {
             Cursor.lockState = CursorLockMode.Locked; // 锁定鼠标
@@ -33,7 +34,7 @@ public class PC_MouseLook : MonoBehaviour {
 
     private float mouseLockoutTimer = 0.1f;
     void Update() {
-        isVRActive = XRSettings.isDeviceActive; // 动态检测是否接入 VR 设备
+        isVRActive = checkVRActive();
 
         if (!isVRActive) { // 仅当 VR 设备未连接时使用鼠标和键盘
             if (mouseLockoutTimer > 0f) {
@@ -46,6 +47,15 @@ public class PC_MouseLook : MonoBehaviour {
                 HandleKeyboardMovement();
             }
         }
+    }
+
+    private bool checkVRActive() {
+        bool active = XRSettings.isDeviceActive;
+        var simHMD = InputSystem.GetDevice<XRSimulatedHMD>();
+        if (simHMD != null) {
+            active = true;
+        }
+        return active;
     }
 
     void HandleMouseLook() {
