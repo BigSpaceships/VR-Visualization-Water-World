@@ -86,8 +86,9 @@ public class Parachute : XRBaseInteractable
         animator.SetTrigger("Unfurl");
         Skier.paragliding = true;
         Skier.parachute = myT;
+        Skier.rb.drag = 5;
         for (int i = 0; i < 34; i++) ropes[i].paragliding = true;
-        coroutine = StartCoroutine(Selected(new Vector3(0, 1.7f, 0.5f), Quaternion.Euler(0, -90, 0)));
+        coroutine = StartCoroutine(Selected(new Vector3(0, 1.65f, 0.5f), Quaternion.Euler(0, -90, 0)));
     }
 
     protected override void OnSelectExited(SelectExitEventArgs args)

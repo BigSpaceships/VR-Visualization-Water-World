@@ -116,8 +116,9 @@ public class Skis : XRBaseInteractable
             if (Skier.attachedSkis == 1)
             {
                 Skier.myT.position += new Vector3(0, 0.05f, 0);
-                Skier.rb.freezeRotation = false;
-                Skier.rb.drag = 0.1f;
+                Rigidbody skierRb = Skier.rb;
+                skierRb.freezeRotation = false;
+                skierRb.drag = 0.1f;
             }
             col.enabled = false;
             coroutine = StartCoroutine(Selected(attach, Quaternion.identity));
@@ -134,8 +135,9 @@ public class Skis : XRBaseInteractable
             Skier.attachedSkis--;
             if (Skier.attachedSkis == 0)
             {
-                Skier.rb.freezeRotation = true;
-                Skier.rb.drag = 3;
+                Rigidbody skierRb = Skier.rb;
+                skierRb.freezeRotation = true;
+                skierRb.drag = 3;
             }
             interactionManager.SelectExit(args.interactorObject, this);
             myT.parent = objectParent;
