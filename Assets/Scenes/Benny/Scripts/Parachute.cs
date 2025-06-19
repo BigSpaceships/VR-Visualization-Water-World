@@ -81,7 +81,7 @@ public class Parachute : XRBaseInteractable
         Skier.paragliding = true;
         Skier.parachute = myT;
         for (int i = 0; i < 34; i++) ropes[i].paragliding = true;
-        coroutine = StartCoroutine(Selected(new Vector3(0, 1.65f, 0.5f), Quaternion.Euler(0, -90, 0)));
+        coroutine = StartCoroutine(Selected(new Vector3(0, 1.6f, 0.55f), Quaternion.Euler(0, -90, 0)));
     }
 
     protected override void OnSelectExited(SelectExitEventArgs args)
