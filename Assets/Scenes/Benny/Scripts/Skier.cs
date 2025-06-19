@@ -96,8 +96,7 @@ public class Skier : MonoBehaviour
     WaitForSeconds velocityWait = new WaitForSeconds(0.1f);
 
     [Header("UI")]
-    [SerializeField] Transform managerObject;
-    Manager manager;
+    [SerializeField] Manager manager;
     CanvasGroup canvasGroup, resetCanvas;
     TMP_Text timeText, altText, speedText;
     public static TMP_Text ringText;
@@ -108,6 +107,7 @@ public class Skier : MonoBehaviour
     Quaternion initialRot;
     Coroutine reload;
     WaitForSeconds twoSeconds = new WaitForSeconds(2);
+    public static bool initialized;
 
     void Awake()
     {
@@ -145,17 +145,17 @@ public class Skier : MonoBehaviour
         resetAction = resetActionProperty.action;
         toggleController = toggleControllerProperty.action;
 
-        manager = managerObject.GetComponent<Manager>();
         canvasGroup = manager.canvasGroup;
-        resetCanvas = managerObject.GetChild(1).GetComponent<CanvasGroup>();
+        resetCanvas = cam.GetChild(0).GetComponent<CanvasGroup>();
         resetCanvas.alpha = 0;
-        Transform statCanvas = managerObject.GetChild(2);
+        Transform statCanvas = cam.GetChild(1);
         timeText = statCanvas.GetChild(0).GetComponent<TMP_Text>();
         altText = statCanvas.GetChild(1).GetComponent<TMP_Text>();
         speedText = statCanvas.GetChild(2).GetComponent<TMP_Text>();
         ringText = statCanvas.GetChild(3).GetComponent<TMP_Text>();
         ringText.enabled = false;
         myT.GetPositionAndRotation(out initialPos, out initialRot);
+        altText.SetText("Altitude: " + (initialPos.y * 3.281f).ToString("0") + "ft");
 
 #if UNITY_EDITOR
         Instantiate(devSim);
@@ -193,6 +193,8 @@ public class Skier : MonoBehaviour
 
     void Update()
     {
+        if (!initialized) return;
+
         //Input detection
         if (isGrounded)
         {
@@ -266,7 +268,7 @@ public class Skier : MonoBehaviour
         }
 
         //UI
-            seconds += Time.deltaTime;
+        seconds += Time.deltaTime;
         if (Mathf.Round(seconds) >= 60)
         {
             seconds = 0;
@@ -274,7 +276,7 @@ public class Skier : MonoBehaviour
         }
         timeText.SetText("Time: " + minutes + ":" + seconds.ToString("00"));
         altText.SetText("Altitude: " + (myT.position.y * 3.281f).ToString("0") + "ft");
-        speedText.SetText("Speed: " + (rb.velocity.magnitude * 3.281).ToString("0") + "ft/s");
+        speedText.SetText("Speed: " + (rb.velocity.magnitude * 3.281).ToString("0.0") + "ft/s");
     }
 
     void LateUpdate()
@@ -286,6 +288,8 @@ public class Skier : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!initialized) return;
+        
         //Movement input
         Vector2 turnInput = turnAction.ReadValue<Vector2>();
         Vector2 moveInput = moveAction.ReadValue<Vector2>();
@@ -353,7 +357,7 @@ public class Skier : MonoBehaviour
                 {
                     if (rb.freezeRotation) rb.freezeRotation = false;
                     rb.AddForce(interactableParent.up * paraglideJumpForce, ForceMode.VelocityChange);
-                    StartCoroutine(Updraft(45, 100, interactableParent.TransformDirection(new Vector3(0, 1, -1)).normalized));
+                    StartCoroutine(Updraft(3000, interactableParent.TransformDirection(new Vector3(0, 1, -1)).normalized));
                     jump = false;
                 }
             }
@@ -406,7 +410,7 @@ public class Skier : MonoBehaviour
                 rb.AddTorque(-interactableParent.up * Mathf.Lerp(startValue, roll, t) * paraglideTurnForce, ForceMode.Acceleration);
                 if (leftSpeed > 1 && rightSpeed > 1 && Vector3.Dot(leftVel.normalized, interactableParent.up) < -0.7f && Vector3.Dot(rightVel.normalized, interactableParent.up) < -0.7f)
                 {
-                    StartCoroutine(Updraft(10, (leftSpeed + rightSpeed) * 3, interactableParent.up, false));
+                    rb.AddForce(interactableParent.up * (leftSpeed + rightSpeed) * 40, ForceMode.Acceleration);
                 }
             }
             if (rightFlip) rightFlip = false;
@@ -501,16 +505,10 @@ public class Skier : MonoBehaviour
         }
     }
 
-    IEnumerator Updraft(int strength, float updraftForce, Vector3 direction, bool wait = true)
+    IEnumerator Updraft(float updraftForce, Vector3 direction)
     {
-        if (wait) yield return updraftWait;
-        int i = 0;
-        while (i < strength)
-        {
-            if (!isGrounded && !colliding) rb.AddForce(direction * updraftForce, ForceMode.Acceleration);
-            yield return null;
-            i++;
-        }
+        yield return updraftWait;
+        rb.AddForce(direction * updraftForce, ForceMode.Acceleration);
     }
 
     IEnumerator CalculateVelocity()
@@ -577,6 +575,7 @@ public class Skier : MonoBehaviour
             yield return null;
         }
         alpha = canvasGroup.alpha = 1;
+        rb.velocity = rb.angularVelocity = Vector3.zero;
         myT.SetPositionAndRotation(initialPos, initialRot);
         resetCanvas.alpha = 0;
         elapsedTime = 0;

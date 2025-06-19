@@ -68,5 +68,6 @@ public class Manager : MonoBehaviour
             yield return null;
         }
         canvasGroup.alpha = 0;
+        Skier.initialized = true;
     }
 }
