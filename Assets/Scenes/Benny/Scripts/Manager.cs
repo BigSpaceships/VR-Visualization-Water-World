@@ -1,17 +1,48 @@
 using System.Collections;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Manager : MonoBehaviour
 {
-    public void myLoadScene(string sceneName)
+    public CanvasGroup canvasGroup;
+
+    void Awake()
     {
-        StartCoroutine(Load(sceneName));
+        canvasGroup = transform.GetChild(0).GetComponent<CanvasGroup>();
     }
 
-    IEnumerator Load(string sceneName)
+    void OnEnable()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        StartCoroutine(FadeIn(0.5f));
+    }
+
+    public void myLoadScene(string sceneName)
+    {
+        StartCoroutine(Load(sceneName, 0.5f));
+    }
+
+    IEnumerator Load(string sceneName, float duration)
+    {
+        float elapsedTime = 0;
+        float alpha = 0;
+        while (alpha <= 1)
+        {
+            alpha = canvasGroup.alpha = elapsedTime / duration;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
         Scene currentScene = SceneManager.GetActiveScene();
         AsyncOperation load = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         while (!load.isDone) yield return null;
@@ -23,5 +54,17 @@ public class Manager : MonoBehaviour
     {
         if (Mathf.Abs(vector.x - target.x) < threshold && Mathf.Abs(vector.y - target.y) < threshold && Mathf.Abs(vector.z - target.z) < threshold) return true;
         return false;
+    }
+
+    private IEnumerator FadeIn(float duration)
+    {
+        float elapsedTime = 0;
+        float alpha = 1;
+        while (alpha >= 0.0f)
+        {
+            alpha = canvasGroup.alpha = 1 - elapsedTime / duration;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
@@ -6,7 +7,6 @@ public class SkiController : ActionBasedController
     [Header("Custom Fields")]
     [SerializeField] Transform controllerModel;
     [SerializeField] Transform handModel;
-    Transform myT;
     Animator animator;
     public Pole attachedPole;
     public Skis attachedSki;
@@ -14,15 +14,15 @@ public class SkiController : ActionBasedController
     protected override void Awake()
     {
         base.Awake();
-        myT = transform;
+        //myT = transform;
     }
 
     /*protected override void UpdateTrackingInput(XRControllerState controllerState)
     {
         //Clamp controller position
-        base.UpdateTrackingInput(controllerState);
-        Vector3 pos = controllerState.position;
+        Vector3 pos = cam.InverseTransformPoint(myT.position);
         pos.x = Mathf.Clamp(pos.x, -1, 1);
+        pos.y = Mathf.Clamp(pos.y, -1, 1);
         pos.z = Mathf.Clamp(pos.z, -1, 1);
         controllerState.position = pos;
     }*/
