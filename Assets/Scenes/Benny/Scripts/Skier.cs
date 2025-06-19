@@ -86,6 +86,7 @@ public class Skier : MonoBehaviour
     [SerializeField] int paraglideGravity;
     WaitForSeconds updraftWait = new WaitForSeconds(0.3f);
     [SerializeField] int glideForce;
+    [SerializeField] int inputGlideForce;
     [SerializeField] float paraglideTurnForce;
     [SerializeField] float parachuteVelocityOffset;
     Vector3 leftVel, rightVel, leftLastPos, rightLastPos;
@@ -260,7 +261,8 @@ public class Skier : MonoBehaviour
             float t = Mathf.Clamp01(parachuteAdjustmentSpeed * Time.fixedDeltaTime);
             parachute.GetLocalPositionAndRotation(out Vector3 pos, out Quaternion qRot);
             Vector3 rot = qRot.eulerAngles;
-            Vector3 targetPos = (leftPos + rightPos) / 2 + new Vector3(0, rb.velocity.y * parachuteVelocityOffset, 0.25f);
+            Vector3 targetPos = (leftPos + rightPos) / 2 + new Vector3(0, rb.velocity.y * parachuteVelocityOffset, 0.2f);
+            targetPos.y = Mathf.Clamp(targetPos.y, 1.4f, 2.4f);
             parachute.SetLocalPositionAndRotation(Vector3.Lerp(pos, targetPos, t), Quaternion.Slerp(qRot, Quaternion.Euler(new Vector3(roll, rot.y, 0)), t));
 
             //Is grounded
@@ -275,7 +277,7 @@ public class Skier : MonoBehaviour
                         rb.drag = 3;
                     }
                     myT.Rotate(new Vector3(0, turnAction.ReadValue<Vector2>().x * normalTurnForce * Time.fixedDeltaTime, 0));
-                    rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y) * normalMoveForce), ForceMode.VelocityChange);
+                    rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y)).normalized * normalMoveForce, ForceMode.VelocityChange);
                 }
                 //Parachute skiing (speedrunning)
                 else
@@ -286,12 +288,12 @@ public class Skier : MonoBehaviour
                         rb.useGravity = false;
                     }
                     rb.AddForce(Vector3.down * skiGravity);
+                    //Skier stabilization
+                    Vector3 groundUp = hit.normal;
+                    Vector3 rotationAxis = Vector3.Cross(currentUp, groundUp);
+                    rb.AddTorque(rotationAxis.normalized * Vector3.Angle(currentUp, groundUp) * alignStrength);
                     if (hit.collider.gameObject.layer != 14)
                     {
-                        //Skier stabilization
-                        Vector3 groundUp = hit.normal;
-                        Vector3 rotationAxis = Vector3.Cross(currentUp, groundUp);
-                        rb.AddTorque(rotationAxis.normalized * Vector3.Angle(currentUp, groundUp) * alignStrength);
                         //Velocity control based on direction
                         Vector3 downhill = Vector3.ProjectOnPlane(Vector3.down, groundUp).normalized;
                         Vector3 skierDirection = Vector3.ProjectOnPlane(interactableParent.forward, groundUp).normalized;
@@ -326,7 +328,7 @@ public class Skier : MonoBehaviour
                     }
                     rb.AddForce(Vector3.down * skiGravity);
                     rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x * xMoveForce, 0, moveInput.y * zMoveForce)), ForceMode.Acceleration);
-                    rb.AddTorque(interactableParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)) * groundTurnForce, ForceMode.Acceleration);
+                    rb.AddTorque(interactableParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)).normalized * groundTurnForce, ForceMode.Acceleration);
                 }
                 else if (!isGrounded)
                 {
@@ -347,12 +349,15 @@ public class Skier : MonoBehaviour
                 }
 
                 //Gliding/steering
+                Vector3 rotationAxis = Vector3.Cross(currentUp, Vector3.up);
+                rb.AddTorque(rotationAxis.normalized * Vector3.Angle(currentUp, Vector3.up) * alignStrength);
                 float distance = Vector3.Distance(leftPos, rightPos);
                 if (distance < 0.02f) distance = 0.02f;
                 Vector3 scale = parachute.localScale;
                 parachute.localScale = new Vector3(scale.x, scale.y, Mathf.Lerp(scale.z, Mathf.Clamp(distance * 5, 0.5f, 1.2f), t));
                 rb.AddForce(Vector3.down * paraglideGravity * Mathf.Clamp(Mathf.Pow(0.2f / distance, 2), 0.2f, 10));
                 rb.AddForce(interactableParent.forward * glideForce, ForceMode.Acceleration);
+                rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y) + new Vector3(turnInput.x, 0, turnInput.y)).normalized * inputGlideForce);
                 float startValue = rot.x;
                 if (startValue > 180) startValue -= 360;
                 rb.AddTorque(-interactableParent.up * Mathf.Lerp(startValue, roll, t) * paraglideTurnForce, ForceMode.Acceleration);
@@ -371,11 +376,11 @@ public class Skier : MonoBehaviour
         {
             if (!rb.freezeRotation)
             {
-                rb.freezeRotation = true;
+                rb.freezeRotation = rb.useGravity = true;
                 rb.drag = minDrag;
             }
             myT.Rotate(new Vector3(0, turnAction.ReadValue<Vector2>().x * normalTurnForce * Time.fixedDeltaTime, 0));
-            rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y) * normalMoveForce), ForceMode.VelocityChange);
+            rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y).normalized * normalMoveForce), ForceMode.VelocityChange);
             if (Physics.Raycast(myT.position + currentUp * 1.7f, -currentUp, 1.75f, groundMask) && colliding)
             {
                 if (!isGrounded)
@@ -405,12 +410,12 @@ public class Skier : MonoBehaviour
         {
             if (!isGrounded) isGrounded = true;
 
+            //Skier stabilization
+            Vector3 groundUp = hit.normal;
+            Vector3 rotationAxis = Vector3.Cross(currentUp, groundUp);
+            rb.AddTorque(rotationAxis.normalized * Vector3.Angle(currentUp, groundUp) * alignStrength);
             if (hit.collider.gameObject.layer != 14)
             {
-                //Skier stabilization
-                Vector3 groundUp = hit.normal;
-                Vector3 rotationAxis = Vector3.Cross(currentUp, groundUp);
-                rb.AddTorque(rotationAxis.normalized * Vector3.Angle(currentUp, groundUp) * alignStrength);
                 //Velocity control based on direction
                 Vector3 downhill = Vector3.ProjectOnPlane(Vector3.down, groundUp).normalized;
                 Vector3 skierDirection = Vector3.ProjectOnPlane(interactableParent.forward, groundUp).normalized;
@@ -420,7 +425,7 @@ public class Skier : MonoBehaviour
                 rb.drag = Mathf.Lerp(rb.drag, targetDrag, perpDeceleration);
             }
             else rb.drag = 3;
-            rb.AddTorque(interactableParent.TransformDirection(new Vector3(0, turnInput.x, 0)) * (groundTurnForce + crouchSpeedIncrease), ForceMode.Acceleration);
+            rb.AddTorque(interactableParent.TransformDirection(new Vector3(0, turnInput.x, 0)).normalized * (groundTurnForce + crouchSpeedIncrease), ForceMode.Acceleration);
             rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x * (xMoveForce + crouchSpeedIncrease), 0, moveInput.y * (zMoveForce + crouchSpeedIncrease))), ForceMode.Acceleration);
             if (jump)
             {
@@ -434,7 +439,7 @@ public class Skier : MonoBehaviour
         {
             //Is tilted on ground
             if (!isGrounded) isGrounded = true;
-            rb.AddTorque(interactableParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)) * (groundTurnForce + crouchSpeedIncrease), ForceMode.Acceleration);
+            rb.AddTorque(interactableParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)).normalized * (groundTurnForce + crouchSpeedIncrease), ForceMode.Acceleration);
             rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x * (xMoveForce + crouchSpeedIncrease), 0, moveInput.y * (zMoveForce + crouchSpeedIncrease))), ForceMode.Acceleration);
             if (jump) jump = false;
             if (rightFlip) rightFlip = false;
@@ -445,8 +450,8 @@ public class Skier : MonoBehaviour
             //Is in air
             if (isGrounded) isGrounded = false;
             rb.drag = minDrag;
-            rb.AddTorque(interactableParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)) * airTurnForce, ForceMode.Acceleration);
-            rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y) * airMoveForce), ForceMode.Acceleration);
+            rb.AddTorque(interactableParent.TransformDirection(new Vector3(-turnInput.y, turnInput.x, 0)).normalized * airTurnForce, ForceMode.Acceleration);
+            rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y)).normalized * airMoveForce, ForceMode.Acceleration);
             if (jump) jump = false;
             if (leftFlip) rb.AddTorque(interactableParent.TransformDirection(Vector3.forward) * flipForce, ForceMode.Acceleration);
             if (rightFlip) rb.AddTorque(interactableParent.TransformDirection(Vector3.back) * flipForce, ForceMode.Acceleration);
@@ -527,6 +532,7 @@ public class Skier : MonoBehaviour
             yield return null;
         }
         myT.SetPositionAndRotation(initialPos, initialRot);
+        resetCanvas.alpha = 0;
         elapsedTime = 0;
         while (alpha >= 0.0f)
         {
