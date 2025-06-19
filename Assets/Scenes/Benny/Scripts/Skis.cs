@@ -148,7 +148,7 @@ public class Skis : XRBaseInteractable
             if (rb == null)
             {
                 rb = myT.AddComponent<Rigidbody>();
-                rb = GetComponent<Rigidbody>();
+                if (rb == null) rb = GetComponent<Rigidbody>();
             }
             rb.mass = 0.7f;
             rb.drag = rb.angularDrag = 1;

@@ -78,10 +78,10 @@ public class Parachute : XRBaseInteractable
         skiController = selectInteractor.transform.parent.GetComponent<SkiController>();
         myT.parent = selectedParent;
         animator.SetTrigger("Unfurl");
-        Skier.paragliding = true;
+        Skier.paragliding = Skier.ringText.enabled = true;
         Skier.parachute = myT;
         for (int i = 0; i < 34; i++) ropes[i].paragliding = true;
-        coroutine = StartCoroutine(Selected(new Vector3(0, 1.6f, 0.5f), Quaternion.Euler(0, -90, 0)));
+        coroutine = StartCoroutine(Selected(new Vector3(0, 1.7f, 0.5f), Quaternion.Euler(0, -90, 0)));
     }
 
     protected override void OnSelectExited(SelectExitEventArgs args)
@@ -89,7 +89,7 @@ public class Parachute : XRBaseInteractable
         //Released parachute
         base.OnSelectExited(args);
         if (coroutine != null) StopCoroutine(coroutine);
-        Skier.paragliding = false;
+        Skier.paragliding = Skier.ringText.enabled = false;
         for (int i = 0; i < 34; i++) ropes[i].paragliding = false;
         myT.parent = objectParent;
         rb.isKinematic = false;

@@ -11,6 +11,7 @@ public class Ring : MonoBehaviour
         if (!passed && other.gameObject.layer == 2)
         {
             GetComponent<Renderer>().material.SetColor("_EmissionColor", passedColor);
+            Skier.PassedRing();
             passed = true;
         }
     }
