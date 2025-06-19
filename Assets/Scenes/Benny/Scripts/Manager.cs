@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Manager : MonoBehaviour
 {
-    CanvasGroup canvasGroup;
+    public CanvasGroup canvasGroup;
 
     void Awake()
     {
@@ -48,24 +48,6 @@ public class Manager : MonoBehaviour
         while (!load.isDone) yield return null;
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
         SceneManager.UnloadSceneAsync(currentScene);
-    }
-
-    public void ReloadScene(float duration)
-    {
-        StartCoroutine(Reload(duration));
-    }
-
-    IEnumerator Reload(float duration)
-    {
-        float elapsedTime = 0;
-        float alpha = 0;
-        while (alpha <= 1)
-        {
-            alpha = canvasGroup.alpha = elapsedTime / duration;
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
 
     public static bool EqualVectors(Vector3 vector, Vector3 target, float threshold = 0.1f)

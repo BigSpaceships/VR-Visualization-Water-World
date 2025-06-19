@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
@@ -90,25 +91,19 @@ public class Skier : MonoBehaviour
     Vector3 leftVel, rightVel, leftLastPos, rightLastPos;
     float leftSpeed, rightSpeed;
     WaitForSeconds velocityWait = new WaitForSeconds(0.1f);
+    CanvasGroup canvasGroup;
+    CanvasGroup resetCanvas;
+    Vector3 initialPos;
+    Quaternion initialRot;
 
     void Awake()
     {
         myT = transform;
         rb = GetComponent<Rigidbody>();
-        interactableParent = myT.GetChild(0);
-        moveAction = moveActionProperty.action;
-        turnAction = turnActionProperty.action;
-        crouchAction = crouchActionProperty.action;
-        jumpAction = jumpActionProperty.action;
-        leftFlipAction = leftFlipActionProperty.action;
-        rightFlipAction = rightFlipActionProperty.action;
-        resetAction = resetActionProperty.action;
-        toggleController = toggleControllerProperty.action;
         Skis.leftController = Pole.leftController = leftController;
         Skis.rightController = Pole.rightController = rightController;
         Skis.leftSkiController = Pole.leftSkiController = Parachute.leftSkiController = Rope.leftController = leftSkiController = leftController.GetComponent<SkiController>();
         Skis.rightSkiController = Pole.rightSkiController = Parachute.rightSkiController = Rope.rightController = rightSkiController = rightController.GetComponent<SkiController>();
-
         if (hands)
         {
             Rope.leftTarget = leftHandRopeTarget;
@@ -127,9 +122,21 @@ public class Skier : MonoBehaviour
             leftSkiController.SwitchController(false);
             rightSkiController.SwitchController(false);
         }
+        interactableParent = myT.GetChild(0);
+        moveAction = moveActionProperty.action;
+        turnAction = turnActionProperty.action;
+        crouchAction = crouchActionProperty.action;
+        jumpAction = jumpActionProperty.action;
+        leftFlipAction = leftFlipActionProperty.action;
+        rightFlipAction = rightFlipActionProperty.action;
+        resetAction = resetActionProperty.action;
+        toggleController = toggleControllerProperty.action;
+        canvasGroup = manager.canvasGroup;
+        resetCanvas = cam.GetChild(1).GetComponent<CanvasGroup>();
+        myT.GetPositionAndRotation(out initialPos, out initialRot);
 
 #if UNITY_EDITOR
-            Instantiate(devSim);
+        Instantiate(devSim);
 #endif
     }
 
@@ -145,7 +152,7 @@ public class Skier : MonoBehaviour
         StartCoroutine(CalculateVelocity());
     }
 
-    void OnEnable()
+    /*void OnEnable()
     {
         Application.onBeforeRender += OnBeforeRender;
     }
@@ -160,7 +167,7 @@ public class Skier : MonoBehaviour
         //Clamp camera position
         Vector3 pos = cam.localPosition;
         cam.localPosition = new Vector3(Mathf.Clamp(pos.x, -0.5f, 0.5f), Mathf.Clamp(pos.y, -0.5f, 0.5f), Mathf.Clamp(pos.z, -0.5f, 0.5f));
-    }
+    }*/
 
     void Update()
     {
@@ -177,7 +184,7 @@ public class Skier : MonoBehaviour
         if (leftFlipAction.WasReleasedThisFrame()) leftFlip = false;
         if (rightFlipAction.WasReleasedThisFrame()) rightFlip = false;
 
-        if (resetAction.WasPressedThisFrame()) manager.ReloadScene(0.5f);
+        if (resetAction.WasPressedThisFrame()) StartCoroutine(Reload(0.5f));
         if (toggleController.WasPressedThisFrame())
         {
             hands = !hands;
@@ -202,7 +209,7 @@ public class Skier : MonoBehaviour
 
         //Crouch mechanics
         float height = camOffset.localPosition.y;
-        if (crouchAction.IsPressed())
+        if (crouchAction.IsPressed() && (!paragliding || isGrounded))
         {
             skiSpeed = baseSkiSpeed + crouchSpeedIncrease;
             if (height != crouchHeight) height = Mathf.Lerp(height, crouchHeight, Mathf.Clamp01(Time.deltaTime * crouchSpeed));
@@ -213,6 +220,16 @@ public class Skier : MonoBehaviour
             if (height != 1.7f) height = Mathf.Lerp(height, 1.7f, Mathf.Clamp01(Time.deltaTime * crouchSpeed));
         }
         camOffset.localPosition = new Vector3(0, height, 0);
+
+        Vector3 pos = myT.position;
+        if (Mathf.Abs(pos.x) >= 1500 || Mathf.Abs(pos.z) >= 1500) StartCoroutine(Reload(0.5f));
+        else if (Mathf.Abs(pos.y) >= 1500) StartCoroutine(ReloadCanvas(0.2f));
+        else
+        {
+            float posMag = new Vector2(pos.x, pos.z).sqrMagnitude;
+            if (posMag >= 1210000) StartCoroutine(ReloadCanvas(0.2f));
+        }
+
     }
 
     void LateUpdate()
@@ -294,7 +311,7 @@ public class Skier : MonoBehaviour
                 {
                     if (rb.freezeRotation) rb.freezeRotation = false;
                     rb.AddForce(interactableParent.up * paraglideJumpForce, ForceMode.VelocityChange);
-                    StartCoroutine(Updraft(30, 70, interactableParent.TransformDirection(new Vector3(0, 1, -1)).normalized));
+                    StartCoroutine(Updraft(30, 100, interactableParent.TransformDirection(new Vector3(0, 1, -1)).normalized));
                     jump = false;
                 }
             }
@@ -341,14 +358,14 @@ public class Skier : MonoBehaviour
                 if (distance < 0.02f) distance = 0.02f;
                 Vector3 scale = parachute.localScale;
                 parachute.localScale = new Vector3(scale.x, scale.y, Mathf.Lerp(scale.z, Mathf.Clamp(distance * 5, 0.5f, 1.2f), t));
-                rb.AddForce(Vector3.down * paraglideGravity * Mathf.Clamp(0.2f / distance, 0.2f, 10));
+                rb.AddForce(Vector3.down * paraglideGravity * Mathf.Clamp(Mathf.Pow(0.2f / distance, 2), 0.2f, 10));
                 rb.AddForce(interactableParent.forward * glideForce, ForceMode.Acceleration);
                 float startValue = rot.x;
                 if (startValue > 180) startValue -= 360;
                 rb.AddTorque(-interactableParent.up * Mathf.Lerp(startValue, roll, t) * paraglideTurnForce, ForceMode.Acceleration);
                 if (leftSpeed > 1 && rightSpeed > 1 && Vector3.Dot(leftVel.normalized, interactableParent.up) < -0.7f && Vector3.Dot(rightVel.normalized, interactableParent.up) < -0.7f)
                 {
-                    StartCoroutine(Updraft(10, (leftSpeed + rightSpeed) * 2, interactableParent.up, false));
+                    StartCoroutine(Updraft(10, (leftSpeed + rightSpeed) * 3, interactableParent.up, false));
                 }
             }
             if (rightFlip) rightFlip = false;
@@ -514,5 +531,37 @@ public class Skier : MonoBehaviour
     {
         if ((groundMask & (1 << collision.gameObject.layer)) == 0) return;
         colliding = false;
+    }
+
+    IEnumerator ReloadCanvas(float duration)
+    {
+        float elapsedTime = 0;
+        float alpha = 0;
+        while (alpha <= 1)
+        {
+            alpha = resetCanvas.alpha = elapsedTime / duration;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    IEnumerator Reload(float duration)
+    {
+        float elapsedTime = 0;
+        float alpha = 0;
+        while (alpha <= 1)
+        {
+            alpha = canvasGroup.alpha = elapsedTime / duration;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        myT.SetPositionAndRotation(initialPos, initialRot);
+        elapsedTime = 0;
+        while (alpha >= 0.0f)
+        {
+            alpha = canvasGroup.alpha = 1 - elapsedTime / duration;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
     }
 }
