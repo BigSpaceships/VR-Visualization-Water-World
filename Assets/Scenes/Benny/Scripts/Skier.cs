@@ -174,23 +174,6 @@ public class Skier : MonoBehaviour
         StartCoroutine(CalculateVelocity());
     }
 
-    /*void OnEnable()
-    {
-        Application.onBeforeRender += OnBeforeRender;
-    }
-
-    void OnDisable()
-    {
-        Application.onBeforeRender -= OnBeforeRender;
-    }
-
-    void OnBeforeRender()
-    {
-        //Clamp camera position
-        Vector3 pos = cam.localPosition;
-        cam.localPosition = new Vector3(Mathf.Clamp(pos.x, -0.5f, 0.5f), Mathf.Clamp(pos.y, -0.5f, 0.5f), Mathf.Clamp(pos.z, -0.5f, 0.5f));
-    }*/
-
     void Update()
     {
         if (!initialized) return;
@@ -249,21 +232,16 @@ public class Skier : MonoBehaviour
         if (Mathf.Abs(pos.x) >= 1500 || Mathf.Abs(pos.z) >= 1500)
         {
             StartCoroutine(Reload(0.5f));
-            minutes = 0;
-            seconds = 0;
-            passedRings = 0;
-            timeText.SetText("Time: 0:00");
-            ringText.SetText("Rings Passed: 16/16");
             return;
         }
         if (reload == null)
         {
-            if (Mathf.Abs(pos.y) >= 1500) reload = StartCoroutine(ReloadCanvas(0.2f));
-            else if (paragliding && passedRings == 16) reload = StartCoroutine(ReloadCanvas(0.2f, true));
+            if (Mathf.Abs(pos.y) >= 1500) reload = StartCoroutine(ReloadCanvas(0.5f));
+            else if (paragliding && passedRings == 16) reload = StartCoroutine(ReloadCanvas(0.5f, true));
             else
             {
                 float posMag = new Vector2(pos.x, pos.z).sqrMagnitude;
-                if (posMag >= 1210000) reload = StartCoroutine(ReloadCanvas(0.2f));
+                if (posMag >= 1210000) reload = StartCoroutine(ReloadCanvas(0.5f));
             }
         }
 
@@ -281,7 +259,7 @@ public class Skier : MonoBehaviour
 
     void LateUpdate()
     {
-        //Skis follow camera rotation
+        //Interactables follow camera rotation
         interactableParent.rotation = cam.rotation;
         interactableParent.localRotation = Quaternion.Euler(0, interactableParent.localEulerAngles.y, 0);
     }
@@ -566,6 +544,7 @@ public class Skier : MonoBehaviour
 
     IEnumerator Reload(float duration)
     {
+        initialized = false;
         float elapsedTime = 0;
         float alpha = 0;
         while (alpha <= 0.99f)
@@ -576,7 +555,14 @@ public class Skier : MonoBehaviour
         }
         alpha = canvasGroup.alpha = 1;
         rb.velocity = rb.angularVelocity = Vector3.zero;
-        myT.SetPositionAndRotation(initialPos, initialRot);
+        rb.MovePosition(initialPos);
+        rb.MoveRotation(initialRot);
+        Debug.Log(initialPos + " " + initialRot);
+        Debug.Log(myT.position + " " + myT.rotation);
+        minutes = passedRings = 0;
+        seconds = 0;
+        timeText.SetText("Time: 0:00");
+        ringText.SetText("Rings: 0/16");
         resetCanvas.alpha = 0;
         elapsedTime = 0;
         while (alpha >= 0.01f)
@@ -586,11 +572,12 @@ public class Skier : MonoBehaviour
             yield return null;
         }
         canvasGroup.alpha = 0;
+        initialized = true;
     }
 
     public static void PassedRing()
     {
         passedRings ++;
-        ringText.SetText("Rings Passed: " + passedRings + "/16");
+        ringText.SetText("Rings: " + passedRings + "/16");
     }
 }
