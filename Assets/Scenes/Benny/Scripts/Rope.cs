@@ -3,7 +3,7 @@ using UnityEngine;
 public class Rope : MonoBehaviour
 {
     [SerializeField] int attachSpeed;
-    [SerializeField] float maxReleaseRadius;
+    //[SerializeField] float maxReleaseRadius;
     [SerializeField] Handedness handedness;
     public static SkiController leftController;
     public static SkiController rightController;
@@ -12,7 +12,7 @@ public class Rope : MonoBehaviour
     LineRenderer line;
     float attachProgress;
     bool attaching = true;
-    Vector3 releaseTarget;
+    //Vector3 releaseTarget;
     public static Transform leftTarget;
     public static Transform rightTarget;
     public bool paragliding;
@@ -23,9 +23,9 @@ public class Rope : MonoBehaviour
         line = GetComponent<LineRenderer>();
         line.positionCount = 2;
         line.widthMultiplier = 0.001f;
-        releaseTarget = new Vector3(Random.Range(-maxReleaseRadius, maxReleaseRadius), 0, Random.Range(-maxReleaseRadius, maxReleaseRadius));
+        //releaseTarget = new Vector3(Random.Range(-maxReleaseRadius, maxReleaseRadius), 0, Random.Range(-maxReleaseRadius, maxReleaseRadius));
         Vector3 pos = myT.position;
-        line.SetPositions(new Vector3[] { pos, pos + releaseTarget});
+        line.SetPositions(new Vector3[] { pos, pos});
     }
 
     void Update()
@@ -37,13 +37,10 @@ public class Rope : MonoBehaviour
             {
                 attaching = true;
                 attachProgress = 0;
-                releaseTarget = new Vector3(Random.Range(-maxReleaseRadius, maxReleaseRadius), 0, Random.Range(-maxReleaseRadius, maxReleaseRadius));
+                //releaseTarget = new Vector3(Random.Range(-maxReleaseRadius, maxReleaseRadius), 0, Random.Range(-maxReleaseRadius, maxReleaseRadius));
             }
-            if (!Manager.EqualVectors(releaseTarget, line.GetPosition(1), 0.01f))
-            {
-                Vector3 pos = myT.position;
-                line.SetPositions(new Vector3[] { pos, Vector3.Lerp(line.GetPosition(1), pos + releaseTarget, attachSpeed * Time.deltaTime) });
-            }
+            Vector3 pos = myT.position;
+            if (!Manager.EqualVectors(pos, line.GetPosition(1), 0.01f)) line.SetPositions(new Vector3[] { pos, Vector3.Lerp(line.GetPosition(1), pos, attachSpeed * Time.deltaTime) });
             return;
         }
 

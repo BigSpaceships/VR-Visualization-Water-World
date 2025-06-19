@@ -1,13 +1,7 @@
-using System;
 using System.Collections;
-using System.Transactions;
-using NUnit.Framework;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
-using UnityEngine.XR;
 
 public class Skier : MonoBehaviour
 {
@@ -130,8 +124,7 @@ public class Skier : MonoBehaviour
         {
             Rope.leftTarget = leftControllerRopeTarget;
             Rope.rightTarget = rightControllerRopeTarget;
-            Pole.leftAttach = new Vector3(0, -1.3f, 0.05f);
-            Pole.rightAttach = new Vector3(0, -1.3f, 0.05f);
+            Pole.rightAttach = Pole.leftAttach = new Vector3(0, -1.3f, 0.05f);
             leftSkiController.SwitchController(false);
             rightSkiController.SwitchController(false);
         }
@@ -199,18 +192,18 @@ public class Skier : MonoBehaviour
             {
                 Rope.leftTarget = leftHandRopeTarget;
                 Rope.rightTarget = rightHandRopeTarget;
-                leftSkiController.SwitchController(true);
-                rightSkiController.SwitchController(true);
                 Pole.rightAttach = new Vector3(0.035f, -1.28f, -0.03f);
                 Pole.leftAttach = new Vector3(-0.035f, -1.28f, -0.03f);
+                leftSkiController.SwitchController(true, paragliding);
+                rightSkiController.SwitchController(true, paragliding);
             }
             else
             {
                 Rope.leftTarget = leftControllerRopeTarget;
                 Rope.rightTarget = rightControllerRopeTarget;
+                Pole.rightAttach = Pole.leftAttach = new Vector3(0, -1.3f, 0.05f);
                 leftSkiController.SwitchController(false);
                 rightSkiController.SwitchController(false);
-                Pole.rightAttach = Pole.leftAttach = new Vector3(0, -1.3f, 0.05f);
             }
         }
 
@@ -301,7 +294,8 @@ public class Skier : MonoBehaviour
                         isGrounded = rb.useGravity = rb.freezeRotation = true;
                         rb.drag = 3;
                     }
-                    myT.Rotate(new Vector3(0, turnAction.ReadValue<Vector2>().x * normalTurnForce * Time.fixedDeltaTime, 0));
+                    Quaternion myRot = myT.rotation;
+                    myT.rotation = Quaternion.Slerp(myRot, myRot * Quaternion.Euler(0, turnAction.ReadValue<Vector2>().x * normalTurnForce, 0), Time.fixedDeltaTime);
                     rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y)).normalized * normalMoveForce, ForceMode.VelocityChange);
                 }
                 //Parachute skiing (speedrunning)
@@ -404,7 +398,6 @@ public class Skier : MonoBehaviour
                 rb.freezeRotation = rb.useGravity = true;
                 rb.drag = minDrag;
             }
-            myT.Rotate(new Vector3(0, turnAction.ReadValue<Vector2>().x * normalTurnForce * Time.fixedDeltaTime, 0));
             rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y).normalized * normalMoveForce), ForceMode.VelocityChange);
             if (Physics.Raycast(myT.position + currentUp * 1.7f, -currentUp, 1.75f, groundMask) && colliding)
             {
@@ -413,6 +406,8 @@ public class Skier : MonoBehaviour
                     isGrounded = true;
                     if (rb.drag == minDrag) rb.drag = 3;
                 }
+                Quaternion rot = myT.rotation;
+                myT.rotation = Quaternion.Slerp(rot, rot * Quaternion.Euler(0, turnAction.ReadValue<Vector2>().x * normalTurnForce, 0), Time.fixedDeltaTime);
                 if (jump)
                 {
                     rb.AddForce(interactableParent.up * normalJumpForce, ForceMode.VelocityChange);
