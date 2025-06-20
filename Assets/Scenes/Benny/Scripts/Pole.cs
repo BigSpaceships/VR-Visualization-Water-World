@@ -15,6 +15,10 @@ public class Pole : XRBaseInteractable
     [SerializeField] int attachSpeed;
     [SerializeField] InteractionLayerMask grabLayer;
     [SerializeField] InteractionLayerMask poleLayer;
+    [SerializeField] AudioClip snowHit;
+    [SerializeField] AudioClip solidHit;
+    [SerializeField] AudioClip grab;
+    public static AudioSource effectSource;
     public static Vector3 rightAttach;
     public static Vector3 leftAttach;
     public IXRSelectInteractor selectInteractor;
@@ -31,6 +35,7 @@ public class Pole : XRBaseInteractable
     float speed;
     WaitForSeconds velocityWait = new WaitForSeconds(0.1f);
     Coroutine coroutine;
+    bool isGrounded = true;
 
     protected override void Awake()
     {
@@ -77,6 +82,7 @@ public class Pole : XRBaseInteractable
             interactorObject.GetComponent<XRRayInteractor>().interactionLayers = poleLayer;
             ray.enabled = false;
         }
+        effectSource.PlayOneShot(grab);
     }
 
     IEnumerator Selected(Vector3 targetPos, Quaternion targetRot)
@@ -115,6 +121,7 @@ public class Pole : XRBaseInteractable
         }
         skiController.Animate("Deselect");
         coroutine = null;
+        effectSource.PlayOneShot(grab);
     }
 
     public void SwitchController()
@@ -127,16 +134,23 @@ public class Pole : XRBaseInteractable
     void FixedUpdate()
     {
         //Pole push
-        if (!isSelected || Skier.attachedSkis == 0 || coroutine != null) return;
+        if (!isSelected || coroutine != null) return;
         if (Physics.Raycast(myT.position - myT.up * 1.25f, myT.up, out RaycastHit hit, 2, groundMask) && speed > 10)
         {
-            if (hit.collider.gameObject.layer == 3) return;
+            if (!isGrounded)
+            {
+                isGrounded = true;
+                if (hit.transform.gameObject.layer == 9) effectSource.PlayOneShot(snowHit);
+                else effectSource.PlayOneShot(solidHit);
+            }
+            if (Skier.attachedSkis == 0) return;
             Vector3 groundUp = hit.normal;
             Vector3 poleDirection = Vector3.ProjectOnPlane(vel, groundUp).normalized;
             Vector3 skierDirection = Vector3.ProjectOnPlane(skiParent.forward, groundUp).normalized;
             float push = Vector3.Dot(poleDirection, skierDirection);
             if (push < -0.5) skier.AddForce(skiParent.forward * Mathf.Clamp(poleForce * speed, -maxPoleForce, maxPoleForce), ForceMode.VelocityChange);
         }
+        else if (isGrounded) isGrounded = false;
     }
 
     IEnumerator CalculateVelocity()
@@ -154,5 +168,13 @@ public class Pole : XRBaseInteractable
             }
             else yield return null;
         }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (!Skier.initialized) return;
+        int layer = collision.gameObject.layer;
+        if (layer == 9) effectSource.PlayOneShot(snowHit);
+        else if (layer == 14) effectSource.PlayOneShot(solidHit);
     }
 }

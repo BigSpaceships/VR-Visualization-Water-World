@@ -16,6 +16,10 @@ public class Skis : XRBaseInteractable
     [SerializeField] float maxReleaseForce;
     [SerializeField] Color skiColor;
     [SerializeField] int attachSpeed;
+    [SerializeField] AudioClip snowHit;
+    [SerializeField] AudioClip solidHit;
+    [SerializeField] AudioClip grab;
+    public static AudioSource effectSource;
     Transform myT;
     Rigidbody rb;
     Collider col;
@@ -159,6 +163,7 @@ public class Skis : XRBaseInteractable
             rb.AddRelativeTorque(new Vector3(0, Random.Range(-1f, 1f), 0) * Random.Range(minReleaseForce, maxReleaseForce), ForceMode.VelocityChange);
             coroutine = null;
         }
+        effectSource.PlayOneShot(grab);
     }
 
     IEnumerator Selected(Vector3 targetPos, Quaternion targetRot)
@@ -175,6 +180,14 @@ public class Skis : XRBaseInteractable
         myT.SetLocalPositionAndRotation(targetPos, targetRot);
         col.enabled = true;
         coroutine = null;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (!Skier.initialized) return;
+        int layer = collision.gameObject.layer;
+        if (layer == 9) effectSource.PlayOneShot(snowHit);
+        else if (layer == 14) effectSource.PlayOneShot(solidHit);
     }
 
     /*void OnCollisionEnter(Collision collision)
