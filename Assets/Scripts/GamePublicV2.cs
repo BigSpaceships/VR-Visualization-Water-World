@@ -28,9 +28,16 @@ public class GamePublicV2 : MonoBehaviour {
             instance = this;
         }
 
-        GameObject rigObject = GameObject.Find("XR Origin (XR Rig)");
+        GameObject persistentXR = GameObject.Find("PersistentXR");
+        if (persistentXR == null) {
+            Debug.LogError("can not find GameObject: PersistentXR");
+            return;
+        }
+
+        GameObject XROrigin = persistentXR.transform.Find("XR Origin").gameObject;
+        GameObject XROriginRig = persistentXR.transform.Find("XR Origin/XR Origin (XR Rig)").gameObject;
         playerRb = xrOrigin.GetComponent<Rigidbody>();
-        charController = rigObject.GetComponent<CharacterController>();
+        charController = XROriginRig.GetComponent<CharacterController>();
         seaScooter = GameObject.Find("SeaScooter");
 
         GameInit();
@@ -44,8 +51,8 @@ public class GamePublicV2 : MonoBehaviour {
         bool active = XRSettings.isDeviceActive;
         var simHMD = InputSystem.GetDevice<XRSimulatedHMD>();
         if (simHMD != null) {
+            active = true;
         }
-        active = true;
         return active;
     }
 
@@ -65,15 +72,13 @@ public class GamePublicV2 : MonoBehaviour {
                 playerRb.isKinematic = true;
                 playerRb.useGravity = true;
                 playerRb.constraints = RigidbodyConstraints.None;
-                if (charController != null)
-                    charController.enabled = true;  // 如果你希望 CharacterController 模式在未来扩展，可以改为 true
+                charController.enabled = true;
                 seaScooter.SetActive(false);
-            } else { 
+            } else {
+                charController.enabled = false;
                 playerRb.isKinematic = false;
                 playerRb.useGravity = true;
                 playerRb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-                if (charController != null)
-                    charController.enabled = false;  // 如果你希望 CharacterController 模式在未来扩展，可以改为 true
                 seaScooter.SetActive(false);
             }
         } else if (moveMode == MoveMode.UnderWater) {

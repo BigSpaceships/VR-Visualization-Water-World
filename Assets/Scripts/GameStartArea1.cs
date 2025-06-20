@@ -173,6 +173,7 @@ public class GameStart : MonoBehaviour {
 
 
     void onWaypoint1Reached() {
+        waypointController.ShowWaypoint(null);
         HUD_textMessage.ShowText("WAYPOINT RPF2K1\nSTATUS: REACHED", null, () => {
             waypointController.ShowWaypoint(waypoint2);
             AudioSource TASK_D = GameObject.Find("HUD_IncomingCord").GetComponent<AudioSource>();
@@ -184,28 +185,36 @@ public class GameStart : MonoBehaviour {
     }
 
     void onWaypoint2Reached() {
-        HUD_textMessage.ShowText("WAYPOINT RPF4K2\nSTATUS: REACHED", null);
-        AudioSource TASK_D = GameObject.Find("TASK_D02").GetComponent<AudioSource>();
-        TASK_D.Play();
-        StartCoroutine(WaitForSeconds(TASK_D.clip.length, () => {
-            AudioSource TASK_D = GameObject.Find("HUD_IncomingCord").GetComponent<AudioSource>();
-            HUD_textMessage.ShowText("INCOMING COORDINATES RPF6K3\nWAYPOINT NAVIGATION SYSTEM: ACTIVE", TASK_D);
+        waypointController.ShowWaypoint(null);
+        HUD_textMessage.ShowText("WAYPOINT RPF4K2\nSTATUS: REACHED", null, () => {
             waypointController.ShowWaypoint(waypoint3);
-        }));
+            AudioSource TASK_D = GameObject.Find("HUD_IncomingCord").GetComponent<AudioSource>();
+            HUD_textMessage.ShowText("INCOMING COORDINATES RPF7K9\nWAYPOINT NAVIGATION SYSTEM: ACTIVE", TASK_D, () => {
+                TASK_D = GameObject.Find("AUDIO_A2_WP2").GetComponent<AudioSource>();
+                TASK_D.Play();
+            });
+        });
     }
 
     void onWaypoint3Reached() {
-        HUD_textMessage.ShowText("WAYPOINT RPF6K3\nSTATUS: REACHED", null);
-        AudioSource TASK_D = GameObject.Find("TASK_D03").GetComponent<AudioSource>();
-        TASK_D.Play();
-        StartCoroutine(WaitForSeconds(TASK_D.clip.length, () => {
-            AudioSource TASK_D = GameObject.Find("HUD_IncomingCord").GetComponent<AudioSource>();
-            HUD_textMessage.ShowText("INCOMING COORDINATES RPF8K4\nWAYPOINT NAVIGATION SYSTEM: ACTIVE", TASK_D);
+        waypointController.ShowWaypoint(null);
+        HUD_textMessage.ShowText("WAYPOINT RPF7K9\nSTATUS: REACHED", null, () => {
             waypointController.ShowWaypoint(waypoint4);
-        }));
+            AudioSource TASK_D = GameObject.Find("HUD_IncomingCord").GetComponent<AudioSource>();
+            HUD_textMessage.ShowText("INCOMING COORDINATES RPF4KE\nWAYPOINT NAVIGATION SYSTEM: ACTIVE", TASK_D, () => {
+                TASK_D = GameObject.Find("AUDIO_A2_WP3").GetComponent<AudioSource>();
+                TASK_D.Play();
+            });
+        });
     }
 
     void onWaypoint4Reached() {
-        StartCoroutine(UnloadScene("R_Area2 Under Water"));
+        waypointController.ShowWaypoint(null);
+        HUD_textMessage.ShowText("WAYPOINT RPF4KE\nSTATUS: REACHED", null);
+        AudioSource TASK_D = GameObject.Find("AUDIO_A2_WP4").GetComponent<AudioSource>();
+        TASK_D.Play();
+        StartCoroutine(WaitForSeconds(TASK_D.clip.length + 2f, () => {
+            StartCoroutine(UnloadScene("R_Area2 Under Water"));
+        }));
     }
 }
