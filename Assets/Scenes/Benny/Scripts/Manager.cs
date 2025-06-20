@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -36,12 +35,13 @@ public class Manager : MonoBehaviour
     {
         float elapsedTime = 0;
         float alpha = 0;
-        while (alpha <= 1)
+        while (alpha <= 0.99f)
         {
             alpha = canvasGroup.alpha = elapsedTime / duration;
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+        canvasGroup.alpha = 1;
 
         Scene currentScene = SceneManager.GetActiveScene();
         AsyncOperation load = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
@@ -60,11 +60,13 @@ public class Manager : MonoBehaviour
     {
         float elapsedTime = 0;
         float alpha = 1;
-        while (alpha >= 0.0f)
+        while (alpha >= 0.01f)
         {
             alpha = canvasGroup.alpha = 1 - elapsedTime / duration;
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+        canvasGroup.alpha = 0;
+        Skier.initialized = true;
     }
 }

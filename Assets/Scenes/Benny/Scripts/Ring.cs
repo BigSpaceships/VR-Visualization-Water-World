@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Ring : MonoBehaviour
@@ -11,6 +9,7 @@ public class Ring : MonoBehaviour
         if (!passed && other.gameObject.layer == 2)
         {
             GetComponent<Renderer>().material.SetColor("_EmissionColor", passedColor);
+            Skier.PassedRing();
             passed = true;
         }
     }

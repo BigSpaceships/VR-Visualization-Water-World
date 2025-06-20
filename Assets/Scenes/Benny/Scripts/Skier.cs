@@ -1,10 +1,7 @@
-using System;
 using System.Collections;
-using NUnit.Framework;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
-using UnityEngine.XR;
 
 public class Skier : MonoBehaviour
 {
@@ -25,7 +22,6 @@ public class Skier : MonoBehaviour
     SkiController leftSkiController;
     SkiController rightSkiController;
     [SerializeField] bool hands = true;
-    [SerializeField] Manager manager;
 
     [Header("Movement")]
     [SerializeField] float normalMoveForce;
@@ -92,10 +88,20 @@ public class Skier : MonoBehaviour
     Vector3 leftVel, rightVel, leftLastPos, rightLastPos;
     float leftSpeed, rightSpeed;
     WaitForSeconds velocityWait = new WaitForSeconds(0.1f);
-    CanvasGroup canvasGroup;
-    CanvasGroup resetCanvas;
+
+    [Header("UI")]
+    [SerializeField] Manager manager;
+    CanvasGroup canvasGroup, resetCanvas;
+    TMP_Text timeText, altText, speedText;
+    public static TMP_Text ringText;
+    public static int passedRings;
+    int minutes;
+    float seconds;
     Vector3 initialPos;
     Quaternion initialRot;
+    Coroutine reload;
+    WaitForSeconds twoSeconds = new WaitForSeconds(2);
+    public static bool initialized;
 
     void Awake()
     {
@@ -118,8 +124,7 @@ public class Skier : MonoBehaviour
         {
             Rope.leftTarget = leftControllerRopeTarget;
             Rope.rightTarget = rightControllerRopeTarget;
-            Pole.leftAttach = new Vector3(0, -1.3f, 0.05f);
-            Pole.rightAttach = new Vector3(0, -1.3f, 0.05f);
+            Pole.rightAttach = Pole.leftAttach = new Vector3(0, -1.3f, 0.05f);
             leftSkiController.SwitchController(false);
             rightSkiController.SwitchController(false);
         }
@@ -132,10 +137,18 @@ public class Skier : MonoBehaviour
         rightFlipAction = rightFlipActionProperty.action;
         resetAction = resetActionProperty.action;
         toggleController = toggleControllerProperty.action;
+
         canvasGroup = manager.canvasGroup;
-        resetCanvas = cam.GetChild(1).GetComponent<CanvasGroup>();
+        resetCanvas = cam.GetChild(0).GetComponent<CanvasGroup>();
         resetCanvas.alpha = 0;
+        Transform statCanvas = cam.GetChild(1);
+        timeText = statCanvas.GetChild(0).GetComponent<TMP_Text>();
+        altText = statCanvas.GetChild(1).GetComponent<TMP_Text>();
+        speedText = statCanvas.GetChild(2).GetComponent<TMP_Text>();
+        ringText = statCanvas.GetChild(3).GetComponent<TMP_Text>();
+        ringText.enabled = false;
         myT.GetPositionAndRotation(out initialPos, out initialRot);
+        altText.SetText("Altitude: " + (initialPos.y * 3.281f).ToString("0") + "ft");
 
 #if UNITY_EDITOR
         Instantiate(devSim);
@@ -154,25 +167,10 @@ public class Skier : MonoBehaviour
         StartCoroutine(CalculateVelocity());
     }
 
-    /*void OnEnable()
-    {
-        Application.onBeforeRender += OnBeforeRender;
-    }
-
-    void OnDisable()
-    {
-        Application.onBeforeRender -= OnBeforeRender;
-    }
-
-    void OnBeforeRender()
-    {
-        //Clamp camera position
-        Vector3 pos = cam.localPosition;
-        cam.localPosition = new Vector3(Mathf.Clamp(pos.x, -0.5f, 0.5f), Mathf.Clamp(pos.y, -0.5f, 0.5f), Mathf.Clamp(pos.z, -0.5f, 0.5f));
-    }*/
-
     void Update()
     {
+        if (!initialized) return;
+
         //Input detection
         if (isGrounded)
         {
@@ -194,18 +192,18 @@ public class Skier : MonoBehaviour
             {
                 Rope.leftTarget = leftHandRopeTarget;
                 Rope.rightTarget = rightHandRopeTarget;
-                leftSkiController.SwitchController(true);
-                rightSkiController.SwitchController(true);
                 Pole.rightAttach = new Vector3(0.035f, -1.28f, -0.03f);
                 Pole.leftAttach = new Vector3(-0.035f, -1.28f, -0.03f);
+                leftSkiController.SwitchController(true, paragliding);
+                rightSkiController.SwitchController(true, paragliding);
             }
             else
             {
                 Rope.leftTarget = leftControllerRopeTarget;
                 Rope.rightTarget = rightControllerRopeTarget;
+                Pole.rightAttach = Pole.leftAttach = new Vector3(0, -1.3f, 0.05f);
                 leftSkiController.SwitchController(false);
                 rightSkiController.SwitchController(false);
-                Pole.rightAttach = Pole.leftAttach = new Vector3(0, -1.3f, 0.05f);
             }
         }
 
@@ -224,25 +222,45 @@ public class Skier : MonoBehaviour
         camOffset.localPosition = new Vector3(0, height, 0);
 
         Vector3 pos = myT.position;
-        if (Mathf.Abs(pos.x) >= 1500 || Mathf.Abs(pos.z) >= 1500) StartCoroutine(Reload(0.5f));
-        else if (Mathf.Abs(pos.y) >= 1500) StartCoroutine(ReloadCanvas(0.2f));
-        else
+        if (Mathf.Abs(pos.x) >= 1500 || Mathf.Abs(pos.z) >= 1500)
         {
-            float posMag = new Vector2(pos.x, pos.z).sqrMagnitude;
-            if (posMag >= 1210000) StartCoroutine(ReloadCanvas(0.2f));
+            StartCoroutine(Reload(0.5f));
+            return;
+        }
+        if (reload == null)
+        {
+            if (Mathf.Abs(pos.y) >= 1500) reload = StartCoroutine(ReloadCanvas(0.5f));
+            else if (paragliding && passedRings == 16) reload = StartCoroutine(ReloadCanvas(0.5f, true));
+            else
+            {
+                float posMag = new Vector2(pos.x, pos.z).sqrMagnitude;
+                if (posMag >= 1210000) reload = StartCoroutine(ReloadCanvas(0.5f));
+            }
         }
 
+        //UI
+        seconds += Time.deltaTime;
+        if (Mathf.Round(seconds) >= 60)
+        {
+            seconds = 0;
+            minutes++;
+        }
+        timeText.SetText("Time: " + minutes + ":" + seconds.ToString("00"));
+        altText.SetText("Altitude: " + (myT.position.y * 3.281f).ToString("0") + "ft");
+        speedText.SetText("Speed: " + (rb.velocity.magnitude * 3.281).ToString("0.0") + "ft/s");
     }
 
     void LateUpdate()
     {
-        //Skis follow camera rotation
+        //Interactables follow camera rotation
         interactableParent.rotation = cam.rotation;
         interactableParent.localRotation = Quaternion.Euler(0, interactableParent.localEulerAngles.y, 0);
     }
 
     void FixedUpdate()
     {
+        if (!initialized) return;
+        
         //Movement input
         Vector2 turnInput = turnAction.ReadValue<Vector2>();
         Vector2 moveInput = moveAction.ReadValue<Vector2>();
@@ -261,7 +279,7 @@ public class Skier : MonoBehaviour
             float t = Mathf.Clamp01(parachuteAdjustmentSpeed * Time.fixedDeltaTime);
             parachute.GetLocalPositionAndRotation(out Vector3 pos, out Quaternion qRot);
             Vector3 rot = qRot.eulerAngles;
-            Vector3 targetPos = (leftPos + rightPos) / 2 + new Vector3(0, rb.velocity.y * parachuteVelocityOffset, 0.2f);
+            Vector3 targetPos = (leftPos + rightPos) / 2 + new Vector3(0, 0.1f + rb.velocity.y * parachuteVelocityOffset, 0.2f);
             targetPos.y = Mathf.Clamp(targetPos.y, 1.4f, 2.4f);
             parachute.SetLocalPositionAndRotation(Vector3.Lerp(pos, targetPos, t), Quaternion.Slerp(qRot, Quaternion.Euler(new Vector3(roll, rot.y, 0)), t));
 
@@ -276,7 +294,8 @@ public class Skier : MonoBehaviour
                         isGrounded = rb.useGravity = rb.freezeRotation = true;
                         rb.drag = 3;
                     }
-                    myT.Rotate(new Vector3(0, turnAction.ReadValue<Vector2>().x * normalTurnForce * Time.fixedDeltaTime, 0));
+                    Quaternion myRot = myT.rotation;
+                    myT.rotation = Quaternion.Slerp(myRot, myRot * Quaternion.Euler(0, turnAction.ReadValue<Vector2>().x * normalTurnForce, 0), Time.fixedDeltaTime);
                     rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y)).normalized * normalMoveForce, ForceMode.VelocityChange);
                 }
                 //Parachute skiing (speedrunning)
@@ -310,7 +329,7 @@ public class Skier : MonoBehaviour
                 {
                     if (rb.freezeRotation) rb.freezeRotation = false;
                     rb.AddForce(interactableParent.up * paraglideJumpForce, ForceMode.VelocityChange);
-                    StartCoroutine(Updraft(30, 100, interactableParent.TransformDirection(new Vector3(0, 1, -1)).normalized));
+                    StartCoroutine(Updraft(3000, interactableParent.TransformDirection(new Vector3(0, 1, -1)).normalized));
                     jump = false;
                 }
             }
@@ -357,13 +376,13 @@ public class Skier : MonoBehaviour
                 parachute.localScale = new Vector3(scale.x, scale.y, Mathf.Lerp(scale.z, Mathf.Clamp(distance * 5, 0.5f, 1.2f), t));
                 rb.AddForce(Vector3.down * paraglideGravity * Mathf.Clamp(Mathf.Pow(0.2f / distance, 2), 0.2f, 10));
                 rb.AddForce(interactableParent.forward * glideForce, ForceMode.Acceleration);
-                rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y) + new Vector3(turnInput.x, 0, turnInput.y)).normalized * inputGlideForce);
+                rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y) + new Vector3(turnInput.x, 0, turnInput.y)).normalized * inputGlideForce, ForceMode.Acceleration);
                 float startValue = rot.x;
                 if (startValue > 180) startValue -= 360;
                 rb.AddTorque(-interactableParent.up * Mathf.Lerp(startValue, roll, t) * paraglideTurnForce, ForceMode.Acceleration);
                 if (leftSpeed > 1 && rightSpeed > 1 && Vector3.Dot(leftVel.normalized, interactableParent.up) < -0.7f && Vector3.Dot(rightVel.normalized, interactableParent.up) < -0.7f)
                 {
-                    StartCoroutine(Updraft(10, (leftSpeed + rightSpeed) * 3, interactableParent.up, false));
+                    rb.AddForce(interactableParent.up * (leftSpeed + rightSpeed) * 40, ForceMode.Acceleration);
                 }
             }
             if (rightFlip) rightFlip = false;
@@ -379,7 +398,6 @@ public class Skier : MonoBehaviour
                 rb.freezeRotation = rb.useGravity = true;
                 rb.drag = minDrag;
             }
-            myT.Rotate(new Vector3(0, turnAction.ReadValue<Vector2>().x * normalTurnForce * Time.fixedDeltaTime, 0));
             rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y).normalized * normalMoveForce), ForceMode.VelocityChange);
             if (Physics.Raycast(myT.position + currentUp * 1.7f, -currentUp, 1.75f, groundMask) && colliding)
             {
@@ -388,6 +406,8 @@ public class Skier : MonoBehaviour
                     isGrounded = true;
                     if (rb.drag == minDrag) rb.drag = 3;
                 }
+                Quaternion rot = myT.rotation;
+                myT.rotation = Quaternion.Slerp(rot, rot * Quaternion.Euler(0, turnAction.ReadValue<Vector2>().x * normalTurnForce, 0), Time.fixedDeltaTime);
                 if (jump)
                 {
                     rb.AddForce(interactableParent.up * normalJumpForce, ForceMode.VelocityChange);
@@ -458,16 +478,10 @@ public class Skier : MonoBehaviour
         }
     }
 
-    IEnumerator Updraft(int strength, float updraftForce, Vector3 direction, bool wait = true)
+    IEnumerator Updraft(float updraftForce, Vector3 direction)
     {
-        if (wait) yield return updraftWait;
-        int i = 0;
-        while (i < strength)
-        {
-            if (!isGrounded && !colliding) rb.AddForce(direction * updraftForce, ForceMode.Acceleration);
-            yield return null;
-            i++;
-        }
+        yield return updraftWait;
+        rb.AddForce(direction * updraftForce, ForceMode.Acceleration);
     }
 
     IEnumerator CalculateVelocity()
@@ -509,36 +523,56 @@ public class Skier : MonoBehaviour
         colliding = false;
     }
 
-    IEnumerator ReloadCanvas(float duration)
+    IEnumerator ReloadCanvas(float duration, bool wait = false)
     {
+        if (wait) yield return twoSeconds;
         float elapsedTime = 0;
         float alpha = 0;
-        while (alpha <= 1)
+        while (alpha <= 0.99f)
         {
             alpha = resetCanvas.alpha = elapsedTime / duration;
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+        resetCanvas.alpha = 1;
     }
 
     IEnumerator Reload(float duration)
     {
+        initialized = false;
         float elapsedTime = 0;
         float alpha = 0;
-        while (alpha <= 1)
+        while (alpha <= 0.99f)
         {
             alpha = canvasGroup.alpha = elapsedTime / duration;
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        myT.SetPositionAndRotation(initialPos, initialRot);
+        alpha = canvasGroup.alpha = 1;
+        rb.velocity = rb.angularVelocity = Vector3.zero;
+        rb.MovePosition(initialPos);
+        rb.MoveRotation(initialRot);
+        Debug.Log(initialPos + " " + initialRot);
+        Debug.Log(myT.position + " " + myT.rotation);
+        minutes = passedRings = 0;
+        seconds = 0;
+        timeText.SetText("Time: 0:00");
+        ringText.SetText("Rings: 0/16");
         resetCanvas.alpha = 0;
         elapsedTime = 0;
-        while (alpha >= 0.0f)
+        while (alpha >= 0.01f)
         {
             alpha = canvasGroup.alpha = 1 - elapsedTime / duration;
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+        canvasGroup.alpha = 0;
+        initialized = true;
+    }
+
+    public static void PassedRing()
+    {
+        passedRings ++;
+        ringText.SetText("Rings: " + passedRings + "/16");
     }
 }

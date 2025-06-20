@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
@@ -27,8 +26,14 @@ public class SkiController : ActionBasedController
         controllerState.position = pos;
     }*/
 
-    public void SwitchController(bool hands)
+    public void SwitchController(bool hands, bool selected = false)
     {
+        if (attachedPole != null)
+        {
+            selected = true;
+            attachedPole.SwitchController();
+        }
+        
         //Toggle hands/controller graphic
         if (hands)
         {
@@ -36,6 +41,7 @@ public class SkiController : ActionBasedController
             handModel.gameObject.SetActive(true);
             model = handModel;
             animator = model.GetComponent<Animator>();
+            if (selected) Animate("Select");
         }
         else
         {
@@ -44,7 +50,6 @@ public class SkiController : ActionBasedController
             model = controllerModel;
             animator = null;
         }
-        if (attachedPole != null) attachedPole.SwitchController();
     }
 
     public void Animate(string trigger)

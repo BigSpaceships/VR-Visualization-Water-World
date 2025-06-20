@@ -692,7 +692,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1759
+  m_VersionIndex: 1798
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -809,6 +809,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3481826043972929347}
   - component: {fileID: 5433291177539491262}
+  - component: {fileID: 6601579003908893821}
   m_Layer: 3
   m_Name: Ski
   m_TagString: Untagged
@@ -850,7 +851,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_InteractionLayers:
-    m_Bits: 2
+    m_Bits: 6
   m_DistanceCalculationMode: 1
   m_SelectMode: 0
   m_FocusMode: 1
@@ -935,9 +936,41 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   alignStrength: 5
-  maxAlignAngle: 60
   groundMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 16896
   skiParent: {fileID: 0}
-  attach: {x: 0.31, y: -0.17, z: 0.36}
+  objectParent: {fileID: 0}
+  leftAttach: {x: -0.14, y: 0, z: 0}
+  rightAttach: {x: 0, y: 0, z: 0}
+  minReleaseForce: 1
+  maxReleaseForce: 1.5
+  skiColor: {r: 0.78431374, g: 0, b: 0, a: 1}
+  attachSpeed: 10
+--- !u!54 &6601579003908893821
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8752453215184711597}
+  serializedVersion: 4
+  m_Mass: 0.7
+  m_Drag: 3
+  m_AngularDrag: 1
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 1
