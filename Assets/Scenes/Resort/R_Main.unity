@@ -1158,7 +1158,7 @@ MonoBehaviour:
   - key: SceneName
     value: R_Area3
   - key: TriggerDistance
-    value: 35
+    value: 200
 --- !u!1001 &109129239
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18586,7 +18586,7 @@ MonoBehaviour:
   - key: SceneName
     value: R_Area2
   - key: TriggerDistance
-    value: 35
+    value: 200
 --- !u!1 &1495773081
 GameObject:
   m_ObjectHideFlags: 0
