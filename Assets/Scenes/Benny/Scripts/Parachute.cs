@@ -34,6 +34,7 @@ public class Parachute : XRBaseInteractable
     Rigidbody rb;
     Animator animator;
     Coroutine coroutine;
+    bool reselect;
 
     protected override void Awake()
     {
@@ -64,45 +65,57 @@ public class Parachute : XRBaseInteractable
     {
         //Selected parachute
         base.OnSelectEntered(args);
-        if (coroutine != null) StopCoroutine(coroutine);
-        Pole pole = leftSkiController.attachedPole;
-        if (pole != null) interactionManager.SelectExit(pole.selectInteractor, pole);
-        pole = rightSkiController.attachedPole;
-        if (pole != null) interactionManager.SelectExit(pole.selectInteractor, pole);
-        rb.isKinematic = true;
-        rb.interpolation = RigidbodyInterpolation.None;
-        for (int i = 0; i < colCount; i++) cols[i].enabled = false;
-        leftRayVisual.enabled = rightRayVisual.enabled = false;
-        leftRay.interactionLayers = rightRay.interactionLayers = parachuteLayer;
-        selectInteractor = args.interactorObject;
-        skiController = selectInteractor.transform.parent.GetComponent<SkiController>();
-        myT.parent = selectedParent;
-        animator.SetTrigger("Unfurl");
-        Skier.paragliding = Skier.ringText.enabled = true;
-        Skier.parachute = myT;
-        for (int i = 0; i < 34; i++) ropes[i].paragliding = true;
-        coroutine = StartCoroutine(Selected(new Vector3(0, 1.7f, 0.5f), Quaternion.Euler(0, -90, 0)));
+        if (reselect) reselect = false;
+        else
+        {
+            if (coroutine != null) StopCoroutine(coroutine);
+            Pole pole = leftSkiController.attachedPole;
+            if (pole != null) interactionManager.SelectExit(pole.selectInteractor, pole);
+            pole = rightSkiController.attachedPole;
+            if (pole != null) interactionManager.SelectExit(pole.selectInteractor, pole);
+            rb.isKinematic = true;
+            rb.interpolation = RigidbodyInterpolation.None;
+            for (int i = 0; i < colCount; i++) cols[i].enabled = false;
+            leftRayVisual.enabled = rightRayVisual.enabled = false;
+            leftRay.interactionLayers = rightRay.interactionLayers = parachuteLayer;
+            selectInteractor = args.interactorObject;
+            skiController = selectInteractor.transform.parent.GetComponent<SkiController>();
+            myT.parent = selectedParent;
+            animator.SetTrigger("Unfurl");
+            Skier.paragliding = Skier.ringText.enabled = true;
+            Skier.parachute = myT;
+            for (int i = 0; i < 34; i++) ropes[i].paragliding = true;
+            coroutine = StartCoroutine(Selected(new Vector3(0, 1.7f, 0.5f), Quaternion.Euler(0, -90, 0)));
+        }
     }
 
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         //Released parachute
         base.OnSelectExited(args);
-        if (coroutine != null) StopCoroutine(coroutine);
-        Skier.paragliding = Skier.ringText.enabled = false;
-        for (int i = 0; i < 34; i++) ropes[i].paragliding = false;
-        myT.parent = objectParent;
-        rb.isKinematic = false;
-        rb.interpolation = RigidbodyInterpolation.Interpolate;
-        animator.SetTrigger("Close");
-        rb.AddRelativeForce(new Vector3(1, 0, Random.Range(-1f, 1f)) * Random.Range(minReleaseForce, maxReleaseForce), ForceMode.VelocityChange);
-        rb.AddRelativeTorque(new Vector3(0, Random.Range(-1f, 1f), 0) * Random.Range(minReleaseForce, maxReleaseForce), ForceMode.VelocityChange);
-        for (int i = 0; i < colCount; i++) cols[i].enabled = true;
-        leftRayVisual.enabled = rightRayVisual.enabled = true;
-        leftRay.interactionLayers = rightRay.interactionLayers = grabLayer;
-        leftSkiController.Animate("Deselect");
-        rightSkiController.Animate("Deselect");
-        coroutine = StartCoroutine(Deselected());
+        if (!Skier.isGrounded && (!rightGrip.IsPressed() || !leftGrip.IsPressed()))
+        {
+            reselect = true;
+            interactionManager.SelectEnter(args.interactorObject, this);
+        }
+        else
+        {
+            if (coroutine != null) StopCoroutine(coroutine);
+            Skier.paragliding = Skier.ringText.enabled = false;
+            for (int i = 0; i < 34; i++) ropes[i].paragliding = false;
+            myT.parent = objectParent;
+            rb.isKinematic = false;
+            rb.interpolation = RigidbodyInterpolation.Interpolate;
+            animator.SetTrigger("Close");
+            rb.AddRelativeForce(new Vector3(1, 0, Random.Range(-1f, 1f)) * Random.Range(minReleaseForce, maxReleaseForce), ForceMode.VelocityChange);
+            rb.AddRelativeTorque(new Vector3(0, Random.Range(-1f, 1f), 0) * Random.Range(minReleaseForce, maxReleaseForce), ForceMode.VelocityChange);
+            for (int i = 0; i < colCount; i++) cols[i].enabled = true;
+            leftRayVisual.enabled = rightRayVisual.enabled = true;
+            leftRay.interactionLayers = rightRay.interactionLayers = grabLayer;
+            leftSkiController.Animate("Deselect");
+            rightSkiController.Animate("Deselect");
+            coroutine = StartCoroutine(Deselected());
+        }
     }
 
     IEnumerator Selected(Vector3 targetPos, Quaternion targetRot)
