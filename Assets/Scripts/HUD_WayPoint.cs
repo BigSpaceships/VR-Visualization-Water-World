@@ -22,6 +22,8 @@ public class HUD_WayPoint : MonoBehaviour {
         GameObject persistentXR = GameObject.Find("PersistentXR");
         if (persistentXR == null) return;
 
+        GameObject HUD = GameObject.Find("Canvas_HUD");
+        if (HUD == null) return;
 
         Transform xrOrigin = persistentXR.transform.Find("XR Origin/XR Origin (XR Rig)/Camera Offset");
         if (xrOrigin == null) {
@@ -31,10 +33,10 @@ public class HUD_WayPoint : MonoBehaviour {
 
         // 自动绑定关键引用
         mainCamera = xrOrigin.Find("Main Camera")?.GetComponent<Camera>();
-        wayPoint = xrOrigin.Find("Main Camera/Canvas_HUD/Image_WayPoint")?.GetComponent<RectTransform>();
-        arrowIndicator = xrOrigin.Find("Main Camera/Canvas_HUD/WayPointArrow")?.GetComponent<RectTransform>();
-        hudRect = xrOrigin.Find("Main Camera/Canvas_HUD/Image_BG")?.GetComponent<RectTransform>();
-        distanceText = xrOrigin.Find("Main Camera/Canvas_HUD/Image_WayPoint/Text_WayPointDistance")?.GetComponent<TMPro.TextMeshProUGUI>();
+        wayPoint = HUD.transform.Find("Image_WayPoint")?.GetComponent<RectTransform>();
+        arrowIndicator = HUD.transform.Find("WayPointArrow")?.GetComponent<RectTransform>();
+        hudRect = HUD.transform.Find("Image_BG")?.GetComponent<RectTransform>();
+        distanceText = HUD.transform.Find("Image_WayPoint/Text_WayPointDistance")?.GetComponent<TMPro.TextMeshProUGUI>();
     }
 
     /// <summary>
@@ -42,13 +44,16 @@ public class HUD_WayPoint : MonoBehaviour {
     /// </summary>
     /// <param name="newTarget">目标物体，传 null 关闭 WayPoint</param>
     public void ShowWaypoint(Transform newTarget) {
+        
         target = newTarget;
 
         if (target == null) {
             wayPoint.gameObject.SetActive(false);
             arrowIndicator.gameObject.SetActive(false);
             distanceText.gameObject.SetActive(false);
+            Debug.Log($"showwaypoint:null");
         } else {
+            Debug.Log($"showwaypoint: {newTarget.name} position:{newTarget.position}");
             wayPoint.gameObject.SetActive(true);
             arrowIndicator.gameObject.SetActive(true);
             distanceText.gameObject.SetActive(true);

@@ -28,8 +28,8 @@ public class GameStart : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        HUD_textMessage = Object.FindFirstObjectByType<HUD_TextMessage>();
-        waypointController = Object.FindFirstObjectByType<HUD_WayPoint>();
+        HUD_textMessage = Object.FindFirstObjectByType<HUD_TextMessage>(FindObjectsInactive.Include);
+        waypointController = Object.FindFirstObjectByType<HUD_WayPoint>(FindObjectsInactive.Include);
         waypointController.ShowWaypoint(null); //clear waypoint
 
 
@@ -61,7 +61,7 @@ public class GameStart : MonoBehaviour {
         RenderSettings.fogStartDistance = 5f;
         RenderSettings.fogEndDistance = 20f;
 
-        StartCoroutine(TaskStart()); 
+        StartCoroutine(TaskStart());
     }
 
     void OnDestroy() {
@@ -118,19 +118,18 @@ public class GameStart : MonoBehaviour {
         // 等两秒
         yield return new WaitForSeconds(2f);
 
-        Transform WayPoint1 = GameObject.Find("WayPoint1")?.transform;
-        waypointController.ShowWaypoint(WayPoint1);
+        waypointController.ShowWaypoint(waypoint1);
         GameObject g = GameObject.Find("HUD_IncomingCord");
         AudioSource TASK_D = g.GetComponent<AudioSource>();
 
         //AudioSource TASK_D = GameObject.Find("HUD_IncomingCord").GetComponent<AudioSource>();
         HUD_textMessage.ShowText("INCOMING COORDINATES RPF2K1\nWAYPOINT NAVIGATION SYSTEM: ACTIVE", TASK_D);
 
-        
+
         yield return new WaitForSeconds(2f);
 
         //play task01 voice
-        TASK_D = GameObject.Find("TASK_DStart").GetComponent<AudioSource>(); //This is Tour Center, Welcome, David.You have successfully descended to the plan...
+        TASK_D = GameObject.Find("AUDIO_A2_Intro").GetComponent<AudioSource>(); //This is Tour Center, Welcome, David.You have successfully descended to the plan...
         TASK_D.Play();
     }
 
@@ -174,16 +173,14 @@ public class GameStart : MonoBehaviour {
 
 
     void onWaypoint1Reached() {
-        StartCoroutine(UnloadScene("R_Area2 Under Water"));
-        return;
-        HUD_textMessage.ShowText("WAYPOINT RPF2K1\nSTATUS: REACHED", null);
-            AudioSource TASK_D = GameObject.Find("TASK_D01").GetComponent<AudioSource>();
-            TASK_D.Play();
-            StartCoroutine(WaitForSeconds(TASK_D.clip.length, () => {
-                AudioSource TASK_D = GameObject.Find("HUD_IncomingCord").GetComponent<AudioSource>(); 
-                HUD_textMessage.ShowText("INCOMING COORDINATES RPF4K2\nWAYPOINT NAVIGATION SYSTEM: ACTIVE", TASK_D);
-                waypointController.ShowWaypoint(waypoint2);
-            }));
+        HUD_textMessage.ShowText("WAYPOINT RPF2K1\nSTATUS: REACHED", null, () => {
+            waypointController.ShowWaypoint(waypoint2);
+            AudioSource TASK_D = GameObject.Find("HUD_IncomingCord").GetComponent<AudioSource>();
+            HUD_textMessage.ShowText("INCOMING COORDINATES RPF4K2\nWAYPOINT NAVIGATION SYSTEM: ACTIVE", TASK_D, () => {
+                TASK_D = GameObject.Find("AUDIO_A2_WP1").GetComponent<AudioSource>();
+                TASK_D.Play();
+            });
+        });
     }
 
     void onWaypoint2Reached() {
@@ -209,8 +206,6 @@ public class GameStart : MonoBehaviour {
     }
 
     void onWaypoint4Reached() {
-        HUD_textMessage.ShowText("WAYPOINT RPF8K4\nSTATUS: REACHED", null);
-        AudioSource TASK_D = GameObject.Find("TASK_D04").GetComponent<AudioSource>();
-        TASK_D.Play();
+        StartCoroutine(UnloadScene("R_Area2 Under Water"));
     }
 }
