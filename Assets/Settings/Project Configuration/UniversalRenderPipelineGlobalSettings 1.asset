@@ -63,6 +63,7 @@ MonoBehaviour:
       - fc3be25818423e74292096544a3a3314
       - b53546c51c43caf478efd70750974649
       - 8131007796b92d141b90107410321213
+      - 83589f471c1c7704f8ee74894efe8113
       m_Values:
       - m_Center: {x: 0, y: 0, z: 0}
         m_Extent: {x: 81, y: 81, z: 81}
@@ -76,6 +77,8 @@ MonoBehaviour:
         m_Extent: {x: 202.5, y: 81, z: 324}
       - m_Center: {x: 0, y: 0, z: 121.5}
         m_Extent: {x: 81, y: 81, z: 121.5}
+      - m_Center: {x: 202.5, y: 0, z: 0}
+        m_Extent: {x: 202.5, y: 81, z: 324}
     hasProbeVolumes:
       m_Keys:
       - 56e171620d978d84db751b3efbf7cf68
@@ -86,7 +89,8 @@ MonoBehaviour:
       - b53546c51c43caf478efd70750974649
       - 8131007796b92d141b90107410321213
       - f410b513f6b693f408b049e7300e92f8
-      m_Values: 0001010001010100
+      - 83589f471c1c7704f8ee74894efe8113
+      m_Values: 000101000101010001
   m_ShaderStrippingSetting:
     m_Version: 0
     m_ExportShaderVariants: 1
