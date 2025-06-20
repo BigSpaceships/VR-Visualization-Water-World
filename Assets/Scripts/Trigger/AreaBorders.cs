@@ -7,10 +7,16 @@ public class AreaLoaderController : MonoBehaviour {
     public Transform playerTransform;
     public float defaultTriggerDistance = 40f;
 
+    private enum AreaState {
+        Unknown,   // 初始化状态
+        Inside,    // 在区域内
+        Outside    // 在区域外
+    }
+
     private class AreaData {
         public Transform areaTransform;
         public List<Vector2> points = new();
-        public bool isInside = false;
+        public AreaState insideState = AreaState.Unknown;
     }
 
     private List<AreaData> areas = new();
@@ -42,11 +48,11 @@ public class AreaLoaderController : MonoBehaviour {
             float distance = DistanceToPolygon(playerPos, area.points);
             bool shouldBeInside = inside || distance < triggerDist;
 
-            if (!area.isInside && shouldBeInside) {
-                area.isInside = true;
+            if (area.insideState!=AreaState.Inside && shouldBeInside) {
+                area.insideState = AreaState.Inside;
                 OnEnterArea(area.areaTransform);
-            } else if (area.isInside && !shouldBeInside) {
-                area.isInside = false;
+            } else if (area.insideState != AreaState.Outside && !shouldBeInside) {
+                area.insideState = AreaState.Outside;
                 OnExitArea(area.areaTransform);
             }
         }
@@ -56,8 +62,12 @@ public class AreaLoaderController : MonoBehaviour {
         ObjectData data = area.GetComponent<ObjectData>();
         if (data != null) {
             string sceneName = data.Get("SceneName");
+            string lowSceneName = data.Get("LowSceneName");
             if (sceneName != null) {
                 StartCoroutine(LoadScene(sceneName));
+            }
+            if (lowSceneName!=null) {
+                StartCoroutine(UnloadScene(lowSceneName));
             }
         }
     }
@@ -66,8 +76,12 @@ public class AreaLoaderController : MonoBehaviour {
         ObjectData data = area.GetComponent<ObjectData>();
         if (data != null) {
             string sceneName = data.Get("SceneName");
+            string lowSceneName = data.Get("LowSceneName");
             if (!string.IsNullOrEmpty(sceneName)) {
                 StartCoroutine(UnloadScene(sceneName));
+            }
+            if (lowSceneName != null) {
+                StartCoroutine(LoadScene(lowSceneName));
             }
         }
     }
@@ -103,14 +117,32 @@ public class AreaLoaderController : MonoBehaviour {
     }
 
     private IEnumerator UnloadScene(string sceneName) {
-        // 异步卸载场景
-        AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(sceneName);
+        // 1. 检查场景是否在 Build Settings 里
+        Scene scene = SceneManager.GetSceneByName(sceneName);
+        if (!scene.IsValid()) {
+            Debug.LogWarning($"[{nameof(UnloadScene)}] Scene “{sceneName}” is not in Build Settings.");
+            yield break;
+        }
 
-        // 等待卸载完成
+        // 2. 检查场景是否当前已加载
+        if (!scene.isLoaded) {
+            Debug.LogWarning($"[{nameof(UnloadScene)}] Scene “{sceneName}” is not loaded.");
+            yield break;
+        }
+
+        // 3. 异步卸载
+        AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(sceneName);
+        if (unloadOp == null) {
+            Debug.LogError($"[{nameof(UnloadScene)}] Failed to start unloading scene “{sceneName}”.");
+            yield break;
+        }
+
+        // 4. 等待卸载完成
         while (!unloadOp.isDone)
             yield return null;
 
-        yield return null; // 可选：再等一帧以稳定状态
+        // 5. （可选）再等一帧以确保状态稳定
+        yield return null;
     }
 
     // 计算点到多边形边的最近距离
