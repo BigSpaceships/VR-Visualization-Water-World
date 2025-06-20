@@ -49,7 +49,7 @@ public class Skier : MonoBehaviour
     [SerializeField] int flipForce;
     [SerializeField] InputActionProperty jumpActionProperty;
     InputAction jumpAction;
-    bool isGrounded = true;
+    public static bool isGrounded = true;
     bool colliding;
     //Vector3 collisionNormal;
     bool jump;
@@ -88,6 +88,8 @@ public class Skier : MonoBehaviour
     Vector3 leftVel, rightVel, leftLastPos, rightLastPos;
     float leftSpeed, rightSpeed;
     WaitForSeconds velocityWait = new WaitForSeconds(0.1f);
+    [SerializeField] Transform ringParent;
+    Ring[] rings = new Ring[16];
 
     [Header("UI")]
     [SerializeField] Manager manager;
@@ -100,7 +102,7 @@ public class Skier : MonoBehaviour
     Vector3 initialPos;
     Quaternion initialRot;
     Coroutine reload;
-    WaitForSeconds twoSeconds = new WaitForSeconds(2);
+    WaitForSeconds oneSecond = new WaitForSeconds(1);
     public static bool initialized;
 
     void Awake()
@@ -129,6 +131,7 @@ public class Skier : MonoBehaviour
             rightSkiController.SwitchController(false);
         }
         interactableParent = myT.GetChild(0);
+        for (int i = 0; i < 16; i++) rings[i] = ringParent.GetChild(i).GetComponent<Ring>();
         moveAction = moveActionProperty.action;
         turnAction = turnActionProperty.action;
         crouchAction = crouchActionProperty.action;
@@ -373,8 +376,8 @@ public class Skier : MonoBehaviour
                 float distance = Vector3.Distance(leftPos, rightPos);
                 if (distance < 0.02f) distance = 0.02f;
                 Vector3 scale = parachute.localScale;
-                parachute.localScale = new Vector3(scale.x, scale.y, Mathf.Lerp(scale.z, Mathf.Clamp(distance * 5, 0.5f, 1.2f), t));
-                rb.AddForce(Vector3.down * paraglideGravity * Mathf.Clamp(Mathf.Pow(0.2f / distance, 2), 0.2f, 10));
+                parachute.localScale = new Vector3(scale.x, scale.y, Mathf.Lerp(scale.z, Mathf.Clamp(distance * 5, 0.4f, 1.2f), t));
+                rb.AddForce(Vector3.down * paraglideGravity * Mathf.Clamp(Mathf.Pow(0.2f / distance, 3), 0.2f, 15));
                 rb.AddForce(interactableParent.forward * glideForce, ForceMode.Acceleration);
                 rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y) + new Vector3(turnInput.x, 0, turnInput.y)).normalized * inputGlideForce, ForceMode.Acceleration);
                 float startValue = rot.x;
@@ -525,7 +528,7 @@ public class Skier : MonoBehaviour
 
     IEnumerator ReloadCanvas(float duration, bool wait = false)
     {
-        if (wait) yield return twoSeconds;
+        if (wait) yield return oneSecond;
         float elapsedTime = 0;
         float alpha = 0;
         while (alpha <= 0.99f)
@@ -552,9 +555,8 @@ public class Skier : MonoBehaviour
         rb.velocity = rb.angularVelocity = Vector3.zero;
         rb.MovePosition(initialPos);
         rb.MoveRotation(initialRot);
-        Debug.Log(initialPos + " " + initialRot);
-        Debug.Log(myT.position + " " + myT.rotation);
         minutes = passedRings = 0;
+        for (int i = 0; i < 16; i++) rings[i].Reset();
         seconds = 0;
         timeText.SetText("Time: 0:00");
         ringText.SetText("Rings: 0/16");
