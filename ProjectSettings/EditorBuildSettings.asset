@@ -48,11 +48,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Resort/R_Area4_LOW.unity
     guid: ad9998fbadd69aa4bac7e21ed577d940
   - enabled: 1
-    path: Assets/Scenes/Resort/R_Area5 ShoppingMall.unity
-    guid: 56e171620d978d84db751b3efbf7cf68
-  - enabled: 1
     path: Assets/Scenes/Resort/R_Area5.unity
     guid: 80e9287b1f18b4c47b496abb8358e3bf
+  - enabled: 1
+    path: Assets/Scenes/Resort/R_Area5_LOW.unity
+    guid: dd9bfa8089577da4dab7b1c2b9e57d10
   - enabled: 1
     path: Assets/Scenes/Benny/Skiing.unity
     guid: 76a39ea57f89045bd99ee14d8a2b06e9
