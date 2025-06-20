@@ -376,8 +376,8 @@ public class Skier : MonoBehaviour
                 float distance = Vector3.Distance(leftPos, rightPos);
                 if (distance < 0.02f) distance = 0.02f;
                 Vector3 scale = parachute.localScale;
-                parachute.localScale = new Vector3(scale.x, scale.y, Mathf.Lerp(scale.z, Mathf.Clamp(distance * 5, 0.5f, 1.2f), t));
-                rb.AddForce(Vector3.down * paraglideGravity * Mathf.Clamp(Mathf.Pow(0.2f / distance, 2), 0.2f, 10));
+                parachute.localScale = new Vector3(scale.x, scale.y, Mathf.Lerp(scale.z, Mathf.Clamp(distance * 5, 0.4f, 1.2f), t));
+                rb.AddForce(Vector3.down * paraglideGravity * Mathf.Clamp(Mathf.Pow(0.2f / distance, 3), 0.2f, 20));
                 rb.AddForce(interactableParent.forward * glideForce, ForceMode.Acceleration);
                 rb.AddForce(interactableParent.TransformDirection(new Vector3(moveInput.x, 0, moveInput.y) + new Vector3(turnInput.x, 0, turnInput.y)).normalized * inputGlideForce, ForceMode.Acceleration);
                 float startValue = rot.x;
