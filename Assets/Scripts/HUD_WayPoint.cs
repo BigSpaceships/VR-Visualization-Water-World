@@ -22,9 +22,6 @@ public class HUD_WayPoint : MonoBehaviour {
         GameObject persistentXR = GameObject.Find("PersistentXR");
         if (persistentXR == null) return;
 
-        GameObject HUD = GameObject.Find("Canvas_HUD");
-        if (HUD == null) return;
-
         Transform xrOrigin = persistentXR.transform.Find("XR Origin/XR Origin (XR Rig)/Camera Offset");
         if (xrOrigin == null) {
             Debug.LogError("XR Origin structure not found under PersistentXR.");
@@ -33,10 +30,10 @@ public class HUD_WayPoint : MonoBehaviour {
 
         // 自动绑定关键引用
         mainCamera = xrOrigin.Find("Main Camera")?.GetComponent<Camera>();
-        wayPoint = HUD.transform.Find("Image_WayPoint")?.GetComponent<RectTransform>();
-        arrowIndicator = HUD.transform.Find("WayPointArrow")?.GetComponent<RectTransform>();
-        hudRect = HUD.transform.Find("Image_BG")?.GetComponent<RectTransform>();
-        distanceText = HUD.transform.Find("Image_WayPoint/Text_WayPointDistance")?.GetComponent<TMPro.TextMeshProUGUI>();
+        wayPoint = GamePublicV2.FindInChildrenInactive(GamePublicV2.instance.HUD_UnderWater.transform, "Image_WayPoint")?.GetComponent<RectTransform>();
+        arrowIndicator = GamePublicV2.FindInChildrenInactive(GamePublicV2.instance.HUD_UnderWater.transform, "WayPointArrow")?.GetComponent<RectTransform>();
+        hudRect = GamePublicV2.FindInChildrenInactive(GamePublicV2.instance.HUD_UnderWater.transform, "Image_BG")?.GetComponent<RectTransform>();
+        distanceText = GamePublicV2.FindInChildrenInactive(GamePublicV2.instance.HUD_UnderWater.transform, "Image_WayPoint/Text_WayPointDistance")?.GetComponent<TMPro.TextMeshProUGUI>();
     }
 
     /// <summary>

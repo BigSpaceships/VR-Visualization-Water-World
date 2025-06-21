@@ -42,10 +42,10 @@ public class GameStart : MonoBehaviour {
         }
 
         GameObject xr = GamePublicV2.instance.xrOrigin;
-        // ✅ 记录原始位置
+        // ✅ store original position of Player
         originalPosition = xr.transform.position;
         originalRotation = xr.transform.rotation;
-        // ✅ 移动到区域起点
+        // ✅ move Player to start point
         xr.transform.SetPositionAndRotation(playerStartPoint.position, playerStartPoint.rotation);
         GamePublicV2.instance.setMoveMode(MoveMode.UnderWater);
 
@@ -61,13 +61,16 @@ public class GameStart : MonoBehaviour {
         RenderSettings.fogStartDistance = 5f;
         RenderSettings.fogEndDistance = 20f;
 
+        GamePublicV2.instance.setController(ControllerName.A2);
+
         StartCoroutine(TaskStart());
     }
 
     void OnDestroy() {
         GameObject xr = GamePublicV2.instance.xrOrigin;
+        GamePublicV2.instance.setController(ControllerName.Main);
 
-        // ✅ 场景卸载时恢复位置
+        // ✅ restore Player's position and rotation
         if (xr != null)
             xr.transform.SetPositionAndRotation(originalPosition, originalRotation);
 

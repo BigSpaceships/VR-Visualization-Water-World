@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -25,6 +26,8 @@ public class GamePublicV2 : MonoBehaviour {
     public bool publicAccessSamples = false; //in other script use this to access:  GamePublicV2.instance.publicAccessSamples
     public MoveMode moveMode = MoveMode.None;
     public GameObject xrOrigin;
+
+    public GameObject HUD_UnderWater;
 
     private Rigidbody playerRb;
     private CharacterController charController;
@@ -60,6 +63,8 @@ public class GamePublicV2 : MonoBehaviour {
         controllerA2Right = XROriginRig.transform.Find("Camera Offset/Right Controller A2").gameObject;
         controllerMainLeft = XROriginRig.transform.Find("Camera Offset/Left Controller").gameObject;
         controllerMainRight = XROriginRig.transform.Find("Camera Offset/Right Controller").gameObject;
+
+        HUD_UnderWater = XROriginRig.transform.Find("Camera Offset/Main Camera/Canvas_HUD").gameObject;
 
         GameInit();
     }
@@ -163,6 +168,18 @@ public class GamePublicV2 : MonoBehaviour {
         this.moveMode = moveMode;
     }
 
+    public static Transform FindInChildrenInactive(Transform root, string path) {
+        string[] parts = path.Split('/');
+        Transform current = root;
 
-    
+        foreach (string part in parts) {
+            current = Resources.FindObjectsOfTypeAll<Transform>()
+                .FirstOrDefault(t => t.name == part && t.transform.parent == current);
+
+            if (current == null)
+                return null;
+        }
+
+        return current;
+    }
 }
