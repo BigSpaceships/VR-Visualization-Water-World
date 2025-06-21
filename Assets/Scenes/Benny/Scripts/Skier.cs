@@ -1,14 +1,15 @@
-using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.XR;
 
 public class Skier : MonoBehaviour
 {
     [Header("Skier")]
     [SerializeField] Transform camOffset;
     [SerializeField] Transform cam;
+    [SerializeField] Transform startPosMarker;
     Transform interactableParent;
     [SerializeField] int alignStrength;
     float skiSpeed;
@@ -23,6 +24,7 @@ public class Skier : MonoBehaviour
     SkiController leftSkiController;
     SkiController rightSkiController;
     [SerializeField] bool hands = true;
+    bool leftHaptics, rightHaptics;
 
     [Header("Movement")]
     [SerializeField] float normalMoveForce;
@@ -176,8 +178,7 @@ public class Skier : MonoBehaviour
         windSource = audioSources[2];
         bgWindSource = audioSources[3];
         effectSource = Skis.effectSource = Pole.effectSource = Parachute.effectSource = Ring.effectSource = audioSources[4];
-        SwitchClip(bgWindSource, bgSkiWind);
-        myT.GetPositionAndRotation(out initialPos, out initialRot);
+        startPosMarker.GetPositionAndRotation(out initialPos, out initialRot);
         altText.SetText("Altitude: " + (initialPos.y * 3.281f).ToString("0") + "ft");
 
 #if UNITY_EDITOR
@@ -188,12 +189,16 @@ public class Skier : MonoBehaviour
     void Start()
     {
         camOffset.localPosition = new Vector3(0, 1.7f, 0);
-        /*rightDevice = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
+        rightDevice = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
         if (rightDevice.isValid && rightDevice.TryGetHapticCapabilities(out HapticCapabilities capabilities) && capabilities.supportsImpulse) rightHaptics = true;
         else rightHaptics = false;
         leftDevice = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
         if (leftDevice.isValid && leftDevice.TryGetHapticCapabilities(out capabilities) && capabilities.supportsImpulse) leftHaptics = true;
-        else leftHaptics = false;*/
+        else leftHaptics = false;
+        Pole.leftDevice = leftDevice;
+        Pole.rightDevice = rightDevice;
+        Pole.leftHaptics = leftHaptics;
+        Pole.rightHaptics = rightHaptics;
         StartCoroutine(CalculateVelocity());
     }
 
@@ -329,6 +334,8 @@ public class Skier : MonoBehaviour
                             isGrounded = rb.useGravity = rb.freezeRotation = true;
                             rb.drag = 3;
                             effectSource.PlayOneShot(snowLand);
+                            if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                            if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
                         }
                         SwitchWalkSource(snowWalk);
                     }
@@ -339,6 +346,8 @@ public class Skier : MonoBehaviour
                             isGrounded = rb.useGravity = rb.freezeRotation = true;
                             rb.drag = 3;
                             effectSource.PlayOneShot(solidLand);
+                            if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                            if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
                         }
                         SwitchWalkSource(solidWalk);
                     }
@@ -359,6 +368,8 @@ public class Skier : MonoBehaviour
                             if (isJumping)
                             {
                                 effectSource.PlayOneShot(snowLand);
+                                if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                                if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
                                 isJumping = false;
                             }
                         }
@@ -375,6 +386,8 @@ public class Skier : MonoBehaviour
                             if (isJumping)
                             {
                                 effectSource.PlayOneShot(solidLand);
+                                if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                                if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
                                 isJumping = false;
                             }
                         }
@@ -498,6 +511,8 @@ public class Skier : MonoBehaviour
                         if (isJumping)
                         {
                             effectSource.PlayOneShot(snowLand);
+                            if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                            if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
                             isJumping = false;
                         }
                     }
@@ -512,6 +527,8 @@ public class Skier : MonoBehaviour
                         if (isJumping)
                         {
                             effectSource.PlayOneShot(solidLand);
+                            if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                            if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
                             isJumping = false;
                         }
                     }
@@ -550,6 +567,8 @@ public class Skier : MonoBehaviour
                     if (isJumping)
                     {
                         effectSource.PlayOneShot(snowLand);
+                        if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                        if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
                         isJumping = false;
                     }
                 }
@@ -565,6 +584,8 @@ public class Skier : MonoBehaviour
                     if (isJumping)
                     {
                         effectSource.PlayOneShot(solidLand);
+                        if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                        if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
                         isJumping = false;
                     }
                 }

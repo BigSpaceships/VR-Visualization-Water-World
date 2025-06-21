@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR;
 
 public class Pole : XRBaseInteractable
 {
@@ -26,6 +28,10 @@ public class Pole : XRBaseInteractable
     public static SkiController leftSkiController;
     public static Transform rightController;
     public static Transform leftController;
+    public static bool leftHaptics;
+    public static bool rightHaptics;
+    public static UnityEngine.XR.InputDevice leftDevice;
+    public static UnityEngine.XR.InputDevice rightDevice;
     SkiController skiController;
     Transform myT;
     Rigidbody rb;
@@ -140,8 +146,10 @@ public class Pole : XRBaseInteractable
             if (!isGrounded)
             {
                 isGrounded = true;
-                if (hit.transform.gameObject.layer == 9) effectSource.PlayOneShot(snowHit);
+                if (hit.transform.gameObject.layer == 9) effectSource.PlayOneShot(snowHit, 0.5f);
                 else effectSource.PlayOneShot(solidHit);
+                if (skiController == leftSkiController && leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                else if (skiController == rightSkiController && rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
             }
             if (Skier.attachedSkis == 0) return;
             Vector3 groundUp = hit.normal;
@@ -174,7 +182,7 @@ public class Pole : XRBaseInteractable
     {
         if (!Skier.initialized) return;
         int layer = collision.gameObject.layer;
-        if (layer == 9) effectSource.PlayOneShot(snowHit);
+        if (layer == 9) effectSource.PlayOneShot(snowHit, 0.7f);
         else if (layer == 14) effectSource.PlayOneShot(solidHit);
     }
 }

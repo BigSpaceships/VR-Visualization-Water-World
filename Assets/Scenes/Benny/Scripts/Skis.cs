@@ -186,7 +186,7 @@ public class Skis : XRBaseInteractable
     {
         if (!Skier.initialized) return;
         int layer = collision.gameObject.layer;
-        if (layer == 9) effectSource.PlayOneShot(snowHit);
+        if (layer == 9) effectSource.PlayOneShot(snowHit, 0.7f);
         else if (layer == 14) effectSource.PlayOneShot(solidHit);
     }
 
