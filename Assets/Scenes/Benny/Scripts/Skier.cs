@@ -270,7 +270,7 @@ public class Skier : MonoBehaviour
             else
             {
                 float posMag = new Vector2(pos.x, pos.z).sqrMagnitude;
-                if (posMag >= 1210000) reload = StartCoroutine(ReloadCanvas(0.5f));
+                if (posMag >= 1400000) reload = StartCoroutine(ReloadCanvas(0.5f));
             }
         }
 
