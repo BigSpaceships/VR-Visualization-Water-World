@@ -21,6 +21,10 @@ public class Parachute : XRBaseInteractable
     [SerializeField] InputActionProperty leftGripProperty;
     [SerializeField] InputActionProperty rightGripProperty;
     [SerializeField] Color parachuteColor;
+    [SerializeField] AudioClip grab;
+    [SerializeField] AudioClip release;
+    [SerializeField] AudioClip impact;
+    public static AudioSource effectSource;
     public static SkiController leftSkiController;
     public static SkiController rightSkiController;
     SkiController skiController;
@@ -35,6 +39,7 @@ public class Parachute : XRBaseInteractable
     Animator animator;
     Coroutine coroutine;
     bool reselect;
+    Renderer rend;
 
     protected override void Awake()
     {
@@ -46,7 +51,8 @@ public class Parachute : XRBaseInteractable
         Transform model = myT.GetChild(0);
         animator = model.GetComponent<Animator>();
         Transform offset = model.GetChild(0);
-        offset.GetChild(0).GetComponent<Renderer>().material.color = parachuteColor;
+        rend = offset.GetChild(0).GetComponent<Renderer>();
+        rend.material.color = parachuteColor;
         ropes = new Rope[34];
         for (int i = 0; i < 34; i++) ropes[i] = offset.GetChild(i + 1).GetComponent<Rope>();
         leftGrip = leftGripProperty.action;
@@ -85,6 +91,7 @@ public class Parachute : XRBaseInteractable
             Skier.paragliding = Skier.ringText.enabled = true;
             Skier.parachute = myT;
             for (int i = 0; i < 34; i++) ropes[i].paragliding = true;
+            effectSource.PlayOneShot(grab);
             coroutine = StartCoroutine(Selected(new Vector3(0, 1.7f, 0.5f), Quaternion.Euler(0, -90, 0)));
         }
     }
@@ -114,6 +121,7 @@ public class Parachute : XRBaseInteractable
             leftRay.interactionLayers = rightRay.interactionLayers = grabLayer;
             leftSkiController.Animate("Deselect");
             rightSkiController.Animate("Deselect");
+            effectSource.PlayOneShot(release);
             coroutine = StartCoroutine(Deselected());
         }
     }
@@ -139,5 +147,11 @@ public class Parachute : XRBaseInteractable
         //Rapid grab queue handling
         while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1) yield return null;
         coroutine = null;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (!Skier.initialized || !rend.isVisible) return;
+        effectSource.PlayOneShot(impact);
     }
 }

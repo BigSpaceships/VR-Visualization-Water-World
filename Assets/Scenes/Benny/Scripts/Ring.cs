@@ -3,9 +3,12 @@ using UnityEngine;
 public class Ring : MonoBehaviour
 {
     [SerializeField] Color passedColor;
+    [SerializeField] AudioClip passClip;
+    [SerializeField] float ringVolume;
     bool passed;
     Material mat;
     Color normalColor;
+    public static AudioSource effectSource;
 
     void Awake()
     {
@@ -19,6 +22,7 @@ public class Ring : MonoBehaviour
         {
             mat.SetColor("_EmissionColor", passedColor);
             Skier.PassedRing();
+            effectSource.PlayOneShot(passClip, ringVolume);
             passed = true;
         }
     }
