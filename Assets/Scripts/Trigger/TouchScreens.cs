@@ -48,6 +48,13 @@ public class TouchScreens : MonoBehaviour {
                 GameObject dest = GameObject.Find("PersistentXR/currentTestPoint");
                 player.transform.position = dest.transform.position;
                 break;
+            case "changeController":
+                if (GamePublicV2.instance.currentControllerName == ControllerName.Main) {
+                    GamePublicV2.instance.setController(ControllerName.A2);
+                } else {
+                    GamePublicV2.instance.setController(ControllerName.Main);
+                }
+                break;
             default:
                 Debug.LogWarning("Unknown action: " + action);
                 break;
@@ -55,17 +62,12 @@ public class TouchScreens : MonoBehaviour {
     }
 
     private IEnumerator SwitchScene() {
-        // 加载新场景
+        //load new scene
         AsyncOperation loadOp = SceneManager.LoadSceneAsync("R_Area2 Under Water", LoadSceneMode.Additive);
         while (!loadOp.isDone)
             yield return null;
 
-        yield return null; // 等待一帧以稳定状态
-
-        // 卸载旧场景Area0主场景不删除
-        //AsyncOperation unloadOp = SceneManager.UnloadSceneAsync("TestSwitchScene");
-        //while (!unloadOp.isDone)
-        //    yield return null;
+        yield return null; //wait one frame
     }
 
 }
