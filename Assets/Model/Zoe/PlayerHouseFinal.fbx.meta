@@ -3,7 +3,82 @@ guid: da57f0ec892662f40bd319a35733b03d
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Black
+    second: {fileID: 2100000, guid: 5d2c522dde33d1248b37dc1d12671d1a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fabric
+    second: {fileID: 2100000, guid: 69f0c3666546f164e8aeabea1bb3d77a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: House_Sheets
+    second: {fileID: 2100000, guid: 68aa9aca5dd24b642a8bb9b7ff488fe2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: NatureLinkMaterial
+    second: {fileID: 2100000, guid: 997c4e0c8ff9e414a9a5a17485776d1c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: NatureLinkMetal
+    second: {fileID: 2100000, guid: 86cd16cb0a2aaf14c88a6ae435f461b3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Semi_Transparent
+    second: {fileID: 2100000, guid: c04544d953f3e014d841332bfcd6e687, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: White
+    second: {fileID: 2100000, guid: 3cb916ad68156c043a6c9f30f3c5e5e4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: White Frabric
+    second: {fileID: 2100000, guid: 1a3d6918350768547aa687b0e64300b4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: WhiteGlass
+    second: {fileID: 2100000, guid: 2c91db3128fafc94581de5ae92b1c0da, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: WhiteMetal
+    second: {fileID: 2100000, guid: e7734c946b15a7244a83eb0babb1fd13, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: White_leather
+    second: {fileID: 2100000, guid: cfac9c5ab32ca3f46bcced31ff1ac849, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: grey_cartago
+    second: {fileID: 2100000, guid: 2125157cc30b7464f8f959867c9c11d4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: raw_plank_wall
+    second: {fileID: 2100000, guid: c8e1bda5498574d4e820e27abbd68bfd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: raw_plank_wall_BW
+    second: {fileID: 2100000, guid: 35ec1184b91296f40a5c19f9da82180f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wood
+    second: {fileID: 2100000, guid: a31099f586ac9f64385b5607fab36119, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

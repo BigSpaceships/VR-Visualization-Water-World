@@ -128,7 +128,6 @@ public class Skier : MonoBehaviour
     void Awake()
     {
         myT = transform;
-        rb = GetComponent<Rigidbody>();
         Skis.leftController = Pole.leftController = leftController;
         Skis.rightController = Pole.rightController = rightController;
         Skis.leftSkiController = Pole.leftSkiController = Parachute.leftSkiController = Rope.leftController = leftSkiController = leftController.GetComponent<SkiController>();
@@ -150,7 +149,7 @@ public class Skier : MonoBehaviour
             leftSkiController.SwitchController(false);
             rightSkiController.SwitchController(false);
         }
-        interactableParent = myT.GetChild(0);
+        interactableParent = myT.GetChild(2);
         for (int i = 0; i < 16; i++) rings[i] = ringParent.GetChild(i).GetComponent<Ring>();
         moveAction = moveActionProperty.action;
         turnAction = turnActionProperty.action;
@@ -195,6 +194,11 @@ public class Skier : MonoBehaviour
         Pole.leftHaptics = leftHaptics;
         Pole.rightHaptics = rightHaptics;
         StartCoroutine(CalculateVelocity());
+    }
+
+    void OnEnable()
+    {
+        myT.SetPositionAndRotation(initialPos, initialRot);
     }
 
     void Update()
