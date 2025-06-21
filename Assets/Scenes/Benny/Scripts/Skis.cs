@@ -30,6 +30,7 @@ public class Skis : XRBaseInteractable
     public static Transform rightController;
     SkiController skiController;
     Coroutine coroutine;
+    Renderer rend;
     //bool colliding;
     //Vector3 collisionNormal;
 
@@ -40,7 +41,8 @@ public class Skis : XRBaseInteractable
         rb = GetComponent<Rigidbody>();
         Transform model = myT.GetChild(0);
         col = model.GetComponent<Collider>();
-        model.GetComponent<Renderer>().material.color = skiColor;
+        rend = model.GetComponent<Renderer>();
+        rend.material.color = skiColor;
     }
 
     void Update()
@@ -184,7 +186,7 @@ public class Skis : XRBaseInteractable
 
     void OnCollisionEnter(Collision collision)
     {
-        if (!Skier.initialized) return;
+        if (!Skier.initialized || !rend.isVisible) return;
         int layer = collision.gameObject.layer;
         if (layer == 9) effectSource.PlayOneShot(snowHit, 0.7f);
         else if (layer == 14) effectSource.PlayOneShot(solidHit);

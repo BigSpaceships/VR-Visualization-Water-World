@@ -334,8 +334,8 @@ public class Skier : MonoBehaviour
                             isGrounded = rb.useGravity = rb.freezeRotation = true;
                             rb.drag = 3;
                             effectSource.PlayOneShot(snowLand);
-                            if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
-                            if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                            if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.2f);
+                            if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.75f, 0.2f);
                         }
                         SwitchWalkSource(snowWalk);
                     }
@@ -346,8 +346,8 @@ public class Skier : MonoBehaviour
                             isGrounded = rb.useGravity = rb.freezeRotation = true;
                             rb.drag = 3;
                             effectSource.PlayOneShot(solidLand);
-                            if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
-                            if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                            if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.2f);
+                            if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.75f, 0.2f);
                         }
                         SwitchWalkSource(solidWalk);
                     }
@@ -368,8 +368,8 @@ public class Skier : MonoBehaviour
                             if (isJumping)
                             {
                                 effectSource.PlayOneShot(snowLand);
-                                if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
-                                if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                                if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.2f);
+                                if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.75f, 0.2f);
                                 isJumping = false;
                             }
                         }
@@ -386,8 +386,8 @@ public class Skier : MonoBehaviour
                             if (isJumping)
                             {
                                 effectSource.PlayOneShot(solidLand);
-                                if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
-                                if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                                if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.2f);
+                                if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.75f, 0.2f);
                                 isJumping = false;
                             }
                         }
@@ -511,8 +511,8 @@ public class Skier : MonoBehaviour
                         if (isJumping)
                         {
                             effectSource.PlayOneShot(snowLand);
-                            if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
-                            if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                            if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.2f);
+                            if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.75f, 0.2f);
                             isJumping = false;
                         }
                     }
@@ -527,8 +527,8 @@ public class Skier : MonoBehaviour
                         if (isJumping)
                         {
                             effectSource.PlayOneShot(solidLand);
-                            if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
-                            if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                            if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.2f);
+                            if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.75f, 0.2f);
                             isJumping = false;
                         }
                     }
@@ -567,8 +567,8 @@ public class Skier : MonoBehaviour
                     if (isJumping)
                     {
                         effectSource.PlayOneShot(snowLand);
-                        if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
-                        if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                        if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.2f);
+                        if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.75f, 0.2f);
                         isJumping = false;
                     }
                 }
@@ -584,8 +584,8 @@ public class Skier : MonoBehaviour
                     if (isJumping)
                     {
                         effectSource.PlayOneShot(solidLand);
-                        if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
-                        if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                        if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.2f);
+                        if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.75f, 0.2f);
                         isJumping = false;
                     }
                 }
@@ -704,11 +704,17 @@ public class Skier : MonoBehaviour
             yield return null;
         }
         resetCanvas.alpha = 1;
+        reload = null;
     }
 
     IEnumerator Reload(float duration)
     {
         initialized = false;
+        if (reload != null)
+        {
+            StopCoroutine(reload);
+            reload = null;
+        }
         effectSource.PlayOneShot(reset);
         float elapsedTime = 0;
         float alpha = 0;
