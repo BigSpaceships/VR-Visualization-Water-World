@@ -4385,7 +4385,7 @@ PrefabInstance:
     - target: {fileID: 882129737928793925, guid: e4a86943e3689a040b78aa0f4eab4fbb, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 2e3cc02994a3911449aa5f0f189fdd89, type: 2}
+      objectReference: {fileID: 2100000, guid: c726883cb5fb48c45b665829e8f9699b, type: 2}
     - target: {fileID: 919132149155446097, guid: e4a86943e3689a040b78aa0f4eab4fbb, type: 3}
       propertyPath: m_Name
       value: Tent (3)
@@ -28263,7 +28263,7 @@ PrefabInstance:
     - target: {fileID: 882129737928793925, guid: e4a86943e3689a040b78aa0f4eab4fbb, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 2e3cc02994a3911449aa5f0f189fdd89, type: 2}
+      objectReference: {fileID: 2100000, guid: c726883cb5fb48c45b665829e8f9699b, type: 2}
     - target: {fileID: 919132149155446097, guid: e4a86943e3689a040b78aa0f4eab4fbb, type: 3}
       propertyPath: m_Name
       value: Tent (4)
