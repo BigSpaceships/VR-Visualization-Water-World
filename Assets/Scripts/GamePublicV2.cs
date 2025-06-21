@@ -6,10 +6,17 @@ using UnityEngine.InputSystem;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Inputs.Simulation;
+using UnityEngine.XR.Interaction.Toolkit.UI;
 public enum MoveMode {
     None,
     Ground,
     UnderWater
+}
+
+public enum ControllerName {
+    None,
+    Main,
+    A2
 }
 
 public class GamePublicV2 : MonoBehaviour {
@@ -22,6 +29,14 @@ public class GamePublicV2 : MonoBehaviour {
     private Rigidbody playerRb;
     private CharacterController charController;
     private GameObject seaScooter;
+    private CapsuleCollider xrOriginCollider;
+
+
+    private GameObject controllerA2Left;
+    private GameObject controllerA2Right;
+    private GameObject controllerMainLeft;
+    private GameObject controllerMainRight;
+
 
     private void Awake() {
         if (instance == null) {
@@ -39,12 +54,19 @@ public class GamePublicV2 : MonoBehaviour {
         playerRb = xrOrigin.GetComponent<Rigidbody>();
         charController = XROriginRig.GetComponent<CharacterController>();
         seaScooter = GameObject.Find("SeaScooter");
+        xrOriginCollider = XROrigin.GetComponent<CapsuleCollider>();
+
+        controllerA2Left = XROriginRig.transform.Find("Camera Offset/Left Controller A2").gameObject;
+        controllerA2Right = XROriginRig.transform.Find("Camera Offset/Right Controller A2").gameObject;
+        controllerMainLeft = XROriginRig.transform.Find("Camera Offset/Left Controller").gameObject;
+        controllerMainRight = XROriginRig.transform.Find("Camera Offset/Right Controller").gameObject;
 
         GameInit();
     }
 
     private void GameInit() {
         setMoveMode(MoveMode.Ground);
+        setController(ControllerName.Main);
     }
 
     public bool checkVRActive() {
@@ -54,6 +76,52 @@ public class GamePublicV2 : MonoBehaviour {
             active = true;
         }
         return active;
+    }
+
+    public ControllerName currentControllerName = ControllerName.None;
+
+    public void setController(ControllerName name) {
+        StartCoroutine(ResetAndSwitch(name));
+    }
+
+
+    private IEnumerator ResetAndSwitch(ControllerName set) {
+        DisableAllInteractors();
+        yield return null;
+
+        // 禁用所有控制器
+        controllerMainLeft?.SetActive(false);
+        controllerMainRight?.SetActive(false);
+        controllerA2Left?.SetActive(false);
+        controllerA2Right?.SetActive(false);
+
+        // 启用指定控制器组
+        GameObject left = null, right = null;
+        if (set == ControllerName.Main) {
+            left = controllerMainLeft;
+            right = controllerMainRight;
+        } else if (set == ControllerName.A2) {
+            left = controllerA2Left;
+            right = controllerA2Right;
+        }
+
+        left?.SetActive(true);
+        right?.SetActive(true);
+
+        currentControllerName = set;
+    }
+
+    private void DisableAllInteractors() {
+        var interactors = FindObjectsByType<XRBaseInteractor>(FindObjectsSortMode.None);
+        foreach (var interactor in interactors) {
+            interactor.allowSelect = false;
+            interactor.allowHover = false;
+        }
+
+        // 禁用可视化射线
+        var visuals = FindObjectsByType<XRInteractorLineVisual>(FindObjectsSortMode.None);
+        foreach (var v in visuals)
+            v.enabled = false;
     }
 
     public void setMoveMode(MoveMode moveMode) {
@@ -74,12 +142,14 @@ public class GamePublicV2 : MonoBehaviour {
                 playerRb.constraints = RigidbodyConstraints.None;
                 charController.enabled = true;
                 seaScooter.SetActive(false);
+                xrOriginCollider.enabled = false;
             } else {
                 charController.enabled = false;
                 playerRb.isKinematic = false;
                 playerRb.useGravity = true;
                 playerRb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
                 seaScooter.SetActive(false);
+                xrOriginCollider.enabled = true;
             }
         } else if (moveMode == MoveMode.UnderWater) {
             playerRb.isKinematic = true;   // 禁用刚体物理

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR;
@@ -29,6 +30,23 @@ public class PC_MouseLook : MonoBehaviour {
 
         if (!isVRActive) {
             Cursor.lockState = CursorLockMode.Locked; // 锁定鼠标
+        }
+    }
+
+    void LateUpdate() {
+        XROrigin xrOrigin = transform.parent.GetComponent<XROrigin>();
+        if (xrOrigin != null) {
+            // 获取当前摄像机的位置与朝向
+            var camTransform = xrOrigin.Camera.transform;
+
+            // 计算摄像机左侧方向（与世界坐标无关）
+            Vector3 leftDirection = -camTransform.right;
+
+            // 新的位置 = 当前相机位置 + 左移
+            Vector3 targetPosition = camTransform.position + leftDirection * 10f;
+
+            // 重设摄像机位置到目标位置
+            xrOrigin.MoveCameraToWorldLocation(targetPosition);
         }
     }
 
