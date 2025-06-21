@@ -42,12 +42,14 @@ public class Pole : XRBaseInteractable
     WaitForSeconds velocityWait = new WaitForSeconds(0.1f);
     Coroutine coroutine;
     bool isGrounded = true;
+    Renderer rend;
 
     protected override void Awake()
     {
         base.Awake();
         rb = GetComponent<Rigidbody>();
         myT = transform;
+        rend = myT.GetChild(0).GetComponent<Renderer>();
         cols = new Collider[] { myT.GetChild(0).GetComponent<Collider>(), myT.GetChild(1).GetComponent<Collider>(), myT.GetChild(2).GetComponent<Collider>() };
         myT.GetChild(1).GetComponent<Renderer>().material.color = poleColor;
         myT.GetChild(2).GetComponent<Renderer>().material.color = poleColor;
@@ -148,8 +150,8 @@ public class Pole : XRBaseInteractable
                 isGrounded = true;
                 if (hit.transform.gameObject.layer == 9) effectSource.PlayOneShot(snowHit, 0.5f);
                 else effectSource.PlayOneShot(solidHit);
-                if (skiController == leftSkiController && leftHaptics) leftDevice.SendHapticImpulse(0, 0.5f, 0.1f);
-                else if (skiController == rightSkiController && rightHaptics) rightDevice.SendHapticImpulse(0, 0.5f, 0.1f);
+                if (skiController == leftSkiController && leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.1f);
+                else if (skiController == rightSkiController && rightHaptics) rightDevice.SendHapticImpulse(0, 0.75f, 0.1f);
             }
             if (Skier.attachedSkis == 0) return;
             Vector3 groundUp = hit.normal;
@@ -180,7 +182,7 @@ public class Pole : XRBaseInteractable
 
     void OnCollisionEnter(Collision collision)
     {
-        if (!Skier.initialized) return;
+        if (!Skier.initialized || !rend.isVisible) return;
         int layer = collision.gameObject.layer;
         if (layer == 9) effectSource.PlayOneShot(snowHit, 0.7f);
         else if (layer == 14) effectSource.PlayOneShot(solidHit);
