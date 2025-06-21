@@ -67,13 +67,12 @@ public class Skier : MonoBehaviour
     InputAction resetAction;
     [SerializeField] InputActionProperty toggleControllerProperty;
     InputAction toggleController;
-    [SerializeField] GameObject devSim;
     public static Rigidbody rb;
     public static Transform myT;
     UnityEngine.XR.InputDevice rightDevice;
     UnityEngine.XR.InputDevice leftDevice;
 
-    [Header("Paraglider")]
+    [Header("Paragliding")]
     [SerializeField] Transform leftHandRopeTarget;
     [SerializeField] Transform rightHandRopeTarget;
     [SerializeField] Transform leftControllerRopeTarget;
@@ -163,7 +162,7 @@ public class Skier : MonoBehaviour
         toggleController = toggleControllerProperty.action;
 
         //UI/Audio Setup
-        canvasGroup = manager.canvasGroup;
+        canvasGroup = manager.skiCanvasGroup;
         resetCanvas = cam.GetChild(0).GetComponent<CanvasGroup>();
         resetCanvas.alpha = 0;
         Transform statCanvas = cam.GetChild(1);
@@ -180,10 +179,6 @@ public class Skier : MonoBehaviour
         effectSource = Skis.effectSource = Pole.effectSource = Parachute.effectSource = Ring.effectSource = audioSources[4];
         startPosMarker.GetPositionAndRotation(out initialPos, out initialRot);
         altText.SetText("Altitude: " + (initialPos.y * 3.281f).ToString("0") + "ft");
-
-#if UNITY_EDITOR
-        Instantiate(devSim);
-#endif
     }
 
     void Start()
@@ -655,6 +650,9 @@ public class Skier : MonoBehaviour
 
     IEnumerator CalculateVelocity()
     {
+        while (!initialized) yield return null;
+        SwitchClip(bgWindSource, bgSkiWind);
+
         //Calculate controller velocity for paragliding
         while (true)
         {
