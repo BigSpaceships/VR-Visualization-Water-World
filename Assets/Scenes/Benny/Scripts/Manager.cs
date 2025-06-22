@@ -1,47 +1,59 @@
 using System.Collections;
-using Unity.XR.CoreUtils;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class Manager : MonoBehaviour
 {
-    public CanvasGroup resortCanvasGroup;
-    public CanvasGroup skiCanvasGroup;
-    [SerializeField] GameObject resortScene;
-    [SerializeField] GameObject skiScene;
+    CanvasGroup resortCanvasGroup;
+    public static CanvasGroup skiCanvasGroup;
     [SerializeField] GameObject devSim;
 
-    [Header("Resort Components")]
-    [SerializeField] CharacterController characterController;
-    [SerializeField] PC_MouseLook pC_MouseLook;
-    [SerializeField] ActionBasedContinuousMoveProvider continuousMoveProvider;
     [SerializeField] GameObject xrParent;
-    [SerializeField] Collider parentCol;
-    [SerializeField] Rigidbody parentRb;
-    [SerializeField] GameObject camOffset;
-    [SerializeField] GameObject locomotionSystem;
+    [SerializeField] GameObject resortLights;
+    CharacterController characterController;
+    PC_MouseLook pC_MouseLook;
+    ActionBasedContinuousMoveProvider continuousMoveProvider;
+    Collider parentCol;
+    Rigidbody parentRb;
+    GameObject camOffset;
+    GameObject locomotionSystem;
     Vector3 initialPos;
     Quaternion initialRot;
 
-    [Header("Skiing Components")]
-    [SerializeField] CapsuleCollider col;
-    [SerializeField] Skier skier;
-    AudioSource[] audioSources;
     [SerializeField] GameObject xrOrigin;
-    [SerializeField] GameObject interactableParent;
-    [SerializeField] GameObject skiCamOffset;
+    CapsuleCollider col;
+    Skier skier;
+    AudioSource[] audioSources;
+    GameObject interactableParent;
+    GameObject skiCamOffset;
     Rigidbody xrRb;
     void Awake()
     {
-        skiScene.SetActive(false);
         skiCanvasGroup = transform.GetChild(0).GetComponent<CanvasGroup>();
         resortCanvasGroup = transform.GetChild(1).GetComponent<CanvasGroup>();
         skiCanvasGroup.alpha = resortCanvasGroup.alpha = 0;
+        characterController = xrOrigin.GetComponent<CharacterController>();
+        pC_MouseLook = xrOrigin.GetComponent<PC_MouseLook>();
+        continuousMoveProvider = xrOrigin.GetComponent<ActionBasedContinuousMoveProvider>();
+        col = xrOrigin.GetComponent<CapsuleCollider>();
+        skier = xrOrigin.GetComponent<Skier>();
         audioSources = xrOrigin.GetComponents<AudioSource>();
-        xrOrigin.transform.GetPositionAndRotation(out initialPos, out initialRot);
+        camOffset = xrOrigin.transform.GetChild(0).gameObject;
+        locomotionSystem = xrOrigin.transform.GetChild(1).gameObject;
+        interactableParent = xrOrigin.transform.GetChild(2).gameObject;
+        skiCamOffset = xrOrigin.transform.GetChild(3).gameObject;
+        parentCol = xrParent.GetComponent<Collider>();
+        parentRb = xrParent.GetComponent<Rigidbody>();
 #if UNITY_EDITOR
-        Instantiate(devSim);
+        DontDestroyOnLoad(Instantiate(devSim));
 #endif
+    }
+
+    void Start()
+    {
+        xrOrigin.transform.GetPositionAndRotation(out initialPos, out initialRot);
     }
 
     public static bool EqualVectors(Vector3 vector, Vector3 target, float threshold = 0.1f)
@@ -78,26 +90,34 @@ public class Manager : MonoBehaviour
             yield return null;
         }
         alpha = fromCanvas.alpha = toCanvas.alpha = 1;
+        SwitchXROrigin(skiing);
+        elapsedTime = 0;
         if (skiing)
         {
-            resortScene.SetActive(false);
-            SwitchXROrigin(true);
-            skiScene.SetActive(true);
+            AsyncOperation op = SceneManager.LoadSceneAsync("Skiing", LoadSceneMode.Additive);
+            while (!op.isDone) yield return null;
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName("Skiing"));
+            SceneManager.UnloadSceneAsync("R_Main");
+            SceneManager.UnloadSceneAsync("R_Area1_LOW");
+            SceneManager.UnloadSceneAsync("R_Area2");
+            SceneManager.UnloadSceneAsync("R_Area3");
+            SceneManager.UnloadSceneAsync("R_Area4_LOW");
+            SceneManager.UnloadSceneAsync("R_Area5_LOW");
+            GameObject.FindWithTag("SceneTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(false); });
         }
         else
         {
-            skiScene.SetActive(false);
-            SwitchXROrigin(false);
-            resortScene.SetActive(true);
+            AsyncOperation op = SceneManager.LoadSceneAsync("R_Main", LoadSceneMode.Additive);
+            while (!op.isDone) yield return null;
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName("R_Main"));
+            SceneManager.UnloadSceneAsync("Skiing");
         }
-        elapsedTime = 0;
-        yield return new WaitForSeconds(1);
         while (alpha >= 0.01f)
-        {
-            alpha = toCanvas.alpha = 1 - elapsedTime / duration;
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
+            {
+                alpha = toCanvas.alpha = 1 - elapsedTime / duration;
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
         toCanvas.alpha = fromCanvas.alpha = 0;
         if (skiing) Skier.initialized = true;
     }
@@ -110,6 +130,7 @@ public class Manager : MonoBehaviour
         camOffset.SetActive(!skiing);
         interactableParent.SetActive(skiing);
         locomotionSystem.SetActive(!skiing);
+        resortLights.SetActive(!skiing);
         for (int i = 0; i < audioSources.Length; i++) audioSources[i].enabled = skiing;
         if (skiing)
         {

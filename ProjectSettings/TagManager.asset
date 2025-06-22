@@ -8,6 +8,8 @@ TagManager:
   - TransitionTunnel
   - basketball
   - fruit
+  - SceneTransition
+  - RingParent
   layers:
   - Default
   - TransparentFX

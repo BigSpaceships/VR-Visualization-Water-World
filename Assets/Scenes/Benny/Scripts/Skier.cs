@@ -1,15 +1,17 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class Skier : MonoBehaviour
 {
     [Header("Skier")]
     [SerializeField] Transform camOffset;
     [SerializeField] Transform cam;
-    [SerializeField] Transform startPosMarker;
     Transform interactableParent;
     [SerializeField] int alignStrength;
     float skiSpeed;
@@ -89,11 +91,9 @@ public class Skier : MonoBehaviour
     Vector3 leftVel, rightVel, leftLastPos, rightLastPos;
     float leftSpeed, rightSpeed;
     WaitForSeconds velocityWait = new WaitForSeconds(0.1f);
-    [SerializeField] Transform ringParent;
-    Ring[] rings = new Ring[16];
+    public static List<Ring> rings = new List<Ring>(16);
 
     [Header("UI/Audio")]
-    [SerializeField] Manager manager;
     [SerializeField] AudioClip solidWalk;
     [SerializeField] AudioClip snowWalk;
     [SerializeField] AudioClip skiing;
@@ -119,8 +119,8 @@ public class Skier : MonoBehaviour
     public static int passedRings;
     int minutes;
     float seconds;
-    Vector3 initialPos;
-    Quaternion initialRot;
+    Vector3 initialPos = new Vector3(-122.5f, 577.51f, -100.7f);
+    Quaternion initialRot = Quaternion.Euler(new Vector3(0, 15, 0));
     Coroutine reload;
     WaitForSeconds oneSecond = new WaitForSeconds(1);
     public static bool initialized;
@@ -132,6 +132,12 @@ public class Skier : MonoBehaviour
         Skis.rightController = Pole.rightController = rightController;
         Skis.leftSkiController = Pole.leftSkiController = Parachute.leftSkiController = Rope.leftController = leftSkiController = leftController.GetComponent<SkiController>();
         Skis.rightSkiController = Pole.rightSkiController = Parachute.rightSkiController = Rope.rightController = rightSkiController = rightController.GetComponent<SkiController>();
+        Transform leftRay = leftController.GetChild(2);
+        Parachute.leftRay = leftRay.GetComponent<XRRayInteractor>();
+        Parachute.leftRayVisual = leftRay.GetComponent<XRInteractorLineVisual>();
+        Transform rightRay = rightController.GetChild(2);
+        Parachute.rightRay = rightRay.GetComponent<XRRayInteractor>();
+        Parachute.rightRayVisual = rightRay.GetComponent<XRInteractorLineVisual>();
         if (hands)
         {
             Rope.leftTarget = leftHandRopeTarget;
@@ -149,8 +155,7 @@ public class Skier : MonoBehaviour
             leftSkiController.SwitchController(false);
             rightSkiController.SwitchController(false);
         }
-        interactableParent = myT.GetChild(2);
-        for (int i = 0; i < 16; i++) rings[i] = ringParent.GetChild(i).GetComponent<Ring>();
+        interactableParent = Parachute.selectedParent = Skis.skiParent = Pole.skiParent = myT.GetChild(2);
         moveAction = moveActionProperty.action;
         turnAction = turnActionProperty.action;
         crouchAction = crouchActionProperty.action;
@@ -161,7 +166,7 @@ public class Skier : MonoBehaviour
         toggleController = toggleControllerProperty.action;
 
         //UI/Audio Setup
-        canvasGroup = manager.skiCanvasGroup;
+        canvasGroup = Manager.skiCanvasGroup;
         resetCanvas = cam.GetChild(0).GetComponent<CanvasGroup>();
         resetCanvas.alpha = 0;
         Transform statCanvas = cam.GetChild(1);
@@ -176,7 +181,6 @@ public class Skier : MonoBehaviour
         windSource = audioSources[2];
         bgWindSource = audioSources[3];
         effectSource = Skis.effectSource = Pole.effectSource = Parachute.effectSource = Ring.effectSource = audioSources[4];
-        startPosMarker.GetPositionAndRotation(out initialPos, out initialRot);
         altText.SetText("Altitude: " + (initialPos.y * 3.281f).ToString("0") + "ft");
     }
 
@@ -203,6 +207,7 @@ public class Skier : MonoBehaviour
 
     void Update()
     {
+        if (SceneManager.GetSceneByName("R_Area4").isLoaded) SceneManager.UnloadSceneAsync("R_Area4");
         if (!initialized) return;
 
         //Input detection
@@ -731,7 +736,7 @@ public class Skier : MonoBehaviour
         rb.MovePosition(initialPos);
         rb.MoveRotation(initialRot);
         minutes = passedRings = 0;
-        for (int i = 0; i < 16; i++) rings[i].Reset();
+        foreach(Ring ring in rings) ring.Reset();
         seconds = 0;
         timeText.SetText("Time: 0:00");
         ringText.SetText("Rings: 0/16");

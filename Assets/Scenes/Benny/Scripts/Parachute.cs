@@ -7,13 +7,13 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class Parachute : XRBaseInteractable
 {
     [Header("Custom Fields")]
-    [SerializeField] Transform selectedParent;
+    public static Transform selectedParent;
     [SerializeField] Transform objectParent;
     [SerializeField] int attachSpeed;
-    [SerializeField] XRRayInteractor leftRay;
-    [SerializeField] XRRayInteractor rightRay;
-    [SerializeField] XRInteractorLineVisual leftRayVisual;
-    [SerializeField] XRInteractorLineVisual rightRayVisual;
+    public static XRRayInteractor leftRay;
+    public static XRRayInteractor rightRay;
+    public static XRInteractorLineVisual leftRayVisual;
+    public static XRInteractorLineVisual rightRayVisual;
     [SerializeField] InteractionLayerMask grabLayer;
     [SerializeField] InteractionLayerMask parachuteLayer;
     [SerializeField] float minReleaseForce;
