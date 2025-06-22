@@ -4,7 +4,17 @@ using UnityEngine;
 
 public class PersistentXR : MonoBehaviour
 {
-    private void Awake() {
-        DontDestroyOnLoad(gameObject);
+    public static PersistentXR Instance;
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+        }
     }
 }

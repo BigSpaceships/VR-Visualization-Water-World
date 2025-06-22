@@ -10,6 +10,8 @@ TagManager:
   - fruit
   - SceneTransition
   - RingParent
+  - SkiTransition
+  - Lazy Tooltip
   layers:
   - Default
   - TransparentFX

@@ -69,7 +69,8 @@ public class GamePublicV2 : MonoBehaviour {
         GameInit();
     }
 
-    private void GameInit() {
+    private void GameInit()
+    {
         setMoveMode(MoveMode.Ground);
         setController(ControllerName.Main);
     }
@@ -94,13 +95,13 @@ public class GamePublicV2 : MonoBehaviour {
         DisableAllInteractors();
         yield return null;
 
-        // ½ûÓÃËùÓÐ¿ØÖÆÆ÷
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¿ï¿½ï¿½ï¿½ï¿½ï¿½
         controllerMainLeft?.SetActive(false);
         controllerMainRight?.SetActive(false);
         controllerA2Left?.SetActive(false);
         controllerA2Right?.SetActive(false);
 
-        // ÆôÓÃÖ¸¶¨¿ØÖÆÆ÷×é
+        // ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         GameObject left = null, right = null;
         if (set == ControllerName.Main) {
             left = controllerMainLeft;
@@ -123,7 +124,7 @@ public class GamePublicV2 : MonoBehaviour {
             interactor.allowHover = false;
         }
 
-        // ½ûÓÃ¿ÉÊÓ»¯ÉäÏß
+        // ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½Ó»ï¿½ï¿½ï¿½ï¿½ï¿½
         var visuals = FindObjectsByType<XRInteractorLineVisual>(FindObjectsSortMode.None);
         foreach (var v in visuals)
             v.enabled = false;
@@ -157,9 +158,9 @@ public class GamePublicV2 : MonoBehaviour {
                 xrOriginCollider.enabled = true;
             }
         } else if (moveMode == MoveMode.UnderWater) {
-            playerRb.isKinematic = true;   // ½ûÓÃ¸ÕÌåÎïÀí
-            playerRb.useGravity = false;   // Ë®ÏÂÎÞÖØÁ¦
-            playerRb.constraints = RigidbodyConstraints.None; // ×ÔÓÉ×ª¶¯
+            playerRb.isKinematic = true;   // ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            playerRb.useGravity = false;   // Ë®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            playerRb.constraints = RigidbodyConstraints.None; // ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½
             seaScooter.SetActive(true);
             if (charController != null)
                 charController.enabled = true;

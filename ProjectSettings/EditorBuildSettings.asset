@@ -29,10 +29,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Resort/R_Area4_LOW.unity
     guid: ad9998fbadd69aa4bac7e21ed577d940
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Resort/R_Area5.unity
     guid: 80e9287b1f18b4c47b496abb8358e3bf
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Resort/R_Area5_LOW.unity
     guid: dd9bfa8089577da4dab7b1c2b9e57d10
   - enabled: 1
