@@ -8,9 +8,9 @@ public class AreaLoaderController : MonoBehaviour {
     public float defaultTriggerDistance = 40f;
 
     private enum AreaState {
-        Unknown,   // ï¿½ï¿½Ê¼ï¿½ï¿½×´Ì¬
-        Inside,    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-        Outside    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        Unknown,   // ³õÊ¼»¯×´Ì¬
+        Inside,    // ÔÚÇøÓòÄÚ
+        Outside    // ÔÚÇøÓòÍâ
     }
 
     private class AreaData {
@@ -27,7 +27,7 @@ public class AreaLoaderController : MonoBehaviour {
             areaData.areaTransform = area;
 
             foreach (Transform point in area) {
-                Vector2 pos = new Vector2(point.position.x, point.position.z); // Ê¹ï¿½ï¿½ XZ Æ½ï¿½ï¿½
+                Vector2 pos = new Vector2(point.position.x, point.position.z); // Ê¹ÓÃ XZ Æ½Ãæ
                 areaData.points.Add(pos);
             }
 
@@ -42,7 +42,7 @@ public class AreaLoaderController : MonoBehaviour {
             float triggerDist = defaultTriggerDistance;
             ObjectData data = area.areaTransform.GetComponent<ObjectData>();
             if (data != null)
-                triggerDist = data.GetFloat("TriggerDistance", defaultTriggerDistance); // ï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½
+                triggerDist = data.GetFloat("TriggerDistance", defaultTriggerDistance); // ÈôÎ´ÉèÖÃÔòÓÃÄ¬ÈÏ
 
             bool inside = IsPointInPolygon(playerPos, area.points); 
             float distance = DistanceToPolygon(playerPos, area.points);
@@ -104,48 +104,48 @@ public class AreaLoaderController : MonoBehaviour {
 
     private IEnumerator LoadScene(string sceneName) {
         var scene = SceneManager.GetSceneByName(sceneName);
-        if (scene.isLoaded || SceneManager.GetSceneByName("Skiing").isLoaded) {
+        if (scene.isLoaded) {
             yield break;
         }
 
-        // ï¿½ï¿½ï¿½ï¿½ï¿½Â³ï¿½ï¿½ï¿½
+        // ¼ÓÔØÐÂ³¡¾°
         AsyncOperation loadOp = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         while (!loadOp.isDone)
             yield return null;
 
-        yield return null; // ï¿½È´ï¿½Ò»Ö¡ï¿½ï¿½ï¿½È¶ï¿½×´Ì¬
+        yield return null; // µÈ´ýÒ»Ö¡ÒÔÎÈ¶¨×´Ì¬
     }
 
     private IEnumerator UnloadScene(string sceneName) {
-        // 1. ï¿½ï¿½é³¡ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ Build Settings ï¿½ï¿½
+        // 1. ¼ì²é³¡¾°ÊÇ·ñÔÚ Build Settings Àï
         Scene scene = SceneManager.GetSceneByName(sceneName);
         if (!scene.IsValid()) {
-            Debug.LogWarning($"[{nameof(UnloadScene)}] Scene ï¿½ï¿½{sceneName}ï¿½ï¿½ is not in Build Settings.");
+            Debug.LogWarning($"[{nameof(UnloadScene)}] Scene ¡°{sceneName}¡± is not in Build Settings.");
             yield break;
         }
 
-        // 2. ï¿½ï¿½é³¡ï¿½ï¿½ï¿½Ç·ï¿½Ç°ï¿½Ñ¼ï¿½ï¿½ï¿½
+        // 2. ¼ì²é³¡¾°ÊÇ·ñµ±Ç°ÒÑ¼ÓÔØ
         if (!scene.isLoaded) {
-            Debug.LogWarning($"[{nameof(UnloadScene)}] Scene ï¿½ï¿½{sceneName}ï¿½ï¿½ is not loaded.");
+            Debug.LogWarning($"[{nameof(UnloadScene)}] Scene ¡°{sceneName}¡± is not loaded.");
             yield break;
         }
 
-        // 3. ï¿½ì²½Ð¶ï¿½ï¿½
+        // 3. Òì²½Ð¶ÔØ
         AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(sceneName);
         if (unloadOp == null) {
-            Debug.LogError($"[{nameof(UnloadScene)}] Failed to start unloading scene ï¿½ï¿½{sceneName}ï¿½ï¿½.");
+            Debug.LogError($"[{nameof(UnloadScene)}] Failed to start unloading scene ¡°{sceneName}¡±.");
             yield break;
         }
 
-        // 4. ï¿½È´ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½
+        // 4. µÈ´ýÐ¶ÔØÍê³É
         while (!unloadOp.isDone)
             yield return null;
 
-        // 5. ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Ùµï¿½Ò»Ö¡ï¿½ï¿½È·ï¿½ï¿½×´Ì¬ï¿½È¶ï¿½
+        // 5. £¨¿ÉÑ¡£©ÔÙµÈÒ»Ö¡ÒÔÈ·±£×´Ì¬ÎÈ¶¨
         yield return null;
     }
 
-    // ï¿½ï¿½ï¿½ï¿½ãµ½ï¿½ï¿½ï¿½ï¿½Î±ßµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    // ¼ÆËãµãµ½¶à±ßÐÎ±ßµÄ×î½ü¾àÀë
     float DistanceToPolygon(Vector2 point, List<Vector2> polygon) {
         float minDist = float.MaxValue;
         for (int i = 0; i < polygon.Count; i++) {
