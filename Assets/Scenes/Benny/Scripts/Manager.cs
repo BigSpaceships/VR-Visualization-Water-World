@@ -8,13 +8,16 @@ public class Manager : MonoBehaviour
     CanvasGroup resortCanvasGroup;
     public static CanvasGroup skiCanvasGroup;
     [SerializeField] GameObject devSim;
-    [SerializeField] GameObject skiingOrigin;
     [SerializeField] GameObject resortOrigin;
+    [SerializeField] GameObject lights;
+    Vector3 initialPos;
+    Quaternion initialRot;
     void Awake()
     {
         skiCanvasGroup = transform.GetChild(0).GetComponent<CanvasGroup>();
         resortCanvasGroup = transform.GetChild(1).GetComponent<CanvasGroup>();
         skiCanvasGroup.alpha = resortCanvasGroup.alpha = 0;
+        resortOrigin.transform.GetPositionAndRotation(out initialPos, out initialRot);
 #if UNITY_EDITOR
         devSim = Instantiate(devSim);
         DontDestroyOnLoad(devSim);
@@ -60,6 +63,7 @@ public class Manager : MonoBehaviour
         {
             AsyncOperation op = SceneManager.LoadSceneAsync("Skiing", LoadSceneMode.Additive);
             while (!op.isDone) yield return null;
+            yield return null;
             Scene activeScene = SceneManager.GetSceneByName("Skiing");
             SceneManager.SetActiveScene(activeScene);
             int sceneCount = SceneManager.sceneCount;
@@ -69,17 +73,19 @@ public class Manager : MonoBehaviour
                 if (scene != activeScene) SceneManager.UnloadSceneAsync(scene);
             }
             resortOrigin.SetActive(false);
-            skiingOrigin.SetActive(true);
+            lights.SetActive(false);
             GameObject.FindWithTag("SceneTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(false); } );
         }
         else
         {
             AsyncOperation op = SceneManager.LoadSceneAsync("R_Main", LoadSceneMode.Additive);
             while (!op.isDone) yield return null;
+            yield return null;
             SceneManager.SetActiveScene(SceneManager.GetSceneByName("R_Main"));
             SceneManager.UnloadSceneAsync("Skiing");
-            skiingOrigin.SetActive(false);
             resortOrigin.SetActive(true);
+            lights.SetActive(true);
+            resortOrigin.transform.SetPositionAndRotation(initialPos, initialRot);
             GameObject.FindWithTag("SkiTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(true); });
         }
         while (alpha >= 0.01f)

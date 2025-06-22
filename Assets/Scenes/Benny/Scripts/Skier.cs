@@ -128,6 +128,7 @@ public class Skier : MonoBehaviour
     void Awake()
     {
         myT = transform;
+        rb = Pole.skier = GetComponent<Rigidbody>();
         Skis.leftController = Pole.leftController = leftController;
         Skis.rightController = Pole.rightController = rightController;
         Skis.leftSkiController = Pole.leftSkiController = Parachute.leftSkiController = Rope.leftController = leftSkiController = leftController.GetComponent<SkiController>();
@@ -203,7 +204,6 @@ public class Skier : MonoBehaviour
     void OnEnable()
     {
         myT.SetPositionAndRotation(initialPos, initialRot);
-        turnAction.Enable();
         GameObject[] tooltips = GameObject.FindGameObjectsWithTag("Lazy Tooltip");
         for (int i = 0; i < tooltips.Length; i++) if (tooltips[i].activeInHierarchy) tooltips[i].SetActive(false);
     }

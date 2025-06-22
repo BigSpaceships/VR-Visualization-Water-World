@@ -154,6 +154,7 @@ public class AdventuringCamera : MonoBehaviour {
     }
 
     private void TakePictureAction(InputAction.CallbackContext obj) {
+        if (!gameObject.activeInHierarchy) return;
         StartCoroutine(TakePicture());
     }
 
