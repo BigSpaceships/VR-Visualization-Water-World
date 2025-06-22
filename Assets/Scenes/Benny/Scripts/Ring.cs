@@ -14,6 +14,7 @@ public class Ring : MonoBehaviour
     {
         mat = GetComponent<Renderer>().material;
         normalColor = mat.GetColor("_EmissionColor");
+        Skier.rings.Add(this);
     }
 
     void OnTriggerEnter(Collider other)

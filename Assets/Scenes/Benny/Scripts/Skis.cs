@@ -8,7 +8,7 @@ public class Skis : XRBaseInteractable
     [Header("Custom Fields")]
     [SerializeField] float alignStrength;
     [SerializeField] LayerMask groundMask;
-    [SerializeField] Transform skiParent;
+    public static Transform skiParent;
     [SerializeField] Transform objectParent;
     [SerializeField] Vector3 leftAttach;
     [SerializeField] Vector3 rightAttach;

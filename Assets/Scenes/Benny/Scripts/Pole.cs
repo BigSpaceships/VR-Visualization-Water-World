@@ -6,7 +6,7 @@ public class Pole : XRBaseInteractable
 {
     [Header("Custom Fields")]
     [SerializeField] Transform objectParent;
-    [SerializeField] Transform skiParent;
+    public static Transform skiParent;
     public static Rigidbody skier;
     [SerializeField] Color poleColor;
     [SerializeField] float poleForce;
