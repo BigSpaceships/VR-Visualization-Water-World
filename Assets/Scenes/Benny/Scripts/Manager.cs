@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit.Inputs;
@@ -17,7 +18,7 @@ public class Manager : MonoBehaviour
     void Awake()
     {
         skiCanvasGroup = transform.GetChild(0).GetComponent<CanvasGroup>();
-        resortCanvasGroup = transform.GetChild(1).GetComponent<CanvasGroup>();
+        resortCanvasGroup = TouchScreens.canvasGroup = transform.GetChild(1).GetComponent<CanvasGroup>();
         skiCanvasGroup.alpha = resortCanvasGroup.alpha = 0;
         resortOrigin.transform.GetPositionAndRotation(out initialPos, out initialRot);
 #if UNITY_EDITOR

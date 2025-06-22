@@ -6,6 +6,9 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class TouchScreens : MonoBehaviour {
+    //This canvas group is assigned in the manager script on the persistent ski manager object
+    public static CanvasGroup canvasGroup;
+
     // Start is called before the first frame update
     void Start() {
 
@@ -61,13 +64,29 @@ public class TouchScreens : MonoBehaviour {
         }
     }
 
-    private IEnumerator SwitchScene() {
+    private IEnumerator SwitchScene(float duration = 0.5f)
+    {
         //load new scene
-        AsyncOperation loadOp = SceneManager.LoadSceneAsync("R_Area2 Under Water", LoadSceneMode.Additive);
-        while (!loadOp.isDone)
+        float elapsedTime = 0;
+        float alpha = 0;
+        while (alpha <= 0.99f)
+        {
+            alpha = canvasGroup.alpha = elapsedTime / duration;
+            elapsedTime += Time.deltaTime;
             yield return null;
-
+        }
+        alpha = canvasGroup.alpha = canvasGroup.alpha = 1;
+        elapsedTime = 0;
+        AsyncOperation loadOp = SceneManager.LoadSceneAsync("R_Area2 Under Water", LoadSceneMode.Additive);
+        while (!loadOp.isDone) yield return null;
         yield return null; //wait one frame
+        while (alpha >= 0.01f)
+        {
+            alpha = canvasGroup.alpha = 1 - elapsedTime / duration;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        canvasGroup.alpha = canvasGroup.alpha = 0;
     }
 
 }

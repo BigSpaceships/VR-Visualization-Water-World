@@ -485,7 +485,7 @@ public class Skier : MonoBehaviour
                 if (leftSpeed > 1 && rightSpeed > 1 && Vector3.Dot(leftVel.normalized, interactableParent.up) < -0.7f && Vector3.Dot(rightVel.normalized, interactableParent.up) < -0.7f)
                 {
                     rb.AddForce(interactableParent.up * (leftSpeed + rightSpeed) * 40, ForceMode.Acceleration);
-                    effectSource.PlayOneShot(updraftSound, 0.5f);
+                    effectSource.PlayOneShot(updraftSound, 0.3f);
                 }
             }
             if (rightFlip) rightFlip = false;
@@ -620,7 +620,7 @@ public class Skier : MonoBehaviour
             if (jump)
             {
                 rb.AddForce(interactableParent.up * jumpForce, ForceMode.VelocityChange);
-                effectSource.PlayOneShot(updraftSound, 0.5f);
+                effectSource.PlayOneShot(updraftSound, 0.3f);
                 isJumping = true;
                 jump = false;
             }
@@ -657,7 +657,7 @@ public class Skier : MonoBehaviour
     {
         yield return updraftWait;
         rb.AddForce(direction * updraftForce, ForceMode.Acceleration);
-        effectSource.PlayOneShot(updraftSound, 0.8f);
+        effectSource.PlayOneShot(updraftSound, 0.7f);
     }
 
     IEnumerator CalculateVelocity()
@@ -714,17 +714,11 @@ public class Skier : MonoBehaviour
             yield return null;
         }
         resetCanvas.alpha = 1;
-        reload = null;
     }
 
     IEnumerator Reload(float duration)
     {
         initialized = false;
-        if (reload != null)
-        {
-            StopCoroutine(reload);
-            reload = null;
-        }
         effectSource.PlayOneShot(reset);
         float elapsedTime = 0;
         float alpha = 0;
@@ -744,6 +738,7 @@ public class Skier : MonoBehaviour
         timeText.SetText("Time: 0:00");
         ringText.SetText("Rings: 0/16");
         resetCanvas.alpha = 0;
+        reload = null;
         elapsedTime = 0;
         while (alpha >= 0.01f)
         {
