@@ -48,9 +48,9 @@ public class HUD_WayPoint : MonoBehaviour {
             wayPoint.gameObject.SetActive(false);
             arrowIndicator.gameObject.SetActive(false);
             distanceText.gameObject.SetActive(false);
-            Debug.Log($"showwaypoint:null");
+            //Debug.Log($"showwaypoint:null");
         } else {
-            Debug.Log($"showwaypoint: {newTarget.name} position:{newTarget.position}");
+            //Debug.Log($"showwaypoint: {newTarget.name} position:{newTarget.position}");
             wayPoint.gameObject.SetActive(true);
             arrowIndicator.gameObject.SetActive(true);
             distanceText.gameObject.SetActive(true);

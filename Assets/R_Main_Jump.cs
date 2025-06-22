@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class R_Main_Jump : MonoBehaviour {
     public InputActionProperty jumpButton;
@@ -19,15 +20,20 @@ public class R_Main_Jump : MonoBehaviour {
     void Start() {
         controller = xrOriginRig.GetComponent<CharacterController>();
         jumpButton.action.Enable();
+    }
+
+    void OnEnable()
+    {
         jumpButton.action.performed += ctx => jump();
     }
 
     // Update is called once per frame
-    void OnDestroy() {
+    void OnDisable() {
         jumpButton.action.performed -= ctx => jump();
     }
     void Update() {
         // �򵥵����·��������ж��Ƿ��ŵ�
+        if (SceneManager.GetSceneByName("R_Area2 Under Water").isLoaded) return;
         isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance + 0.1f);
 
         if (isGrounded && verticalSpeed < 0)
@@ -40,7 +46,6 @@ public class R_Main_Jump : MonoBehaviour {
     }
 
     void jump() {
-        Debug.Log(isGrounded);
         if (isGrounded) {
             verticalSpeed = jumpForce;
         }

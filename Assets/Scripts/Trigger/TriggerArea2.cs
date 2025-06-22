@@ -7,10 +7,10 @@ public class TriggerArea2 : MonoBehaviour {
     private bool hasTriggered = false; // 是否已经触发过
 
     private void OnTriggerEnter(Collider other) {
-        Debug.Log("trigger step 1");
+        //Debug.Log("trigger step 1");
         if (other.CompareTag("Player") && !hasTriggered) {
             hasTriggered = true;
-            Debug.Log("triggered");
+            //Debug.Log("triggered");
             StartCoroutine(SwitchScene());
         }
     }
@@ -18,7 +18,7 @@ public class TriggerArea2 : MonoBehaviour {
     private void OnTriggerExit(Collider other) {
         if (other.CompareTag("Player")) {
             hasTriggered = false;
-            Debug.Log("🔄 离开空气墙：状态已复位。");
+            //Debug.Log("🔄 离开空气墙：状态已复位。");
         }
     }
 

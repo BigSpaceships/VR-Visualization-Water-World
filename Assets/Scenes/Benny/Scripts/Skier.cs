@@ -204,13 +204,11 @@ public class Skier : MonoBehaviour
     void OnEnable()
     {
         myT.SetPositionAndRotation(initialPos, initialRot);
-        GameObject[] tooltips = GameObject.FindGameObjectsWithTag("Lazy Tooltip");
-        for (int i = 0; i < tooltips.Length; i++) if (tooltips[i].activeInHierarchy) tooltips[i].SetActive(false);
     }
 
     void Update()
     {
-        if (SceneManager.GetSceneByName("R_Area4").isLoaded) SceneManager.UnloadSceneAsync("R_Area4");
+        if (SceneManager.sceneCount > 1) for (int i = 0; i < SceneManager.loadedSceneCount; i++) if (SceneManager.GetSceneAt(i).name != "Skiing") SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i));
         if (!initialized) return;
 
         //Input detection

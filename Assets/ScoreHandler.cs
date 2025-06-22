@@ -12,7 +12,7 @@ public class CollisionCounter : MonoBehaviour {
     //public GameObject GameObject;
 
     private void Start() {
-        Debug.Log("Game start");
+        //Debug.Log("Game start");
     }
 
     void OnCollisionEnter(Collision collision) {
@@ -33,10 +33,10 @@ public class CollisionCounter : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
-        Debug.Log("Triggered");
+        //Debug.Log("Triggered");
         if (other.gameObject.CompareTag("fruit")) {
             collisionCount++;
-            Debug.Log("Triggered, count +1");
+            //Debug.Log("Triggered, count +1");
             CountText.text = "FRUIT: " + collisionCount;
         }
     }

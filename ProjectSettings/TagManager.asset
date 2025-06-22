@@ -11,7 +11,7 @@ TagManager:
   - SceneTransition
   - RingParent
   - SkiTransition
-  - Lazy Tooltip
+  - DivingTransition
   layers:
   - Default
   - TransparentFX

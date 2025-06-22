@@ -17,36 +17,36 @@ public class MenuManager : MonoBehaviour {
 
     IEnumerator SwitchSceneAndRestartXR(string sceneName) {
         // Stop XR before loading new scene
-        Debug.Log("[XR] Stopping XR...");
+        //Debug.Log("[XR] Stopping XR...");
         XRGeneralSettings.Instance.Manager.StopSubsystems();
         XRGeneralSettings.Instance.Manager.DeinitializeLoader();
 
         yield return null;
 
-        Debug.Log("[Scene] Loading scene: " + sceneName);
+        //Debug.Log("[Scene] Loading scene: " + sceneName);
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
 
         // Wait one frame for scene to load
         yield return null;
 
-        Debug.Log("[XR] Initializing XR...");
+        //("[XR] Initializing XR...");
         yield return XRGeneralSettings.Instance.Manager.InitializeLoader();
 
         if (XRGeneralSettings.Instance.Manager.activeLoader == null) {
-            Debug.Log("[XR] XR Loader failed to initialize.");
+            //Debug.Log("[XR] XR Loader failed to initialize.");
             yield break;
         }
 
         XRGeneralSettings.Instance.Manager.StartSubsystems();
-        Debug.Log("[XR] XR restarted.");
+        //Debug.Log("[XR] XR restarted.");
 
         // Ensure new XR Origin tracks properly
         var xrOrigin = FindObjectOfType<XROrigin>();
         if (xrOrigin != null) {
-            Debug.Log("[XR] Found new XR Origin.");
+            //Debug.Log("[XR] Found new XR Origin.");
             SetTrackingOrigin();
         } else {
-            Debug.Log("[XR] No XR Origin found in new scene!");
+            //Debug.Log("[XR] No XR Origin found in new scene!");
         }
     }
 

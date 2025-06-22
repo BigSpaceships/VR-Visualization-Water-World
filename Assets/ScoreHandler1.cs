@@ -33,10 +33,10 @@ public class ScoreHandler1 : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
-        Debug.Log("Triggered");
+        //Debug.Log("Triggered");
         if (other.gameObject.CompareTag("basketball")) {
             collisionCount++;
-            Debug.Log("Triggered, count +1");
+            //Debug.Log("Triggered, count +1");
             CountText.text = "SCORE: " + collisionCount;
         }
     }

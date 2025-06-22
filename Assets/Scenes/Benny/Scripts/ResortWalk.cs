@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ResortWalk : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class ResortWalk : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (charController.velocity.sqrMagnitude < 1)
+        if (charController.velocity.sqrMagnitude < 1 || SceneManager.GetSceneByName("R_Area2 Under Water").isLoaded)
         {
             if (!isGrounded) isGrounded = true;
             audioSource.Pause();
@@ -27,7 +28,6 @@ public class ResortWalk : MonoBehaviour
         }
         if (Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, 0.6f, groundMask))
         {
-            Debug.Log(hit.transform.gameObject.layer);
             if (hit.transform.gameObject.layer == 14) SwitchClip(solidWalk);
             else SwitchClip(grassWalk);
             if (!isGrounded) isGrounded = true;

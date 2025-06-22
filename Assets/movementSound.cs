@@ -20,10 +20,10 @@ public class movementSound : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, lastPosition) > movementThreshold) {
             walkingSound.Play();
-            Debug.Log("iswalking");
+            //Debug.Log("iswalking");
         } else {
             walkingSound.Stop();
-            Debug.Log("isNotWalking");
+            //Debug.Log("isNotWalking");
         }
         lastPosition = transform.position;
     }

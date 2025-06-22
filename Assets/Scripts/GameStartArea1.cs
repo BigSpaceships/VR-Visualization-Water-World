@@ -58,8 +58,8 @@ public class GameStart : MonoBehaviour {
         RenderSettings.fog = true;
         RenderSettings.fogMode = FogMode.Linear;
         RenderSettings.fogColor = new Color32(0x4E, 0xCA, 0xDD, 0xFF);
-        RenderSettings.fogStartDistance = 5f;
-        RenderSettings.fogEndDistance = 20f;
+        RenderSettings.fogStartDistance = 10;
+        RenderSettings.fogEndDistance = 35;
 
         GamePublicV2.instance.setController(ControllerName.A2);
 
