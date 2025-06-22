@@ -171,9 +171,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   devSim: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
-  skiingOrigin: {fileID: 0}
   resortOrigin: {fileID: 181098283}
   lights: {fileID: 481230166}
+  inputActionManager: {fileID: 742083475}
 --- !u!1 &22722373
 GameObject:
   m_ObjectHideFlags: 0
@@ -12449,6 +12449,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6352bfa0d9d6ddd4a9e59d2fd7325fe2, type: 3}
+--- !u!114 &742083475 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 325267307466735913, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
+  m_PrefabInstance: {fileID: 2074936739}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 017c5e3933235514c9520e1dace2a4b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &742120149
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36346,7 +36357,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8634343903097325436, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.41
+      value: -3.07
       objectReference: {fileID: 0}
     - target: {fileID: 8634343903097325436, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
       propertyPath: m_LocalPosition.z

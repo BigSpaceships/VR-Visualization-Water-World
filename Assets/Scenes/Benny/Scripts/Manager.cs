@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.XR.Interaction.Toolkit.Inputs;
 
 public class Manager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class Manager : MonoBehaviour
     [SerializeField] GameObject devSim;
     [SerializeField] GameObject resortOrigin;
     [SerializeField] GameObject lights;
+    [SerializeField] InputActionManager inputActionManager;
     Vector3 initialPos;
     Quaternion initialRot;
     void Awake()
@@ -86,6 +88,12 @@ public class Manager : MonoBehaviour
             resortOrigin.SetActive(true);
             lights.SetActive(true);
             resortOrigin.transform.SetPositionAndRotation(initialPos, initialRot);
+            inputActionManager.actionAssets[0].Disable();
+            inputActionManager.actionAssets[0].Enable();
+#if UNITY_EDITOR
+            devSim.SetActive(false);
+            devSim.SetActive(true);
+#endif
             GameObject.FindWithTag("SkiTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(true); });
         }
         while (alpha >= 0.01f)
