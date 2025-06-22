@@ -19,7 +19,12 @@ public class SwimTrans : MonoBehaviour {
     }
 
     public void attachSwimmingRing() {
-        GameObject player = GameObject.Find("PersistentXR/XR Origin");
+        GameObject player;
+        if (GamePublicV2.instance.checkVRActive()) {
+            player = GameObject.Find("PersistentXR/XR Origin/XR Origin (XR Rig)");
+        } else {
+            player = GameObject.Find("PersistentXR/XR Origin"); 
+        }
         if (player == null) return;
 
         swimmingRing.SetParent(player.transform);
@@ -27,7 +32,12 @@ public class SwimTrans : MonoBehaviour {
     }
 
     public void attachSki() {
-        GameObject player = GameObject.Find("PersistentXR/XR Origin");
+        GameObject player;
+        if (GamePublicV2.instance.checkVRActive()) {
+            player = GameObject.Find("PersistentXR/XR Origin/XR Origin (XR Rig)");
+        } else {
+            player = GameObject.Find("PersistentXR/XR Origin");
+        }
         if (player != null) {
             skiFoot.SetParent(player.transform);
             skiFoot.transform.localPosition = Vector3.zero;
