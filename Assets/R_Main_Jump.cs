@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Android.Gradle.Manifest;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -28,11 +27,11 @@ public class R_Main_Jump : MonoBehaviour {
         jumpButton.action.performed -= ctx => jump();
     }
     void Update() {
-        // 简单地向下发射射线判断是否着地
+        // 锟津单碉拷锟斤拷锟铰凤拷锟斤拷锟斤拷锟斤拷锟叫讹拷锟角凤拷锟脚碉拷
         isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance + 0.1f);
 
         if (isGrounded && verticalSpeed < 0)
-            verticalSpeed = -0.5f;  // 微小值确保贴地
+            verticalSpeed = -0.5f;  // 微小值确锟斤拷锟斤拷锟斤拷
 
         verticalSpeed += gravity * Time.deltaTime;
 
@@ -48,7 +47,7 @@ public class R_Main_Jump : MonoBehaviour {
     }
 
     void OnCollisionEnter(Collision collision) {
-        // 简单判断是否着地
+        // 锟斤拷锟叫讹拷锟角凤拷锟脚碉拷
         if (collision.contacts.Length > 0 && collision.contacts[0].normal.y > 0.5f) {
             isGrounded = true;
         }

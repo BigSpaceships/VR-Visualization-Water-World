@@ -155,7 +155,7 @@ public class Skier : MonoBehaviour
             leftSkiController.SwitchController(false);
             rightSkiController.SwitchController(false);
         }
-        interactableParent = Parachute.selectedParent = Skis.skiParent = Pole.skiParent = myT.GetChild(2);
+        interactableParent = Parachute.selectedParent = Skis.skiParent = Pole.skiParent = myT.GetChild(0);
         moveAction = moveActionProperty.action;
         turnAction = turnActionProperty.action;
         crouchAction = crouchActionProperty.action;
