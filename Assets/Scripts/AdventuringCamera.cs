@@ -75,8 +75,10 @@ public class AdventuringCamera : MonoBehaviour {
         rightXButtonAction.action.performed -= ctx => ToggleCamera();
     }
 
-    private void ToggleCamera() {
-        if (GamePublic.cameraActive) {
+    private void ToggleCamera()
+    {
+        if (GamePublic.cameraActive)
+        {
             //���������ȡ�����棬�ָ�ԭ������
             transform.SetParent(originalParent, false);
             GamePublic.cameraActive = false;
@@ -87,7 +89,9 @@ public class AdventuringCamera : MonoBehaviour {
             scooter.transform.SetParent(rightController, false);
             Vector3 v = new Vector3(0, 0.14f, 0.3f);
             scooter.transform.localPosition = v;
-        } else {
+        }
+        else
+        {
             //�����������¼ԭʼ�����󣬲��󶨵� right Controller
             originalParent = transform.parent;
             transform.SetParent(rightController, false);
@@ -154,6 +158,7 @@ public class AdventuringCamera : MonoBehaviour {
     }
 
     private void TakePictureAction(InputAction.CallbackContext obj) {
+        if (!gameObject.activeInHierarchy) return;
         StartCoroutine(TakePicture());
     }
 

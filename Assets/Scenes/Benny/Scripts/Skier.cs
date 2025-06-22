@@ -203,6 +203,9 @@ public class Skier : MonoBehaviour
     void OnEnable()
     {
         myT.SetPositionAndRotation(initialPos, initialRot);
+        turnAction.Enable();
+        GameObject[] tooltips = GameObject.FindGameObjectsWithTag("Lazy Tooltip");
+        for (int i = 0; i < tooltips.Length; i++) if (tooltips[i].activeInHierarchy) tooltips[i].SetActive(false);
     }
 
     void Update()
