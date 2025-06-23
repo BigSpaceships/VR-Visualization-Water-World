@@ -130,9 +130,9 @@ public class Manager : MonoBehaviour
                 op = SceneManager.LoadSceneAsync("R_Area5_LOW", LoadSceneMode.Additive);
                 while (!op.isDone) yield return null;
             }
+            yield return new WaitForSeconds(1);
             SceneManager.SetActiveScene(SceneManager.GetSceneByName("R_Main"));
             SceneManager.UnloadSceneAsync("Skiing");
-            yield return new WaitForSeconds(1);
             resortOrigin.SetActive(true);
             lights.SetActive(true);
             resortOrigin.transform.SetPositionAndRotation(initialPos, initialRot);
@@ -216,9 +216,9 @@ public class Manager : MonoBehaviour
                 op = SceneManager.LoadSceneAsync("R_Area5_LOW", LoadSceneMode.Additive);
                 while (!op.isDone) yield return null;
             }
+            yield return new WaitForSeconds(1);
             SceneManager.SetActiveScene(SceneManager.GetSceneByName("R_Main"));
             SceneManager.UnloadSceneAsync("R_Area2 Under Water");
-            yield return new WaitForSeconds(1);
             resortOrigin.transform.SetPositionAndRotation(initialPos, initialRot);
             characterController.enabled = continuousMoveProvider.useGravity = true;
             continuousMoveProvider.enableFly = false;
