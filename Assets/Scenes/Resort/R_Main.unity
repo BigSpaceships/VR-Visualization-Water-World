@@ -142,6 +142,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+  m_IsActive: 1
 --- !u!4 &14150272
 Transform:
   m_ObjectHideFlags: 0
@@ -171,6 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 358a2b9877dd442679159fd265fed2c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  devSim: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
   devSim: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
   resortOrigin: {fileID: 181098283}
   lights: {fileID: 481230166}
@@ -7100,6 +7102,7 @@ CanvasGroup:
   m_GameObject: {fileID: 340839534}
   m_Enabled: 1
   m_Alpha: 0
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -7267,6 +7270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9313,6 +9317,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -11648,6 +11653,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -11976,6 +11982,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.9009434, g: 1, b: 0.91595197, a: 0.78039217}
+  m_RaycastTarget: 0
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -14095,6 +14102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -18896,6 +18904,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: fb83d488e210254438e677d5c752c16f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: fb83d488e210254438e677d5c752c16f, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -23585,6 +23597,7 @@ CanvasGroup:
   m_GameObject: {fileID: 1345015350}
   m_Enabled: 1
   m_Alpha: 0
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -24306,6 +24319,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.9009434, g: 1, b: 0.91595197, a: 0.78039217}
+  m_RaycastTarget: 0
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -25742,6 +25756,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -28143,6 +28158,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.9009434, g: 1, b: 0.91595197, a: 0.78039217}
+  m_RaycastTarget: 0
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -34660,6 +34676,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -38052,9 +38069,11 @@ PrefabInstance:
     - target: {fileID: 792344852109386646, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
       propertyPath: m_SizeDelta.x
       value: 80
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 792344852109386646, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
       propertyPath: m_SizeDelta.y
+      value: 46
       value: 46
       objectReference: {fileID: 0}
     - target: {fileID: 989997671067578621, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
@@ -38213,6 +38232,10 @@ PrefabInstance:
       propertyPath: m_DelayTime
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 3131447932757757725, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
+      propertyPath: m_DelayTime
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 3308427903226186966, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
       propertyPath: m_TurnOffAtStart
       value: 1
@@ -38293,6 +38316,38 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4477216505405475407, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
+      propertyPath: 'm_StartingGroupMembers.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1792431594}
+    - target: {fileID: 4477216505405475407, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
+      propertyPath: m_StartingInteractionOverridesMap.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4477216505405475407, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
+      propertyPath: m_StartingInteractionOverridesMap.Array.data[1].groupMember
+      value: 
+      objectReference: {fileID: 1324053848}
+    - target: {fileID: 4477216505405475407, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
+      propertyPath: m_StartingInteractionOverridesMap.Array.data[0].overrideGroupMembers.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4477216505405475407, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
+      propertyPath: m_StartingInteractionOverridesMap.Array.data[1].overrideGroupMembers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4477216505405475407, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
+      propertyPath: 'm_StartingInteractionOverridesMap.Array.data[0].overrideGroupMembers.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1792431594}
+    - target: {fileID: 4477216505405475407, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
+      propertyPath: 'm_StartingInteractionOverridesMap.Array.data[0].overrideGroupMembers.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1324053848}
+    - target: {fileID: 4477216505405475407, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
+      propertyPath: 'm_StartingInteractionOverridesMap.Array.data[1].overrideGroupMembers.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1792431594}
     - target: {fileID: 5487883907624444704, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -38734,10 +38789,18 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2657312306683764959, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
       insertIndex: -1
       addedObject: {fileID: 181098298}
+    - targetCorrespondingSourceObject: {fileID: 3690644801527372285, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1264385344}
     - targetCorrespondingSourceObject: {fileID: 3690644802223708418, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1723703581}
   m_SourcePrefab: {fileID: 100100000, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
+--- !u!1 &2077115571 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2863235312543903709, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
+  m_PrefabInstance: {fileID: 2074936739}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2080068184
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39966,6 +40029,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
