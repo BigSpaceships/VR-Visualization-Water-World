@@ -39,8 +39,6 @@ MonoBehaviour:
       - f410b513f6b693f408b049e7300e92f8
       - 56e171620d978d84db751b3efbf7cf68
       - 80e9287b1f18b4c47b496abb8358e3bf
-      - b284d3e90017cbf428c4ab539e01f4e6
-      - 83589f471c1c7704f8ee74894efe8113
       m_Values:
       - {fileID: 11400000, guid: 4debaed24202d4ae4862d0bb116b8c83, type: 2}
       - {fileID: 11400000, guid: 1c7b5bed545758b4782904683152b00e, type: 2}
@@ -49,8 +47,6 @@ MonoBehaviour:
       - {fileID: 11400000, guid: 3e64b44a1ddf4024cb43001366d98729, type: 2}
       - {fileID: 11400000, guid: 8776f2f00963afd4d83e5fafe026258d, type: 2}
       - {fileID: 11400000, guid: d1a29a07ec072db48b6e8bbec38bacc2, type: 2}
-      - {fileID: 0}
-      - {fileID: 0}
     bakingSets:
     - {fileID: 11400000, guid: 4debaed24202d4ae4862d0bb116b8c83, type: 2}
     - {fileID: 11400000, guid: 1c7b5bed545758b4782904683152b00e, type: 2}
