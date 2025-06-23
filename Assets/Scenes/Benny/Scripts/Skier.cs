@@ -113,7 +113,8 @@ public class Skier : MonoBehaviour
     AudioSource bgWindSource;
     public static AudioSource effectSource;
 
-    CanvasGroup canvasGroup, resetCanvas;
+    public static CanvasGroup canvasGroup;
+    CanvasGroup resetCanvas;
     TMP_Text timeText, altText, speedText;
     public static TMP_Text ringText;
     public static int passedRings;
@@ -167,7 +168,6 @@ public class Skier : MonoBehaviour
         toggleController = toggleControllerProperty.action;
 
         //UI/Audio Setup
-        canvasGroup = Manager.skiCanvasGroup;
         resetCanvas = cam.GetChild(0).GetComponent<CanvasGroup>();
         resetCanvas.alpha = 0;
         Transform statCanvas = cam.GetChild(1);
@@ -204,6 +204,7 @@ public class Skier : MonoBehaviour
     void OnEnable()
     {
         myT.SetPositionAndRotation(initialPos, initialRot);
+        turnAction.Enable();
     }
 
     void Update()
