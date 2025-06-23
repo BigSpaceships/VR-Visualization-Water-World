@@ -43,6 +43,11 @@ public class Manager : MonoBehaviour
         GameObject.FindWithTag("SkiTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(true); });
     }
 
+    void Start()
+    {
+        characterController.enabled = true;
+    }
+
     public static bool EqualVectors(Vector3 vector, Vector3 target, float threshold = 0.1f)
     {
         if (Mathf.Abs(vector.x - target.x) < threshold && Mathf.Abs(vector.y - target.y) < threshold && Mathf.Abs(vector.z - target.z) < threshold) return true;
@@ -94,6 +99,8 @@ public class Manager : MonoBehaviour
             for (int i = 0; i < SceneManager.loadedSceneCount; i++) if (SceneManager.GetSceneAt(i) != activeScene) SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i));*/
             yield return null;
             resortOrigin.SetActive(false);
+            skiCanvasGroup.GetComponent<Canvas>().worldCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+            Skier.canvasGroup = skiCanvasGroup;
             lights.SetActive(false);
             GameObject.FindWithTag("SceneTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(false); });
         }
@@ -134,10 +141,10 @@ public class Manager : MonoBehaviour
             resortOrigin.transform.SetPositionAndRotation(initialPos, initialRot);
             inputActionManager.actionAssets[0].Disable();
             inputActionManager.actionAssets[0].Enable();
-#if UNITY_EDITOR
+/*#if UNITY_EDITOR
             //devSim.SetActive(false);
             //devSim.SetActive(true);
-#endif
+#endif*/
             GameObject.FindWithTag("DivingTransition").GetComponent<Button>().onClick.AddListener(delegate { DivingMode(true); });
             GameObject.FindWithTag("SkiTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(true); });
         }
