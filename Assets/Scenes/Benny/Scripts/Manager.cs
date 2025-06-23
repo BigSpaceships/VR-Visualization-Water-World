@@ -21,24 +21,33 @@ public class Manager : MonoBehaviour
     [SerializeField] InputAction reload;
     AudioSource audioSource;
     [SerializeField] AudioClip transitionClip;
+    [SerializeField] AudioClip teleport;
+    [SerializeField] XRInteractorLineVisual lineVisual;
     Transform resortCam;
     CharacterController characterController;
     Vector3 initialPos;
     Quaternion initialRot;
+    public static Manager instance;
     void Awake()
+    {
+        Transition();
+        skiCanvasGroup.alpha = resortCanvasGroup.alpha = 0;
+        resortOrigin.transform.GetPositionAndRotation(out initialPos, out initialRot);
+        GameObject.FindWithTag("DivingTransition").GetComponent<Button>().onClick.AddListener(delegate { DivingMode(true); });
+        GameObject.FindWithTag("SkiTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(true); });
+    }
+
+    void Transition()
     {
         audioSource = GetComponent<AudioSource>();
         characterController = resortOrigin.GetComponent<CharacterController>();
         continuousMoveProvider = resortOrigin.GetComponent<ActionBasedContinuousMoveProvider>();
         resortCam = resortOrigin.transform.GetChild(0).GetChild(0);
         skiCanvasGroup = transform.GetChild(0).GetComponent<CanvasGroup>();
-        resortCanvasGroup = TouchScreens.canvasGroup = transform.GetChild(1).GetComponent<CanvasGroup>();
-        TouchScreens.manager = this;
-        skiCanvasGroup.alpha = resortCanvasGroup.alpha = 0;
+        resortCanvasGroup = transform.GetChild(1).GetComponent<CanvasGroup>();
         reload = reloadProperty.action;
-        resortOrigin.transform.GetPositionAndRotation(out initialPos, out initialRot);
-        GameObject.FindWithTag("DivingTransition").GetComponent<Button>().onClick.AddListener(delegate { DivingMode(true); });
-        GameObject.FindWithTag("SkiTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(true); });
+        lineVisual.enabled = true;
+        instance = this;
     }
 
     void Start()
@@ -90,6 +99,8 @@ public class Manager : MonoBehaviour
         elapsedTime = 0;
         if (skiing)
         {
+            GameObject.FindWithTag("DivingTransition").GetComponent<Button>().onClick.RemoveListener(delegate { DivingMode(true); });
+            GameObject.FindWithTag("SkiTransition").GetComponent<Button>().onClick.RemoveListener(delegate { SkiMode(true); });
             AsyncOperation op = SceneManager.LoadSceneAsync("Skiing");
             while (!op.isDone) yield return null;
             /*Scene activeScene = SceneManager.GetSceneByName("Skiing");
@@ -97,13 +108,16 @@ public class Manager : MonoBehaviour
             for (int i = 0; i < SceneManager.loadedSceneCount; i++) if (SceneManager.GetSceneAt(i) != activeScene) SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i));*/
             yield return null;
             resortOrigin.SetActive(false);
-            skiCanvasGroup.GetComponent<Canvas>().worldCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+            Canvas skiCanvas = skiCanvasGroup.GetComponent<Canvas>();
+            skiCanvas.worldCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+            skiCanvas.planeDistance = 0.1f;
             Skier.canvasGroup = skiCanvasGroup;
             lights.SetActive(false);
             GameObject.FindWithTag("SceneTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(false); });
         }
         else
         {
+            GameObject.FindWithTag("SceneTransition").GetComponent<Button>().onClick.RemoveListener(delegate { SkiMode(false); });
             AsyncOperation op = SceneManager.LoadSceneAsync("R_Main");
             while (!op.isDone) yield return null;
             if (!SceneManager.GetSceneByName("R_Area1_LOW").isLoaded)
@@ -139,13 +153,14 @@ public class Manager : MonoBehaviour
             resortOrigin.transform.SetPositionAndRotation(initialPos, initialRot);
             inputActionManager.actionAssets[0].Disable();
             inputActionManager.actionAssets[0].Enable();
-/*#if UNITY_EDITOR
-            //devSim.SetActive(false);
-            //devSim.SetActive(true);
-#endif*/
+            /*#if UNITY_EDITOR
+                        //devSim.SetActive(false);
+                        //devSim.SetActive(true);
+            #endif*/
             GameObject.FindWithTag("DivingTransition").GetComponent<Button>().onClick.AddListener(delegate { DivingMode(true); });
             GameObject.FindWithTag("SkiTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(true); });
         }
+        Transition();
         while (alpha >= 0.01f)
         {
             alpha = toCanvas.alpha = 1 - elapsedTime / duration;
@@ -177,6 +192,8 @@ public class Manager : MonoBehaviour
         elapsedTime = 0;
         if (diving)
         {
+            GameObject.FindWithTag("DivingTransition").GetComponent<Button>().onClick.RemoveListener(delegate { DivingMode(true); });
+            GameObject.FindWithTag("SkiTransition").GetComponent<Button>().onClick.RemoveListener(delegate { SkiMode(true); });
             AsyncOperation op = SceneManager.LoadSceneAsync("R_Area2 Under Water");
             while (!op.isDone) yield return null;
             /*Scene activeScene = SceneManager.GetSceneByName("R_Area2 Under Water");
@@ -226,14 +243,42 @@ public class Manager : MonoBehaviour
             continuousMoveProvider.forwardSource = resortCam;
             inputActionManager.actionAssets[0].Disable();
             inputActionManager.actionAssets[0].Enable();
-/*#if UNITY_EDITOR
-            devSim.SetActive(false);
-            devSim.SetActive(true);
-#endif*/
+            /*#if UNITY_EDITOR
+                        devSim.SetActive(false);
+                        devSim.SetActive(true);
+            #endif*/
             GameObject.FindWithTag("DivingTransition").GetComponent<Button>().onClick.AddListener(delegate { DivingMode(true); });
             GameObject.FindWithTag("SkiTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(true); });
             for (int i = 0; i < tooltips.Length; i++) tooltips[i].SetActive(true);
         }
+        Transition();
+        while (alpha >= 0.01f)
+        {
+            alpha = resortCanvasGroup.alpha = 1 - elapsedTime / duration;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        resortCanvasGroup.alpha = 0;
+    }
+
+    public void Teleport()
+    {
+        audioSource.PlayOneShot(teleport);
+        StartCoroutine(Fade());
+    }
+
+    IEnumerator Fade(float duration = 0.2f)
+    {
+        float elapsedTime = 0;
+        float alpha = 0;
+        while (alpha <= 0.99f)
+        {
+            alpha = resortCanvasGroup.alpha = elapsedTime / duration;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        alpha = resortCanvasGroup.alpha = 1;
+        elapsedTime = 0;
         while (alpha >= 0.01f)
         {
             alpha = resortCanvasGroup.alpha = 1 - elapsedTime / duration;

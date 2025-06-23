@@ -48,7 +48,7 @@ public class GamePublicV2 : MonoBehaviour {
 
         GameObject persistentXR = GameObject.Find("PersistentXR");
         if (persistentXR == null) {
-            Debug.LogError("can not find GameObject: PersistentXR");
+            //Debug.LogError("can not find GameObject: PersistentXR");
             return;
         }
 

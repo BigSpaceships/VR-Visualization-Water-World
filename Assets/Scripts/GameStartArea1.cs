@@ -37,7 +37,7 @@ public class GameStart : MonoBehaviour {
         if (persistentXR != null) {
             player = persistentXR.transform.Find("XR Origin/XR Origin (XR Rig)/Camera Offset/Main Camera");
             if (player == null) {
-                Debug.LogError("can not find persistentXR/XR Origin/XR Origin (XR Rig)/Camera Offset/Main Camera");
+                //Debug.LogError("can not find persistentXR/XR Origin/XR Origin (XR Rig)/Camera Offset/Main Camera");
             }
         }
 

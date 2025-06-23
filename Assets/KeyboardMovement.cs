@@ -5,22 +5,22 @@ using UnityEngine.InputSystem;
 
 public class KeyboardMovement : MonoBehaviour {
     private PlayerInput playerInput;
-    public float moveSpeed = 5f; // Íæ¼ÒÒÆ¶¯ËÙ¶È
-    private bool moveForward = false; // ¿ØÖÆÒÆ¶¯µÄ²¼¶ûÖµ
+    public float moveSpeed = 5f; // ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½Ù¶ï¿½
+    private bool moveForward = false; // ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½Ä²ï¿½ï¿½ï¿½Öµ
     private bool moveBackward = false;
     private bool moveLeft = false;
     private bool moveRight = false;
 
-    private void Awake() {
+    private void OnEnable() {
         playerInput = GetComponent<PlayerInput>();
 
-        // »ñÈ¡MoveForward ActionµÄÒýÓÃ
+        // ï¿½ï¿½È¡MoveForward Actionï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         InputAction moveForwardAction = playerInput.actions["MoveForward"];
         InputAction moveBackwardAction = playerInput.actions["MoveBackward"];
         InputAction moveLeftAction = playerInput.actions["MoveLeft"];
         InputAction moveRightAction = playerInput.actions["MoveRight"];
 
-        // ×¢²áÊÂ¼þ
+        // ×¢ï¿½ï¿½ï¿½Â¼ï¿½
         moveForwardAction.performed += OnMoveForward;
         moveForwardAction.canceled += OnMoveForward;
         moveBackwardAction.performed += OnMoveBackward;
@@ -31,14 +31,14 @@ public class KeyboardMovement : MonoBehaviour {
         moveRightAction.canceled += OnMoveRight;
     }
 
-    private void OnDestroy() {
-        // »ñÈ¡MoveForward ActionµÄÒýÓÃ
+    private void OnDisable() {
+        // ï¿½ï¿½È¡MoveForward Actionï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         InputAction moveForwardAction = playerInput.actions["MoveForward"];
         InputAction moveBackwardAction = playerInput.actions["MoveBackward"];
         InputAction moveLeftAction = playerInput.actions["MoveLeft"];
         InputAction moveRightAction = playerInput.actions["MoveRight"];
 
-        // ×¢ÏúÊÂ¼þ
+        // ×¢ï¿½ï¿½ï¿½Â¼ï¿½
         moveForwardAction.performed -= OnMoveForward;
         moveForwardAction.canceled -= OnMoveForward;
         moveBackwardAction.performed -= OnMoveBackward;
@@ -49,24 +49,29 @@ public class KeyboardMovement : MonoBehaviour {
         moveRightAction.canceled -= OnMoveRight;
     }
 
-    private void Update() {
+    private void Update()
+    {
         Vector3 moveDirection = Vector3.zero;
 
-        // ¸ù¾Ý²¼¶ûÖµÈ·¶¨ÒÆ¶¯·½Ïò
-        if (moveForward) {
+        // ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ÖµÈ·ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½
+        if (moveForward)
+        {
             moveDirection += transform.forward;
         }
-        if (moveBackward) {
+        if (moveBackward)
+        {
             moveDirection -= transform.forward;
         }
-        if (moveLeft) {
+        if (moveLeft)
+        {
             moveDirection -= transform.right;
         }
-        if (moveRight) {
+        if (moveRight)
+        {
             moveDirection += transform.right;
         }
 
-        // Ó¦ÓÃÒÆ¶¯
+        // Ó¦ï¿½ï¿½ï¿½Æ¶ï¿½
         transform.position += moveDirection.normalized * moveSpeed * Time.deltaTime;
     }
 

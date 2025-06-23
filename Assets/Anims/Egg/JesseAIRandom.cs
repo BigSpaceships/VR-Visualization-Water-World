@@ -92,7 +92,7 @@ public class JesseAIRandom : MonoBehaviour {
                                  new Vector2(lastPosition.x, lastPosition.z)) < 0.05f) {
                 stuckTimer += Time.deltaTime;
                 if (stuckTimer > stuckThreshold) {
-                    Debug.LogWarning("卡住了，重新导航！");
+                    //Debug.LogWarning("卡住了，重新导航！");
                     agent.ResetPath();
                     yield break;
                 }
@@ -146,10 +146,6 @@ public class JesseAIRandom : MonoBehaviour {
         }
 
         return validPoints[bestIndex];
-    }
-
-
-    void Update() {
     }
 
     bool HasReachedDestination() {

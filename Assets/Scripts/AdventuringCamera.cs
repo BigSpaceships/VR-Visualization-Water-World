@@ -63,14 +63,18 @@ public class AdventuringCamera : MonoBehaviour {
         zoom = displayCamera.fieldOfView;
 
         //xrInteractionManager.SelectEnter(startedAttachment, GetComponent<XRGrabInteractable>());
-
-        rightXButtonAction.action.performed += ctx => ToggleCamera();
         
         ToggleCamera();
         ToggleCamera();
     }
 
-    private void OnDestroy() {
+    void OnEnable()
+    {
+        rightXButtonAction.action.performed += ctx => ToggleCamera();
+    }
+
+    void OnDisable()
+    {
         // ȡ�������¼�����ֹ�ڴ�й©
         rightXButtonAction.action.performed -= ctx => ToggleCamera();
     }

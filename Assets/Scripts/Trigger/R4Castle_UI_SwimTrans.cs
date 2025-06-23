@@ -8,16 +8,6 @@ public class SwimTrans : MonoBehaviour {
     public Transform skiHandR;
     public Transform skiFoot;
 
-    // Start is called before the first frame update
-    void Start() {
-
-    }
-
-    // Update is called once per frame
-    void Update() {
-
-    }
-
     public void attachSwimmingRing() {
         GameObject player;
         if (GamePublicV2.instance.checkVRActive()) {

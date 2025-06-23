@@ -22,14 +22,22 @@ public class R_Main_Jump : MonoBehaviour {
         jumpButton.action.Enable();
     }
 
+    void OnEnable()
+    {
+        jumpButton.action.performed += ctx => jump();
+    }
+
+    // Update is called once per frame
+    void OnDisable() {
+        jumpButton.action.performed -= ctx => jump();
+    }
     void Update() {
         // �򵥵����·��������ж��Ƿ��ŵ�
-        if (SceneManager.GetSceneByName("R_Area2 Under Water").isLoaded) return;
-        if (jumpButton.action.WasPressedThisFrame()) jump();
-        isGrounded = Physics.Raycast(xrOriginRig.transform.position, -xrOriginRig.transform.up, groundCheckDistance + 0.1f);
+        if (SceneManager.GetSceneByName("R_Area2 Under Water").isLoaded || !controller.enabled) return;
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance + 0.1f);
 
         if (isGrounded && verticalSpeed < 0)
-            verticalSpeed = 0;  // ΢Сֵȷ������
+            verticalSpeed = -0.5f;  // ΢Сֵȷ������
 
         verticalSpeed += gravity * Time.deltaTime;
 

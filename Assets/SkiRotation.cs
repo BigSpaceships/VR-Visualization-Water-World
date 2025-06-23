@@ -9,18 +9,6 @@ public class SkiRotation : MonoBehaviour
     public Transform ski;
     public Transform newParent;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnMouseUpAsButton() {
         //Set the parent of the ski object
         ski.SetParent(newParent);

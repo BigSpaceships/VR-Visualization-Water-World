@@ -120,20 +120,20 @@ public class AreaLoaderController : MonoBehaviour {
         // 1. ��鳡���Ƿ��� Build Settings ��
         Scene scene = SceneManager.GetSceneByName(sceneName);
         if (!scene.IsValid()) {
-            Debug.LogWarning($"[{nameof(UnloadScene)}] Scene ��{sceneName}�� is not in Build Settings.");
+            //Debug.LogWarning($"[{nameof(UnloadScene)}] Scene ��{sceneName}�� is not in Build Settings.");
             yield break;
         }
 
         // 2. ��鳡���Ƿ�ǰ�Ѽ���
         if (!scene.isLoaded) {
-            Debug.LogWarning($"[{nameof(UnloadScene)}] Scene ��{sceneName}�� is not loaded.");
+            //Debug.LogWarning($"[{nameof(UnloadScene)}] Scene ��{sceneName}�� is not loaded.");
             yield break;
         }
 
         // 3. �첽ж��
         AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(sceneName);
         if (unloadOp == null) {
-            Debug.LogError($"[{nameof(UnloadScene)}] Failed to start unloading scene ��{sceneName}��.");
+            //Debug.LogError($"[{nameof(UnloadScene)}] Failed to start unloading scene ��{sceneName}��.");
             yield break;
         }
 

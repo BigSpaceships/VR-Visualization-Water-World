@@ -1080,17 +1080,6 @@
                 },
                 {
                     "name": "",
-                    "id": "8da6ed3a-f621-49fe-8c76-1f6b7d7754d6",
-                    "path": "<XRController>{LeftHand}/{Primary2DAxis}",
-                    "interactions": "Sector(directions=1)",
-                    "processors": "",
-                    "groups": "Noncontinuous Move",
-                    "action": "Teleport Mode Activate",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "b8aebee7-fa03-43d4-bfb7-77a3f87452cc",
                     "path": "<XRController>{LeftHand}/{GripButton}",
                     "interactions": "",
@@ -1152,6 +1141,17 @@
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "Snap Turn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8cae95d5-c935-4d30-9994-fecc6b566bb8",
+                    "path": "<XRController>{LeftHand}/{GripButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "Teleport Mode Activate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

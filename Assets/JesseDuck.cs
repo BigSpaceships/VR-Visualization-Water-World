@@ -5,58 +5,58 @@ using UnityEngine.AI;
 
 public class JesseDuck : MonoBehaviour {
     public float radius = 10f;
-    private NavMeshAgent agent; // NavMesh´úÀí
-    private Animator animator; // Ìí¼ÓAnimatorÒýÓÃ
+    private NavMeshAgent agent; // NavMeshï¿½ï¿½ï¿½ï¿½
+    private Animator animator; // ï¿½ï¿½ï¿½ï¿½Animatorï¿½ï¿½ï¿½ï¿½
 
     void Start() {
-        agent = GetComponent<NavMeshAgent>(); // »ñÈ¡NavMesh Agent×é¼þ
-        animator = GetComponent<Animator>(); // »ñÈ¡Animator×é¼þ
-        StartCoroutine(MoveRandomly()); // ¿ªÊ¼Ëæ»úÒÆ¶¯µÄÐ­³Ì
+        agent = GetComponent<NavMeshAgent>(); // ï¿½ï¿½È¡NavMesh Agentï¿½ï¿½ï¿½
+        animator = GetComponent<Animator>(); // ï¿½ï¿½È¡Animatorï¿½ï¿½ï¿½
+        StartCoroutine(MoveRandomly()); // ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½Ð­ï¿½ï¿½
     }
 
     IEnumerator MoveRandomly() {
         while (true) {
             int action = GenerateRandomNumber(new float[] { 2, 20, 20, 20, 20, 20, 20 });
             //Debug.Log(action);
-            //³õÊ¼»¯¶¯»­×´Ì¬
+            //ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬
             animator.SetInteger("IdleState", 0);
             switch (action) {
-                case 0: //·¢´ô
-                    // Ëæ»úµÈ´ýÊ±¼ä
+                case 0: //ï¿½ï¿½ï¿½ï¿½
+                    // ï¿½ï¿½ï¿½ï¿½È´ï¿½Ê±ï¿½ï¿½
                     float waitTime = Random.Range(0.5f, 3f);
                     yield return new WaitForSeconds(waitTime);
                     break;
-                case 1: //¶¯»­1
+                case 1: //ï¿½ï¿½ï¿½ï¿½1
                     animator.SetInteger("IdleState", 1);
                     yield return new WaitForSeconds(0.2f);
                     animator.SetInteger("IdleState", 0);
                     //yield return new WaitForSeconds(2f);
                     break;
-                case 2: //¶¯»­2
+                case 2: //ï¿½ï¿½ï¿½ï¿½2
                     animator.SetInteger("IdleState", 2);
                     yield return new WaitForSeconds(0.2f);
                     animator.SetInteger("IdleState", 0);
                     //yield return new WaitForSeconds(2f);
                     break;
-                case 3: //¶¯»­3
+                case 3: //ï¿½ï¿½ï¿½ï¿½3
                     animator.SetInteger("IdleState", 3);
                     yield return new WaitForSeconds(0.2f);
                     animator.SetInteger("IdleState", 0);
                     //yield return new WaitForSeconds(2f);
                     break;
-                case 4: //¶¯»­4
+                case 4: //ï¿½ï¿½ï¿½ï¿½4
                     animator.SetInteger("IdleState", 4);
                     yield return new WaitForSeconds(0.2f);
                     animator.SetInteger("IdleState", 0);
                     //yield return new WaitForSeconds(2f);
                     break;
-                case 5: //¶¯»­5
+                case 5: //ï¿½ï¿½ï¿½ï¿½5
                     animator.SetInteger("IdleState", 5);
                     yield return new WaitForSeconds(0.2f);
                     animator.SetInteger("IdleState", 0);
                     //yield return new WaitForSeconds(2f);
                     break;
-                case 6: //¶¯»­6
+                case 6: //ï¿½ï¿½ï¿½ï¿½6
                     animator.SetInteger("IdleState", 6);
                     yield return new WaitForSeconds(0.2f);
                     animator.SetInteger("IdleState", 0);
@@ -68,25 +68,22 @@ public class JesseDuck : MonoBehaviour {
     }
 
     void MoveToRandomPosition() {
-        Vector3 randomDirection = Random.insideUnitSphere * radius; // »ñÈ¡Ëæ»ú·½ÏòºÍ³¤¶È
-        randomDirection += transform.position; // È·±£ËüÊÇÏà¶ÔÓÚ½ÇÉ«µ±Ç°Î»ÖÃµÄ
+        Vector3 randomDirection = Random.insideUnitSphere * radius; // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í³ï¿½ï¿½ï¿½
+        randomDirection += transform.position; // È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú½ï¿½É«ï¿½ï¿½Ç°Î»ï¿½Ãµï¿½
 
-        NavMeshHit hit; // ÓÃÓÚ´æ´¢NavMesh²ÉÑù½á¹ûµÄ±äÁ¿
-        Vector3 finalPosition = Vector3.zero; // ³õÊ¼»¯×îÖÕÎ»ÖÃ
+        NavMeshHit hit; // ï¿½ï¿½ï¿½Ú´æ´¢NavMeshï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½
+        Vector3 finalPosition = Vector3.zero; // ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 
-        //ÕÒµ½×î½üµÄNavMeshÎ»ÖÃ
+        //ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NavMeshÎ»ï¿½ï¿½
         if (NavMesh.SamplePosition(randomDirection, out hit, radius, 1)) {
             finalPosition = hit.position;
         }
 
-        agent.SetDestination(finalPosition); // ÃüÁîNavMeshAgentÒÆ¶¯µ½×îÖÕÎ»ÖÃ
-    }
-
-    void Update() {
+        agent.SetDestination(finalPosition); // ï¿½ï¿½ï¿½ï¿½NavMeshAgentï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
     }
 
     bool HasReachedDestination() {
-        // ¼ì²éÊÇ·ñ»¹ÓÐÂ·¾¶ÒÔ¼°ÊÇ·ñÒÑ¾­µ½´ï£¨Ê£Óà¾àÀëÊÇ·ñÐ¡ÓÚÄ³¸öãÐÖµ£¬ÕâÀïÊ¹ÓÃagent.stoppingDistance£©
+        // ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½Ç·ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï£¨Ê£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Ð¡ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½agent.stoppingDistanceï¿½ï¿½
         return !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance;
     }
 
