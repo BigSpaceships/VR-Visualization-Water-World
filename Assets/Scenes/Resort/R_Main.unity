@@ -141,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &14150272
 Transform:
   m_ObjectHideFlags: 0
@@ -171,7 +171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 358a2b9877dd442679159fd265fed2c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  devSim: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
   resortOrigin: {fileID: 181098283}
   lights: {fileID: 481230166}
   inputActionManager: {fileID: 742083475}
@@ -37221,11 +37220,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 792344852109386646, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 80
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 792344852109386646, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 46
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 989997671067578621, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
       propertyPath: m_Enabled
@@ -37365,7 +37364,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2863235313111790944, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3308427903226186966, guid: 94b181172ff17a541a89ac2b712a1c82, type: 3}
       propertyPath: m_TurnOffAtStart

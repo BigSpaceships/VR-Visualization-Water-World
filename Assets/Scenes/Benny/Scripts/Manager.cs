@@ -12,7 +12,7 @@ public class Manager : MonoBehaviour
 {
     CanvasGroup resortCanvasGroup;
     public static CanvasGroup skiCanvasGroup;
-    [SerializeField] GameObject devSim;
+    //[SerializeField] GameObject devSim;
     [SerializeField] GameObject resortOrigin;
     [SerializeField] GameObject lights;
     [SerializeField] InputActionManager inputActionManager;
@@ -42,8 +42,8 @@ public class Manager : MonoBehaviour
         GameObject.FindWithTag("DivingTransition").GetComponent<Button>().onClick.AddListener(delegate { DivingMode(true); });
         GameObject.FindWithTag("SkiTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(true); });
 #if UNITY_EDITOR
-        devSim = Instantiate(devSim);
-        DontDestroyOnLoad(devSim);
+        //devSim = Instantiate(devSim);
+        //DontDestroyOnLoad(devSim);
 #endif
     }
 
@@ -139,8 +139,8 @@ public class Manager : MonoBehaviour
             inputActionManager.actionAssets[0].Disable();
             inputActionManager.actionAssets[0].Enable();
 #if UNITY_EDITOR
-            devSim.SetActive(false);
-            devSim.SetActive(true);
+            //devSim.SetActive(false);
+            //devSim.SetActive(true);
 #endif
             GameObject.FindWithTag("DivingTransition").GetComponent<Button>().onClick.AddListener(delegate { DivingMode(true); });
             GameObject.FindWithTag("SkiTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(true); });

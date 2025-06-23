@@ -46,10 +46,10 @@ public class HUD_TextDisplay : MonoBehaviour {
     void Awake() {
         if (XRGeneralSettings.Instance != null && XRGeneralSettings.Instance.Manager.activeLoader != null) {
             isPc = false;
-            //Debug.Log("running on VR");
+            Debug.Log("running on VR");
         } else {
             isPc = true;
-            //Debug.Log("running on PC");
+            Debug.Log("running on PC");
         }
         if (isPc) {
             Vector3 t = transform.localPosition;
