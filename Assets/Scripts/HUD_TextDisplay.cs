@@ -50,6 +50,7 @@ public class HUD_TextDisplay : MonoBehaviour {
         } else {
             isPc = true;
             //Debug.Log("running on PC");
+            //Debug.Log("running on PC");
         }
         if (isPc) {
             Vector3 t = transform.localPosition;
