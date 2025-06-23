@@ -40,7 +40,7 @@ public class Manager : MonoBehaviour
         reload = reloadProperty.action;
         resortOrigin.transform.GetPositionAndRotation(out initialPos, out initialRot);
         GameObject.FindWithTag("DivingTransition").GetComponent<Button>().onClick.AddListener(delegate { DivingMode(true); });
-            GameObject.FindWithTag("SkiTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(true); });
+        GameObject.FindWithTag("SkiTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(true); });
 #if UNITY_EDITOR
         devSim = Instantiate(devSim);
         DontDestroyOnLoad(devSim);
@@ -91,19 +91,19 @@ public class Manager : MonoBehaviour
         elapsedTime = 0;
         if (skiing)
         {
-            AsyncOperation op = SceneManager.LoadSceneAsync("Skiing", LoadSceneMode.Additive);
+            AsyncOperation op = SceneManager.LoadSceneAsync("Skiing");
             while (!op.isDone) yield return null;
-            Scene activeScene = SceneManager.GetSceneByName("Skiing");
+            /*Scene activeScene = SceneManager.GetSceneByName("Skiing");
             SceneManager.SetActiveScene(activeScene);
-            for (int i = 0; i < SceneManager.loadedSceneCount; i++) if (SceneManager.GetSceneAt(i) != activeScene) SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i));
-            yield return new WaitForSeconds(1);
+            for (int i = 0; i < SceneManager.loadedSceneCount; i++) if (SceneManager.GetSceneAt(i) != activeScene) SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i));*/
+            yield return null;
             resortOrigin.SetActive(false);
             lights.SetActive(false);
             GameObject.FindWithTag("SceneTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(false); });
         }
         else
         {
-            AsyncOperation op = SceneManager.LoadSceneAsync("R_Main", LoadSceneMode.Additive);
+            AsyncOperation op = SceneManager.LoadSceneAsync("R_Main");
             while (!op.isDone) yield return null;
             if (!SceneManager.GetSceneByName("R_Area1_LOW").isLoaded)
             {
@@ -130,9 +130,9 @@ public class Manager : MonoBehaviour
                 op = SceneManager.LoadSceneAsync("R_Area5_LOW", LoadSceneMode.Additive);
                 while (!op.isDone) yield return null;
             }
-            yield return new WaitForSeconds(1);
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName("R_Main"));
-            SceneManager.UnloadSceneAsync("Skiing");
+            //SceneManager.SetActiveScene(SceneManager.GetSceneByName("R_Main"));
+            //SceneManager.UnloadSceneAsync("Skiing");
+            yield return null;
             resortOrigin.SetActive(true);
             lights.SetActive(true);
             resortOrigin.transform.SetPositionAndRotation(initialPos, initialRot);
@@ -176,12 +176,12 @@ public class Manager : MonoBehaviour
         elapsedTime = 0;
         if (diving)
         {
-            AsyncOperation op = SceneManager.LoadSceneAsync("R_Area2 Under Water", LoadSceneMode.Additive);
+            AsyncOperation op = SceneManager.LoadSceneAsync("R_Area2 Under Water");
             while (!op.isDone) yield return null;
-            Scene activeScene = SceneManager.GetSceneByName("R_Area2 Under Water");
+            /*Scene activeScene = SceneManager.GetSceneByName("R_Area2 Under Water");
             SceneManager.SetActiveScene(activeScene);
-            for (int i = 0; i < SceneManager.loadedSceneCount; i++) if (SceneManager.GetSceneAt(i) != activeScene) SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i));
-            yield return new WaitForSeconds(1);
+            for (int i = 0; i < SceneManager.loadedSceneCount; i++) if (SceneManager.GetSceneAt(i) != activeScene) SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i));*/
+            yield return null;
             characterController.enabled = continuousMoveProvider.useGravity = false;
             continuousMoveProvider.enableFly = true;
             continuousMoveProvider.forwardSource = scooter;
@@ -189,7 +189,7 @@ public class Manager : MonoBehaviour
         }
         else
         {
-            AsyncOperation op = SceneManager.LoadSceneAsync("R_Main", LoadSceneMode.Additive);
+            AsyncOperation op = SceneManager.LoadSceneAsync("R_Main");
             while (!op.isDone) yield return null;
             if (!SceneManager.GetSceneByName("R_Area1_LOW").isLoaded)
             {
@@ -216,9 +216,9 @@ public class Manager : MonoBehaviour
                 op = SceneManager.LoadSceneAsync("R_Area5_LOW", LoadSceneMode.Additive);
                 while (!op.isDone) yield return null;
             }
-            yield return new WaitForSeconds(1);
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName("R_Main"));
-            SceneManager.UnloadSceneAsync("R_Area2 Under Water");
+            yield return null;
+            //SceneManager.SetActiveScene(SceneManager.GetSceneByName("R_Main"));
+            //SceneManager.UnloadSceneAsync("R_Area2 Under Water");
             resortOrigin.transform.SetPositionAndRotation(initialPos, initialRot);
             characterController.enabled = continuousMoveProvider.useGravity = true;
             continuousMoveProvider.enableFly = false;

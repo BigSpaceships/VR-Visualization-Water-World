@@ -6376,7 +6376,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 1
-  size: {x: 115.14101, y: 21.961107, z: 124.26001}
+  size: {x: 103.01, y: 21.961107, z: 103.01}
   overrideRendererFilters: 0
   minRendererVolumeSize: 0.1
   objectLayerMask:
@@ -6416,7 +6416,7 @@ Transform:
   m_GameObject: {fileID: 304889385}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.0654984, y: 2.7841196, z: 10.625004}
+  m_LocalPosition: {x: 0, y: 2.7841196, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -23468,8 +23468,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1352516089}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: -61.686, y: 6.141, z: 70.684}
+  m_LocalRotation: {x: -0, y: -0.9238796, z: 0, w: -0.38268328}
+  m_LocalPosition: {x: -36.89, y: 6.11, z: 43.77}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -23477,7 +23477,7 @@ Transform:
   - {fileID: 1815892354}
   - {fileID: 2032192014}
   m_Father: {fileID: 1369807290}
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -225, z: 0}
 --- !u!65 &1352516091
 BoxCollider:
   m_ObjectHideFlags: 0
