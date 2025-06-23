@@ -485,7 +485,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1173725341}
-  - component: {fileID: 1173725340}
   m_Layer: 0
   m_Name: Probe Volume
   m_TagString: Untagged
@@ -493,50 +492,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1173725340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1173725339}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cded085d155cde949b60f67a11dbc3bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mode: 1
-  size: {x: 153.01, y: 9.901373, z: 153.01}
-  overrideRendererFilters: 0
-  minRendererVolumeSize: 0.1
-  objectLayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  lowestSubdivLevelOverride: 0
-  highestSubdivLevelOverride: -1
-  overridesSubdivLevels: 0
-  mightNeedRebaking: 1
-  cachedTransform:
-    e00: 0
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 0
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 0
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 0
-  cachedHashCode: 0
-  fillEmptySpaces: 0
-  version: 1
-  globalVolume: 0
 --- !u!4 &1173725341
 Transform:
   m_ObjectHideFlags: 0

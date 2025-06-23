@@ -41,10 +41,10 @@ public class Manager : MonoBehaviour
         resortOrigin.transform.GetPositionAndRotation(out initialPos, out initialRot);
         GameObject.FindWithTag("DivingTransition").GetComponent<Button>().onClick.AddListener(delegate { DivingMode(true); });
         GameObject.FindWithTag("SkiTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(true); });
-/*#if UNITY_EDITOR
+#if UNITY_EDITOR
         devSim = Instantiate(devSim);
         DontDestroyOnLoad(devSim);
-#endif*/
+#endif
     }
 
     public static bool EqualVectors(Vector3 vector, Vector3 target, float threshold = 0.1f)
@@ -138,10 +138,10 @@ public class Manager : MonoBehaviour
             resortOrigin.transform.SetPositionAndRotation(initialPos, initialRot);
             inputActionManager.actionAssets[0].Disable();
             inputActionManager.actionAssets[0].Enable();
-/*#if UNITY_EDITOR
+#if UNITY_EDITOR
             devSim.SetActive(false);
             devSim.SetActive(true);
-#endif*/
+#endif
             GameObject.FindWithTag("DivingTransition").GetComponent<Button>().onClick.AddListener(delegate { DivingMode(true); });
             GameObject.FindWithTag("SkiTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(true); });
         }

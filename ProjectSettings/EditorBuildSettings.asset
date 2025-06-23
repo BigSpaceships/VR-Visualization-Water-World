@@ -8,34 +8,34 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Resort/R_Main.unity
     guid: b284d3e90017cbf428c4ab539e01f4e6
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Resort/R_Area1.unity
     guid: b53546c51c43caf478efd70750974649
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Resort/R_Area1_LOW.unity
     guid: 83589f471c1c7704f8ee74894efe8113
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Resort/R_Area2.unity
     guid: 8131007796b92d141b90107410321213
   - enabled: 1
     path: Assets/Scenes/Resort/R_Area2 Under Water.unity
     guid: 9971673126a0dc942b236ab4159162dc
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Resort/R_Area3.unity
     guid: 9f6ab1cc96a6c7d4f83c97a2fba3bbc1
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Resort/R_Area4.unity
     guid: f410b513f6b693f408b049e7300e92f8
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Resort/R_Area4_LOW.unity
     guid: ad9998fbadd69aa4bac7e21ed577d940
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Resort/R_Area5.unity
     guid: 80e9287b1f18b4c47b496abb8358e3bf
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Resort/R_Area5_LOW.unity
     guid: dd9bfa8089577da4dab7b1c2b9e57d10
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Benny/Skiing.unity
     guid: 76a39ea57f89045bd99ee14d8a2b06e9
   m_configObjects:
