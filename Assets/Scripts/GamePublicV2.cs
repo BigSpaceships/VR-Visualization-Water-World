@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.XR.CoreUtils;
@@ -94,13 +94,13 @@ public class GamePublicV2 : MonoBehaviour {
         DisableAllInteractors();
         yield return null;
 
-        // �������п�����
+        // 禁用所有控制器
         controllerMainLeft?.SetActive(false);
         controllerMainRight?.SetActive(false);
         controllerA2Left?.SetActive(false);
         controllerA2Right?.SetActive(false);
 
-        // ����ָ����������
+        // 启用指定控制器组
         GameObject left = null, right = null;
         if (set == ControllerName.Main) {
             left = controllerMainLeft;
@@ -123,7 +123,7 @@ public class GamePublicV2 : MonoBehaviour {
             interactor.allowHover = false;
         }
 
-        // ���ÿ��ӻ�����
+        // 禁用可视化射线
         var visuals = FindObjectsByType<XRInteractorLineVisual>(FindObjectsSortMode.None);
         foreach (var v in visuals)
             v.enabled = false;
@@ -157,9 +157,9 @@ public class GamePublicV2 : MonoBehaviour {
                 xrOriginCollider.enabled = true;
             }
         } else if (moveMode == MoveMode.UnderWater) {
-            playerRb.isKinematic = true;   // ���ø�������
-            playerRb.useGravity = false;   // ˮ��������
-            playerRb.constraints = RigidbodyConstraints.None; // ����ת��
+            playerRb.isKinematic = true;   // 禁用刚体物理
+            playerRb.useGravity = false;   // 水下无重力
+            playerRb.constraints = RigidbodyConstraints.None; // 自由转动
             seaScooter.SetActive(true);
             if (charController != null)
                 charController.enabled = true;
