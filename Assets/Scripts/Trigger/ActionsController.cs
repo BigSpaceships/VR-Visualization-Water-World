@@ -116,7 +116,7 @@ public class ActionsController : MonoBehaviour {
 
                     AnimationState st = animationObj[param["aniName"]];
                     if (st == null) {
-                        //Debug.LogWarning($"PlayAni 未找到动画剪辑: {param["aniName"]}");
+                        Debug.LogWarning($"PlayAni 未找到动画剪辑: {param["aniName"]}");
                         continue;
                     }
 
