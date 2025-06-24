@@ -17,7 +17,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Resort/R_Area2.unity
     guid: 8131007796b92d141b90107410321213
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Resort/R_Area2 Under Water.unity
     guid: 9971673126a0dc942b236ab4159162dc
   - enabled: 0

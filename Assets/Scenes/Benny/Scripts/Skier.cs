@@ -74,7 +74,7 @@ public class Skier : MonoBehaviour
     UnityEngine.XR.InputDevice rightDevice;
     UnityEngine.XR.InputDevice leftDevice;
 
-    [Header("Paragliding")]
+    [Header("Paraglider")]
     [SerializeField] Transform leftHandRopeTarget;
     [SerializeField] Transform rightHandRopeTarget;
     [SerializeField] Transform leftControllerRopeTarget;

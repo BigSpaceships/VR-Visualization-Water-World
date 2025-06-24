@@ -1,33 +1,33 @@
 using UnityEngine;
 
 public class MoveBetweenPoints : MonoBehaviour {
-    public Transform waypointA;  // Ö¸¶¨Æðµã
-    public Transform waypointB;  // Ö¸¶¨ÖÕµã
-    public float speed = 2f;     // ËÙ¶È
+    public Transform waypointA;  // Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½
+    public Transform waypointB;  // Ö¸ï¿½ï¿½ï¿½Õµï¿½
+    public float speed = 2f;     // ï¿½Ù¶ï¿½
 
-    private Vector3 globalWaypointA; // ´æ´¢ÆðµãµÄÊÀ½ç×ø±ê
-    private Vector3 globalWaypointB; // ´æ´¢ÖÕµãµÄÊÀ½ç×ø±ê
-    private bool movingToB = true;   // ·½Ïò
+    private Vector3 globalWaypointA; // ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    private Vector3 globalWaypointB; // ï¿½æ´¢ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    private bool movingToB = true;   // ï¿½ï¿½ï¿½ï¿½
 
     void Start() {
         if (waypointA == null || waypointB == null) {
-            Debug.LogError("ÇëÔÚ Inspector ÖÐÉèÖÃ waypointA ºÍ waypointB£¡");
+            //Debug.LogError("ï¿½ï¿½ï¿½ï¿½ Inspector ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ waypointA ï¿½ï¿½ waypointBï¿½ï¿½");
             return;
         }
 
-        // **¼ÇÂ¼ÊÀ½ç×ø±ê**
+        // **ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½**
         globalWaypointA = waypointA.position;
         globalWaypointB = waypointB.position;
     }
 
     void Update() {
-        // Ä¿±êÎ»ÖÃ£¨Ê¹ÓÃ¼ÇÂ¼µÄÊÀ½ç×ø±ê£©
+        // Ä¿ï¿½ï¿½Î»ï¿½Ã£ï¿½Ê¹ï¿½Ã¼ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê£©
         Vector3 targetPosition = movingToB ? globalWaypointB : globalWaypointA;
 
-        // ÈÃ Fish ÒÆ¶¯µ½Ä¿±êÎ»ÖÃ
+        // ï¿½ï¿½ Fish ï¿½Æ¶ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½Î»ï¿½ï¿½
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
 
-        // µ±½Ó½üÄ¿±êµãÊ±£¬ÇÐ»»·½Ïò
+        // ï¿½ï¿½ï¿½Ó½ï¿½Ä¿ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½
         if (Vector3.Distance(transform.position, targetPosition) < 0.1f) {
             movingToB = !movingToB;
         }

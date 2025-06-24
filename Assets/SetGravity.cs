@@ -6,7 +6,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class SetGravity : MonoBehaviour
 {
 
-    // Start is called before the first frame update
+    /*// Start is called before the first frame update
     void Start()
     {
         //Physics.gravity = new Vector3(0, -1.0F, 0);
@@ -20,7 +20,7 @@ public class SetGravity : MonoBehaviour
     {
         //Rigidbody rb = GetComponent<Rigidbody>();
         //rb.useGravity = true;
-    }
+    }*/
 
     
 }

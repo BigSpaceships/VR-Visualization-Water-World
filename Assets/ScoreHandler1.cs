@@ -12,7 +12,7 @@ public class ScoreHandler1 : MonoBehaviour {
     //public GameObject GameObject;
 
     private void Start() {
-        Debug.Log("Game start");
+        //Debug.Log("Game start");
     }
 
     void OnCollisionEnter(Collision collision) {

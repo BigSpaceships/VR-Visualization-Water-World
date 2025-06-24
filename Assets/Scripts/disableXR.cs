@@ -4,18 +4,8 @@ using UnityEngine;
 
 public class disableXR : MonoBehaviour {
     void Awake() {
-        if (GameObject.Find("PersistentXR") != null) { // µ±Ç°ÒÑÓÐÖ÷XR¿ØÖÆÆ÷
+        if (GameObject.Find("PersistentXR") != null) { // ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½XRï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             this.gameObject.SetActive(false);
         }
-    }
-
-    // Start is called before the first frame update
-    void Start() {
-
-    }
-
-    // Update is called once per frame
-    void Update() {
-
     }
 }

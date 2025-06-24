@@ -8,14 +8,14 @@ public class MouseLook : MonoBehaviour {
     private float xRotation = 0f;
     private InputAction lookAction;
     private InputAction rightClickAction;
-    private bool isLooking = false; // ¿ØÖÆÊÇ·ñ½øÐÐÊÓ½ÇÐý×ªµÄ±êÖ¾
+    private bool isLooking = false; // ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½Ó½ï¿½ï¿½ï¿½×ªï¿½Ä±ï¿½Ö¾
 
-    private void Awake() {
-        // »ñÈ¡ PlayerInput ×é¼þ²¢ÕÒµ½ "Look" Action
+    private void OnEnable() {
+        // ï¿½ï¿½È¡ PlayerInput ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ "Look" Action
         var playerInput = GetComponent<PlayerInput>();
         lookAction = playerInput.actions["Look"];
 
-        // ¶©ÔÄÊÂ¼þ
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
         lookAction.performed += OnLookPerformed;
         lookAction.canceled += OnLookCanceled;
 
@@ -24,8 +24,9 @@ public class MouseLook : MonoBehaviour {
         rightClickAction.canceled += _ => isLooking = false;
     }
 
-    private void OnDestroy() {
-        // È¡Ïû¶©ÔÄÊÂ¼þ
+    private void OnDisable()
+    {
+        // È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
         lookAction.performed -= OnLookPerformed;
         lookAction.canceled -= OnLookCanceled;
 
@@ -53,9 +54,9 @@ public class MouseLook : MonoBehaviour {
     }
 
     private void OnLookCanceled(InputAction.CallbackContext context) {
-        // Êó±êÒÆ¶¯È¡ÏûÊ±µÄ´¦Àí£¨Èç¹ûÓÐÐèÒª£©
+        // ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½È¡ï¿½ï¿½Ê±ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½
     }
 
-    // ×¢ÊÍµô Update º¯Êý£¬ÒòÎªÎÒÃÇÏÖÔÚÍ¨¹ýÊÂ¼þ½øÐÐ´¦Àí
+    // ×¢ï¿½Íµï¿½ Update ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½
     // void Update() { ... }
 }

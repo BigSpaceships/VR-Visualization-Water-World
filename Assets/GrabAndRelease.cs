@@ -8,18 +8,13 @@ public class GrabAndRelease : MonoBehaviour
     private Rigidbody rb;
     private XRGrabInteractable grabInteractable;
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     private void Start() {
-        // »ñÈ¡ XRGrabInteractable ×é¼þ
+        // ï¿½ï¿½È¡ XRGrabInteractable ï¿½ï¿½ï¿½
         grabInteractable = GetComponent<XRGrabInteractable>();
         rb = GetComponent<Rigidbody>();
         //rb.useGravity = false;
 
-        // ¶©ÔÄ×¥È¡ÊÂ¼þ
+        // ï¿½ï¿½ï¿½ï¿½×¥È¡ï¿½Â¼ï¿½
         grabInteractable.onSelectEntered.AddListener(OnGrabbed);
         grabInteractable.onSelectExited.AddListener(OnReleased);
     }
@@ -28,12 +23,12 @@ public class GrabAndRelease : MonoBehaviour
         //Invoke("ActivateGravity", 0.1f);
         return;
 
-        // ÓÃ»§¿ªÊ¼×¥È¡ÎïÌåÊ±µÄ²Ù×÷
+        // ï¿½Ã»ï¿½ï¿½ï¿½Ê¼×¥È¡ï¿½ï¿½ï¿½ï¿½Ê±ï¿½Ä²ï¿½ï¿½ï¿½
         //Debug.Log("Object grabbed!");
         if (rb != null) {
             rb.useGravity = true; // Activate gravity
             rb.isKinematic = false;
-            rb.WakeUp(); // »½ÐÑÎïÌåµÄÎïÀíÄ£Äâ
+            rb.WakeUp(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½
             Debug.Log("gravity triggered");
         } else {
             Debug.Log("no gravity triggered");
@@ -50,13 +45,13 @@ public class GrabAndRelease : MonoBehaviour
     }
 
     private void OnReleased(XRBaseInteractor interactor) {
-        // ÓÃ»§Í£Ö¹×¥È¡ÎïÌåÊ±µÄ²Ù×÷
+        // ï¿½Ã»ï¿½Í£Ö¹×¥È¡ï¿½ï¿½ï¿½ï¿½Ê±ï¿½Ä²ï¿½ï¿½ï¿½
         //Debug.Log("Object released!");
         Invoke("ActivateGravity", .1f);
     }
 
     private void OnDestroy() {
-        // ÔÚÏú»ÙÎïÌåÊ±È¡Ïû¶©ÔÄÊÂ¼þ£¬·ÀÖ¹ÄÚ´æÐ¹Â©
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½Ö¹ï¿½Ú´ï¿½Ð¹Â©
         grabInteractable.onSelectEntered.RemoveListener(OnGrabbed);
         grabInteractable.onSelectExited.RemoveListener(OnReleased);
     }

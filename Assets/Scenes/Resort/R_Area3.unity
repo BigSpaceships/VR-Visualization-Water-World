@@ -8,8 +8,8 @@ OcclusionCullingSettings:
     smallestOccluder: 5
     smallestHole: 0.25
     backfaceThreshold: 100
-  m_SceneGUID: 00000000000000000000000000000000
-  m_OcclusionCullingData: {fileID: 0}
+  m_SceneGUID: 9f6ab1cc96a6c7d4f83c97a2fba3bbc1
+  m_OcclusionCullingData: {fileID: 36300000, guid: 9246b8f50844e4486a8dba182baaf412, type: 2}
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
@@ -577,10 +577,18 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: -3751816981553888403, guid: cec9222508ebc594c8169b8a0c0499a8, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -3717825185329705806, guid: cec9222508ebc594c8169b8a0c0499a8, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: d71fc40dedb7a2a49b27098365c07f74, type: 2}
+    - target: {fileID: -2788384989926450821, guid: cec9222508ebc594c8169b8a0c0499a8, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -2313619269123437084, guid: cec9222508ebc594c8169b8a0c0499a8, type: 3}
       propertyPath: m_Layer
       value: 14
@@ -597,6 +605,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 3fdf94fa61ca9fc4d8ba44dcaded7ecd, type: 2}
+    - target: {fileID: -997645965206515107, guid: cec9222508ebc594c8169b8a0c0499a8, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: cec9222508ebc594c8169b8a0c0499a8, type: 3}
       propertyPath: m_Name
       value: Heli
@@ -609,6 +621,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 1897250810801008858, guid: cec9222508ebc594c8169b8a0c0499a8, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2633348552716730198, guid: cec9222508ebc594c8169b8a0c0499a8, type: 3}
       propertyPath: m_Layer
       value: 14
@@ -616,6 +632,14 @@ PrefabInstance:
     - target: {fileID: 2633348552716730198, guid: cec9222508ebc594c8169b8a0c0499a8, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 3699453533471731730, guid: cec9222508ebc594c8169b8a0c0499a8, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4384050474035490427, guid: cec9222508ebc594c8169b8a0c0499a8, type: 3}
+      propertyPath: m_Convex
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4410040984366529021, guid: cec9222508ebc594c8169b8a0c0499a8, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'

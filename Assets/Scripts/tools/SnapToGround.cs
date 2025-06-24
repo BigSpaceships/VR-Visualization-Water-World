@@ -1,4 +1,5 @@
-using UnityEngine;
+/*using UnityEngine;
+/*using UnityEngine;
 using UnityEditor;
 
 public class SnapToGround : Editor {
@@ -7,7 +8,7 @@ public class SnapToGround : Editor {
         foreach (GameObject obj in Selection.gameObjects) {
             Collider col = obj.GetComponent<Collider>();
             if (col == null) {
-                Debug.LogWarning($"对象 [{obj.name}] 没有 Collider，跳过。");
+                //Debug.LogWarning($"对象 [{obj.name}] 没有 Collider，跳过。");
                 continue;
             }
 
@@ -29,8 +30,9 @@ public class SnapToGround : Editor {
                     obj.transform.position.z
                 );
             } else {
-                Debug.LogWarning($"对象 [{obj.name}] 底部未检测到地面，跳过。");
+                //Debug.LogWarning($"对象 [{obj.name}] 底部未检测到地面，跳过。");
             }
         }
     }
 }
+*/
