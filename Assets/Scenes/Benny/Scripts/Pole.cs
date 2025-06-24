@@ -55,7 +55,7 @@ public class Pole : XRBaseInteractable
 
     void Start()
     {
-        StartCoroutine(CalculateVelocity());
+        //StartCoroutine(CalculateVelocity());
     }
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)

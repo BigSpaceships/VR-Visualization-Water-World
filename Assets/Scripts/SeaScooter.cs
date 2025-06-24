@@ -23,21 +23,21 @@ public class SeaScooter : LocomotionProvider {
     [SerializeField] private float maxSpeed;
     [SerializeField] private float accelerationRate;
 
-    [SerializeField] private float sidewaysSpeed;
-    [SerializeField] private float turnRateFromInput;
-    [SerializeField] private float turnRateCorrective;
-
-    [SerializeField] private float turnAngleStart;
-    [Range(0,1)]
-    [SerializeField] private float turnCorrectiveStart;
 
     private float _moveSpeed;
-
-    [SerializeField] private float backSpeed;
 
     private void Start() {
         activeScooderButton.action.Enable();
     }
+
+    private void OnEnable() {
+        activeScooderButton?.action.Enable();
+    }
+
+    private void OnDisable() {
+        activeScooderButton?.action.Disable();
+    }
+
 
 
     protected override void Awake() {
@@ -52,97 +52,31 @@ public class SeaScooter : LocomotionProvider {
     }
 
     private void Update() {
-        if (GamePublicV2.instance.moveMode == MoveMode.Ground) return;
+        // 只在水下模式才推进
+        if (GamePublicV2.instance.moveMode != MoveMode.UnderWater) return;
+        if (GamePublicV2.instance.cameraActive) return;
 
-        var projectedCameraForward = Vector3.ProjectOnPlane(cameraTransform.forward, Vector3.up);
-        var projectedControllerForward = Vector3.ProjectOnPlane(rightHandTransform.forward, Vector3.up);
+        // 直接读按钮的按下状态（值大于 0 就算按下）
+        bool isPressed = activeScooderButton.action.ReadValue<float>() > 0.5f;
+        if (isPressed) {
+            // 累加加速时间，并计算当前速度
+            _timeAccelerating += Time.deltaTime;
+            _moveSpeed = Mathf.Clamp(accelerationRate * _timeAccelerating + minSpeed,
+                                     minSpeed, maxSpeed);
 
-        var lookRot = Quaternion.FromToRotation(projectedCameraForward, projectedControllerForward);
+            // 直接使用手柄的 forward（含上下方向），并归一化
+            Vector3 direction = rightHandTransform.forward.normalized;
 
-        var lookTurnAmount = Mathf.Min(lookRot.eulerAngles.y, 360 - lookRot.eulerAngles.y) *
-                             Mathf.Sign(180 - lookRot.eulerAngles.y);
+            // 最终运动向量
+            Vector3 motion = direction * _moveSpeed * Time.deltaTime;
 
-        var input = rightHandMoveAction.action.ReadValue<Vector2>();
-
-        var lookTurnStrength = CalculateTurnSpeed(lookTurnAmount, input);
-
-        var relativeMovement = GetMoveFromInput(input);
-
-        var motion = rightHandTransform.right * relativeMovement.x + rightHandTransform.forward * relativeMovement.y;
-
-        motion *= Time.deltaTime;
-
-        var turnAmount = input.x * turnRateFromInput + lookTurnStrength * turnRateCorrective;
-        
-        turnAmount *= Time.deltaTime;
-
-        if (relativeMovement != Vector2.zero) {
             if (CanBeginLocomotion() && BeginLocomotion()) {
                 _characterController.Move(motion);
-
-                system.xrOrigin.RotateAroundCameraUsingOriginUp(turnAmount);
-
                 EndLocomotion();
             }
-        }
-    }
-
-    // ReSharper disable Unity.PerformanceAnalysis
-    private Vector2 GetMoveFromInput(Vector2 input) {
-        //if (input == Vector2.zero)
-        //    return Vector3.zero;
-
-        input = rightHandMoveAction.action?.ReadValue<Vector2>() ?? Vector2.zero;
-
-        if (GamePublic.cameraActive) {
-            input.y = 0;
         } else {
-            bool isPushingForward = activeScooderButton.action.IsPressed();
-            if (isPushingForward) {
-                input.y = 1;
-            } else input.y = 0;
+            // 松开按钮后重置加速时间
+            _timeAccelerating = 0f;
         }
-
-        input.x *= sidewaysSpeed;
-
-        if (input.y < 0) {
-            _moveSpeed = backSpeed;
-
-            _timeAccelerating = 0;
-        }
-
-        if (input.y == 0) {
-            _timeAccelerating = 0;
-        }
-
-        if (input.y > 0) {
-            _timeAccelerating += Time.deltaTime;
-
-            _moveSpeed = CalculateSpeed();
-        }
-        input.y *= _moveSpeed;
-
-        return input;
-    }
-
-    private float CalculateSpeed() {
-        return Mathf.Clamp(accelerationRate * _timeAccelerating + minSpeed, minSpeed, maxSpeed);
-    }
-    
-    private float CalculateTurnSpeed(float angleDist, Vector2 input) {
-        var sign = Mathf.Sign(angleDist);
-        
-        var angle = Mathf.Abs(angleDist);
-        
-        angle -= turnAngleStart;
-
-        angle = Mathf.Max(0, angle);
-
-        var targetSpeed = sign * angle;
-
-        // if there is forward input on the joystick, we want to turn. Otherwise, no turn
-        var inputScale = Mathf.Max(0, input.y) >= turnCorrectiveStart ? 1 : 0;
-        
-        return targetSpeed * inputScale;
     }
 }

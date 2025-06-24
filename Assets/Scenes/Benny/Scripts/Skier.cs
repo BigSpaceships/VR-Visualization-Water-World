@@ -199,6 +199,7 @@ public class Skier : MonoBehaviour
         Pole.leftHaptics = leftHaptics;
         Pole.rightHaptics = rightHaptics;
         StartCoroutine(CalculateVelocity());
+        StartCoroutine(Reload(0.5f));
     }
 
     void OnEnable()
@@ -725,6 +726,7 @@ public class Skier : MonoBehaviour
         {
             alpha = canvasGroup.alpha = elapsedTime / duration;
             elapsedTime += Time.deltaTime;
+            Debug.Log(elapsedTime);
             yield return null;
         }
         alpha = canvasGroup.alpha = 1;

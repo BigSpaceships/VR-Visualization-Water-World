@@ -16,7 +16,6 @@ public class Manager : MonoBehaviour
     [SerializeField] InputActionManager inputActionManager;
     [SerializeField] GameObject[] tooltips;
     ActionBasedContinuousMoveProvider continuousMoveProvider;
-    [SerializeField] Transform scooter;
     [SerializeField] InputActionProperty reloadProperty;
     [SerializeField] InputAction reload;
     AudioSource audioSource;
@@ -37,7 +36,6 @@ public class Manager : MonoBehaviour
         skiCanvasGroup.alpha = resortCanvasGroup.alpha = 0;
         reload = reloadProperty.action;
         resortOrigin.transform.GetPositionAndRotation(out initialPos, out initialRot);
-        GameObject.FindWithTag("DivingTransition").GetComponent<Button>().onClick.AddListener(delegate { DivingMode(true); });
         GameObject.FindWithTag("SkiTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(true); });
     }
 
@@ -56,11 +54,6 @@ public class Manager : MonoBehaviour
     {
         audioSource.PlayOneShot(transitionClip);
         StartCoroutine(SkiingTransition(skiing, 0.5f));
-    }
-
-    void Update()
-    {
-        if (reload.WasPressedThisFrame() && SceneManager.GetSceneByName("R_Area2 Under Water").isLoaded) DivingMode(false);
     }
 
     IEnumerator SkiingTransition(bool skiing, float duration)
@@ -90,7 +83,7 @@ public class Manager : MonoBehaviour
         elapsedTime = 0;
         if (skiing)
         {
-            AsyncOperation op = SceneManager.LoadSceneAsync("Skiing");
+            AsyncOperation op = SceneManager.LoadSceneAsync("Skiing", LoadSceneMode.Additive);
             while (!op.isDone) yield return null;
             /*Scene activeScene = SceneManager.GetSceneByName("Skiing");
             SceneManager.SetActiveScene(activeScene);
@@ -143,7 +136,6 @@ public class Manager : MonoBehaviour
             //devSim.SetActive(false);
             //devSim.SetActive(true);
 #endif*/
-            GameObject.FindWithTag("DivingTransition").GetComponent<Button>().onClick.AddListener(delegate { DivingMode(true); });
             GameObject.FindWithTag("SkiTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(true); });
         }
         while (alpha >= 0.01f)
@@ -154,92 +146,5 @@ public class Manager : MonoBehaviour
         }
         toCanvas.alpha = fromCanvas.alpha = 0;
         if (skiing) Skier.initialized = true;
-    }
-
-    public void DivingMode(bool diving)
-    {
-        audioSource.PlayOneShot(transitionClip);
-        StartCoroutine(DivingTransition(diving));
-    }
-
-    IEnumerator DivingTransition(bool diving, float duration = 0.5f)
-    {
-        if (diving) resortOrigin.transform.GetPositionAndRotation(out initialPos, out initialRot);
-        float elapsedTime = 0;
-        float alpha = 0;
-        while (alpha <= 0.99f)
-        {
-            alpha = resortCanvasGroup.alpha = elapsedTime / duration;
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        alpha = resortCanvasGroup.alpha = 1;
-        elapsedTime = 0;
-        if (diving)
-        {
-            AsyncOperation op = SceneManager.LoadSceneAsync("R_Area2 Under Water");
-            while (!op.isDone) yield return null;
-            /*Scene activeScene = SceneManager.GetSceneByName("R_Area2 Under Water");
-            SceneManager.SetActiveScene(activeScene);
-            for (int i = 0; i < SceneManager.loadedSceneCount; i++) if (SceneManager.GetSceneAt(i) != activeScene) SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i));*/
-            yield return null;
-            characterController.enabled = continuousMoveProvider.useGravity = false;
-            continuousMoveProvider.enableFly = true;
-            continuousMoveProvider.forwardSource = scooter;
-            for (int i = 0; i < tooltips.Length; i++) tooltips[i].SetActive(false);
-        }
-        else
-        {
-            AsyncOperation op = SceneManager.LoadSceneAsync("R_Main");
-            while (!op.isDone) yield return null;
-            if (!SceneManager.GetSceneByName("R_Area1_LOW").isLoaded)
-            {
-                op = SceneManager.LoadSceneAsync("R_Area1_LOW", LoadSceneMode.Additive);
-                while (!op.isDone) yield return null;
-            }
-            if (!SceneManager.GetSceneByName("R_Area2").isLoaded)
-            {
-                op = SceneManager.LoadSceneAsync("R_Area2", LoadSceneMode.Additive);
-                while (!op.isDone) yield return null;
-            }
-            if (!SceneManager.GetSceneByName("R_Area3").isLoaded)
-            {
-                op = SceneManager.LoadSceneAsync("R_Area3", LoadSceneMode.Additive);
-                while (!op.isDone) yield return null;
-            }
-            if (!SceneManager.GetSceneByName("R_Area4_LOW").isLoaded)
-            {
-                op = SceneManager.LoadSceneAsync("R_Area4_LOW", LoadSceneMode.Additive);
-                while (!op.isDone) yield return null;
-            }
-            if (!SceneManager.GetSceneByName("R_Area5_LOW").isLoaded)
-            {
-                op = SceneManager.LoadSceneAsync("R_Area5_LOW", LoadSceneMode.Additive);
-                while (!op.isDone) yield return null;
-            }
-            yield return null;
-            //SceneManager.SetActiveScene(SceneManager.GetSceneByName("R_Main"));
-            //SceneManager.UnloadSceneAsync("R_Area2 Under Water");
-            resortOrigin.transform.SetPositionAndRotation(initialPos, initialRot);
-            characterController.enabled = continuousMoveProvider.useGravity = true;
-            continuousMoveProvider.enableFly = false;
-            continuousMoveProvider.forwardSource = resortCam;
-            inputActionManager.actionAssets[0].Disable();
-            inputActionManager.actionAssets[0].Enable();
-/*#if UNITY_EDITOR
-            devSim.SetActive(false);
-            devSim.SetActive(true);
-#endif*/
-            GameObject.FindWithTag("DivingTransition").GetComponent<Button>().onClick.AddListener(delegate { DivingMode(true); });
-            GameObject.FindWithTag("SkiTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(true); });
-            for (int i = 0; i < tooltips.Length; i++) tooltips[i].SetActive(true);
-        }
-        while (alpha >= 0.01f)
-        {
-            alpha = resortCanvasGroup.alpha = 1 - elapsedTime / duration;
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        resortCanvasGroup.alpha = 0;
     }
 }

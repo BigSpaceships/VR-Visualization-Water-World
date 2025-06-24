@@ -61,7 +61,7 @@ public class GameStart : MonoBehaviour {
         RenderSettings.fogStartDistance = 10;
         RenderSettings.fogEndDistance = 45;
 
-        GamePublicV2.instance.setController(ControllerName.A2);
+        GamePublicV2.instance.setController(ControllerName.A2_UnderWater);
 
         StartCoroutine(TaskStart());
     }

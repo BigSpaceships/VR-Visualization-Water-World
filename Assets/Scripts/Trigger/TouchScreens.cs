@@ -45,7 +45,7 @@ public class TouchScreens : MonoBehaviour {
     public void OnButtonClick(string action) {
         switch (action) {
             case "StartDive":
-                StartCoroutine(SwitchScene());
+                StartCoroutine(loadSceneA2UnderWater());
                 break;
             case "TTest":
                 GameObject player = GameObject.Find("PersistentXR/XR Origin");
@@ -54,10 +54,14 @@ public class TouchScreens : MonoBehaviour {
                 break;
             case "changeController":
                 if (GamePublicV2.instance.currentControllerName == ControllerName.Main) {
-                    GamePublicV2.instance.setController(ControllerName.A2);
+                    GamePublicV2.instance.setController(ControllerName.A2_UnderWater);
                 } else {
                     GamePublicV2.instance.setController(ControllerName.Main);
                 }
+                break;
+            case "Ski":
+                Manager skiManager = GameObject.Find("PersistentXR/SkiManager").GetComponent<Manager>();
+                skiManager.SkiMode(true);
                 break;
             default:
                 Debug.LogWarning("Unknown action: " + action);
@@ -65,7 +69,7 @@ public class TouchScreens : MonoBehaviour {
         }
     }
 
-    private IEnumerator SwitchScene(float duration = 0.5f)
+    private IEnumerator loadSceneA2UnderWater(float duration = 0.5f)
     {
         //load new scene
         float elapsedTime = 0;

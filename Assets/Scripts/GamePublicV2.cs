@@ -17,7 +17,8 @@ public enum MoveMode {
 public enum ControllerName {
     None,
     Main,
-    A2
+    A2_UnderWater,
+    Ski
 }
 
 public class GamePublicV2 : MonoBehaviour {
@@ -26,6 +27,7 @@ public class GamePublicV2 : MonoBehaviour {
     public bool publicAccessSamples = false; //in other script use this to access:  GamePublicV2.instance.publicAccessSamples
     public MoveMode moveMode = MoveMode.None;
     public GameObject xrOrigin;
+    public bool cameraActive = false;
 
     public GameObject HUD_UnderWater;
 
@@ -39,7 +41,10 @@ public class GamePublicV2 : MonoBehaviour {
     private GameObject controllerA2Right;
     private GameObject controllerMainLeft;
     private GameObject controllerMainRight;
+    private GameObject controllerSkiLeft;
+    private GameObject controllerSkiRight;
 
+    private ActionBasedContinuousMoveProvider moveProvider;
 
     private void Awake() {
         if (instance == null) {
@@ -58,11 +63,15 @@ public class GamePublicV2 : MonoBehaviour {
         charController = XROriginRig.GetComponent<CharacterController>();
         seaScooter = GameObject.Find("SeaScooter");
         xrOriginCollider = XROrigin.GetComponent<CapsuleCollider>();
+        moveProvider = XROriginRig.GetComponentInChildren<ActionBasedContinuousMoveProvider>();
 
-        controllerA2Left = XROriginRig.transform.Find("Camera Offset/Left Controller A2").gameObject;
-        controllerA2Right = XROriginRig.transform.Find("Camera Offset/Right Controller A2").gameObject;
+        //bind all controller
         controllerMainLeft = XROriginRig.transform.Find("Camera Offset/Left Controller").gameObject;
         controllerMainRight = XROriginRig.transform.Find("Camera Offset/Right Controller").gameObject;
+        controllerA2Left = XROriginRig.transform.Find("Camera Offset/Left Controller A2").gameObject;
+        controllerA2Right = XROriginRig.transform.Find("Camera Offset/Right Controller A2").gameObject;
+        controllerSkiLeft = XROriginRig.transform.Find("Camera Offset/Left Controller Ski").gameObject;
+        controllerSkiRight = XROriginRig.transform.Find("Camera Offset/Right Controller Ski").gameObject;
 
         HUD_UnderWater = XROriginRig.transform.Find("Camera Offset/Main Camera/Canvas_HUD").gameObject;
 
@@ -105,9 +114,12 @@ public class GamePublicV2 : MonoBehaviour {
         if (set == ControllerName.Main) {
             left = controllerMainLeft;
             right = controllerMainRight;
-        } else if (set == ControllerName.A2) {
+        } else if (set == ControllerName.A2_UnderWater) {
             left = controllerA2Left;
             right = controllerA2Right;
+        } else if (set == ControllerName.Ski) {
+            left = controllerSkiLeft;
+            right = controllerSkiRight;
         }
 
         left?.SetActive(true);
@@ -141,6 +153,7 @@ public class GamePublicV2 : MonoBehaviour {
 
         //initialize new mode
         if (moveMode == MoveMode.Ground) {
+            moveProvider.enabled = true;
             if (checkVRActive()) {
                 playerRb.isKinematic = true;
                 playerRb.useGravity = true;
@@ -161,6 +174,7 @@ public class GamePublicV2 : MonoBehaviour {
             playerRb.useGravity = false;   // 水下无重力
             playerRb.constraints = RigidbodyConstraints.None; // 自由转动
             seaScooter.SetActive(true);
+            moveProvider.enabled = false; //不使用系统提供的移动功能
             if (charController != null)
                 charController.enabled = true;
         }
