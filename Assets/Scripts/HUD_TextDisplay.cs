@@ -46,11 +46,10 @@ public class HUD_TextDisplay : MonoBehaviour {
     void Awake() {
         if (XRGeneralSettings.Instance != null && XRGeneralSettings.Instance.Manager.activeLoader != null) {
             isPc = false;
-            //("running on VR");
+            Debug.Log("running on VR");
         } else {
             isPc = true;
-            //Debug.Log("running on PC");
-            //Debug.Log("running on PC");
+            Debug.Log("running on PC");
         }
         if (isPc) {
             Vector3 t = transform.localPosition;
@@ -64,17 +63,12 @@ public class HUD_TextDisplay : MonoBehaviour {
     void Start() {
         HUD_textMessage = UnityEngine.Object.FindFirstObjectByType<HUD_TextMessage>();
         waypointController = UnityEngine.Object.FindFirstObjectByType<HUD_WayPoint>();
+        xButtonAction.action.performed += ctx => ToggleFollow();
+        fKey.action.performed += ctx => ToggleFollow();
         ToggleFollow();
     }
 
-    void OnEnable()
-    {
-        xButtonAction.action.performed += ctx => ToggleFollow();
-        fKey.action.performed += ctx => ToggleFollow();
-    }
-
-    private void OnDisable()
-    {
+    private void OnDestroy() {
         // 取消监听事件，防止内存泄漏
         xButtonAction.action.performed -= ctx => ToggleFollow();
         fKey.action.performed -= ctx => ToggleFollow();
