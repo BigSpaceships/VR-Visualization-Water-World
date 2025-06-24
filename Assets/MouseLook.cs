@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class MouseLook : MonoBehaviour {
@@ -8,14 +8,14 @@ public class MouseLook : MonoBehaviour {
     private float xRotation = 0f;
     private InputAction lookAction;
     private InputAction rightClickAction;
-    private bool isLooking = false; // �����Ƿ�����ӽ���ת�ı�־
+    private bool isLooking = false; // 控制是否进行视角旋转的标志
 
-    private void OnEnable() {
-        // ��ȡ PlayerInput ������ҵ� "Look" Action
+    private void Awake() {
+        // 获取 PlayerInput 组件并找到 "Look" Action
         var playerInput = GetComponent<PlayerInput>();
         lookAction = playerInput.actions["Look"];
 
-        // �����¼�
+        // 订阅事件
         lookAction.performed += OnLookPerformed;
         lookAction.canceled += OnLookCanceled;
 
@@ -24,9 +24,8 @@ public class MouseLook : MonoBehaviour {
         rightClickAction.canceled += _ => isLooking = false;
     }
 
-    private void OnDisable()
-    {
-        // ȡ�������¼�
+    private void OnDestroy() {
+        // 取消订阅事件
         lookAction.performed -= OnLookPerformed;
         lookAction.canceled -= OnLookCanceled;
 
@@ -54,9 +53,9 @@ public class MouseLook : MonoBehaviour {
     }
 
     private void OnLookCanceled(InputAction.CallbackContext context) {
-        // ����ƶ�ȡ��ʱ�Ĵ������������Ҫ��
+        // 鼠标移动取消时的处理（如果有需要）
     }
 
-    // ע�͵� Update ��������Ϊ��������ͨ���¼����д���
+    // 注释掉 Update 函数，因为我们现在通过事件进行处理
     // void Update() { ... }
 }
