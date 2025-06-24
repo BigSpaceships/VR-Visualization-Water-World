@@ -8,6 +8,8 @@ using UnityEngine.XR.Interaction.Toolkit.Inputs;
 
 public class Manager : MonoBehaviour
 {
+    public static Manager instance;
+    
     CanvasGroup resortCanvasGroup;
     public static CanvasGroup skiCanvasGroup;
     //[SerializeField] GameObject devSim;
@@ -26,6 +28,7 @@ public class Manager : MonoBehaviour
     Quaternion initialRot;
     void Awake()
     {
+        instance = this;
         audioSource = GetComponent<AudioSource>();
         characterController = resortOrigin.GetComponent<CharacterController>();
         continuousMoveProvider = resortOrigin.GetComponent<ActionBasedContinuousMoveProvider>();
@@ -47,6 +50,10 @@ public class Manager : MonoBehaviour
     {
         if (Mathf.Abs(vector.x - target.x) < threshold && Mathf.Abs(vector.y - target.y) < threshold && Mathf.Abs(vector.z - target.z) < threshold) return true;
         return false;
+    }
+
+    public void Teleport() {
+
     }
 
     public void SkiMode(bool skiing)
