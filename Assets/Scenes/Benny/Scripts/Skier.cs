@@ -126,9 +126,11 @@ public class Skier : MonoBehaviour {
     WaitForSeconds oneSecond = new WaitForSeconds(1);
     public static bool initialized;
 
+    private float playerHeightAdj = -1.1f;
+
     void Awake() {
         myT = transform;
-        rb = Pole.skier = GetComponent<Rigidbody>();
+        rb = Pole.skier = transform.parent.gameObject.GetComponent<Rigidbody>();
         Skis.leftController = Pole.leftController = leftController;
         Skis.rightController = Pole.rightController = rightController;
         Skis.leftSkiController = Pole.leftSkiController = Parachute.leftSkiController = Rope.leftController = leftSkiController = leftController.GetComponent<SkiController>();
@@ -153,7 +155,7 @@ public class Skier : MonoBehaviour {
             leftSkiController.SwitchController(false);
             rightSkiController.SwitchController(false);
         }
-        interactableParent = Parachute.selectedParent = Skis.skiParent = Pole.skiParent = myT.GetChild(0);
+        interactableParent = Parachute.selectedParent = Skis.skiParent = Pole.skiParent = myT.Find("InteractableParent");
         moveAction = moveActionProperty.action;
         turnAction = turnActionProperty.action;
         crouchAction = crouchActionProperty.action;
@@ -182,10 +184,11 @@ public class Skier : MonoBehaviour {
     }
 
     private bool active = false;
-    
+
     public void activeSki() {
-        //camOffset.localPosition = new Vector3(0, 1.7f, 0);
+        camOffset.localPosition = new Vector3(0, 1.7f + playerHeightAdj, 0);
         GamePublicV2.instance.setController(ControllerName.Ski);
+        GamePublicV2.instance.setMoveMode(MoveMode.Ski);
         rightDevice = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
         if (rightDevice.isValid && rightDevice.TryGetHapticCapabilities(out HapticCapabilities capabilities) && capabilities.supportsImpulse) rightHaptics = true;
         else rightHaptics = false;
@@ -215,7 +218,9 @@ public class Skier : MonoBehaviour {
 
         //Input detection
         if (isGrounded) {
-            if (jumpAction.WasPressedThisFrame()) jump = true;
+            if (jumpAction.WasPressedThisFrame()) {
+                jump = true;
+            }
         } else {
             if (leftFlipAction.IsPressed() && attachedSkis > 0 && !paragliding) leftFlip = true;
             if (rightFlipAction.IsPressed() && attachedSkis > 0 && !paragliding) rightFlip = true;
@@ -247,10 +252,10 @@ public class Skier : MonoBehaviour {
         float height = camOffset.localPosition.y;
         if (crouchAction.IsPressed() && (!paragliding || isGrounded)) {
             skiSpeed = baseSkiSpeed + crouchSpeedIncrease;
-            if (height != crouchHeight) height = Mathf.Lerp(height, crouchHeight, Mathf.Clamp01(Time.deltaTime * crouchSpeed));
+            if (height != crouchHeight + playerHeightAdj) height = Mathf.Lerp(height, crouchHeight + playerHeightAdj, Mathf.Clamp01(Time.deltaTime * crouchSpeed));
         } else {
             skiSpeed = baseSkiSpeed;
-            if (height != 1.7f) height = Mathf.Lerp(height, 1.7f, Mathf.Clamp01(Time.deltaTime * crouchSpeed));
+            if (height != 1.7f + playerHeightAdj) height = Mathf.Lerp(height, 1.7f + playerHeightAdj, Mathf.Clamp01(Time.deltaTime * crouchSpeed));
         }
         camOffset.localPosition = new Vector3(0, height, 0);
 
@@ -282,7 +287,7 @@ public class Skier : MonoBehaviour {
     void LateUpdate() {
         //Interactables follow camera rotation
         if (!active) return;
-        interactableParent.rotation = cam.rotation;
+        //interactableParent.rotation = cam.rotation; //!!!
         interactableParent.localRotation = Quaternion.Euler(0, interactableParent.localEulerAngles.y, 0);
     }
 
@@ -312,7 +317,8 @@ public class Skier : MonoBehaviour {
             parachute.SetLocalPositionAndRotation(Vector3.Lerp(pos, targetPos, t), Quaternion.Slerp(qRot, Quaternion.Euler(roll, rot.y, 0), t));
 
             //Is grounded
-            if (Physics.Raycast(myT.position + currentUp * 1.7f, -currentUp, out hit, 1.8f, groundMask)) {
+            if (Physics.Raycast(myT.position, -currentUp, out hit, (1.8f - playerHeightAdj), groundMask)) {
+                Debug.Log("check ground");
                 SwitchClip(bgWindSource, bgSkiWind);
                 //Regular paragliding
                 if (attachedSkis == 0) {

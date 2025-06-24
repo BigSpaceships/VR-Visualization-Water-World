@@ -28,6 +28,8 @@ public class R_Main_Jump : MonoBehaviour {
         jumpButton.action.performed -= ctx => jump();
     }
     void Update() {
+        if (GamePublicV2.instance.moveMode != MoveMode.Ground) return;
+
         // 简单地向下发射射线判断是否着地
         isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance + 0.1f);
 
@@ -41,7 +43,7 @@ public class R_Main_Jump : MonoBehaviour {
     }
 
     void jump() {
-        Debug.Log(isGrounded);
+        if (GamePublicV2.instance.moveMode != MoveMode.Ground) return;
         if (isGrounded) {
             verticalSpeed = jumpForce;
         }

@@ -15,7 +15,6 @@ public class HUD_WayPoint : MonoBehaviour {
     public TextMeshProUGUI distanceText; // 显示目标距离的文字
 
     private Vector2 screenBorder = new Vector2(5, 6);
-    private float HUDCanvasZoom = 80f; //屏幕距离玩家远近产生的缩放系数
 
 
     private void Start() {

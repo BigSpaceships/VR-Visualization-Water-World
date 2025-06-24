@@ -33,6 +33,12 @@ public class GamePublicV2 : MonoBehaviour {
     public bool cameraActive = false;
 
     public GameObject HUD_UnderWater;
+    public GameObject HUD_Ski1;
+    public GameObject HUD_Ski2;
+
+    [SerializeField] public Material skyBoxUnderWater;
+    [SerializeField] public Material skyBoxGround;
+    [SerializeField] public Material skyBoxSki;
 
     private Rigidbody playerRb;
     private CharacterController charController;
@@ -164,6 +170,9 @@ public class GamePublicV2 : MonoBehaviour {
         }
 
         //initialize new mode
+        HUD_UnderWater.SetActive(false);
+        HUD_Ski1.SetActive(false);
+        HUD_Ski2.SetActive(false);
         if (moveMode == MoveMode.Ground) {
             moveProvider.enabled = true;
             if (checkVRActive()) {
@@ -181,7 +190,9 @@ public class GamePublicV2 : MonoBehaviour {
                 seaScooter.SetActive(false);
                 xrOriginCollider.enabled = true;
             }
+            RenderSettings.skybox = skyBoxGround;
         } else if (moveMode == MoveMode.UnderWater) {
+            HUD_UnderWater.SetActive(true);
             playerRb.isKinematic = true;   // 禁用刚体物理
             playerRb.useGravity = false;   // 水下无重力
             playerRb.constraints = RigidbodyConstraints.None; // 自由转动
@@ -189,6 +200,11 @@ public class GamePublicV2 : MonoBehaviour {
             moveProvider.enabled = false; //不使用系统提供的移动功能
             if (charController != null)
                 charController.enabled = true;
+            RenderSettings.skybox = skyBoxUnderWater;
+        } else if (moveMode == MoveMode.Ski) {
+            HUD_Ski1.SetActive(true);
+            HUD_Ski2.SetActive(true);
+            RenderSettings.skybox = skyBoxSki;
         }
 
         this.moveMode = moveMode;

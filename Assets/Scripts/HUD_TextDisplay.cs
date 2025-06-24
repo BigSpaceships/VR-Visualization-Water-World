@@ -37,7 +37,7 @@ public class HUD_TextDisplay : MonoBehaviour {
     private float airConsumptionRate = 20.0f; // 标准消耗 (L/min, 参考普通潜水员)
     private bool oxygen0Played = false;  //play once
     private bool oxygen30Played = false; //play once
-    private bool oxygen60Played = false; //play once
+    //private bool oxygen60Played = false; //play once
     private HUD_WayPoint waypointController;
 
     private bool isFollowing = false; // is following left controller?
@@ -75,6 +75,7 @@ public class HUD_TextDisplay : MonoBehaviour {
     }
 
     private void ToggleFollow() {
+        if (GamePublicV2.instance.moveMode != MoveMode.UnderWater) return;
         if (isFollowing) {
             // 取消跟随，恢复原父对象
             transform.SetParent(originalParent, false);
@@ -96,6 +97,7 @@ public class HUD_TextDisplay : MonoBehaviour {
 
     void Update() {
         // 模拟氧气消耗
+        if (GamePublicV2.instance.moveMode != MoveMode.UnderWater) return;
         if (oxygenText != null && pressureText != null && timeRemainingText != null) {
             // 计算水深压力 (每 10m 额外 +1 bar)
             float depth = -Camera.main.transform.position.y + baseDepth;
