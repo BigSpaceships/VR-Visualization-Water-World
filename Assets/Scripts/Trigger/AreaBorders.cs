@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,9 +8,9 @@ public class AreaLoaderController : MonoBehaviour {
     public float defaultTriggerDistance = 40f;
 
     private enum AreaState {
-        Unknown,   // ��ʼ��״̬
-        Inside,    // ��������
-        Outside    // ��������
+        Unknown,   // 初始化状态
+        Inside,    // 在区域内
+        Outside    // 在区域外
     }
 
     private class AreaData {
@@ -27,7 +27,7 @@ public class AreaLoaderController : MonoBehaviour {
             areaData.areaTransform = area;
 
             foreach (Transform point in area) {
-                Vector2 pos = new Vector2(point.position.x, point.position.z); // ʹ�� XZ ƽ��
+                Vector2 pos = new Vector2(point.position.x, point.position.z); // 使用 XZ 平面
                 areaData.points.Add(pos);
             }
 
@@ -42,7 +42,7 @@ public class AreaLoaderController : MonoBehaviour {
             float triggerDist = defaultTriggerDistance;
             ObjectData data = area.areaTransform.GetComponent<ObjectData>();
             if (data != null)
-                triggerDist = data.GetFloat("TriggerDistance", defaultTriggerDistance); // ��δ��������Ĭ��
+                triggerDist = data.GetFloat("TriggerDistance", defaultTriggerDistance); // 若未设置则用默认
 
             bool inside = IsPointInPolygon(playerPos, area.points); 
             float distance = DistanceToPolygon(playerPos, area.points);
@@ -104,48 +104,48 @@ public class AreaLoaderController : MonoBehaviour {
 
     private IEnumerator LoadScene(string sceneName) {
         var scene = SceneManager.GetSceneByName(sceneName);
-        if (scene.isLoaded || SceneManager.GetSceneByName("Skiing").isLoaded) {
+        if (scene.isLoaded) {
             yield break;
         }
 
-        // �����³���
+        // 加载新场景
         AsyncOperation loadOp = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         while (!loadOp.isDone)
             yield return null;
 
-        yield return null; // �ȴ�һ֡���ȶ�״̬
+        yield return null; // 等待一帧以稳定状态
     }
 
     private IEnumerator UnloadScene(string sceneName) {
-        // 1. ��鳡���Ƿ��� Build Settings ��
+        // 1. 检查场景是否在 Build Settings 里
         Scene scene = SceneManager.GetSceneByName(sceneName);
         if (!scene.IsValid()) {
-            //Debug.LogWarning($"[{nameof(UnloadScene)}] Scene ��{sceneName}�� is not in Build Settings.");
+            Debug.LogWarning($"[{nameof(UnloadScene)}] Scene “{sceneName}” is not in Build Settings.");
             yield break;
         }
 
-        // 2. ��鳡���Ƿ�ǰ�Ѽ���
+        // 2. 检查场景是否当前已加载
         if (!scene.isLoaded) {
-            //Debug.LogWarning($"[{nameof(UnloadScene)}] Scene ��{sceneName}�� is not loaded.");
+            Debug.LogWarning($"[{nameof(UnloadScene)}] Scene “{sceneName}” is not loaded.");
             yield break;
         }
 
-        // 3. �첽ж��
+        // 3. 异步卸载
         AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(sceneName);
         if (unloadOp == null) {
-            //Debug.LogError($"[{nameof(UnloadScene)}] Failed to start unloading scene ��{sceneName}��.");
+            Debug.LogError($"[{nameof(UnloadScene)}] Failed to start unloading scene “{sceneName}”.");
             yield break;
         }
 
-        // 4. �ȴ�ж�����
+        // 4. 等待卸载完成
         while (!unloadOp.isDone)
             yield return null;
 
-        // 5. ����ѡ���ٵ�һ֡��ȷ��״̬�ȶ�
+        // 5. （可选）再等一帧以确保状态稳定
         yield return null;
     }
 
-    // ����㵽����αߵ��������
+    // 计算点到多边形边的最近距离
     float DistanceToPolygon(Vector2 point, List<Vector2> polygon) {
         float minDist = float.MaxValue;
         for (int i = 0; i < polygon.Count; i++) {
