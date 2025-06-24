@@ -1,26 +1,26 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class KeyboardMovement : MonoBehaviour {
     private PlayerInput playerInput;
-    public float moveSpeed = 5f; // ����ƶ��ٶ�
-    private bool moveForward = false; // �����ƶ��Ĳ���ֵ
+    public float moveSpeed = 5f; // 玩家移动速度
+    private bool moveForward = false; // 控制移动的布尔值
     private bool moveBackward = false;
     private bool moveLeft = false;
     private bool moveRight = false;
 
-    private void OnEnable() {
+    private void Awake() {
         playerInput = GetComponent<PlayerInput>();
 
-        // ��ȡMoveForward Action������
+        // 获取MoveForward Action的引用
         InputAction moveForwardAction = playerInput.actions["MoveForward"];
         InputAction moveBackwardAction = playerInput.actions["MoveBackward"];
         InputAction moveLeftAction = playerInput.actions["MoveLeft"];
         InputAction moveRightAction = playerInput.actions["MoveRight"];
 
-        // ע���¼�
+        // 注册事件
         moveForwardAction.performed += OnMoveForward;
         moveForwardAction.canceled += OnMoveForward;
         moveBackwardAction.performed += OnMoveBackward;
@@ -31,14 +31,14 @@ public class KeyboardMovement : MonoBehaviour {
         moveRightAction.canceled += OnMoveRight;
     }
 
-    private void OnDisable() {
-        // ��ȡMoveForward Action������
+    private void OnDestroy() {
+        // 获取MoveForward Action的引用
         InputAction moveForwardAction = playerInput.actions["MoveForward"];
         InputAction moveBackwardAction = playerInput.actions["MoveBackward"];
         InputAction moveLeftAction = playerInput.actions["MoveLeft"];
         InputAction moveRightAction = playerInput.actions["MoveRight"];
 
-        // ע���¼�
+        // 注销事件
         moveForwardAction.performed -= OnMoveForward;
         moveForwardAction.canceled -= OnMoveForward;
         moveBackwardAction.performed -= OnMoveBackward;
@@ -49,29 +49,24 @@ public class KeyboardMovement : MonoBehaviour {
         moveRightAction.canceled -= OnMoveRight;
     }
 
-    private void Update()
-    {
+    private void Update() {
         Vector3 moveDirection = Vector3.zero;
 
-        // ���ݲ���ֵȷ���ƶ�����
-        if (moveForward)
-        {
+        // 根据布尔值确定移动方向
+        if (moveForward) {
             moveDirection += transform.forward;
         }
-        if (moveBackward)
-        {
+        if (moveBackward) {
             moveDirection -= transform.forward;
         }
-        if (moveLeft)
-        {
+        if (moveLeft) {
             moveDirection -= transform.right;
         }
-        if (moveRight)
-        {
+        if (moveRight) {
             moveDirection += transform.right;
         }
 
-        // Ӧ���ƶ�
+        // 应用移动
         transform.position += moveDirection.normalized * moveSpeed * Time.deltaTime;
     }
 
