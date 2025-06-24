@@ -63,18 +63,14 @@ public class AdventuringCamera : MonoBehaviour {
         zoom = displayCamera.fieldOfView;
 
         //xrInteractionManager.SelectEnter(startedAttachment, GetComponent<XRGrabInteractable>());
+
+        rightXButtonAction.action.performed += ctx => ToggleCamera();
         
         ToggleCamera();
         ToggleCamera();
     }
 
-    void OnEnable()
-    {
-        rightXButtonAction.action.performed += ctx => ToggleCamera();
-    }
-
-    void OnDisable()
-    {
+    private void OnDestroy() {
         // ȡ�������¼�����ֹ�ڴ�й©
         rightXButtonAction.action.performed -= ctx => ToggleCamera();
     }
@@ -158,7 +154,6 @@ public class AdventuringCamera : MonoBehaviour {
     }
 
     private void TakePictureAction(InputAction.CallbackContext obj) {
-        if (!gameObject.activeInHierarchy) return;
         StartCoroutine(TakePicture());
     }
 
