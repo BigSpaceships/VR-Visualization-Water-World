@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class Skier : MonoBehaviour
-{
+public class Skier : MonoBehaviour {
     [Header("Skier")]
     [SerializeField] Transform camOffset;
     [SerializeField] Transform cam;
@@ -126,8 +126,7 @@ public class Skier : MonoBehaviour
     WaitForSeconds oneSecond = new WaitForSeconds(1);
     public static bool initialized;
 
-    void Awake()
-    {
+    void Awake() {
         myT = transform;
         rb = Pole.skier = GetComponent<Rigidbody>();
         Skis.leftController = Pole.leftController = leftController;
@@ -140,17 +139,14 @@ public class Skier : MonoBehaviour
         Transform rightRay = rightController.GetChild(2);
         Parachute.rightRay = rightRay.GetComponent<XRRayInteractor>();
         Parachute.rightRayVisual = rightRay.GetComponent<XRInteractorLineVisual>();
-        if (hands)
-        {
+        if (hands) {
             Rope.leftTarget = leftHandRopeTarget;
             Rope.rightTarget = rightHandRopeTarget;
             Pole.leftAttach = new Vector3(-0.035f, -1.28f, -0.03f);
             Pole.rightAttach = new Vector3(0.035f, -1.28f, -0.03f);
             leftSkiController.SwitchController(true);
             rightSkiController.SwitchController(true);
-        }
-        else
-        {
+        } else {
             Rope.leftTarget = leftControllerRopeTarget;
             Rope.rightTarget = rightControllerRopeTarget;
             Pole.rightAttach = Pole.leftAttach = new Vector3(0, -1.3f, 0.05f);
@@ -185,9 +181,11 @@ public class Skier : MonoBehaviour
         altText.SetText("Altitude: " + (initialPos.y * 3.281f).ToString("0") + "ft");
     }
 
-    void Start()
-    {
-        camOffset.localPosition = new Vector3(0, 1.7f, 0);
+    private bool active = false;
+    
+    public void activeSki() {
+        //camOffset.localPosition = new Vector3(0, 1.7f, 0);
+        GamePublicV2.instance.setController(ControllerName.Ski);
         rightDevice = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
         if (rightDevice.isValid && rightDevice.TryGetHapticCapabilities(out HapticCapabilities capabilities) && capabilities.supportsImpulse) rightHaptics = true;
         else rightHaptics = false;
@@ -200,26 +198,25 @@ public class Skier : MonoBehaviour
         Pole.rightHaptics = rightHaptics;
         StartCoroutine(CalculateVelocity());
         StartCoroutine(Reload(0.5f));
-    }
-
-    void OnEnable()
-    {
         myT.SetPositionAndRotation(initialPos, initialRot);
         turnAction.Enable();
+        active = true;
     }
 
-    void Update()
-    {
-        if (SceneManager.sceneCount > 1) for (int i = 0; i < SceneManager.loadedSceneCount; i++) if (SceneManager.GetSceneAt(i).name != "Skiing") SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i));
+
+    void OnEnable() {
+        if (!active) return;
+    }
+
+    void Update() {
+        if (!active) return;
+        //if (SceneManager.sceneCount > 1) for (int i = 0; i < SceneManager.loadedSceneCount; i++) if (SceneManager.GetSceneAt(i).name != "Skiing") SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i));
         if (!initialized) return;
 
         //Input detection
-        if (isGrounded)
-        {
+        if (isGrounded) {
             if (jumpAction.WasPressedThisFrame()) jump = true;
-        }
-        else
-        {
+        } else {
             if (leftFlipAction.IsPressed() && attachedSkis > 0 && !paragliding) leftFlip = true;
             if (rightFlipAction.IsPressed() && attachedSkis > 0 && !paragliding) rightFlip = true;
         }
@@ -227,20 +224,16 @@ public class Skier : MonoBehaviour
         if (rightFlipAction.WasReleasedThisFrame()) rightFlip = false;
 
         if (resetAction.WasPressedThisFrame()) StartCoroutine(Reload(0.5f));
-        if (toggleController.WasPressedThisFrame())
-        {
+        if (toggleController.WasPressedThisFrame()) {
             hands = !hands;
-            if (hands)
-            {
+            if (hands) {
                 Rope.leftTarget = leftHandRopeTarget;
                 Rope.rightTarget = rightHandRopeTarget;
                 Pole.rightAttach = new Vector3(0.035f, -1.28f, -0.03f);
                 Pole.leftAttach = new Vector3(-0.035f, -1.28f, -0.03f);
                 leftSkiController.SwitchController(true, paragliding);
                 rightSkiController.SwitchController(true, paragliding);
-            }
-            else
-            {
+            } else {
                 Rope.leftTarget = leftControllerRopeTarget;
                 Rope.rightTarget = rightControllerRopeTarget;
                 Pole.rightAttach = Pole.leftAttach = new Vector3(0, -1.3f, 0.05f);
@@ -252,30 +245,24 @@ public class Skier : MonoBehaviour
 
         //Crouch mechanics
         float height = camOffset.localPosition.y;
-        if (crouchAction.IsPressed() && (!paragliding || isGrounded))
-        {
+        if (crouchAction.IsPressed() && (!paragliding || isGrounded)) {
             skiSpeed = baseSkiSpeed + crouchSpeedIncrease;
             if (height != crouchHeight) height = Mathf.Lerp(height, crouchHeight, Mathf.Clamp01(Time.deltaTime * crouchSpeed));
-        }
-        else
-        {
+        } else {
             skiSpeed = baseSkiSpeed;
             if (height != 1.7f) height = Mathf.Lerp(height, 1.7f, Mathf.Clamp01(Time.deltaTime * crouchSpeed));
         }
         camOffset.localPosition = new Vector3(0, height, 0);
 
         Vector3 pos = myT.position;
-        if (Mathf.Abs(pos.x) >= 1500 || Mathf.Abs(pos.z) >= 1500)
-        {
+        if (Mathf.Abs(pos.x) >= 1500 || Mathf.Abs(pos.z) >= 1500) {
             StartCoroutine(Reload(0.5f));
             return;
         }
-        if (reload == null)
-        {
+        if (reload == null) {
             if (Mathf.Abs(pos.y) >= 1500) reload = StartCoroutine(ReloadCanvas(0.5f));
             else if (paragliding && passedRings == 16) reload = StartCoroutine(ReloadCanvas(0.5f, true));
-            else
-            {
+            else {
                 float posMag = new Vector2(pos.x, pos.z).sqrMagnitude;
                 if (posMag >= 1400000) reload = StartCoroutine(ReloadCanvas(0.5f));
             }
@@ -283,8 +270,7 @@ public class Skier : MonoBehaviour
 
         //UI
         seconds += Time.deltaTime;
-        if (Mathf.Round(seconds) >= 60)
-        {
+        if (Mathf.Round(seconds) >= 60) {
             seconds = 0;
             minutes++;
         }
@@ -293,15 +279,15 @@ public class Skier : MonoBehaviour
         speedText.SetText("Speed: " + (rb.velocity.magnitude * 3.281).ToString("0.0") + "ft/s");
     }
 
-    void LateUpdate()
-    {
+    void LateUpdate() {
         //Interactables follow camera rotation
+        if (!active) return;
         interactableParent.rotation = cam.rotation;
         interactableParent.localRotation = Quaternion.Euler(0, interactableParent.localEulerAngles.y, 0);
     }
 
-    void FixedUpdate()
-    {
+    void FixedUpdate() {
+        if (!active) return;
         if (!initialized) return;
 
         //Movement input
@@ -311,8 +297,7 @@ public class Skier : MonoBehaviour
         RaycastHit hit;
 
         //Paragliding mechanics
-        if (paragliding)
-        {
+        if (paragliding) {
             //Parachute adjustment
             Vector3 leftPos = interactableParent.InverseTransformPoint(leftController.position);
             Vector3 rightPos = interactableParent.InverseTransformPoint(rightController.position);
@@ -327,17 +312,13 @@ public class Skier : MonoBehaviour
             parachute.SetLocalPositionAndRotation(Vector3.Lerp(pos, targetPos, t), Quaternion.Slerp(qRot, Quaternion.Euler(roll, rot.y, 0), t));
 
             //Is grounded
-            if (Physics.Raycast(myT.position + currentUp * 1.7f, -currentUp, out hit, 1.8f, groundMask))
-            {
+            if (Physics.Raycast(myT.position + currentUp * 1.7f, -currentUp, out hit, 1.8f, groundMask)) {
                 SwitchClip(bgWindSource, bgSkiWind);
                 //Regular paragliding
-                if (attachedSkis == 0)
-                {
+                if (attachedSkis == 0) {
                     if (windSource.isPlaying) windSource.Pause();
-                    if (hit.transform.gameObject.layer == 9)
-                    {
-                        if (!isGrounded)
-                        {
+                    if (hit.transform.gameObject.layer == 9) {
+                        if (!isGrounded) {
                             isGrounded = rb.useGravity = rb.freezeRotation = true;
                             rb.drag = 3;
                             effectSource.PlayOneShot(snowLand);
@@ -345,11 +326,8 @@ public class Skier : MonoBehaviour
                             if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.75f, 0.2f);
                         }
                         SwitchWalkSource(snowWalk);
-                    }
-                    else
-                    {
-                        if (!isGrounded)
-                        {
+                    } else {
+                        if (!isGrounded) {
                             isGrounded = rb.useGravity = rb.freezeRotation = true;
                             rb.drag = 3;
                             effectSource.PlayOneShot(solidLand);
@@ -363,17 +341,13 @@ public class Skier : MonoBehaviour
                     rb.AddForce(interactableParent.TransformDirection(moveInput.x, 0, moveInput.y).normalized * normalMoveForce, ForceMode.VelocityChange);
                 }
                 //Parachute skiing (speedrunning)
-                else
-                {
+                else {
                     int layer = hit.transform.gameObject.layer;
-                    if (layer == 9)
-                    {
-                        if (!isGrounded)
-                        {
+                    if (layer == 9) {
+                        if (!isGrounded) {
                             isGrounded = true;
                             rb.useGravity = rb.freezeRotation = false;
-                            if (isJumping)
-                            {
+                            if (isJumping) {
                                 effectSource.PlayOneShot(snowLand);
                                 if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.2f);
                                 if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.75f, 0.2f);
@@ -383,15 +357,11 @@ public class Skier : MonoBehaviour
                         if (!musicSource.isPlaying) musicSource.PlayDelayed(1);
                         SwitchWalkSource(skiing);
                         SwitchClip(windSource, skiWind);
-                    }
-                    else
-                    {
-                        if (!isGrounded)
-                        {
+                    } else {
+                        if (!isGrounded) {
                             isGrounded = true;
                             rb.useGravity = rb.freezeRotation = false;
-                            if (isJumping)
-                            {
+                            if (isJumping) {
                                 effectSource.PlayOneShot(solidLand);
                                 if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.2f);
                                 if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.75f, 0.2f);
@@ -407,8 +377,7 @@ public class Skier : MonoBehaviour
                     Vector3 groundUp = hit.normal;
                     Vector3 rotationAxis = Vector3.Cross(currentUp, groundUp);
                     rb.AddTorque(rotationAxis.normalized * Vector3.Angle(currentUp, groundUp) * alignStrength);
-                    if (layer != 14)
-                    {
+                    if (layer != 14) {
                         //Velocity control based on direction
                         Vector3 downhill = Vector3.ProjectOnPlane(Vector3.down, groundUp).normalized;
                         Vector3 skierDirection = Vector3.ProjectOnPlane(interactableParent.forward, groundUp).normalized;
@@ -416,13 +385,11 @@ public class Skier : MonoBehaviour
                         rb.AddForce(skierDirection * skiSpeed * Mathf.Clamp01(alignment + 1), ForceMode.Acceleration);
                         float targetDrag = Mathf.Lerp(minDrag, maxDrag, 1 - Mathf.Clamp01(Mathf.Abs(alignment) * 1.5f));
                         rb.drag = Mathf.Lerp(rb.drag, targetDrag, perpDeceleration);
-                    }
-                    else rb.drag = 3;
+                    } else rb.drag = 3;
                     rb.AddForce(interactableParent.TransformDirection(moveInput.x * xMoveForce, 0, moveInput.y * zMoveForce), ForceMode.Acceleration);
                     rb.AddTorque(interactableParent.TransformDirection(0, turnInput.x, 0) * groundTurnForce, ForceMode.Acceleration);
                 }
-                if (jump)
-                {
+                if (jump) {
                     if (rb.freezeRotation) rb.freezeRotation = false;
                     rb.AddForce(interactableParent.up * paraglideJumpForce, ForceMode.VelocityChange);
                     StartCoroutine(Updraft(3000, interactableParent.TransformDirection(0, 1, -1).normalized));
@@ -432,24 +399,18 @@ public class Skier : MonoBehaviour
                 }
             }
             //Is tilted on ground
-            else if (colliding)
-            {
+            else if (colliding) {
                 SwitchClip(bgWindSource, bgSkiWind);
-                if (attachedSkis > 0)
-                {
-                    if (rb.useGravity)
-                    {
+                if (attachedSkis > 0) {
+                    if (rb.useGravity) {
                         rb.useGravity = rb.freezeRotation = false;
                         rb.drag = minDrag;
                     }
                     rb.AddForce(Vector3.down * skiGravity);
                     rb.AddForce(interactableParent.TransformDirection(moveInput.x * xMoveForce, 0, moveInput.y * zMoveForce), ForceMode.Acceleration);
                     rb.AddTorque(interactableParent.TransformDirection(-turnInput.y, turnInput.x, 0).normalized * groundTurnForce, ForceMode.Acceleration);
-                }
-                else
-                {
-                    if (!rb.useGravity)
-                    {
+                } else {
+                    if (!rb.useGravity) {
                         rb.useGravity = rb.freezeRotation = true;
                         rb.drag = 3;
                     }
@@ -457,11 +418,9 @@ public class Skier : MonoBehaviour
                 if (jump) jump = false;
             }
             //Is in air
-            else
-            {
+            else {
                 if (jump) jump = false;
-                if (isGrounded)
-                {
+                if (isGrounded) {
                     isGrounded = rb.useGravity = rb.freezeRotation = false;
                     rb.drag = 5;
                     if (walkSource.isPlaying) walkSource.Pause();
@@ -482,8 +441,7 @@ public class Skier : MonoBehaviour
                 float startValue = rot.x;
                 if (startValue > 180) startValue -= 360;
                 rb.AddTorque(-interactableParent.up * Mathf.Lerp(startValue, roll, t) * paraglideTurnForce, ForceMode.Acceleration);
-                if (leftSpeed > 1 && rightSpeed > 1 && Vector3.Dot(leftVel.normalized, interactableParent.up) < -0.7f && Vector3.Dot(rightVel.normalized, interactableParent.up) < -0.7f)
-                {
+                if (leftSpeed > 1 && rightSpeed > 1 && Vector3.Dot(leftVel.normalized, interactableParent.up) < -0.7f && Vector3.Dot(rightVel.normalized, interactableParent.up) < -0.7f) {
                     rb.AddForce(interactableParent.up * (leftSpeed + rightSpeed) * 40, ForceMode.Acceleration);
                     effectSource.PlayOneShot(updraftSound, 0.3f);
                 }
@@ -494,29 +452,23 @@ public class Skier : MonoBehaviour
         }
 
         //No skis
-        if (attachedSkis == 0)
-        {
-            if (!rb.freezeRotation)
-            {
+        if (attachedSkis == 0) {
+            if (!rb.freezeRotation) {
                 rb.freezeRotation = rb.useGravity = true;
                 rb.drag = minDrag;
             }
             rb.AddForce(interactableParent.TransformDirection(moveInput.x, 0, moveInput.y).normalized * normalMoveForce, ForceMode.VelocityChange);
             if (windSource.isPlaying) windSource.Pause();
             SwitchClip(bgWindSource, bgSkiWind);
-            if (Physics.Raycast(myT.position + currentUp * 1.7f, -currentUp, out hit, 1.75f, groundMask) && colliding)
-            {
+            if (Physics.Raycast(myT.position + currentUp * 1.7f, -currentUp, out hit, 1.75f, groundMask) && colliding) {
                 Quaternion rot = myT.rotation;
                 myT.rotation = Quaternion.Slerp(rot, rot * Quaternion.Euler(0, turnInput.x * normalTurnForce, 0), Time.fixedDeltaTime);
 
-                if (hit.transform.gameObject.layer == 9)
-                {
-                    if (!isGrounded)
-                    {
+                if (hit.transform.gameObject.layer == 9) {
+                    if (!isGrounded) {
                         isGrounded = true;
                         if (rb.drag == minDrag) rb.drag = 3;
-                        if (isJumping)
-                        {
+                        if (isJumping) {
                             effectSource.PlayOneShot(snowLand);
                             if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.2f);
                             if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.75f, 0.2f);
@@ -524,15 +476,11 @@ public class Skier : MonoBehaviour
                         }
                     }
                     SwitchWalkSource(snowWalk);
-                }
-                else
-                {
-                    if (!isGrounded)
-                    {
+                } else {
+                    if (!isGrounded) {
                         isGrounded = true;
                         if (rb.drag == minDrag) rb.drag = 3;
-                        if (isJumping)
-                        {
+                        if (isJumping) {
                             effectSource.PlayOneShot(solidLand);
                             if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.2f);
                             if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.75f, 0.2f);
@@ -541,16 +489,13 @@ public class Skier : MonoBehaviour
                     }
                     SwitchWalkSource(solidWalk);
                 }
-                if (jump)
-                {
+                if (jump) {
                     rb.AddForce(interactableParent.up * normalJumpForce, ForceMode.VelocityChange);
                     jump = false;
                     isJumping = true;
                 }
-            }
-            else if (colliding && jump) jump = false;
-            else
-            {
+            } else if (colliding && jump) jump = false;
+            else {
                 isGrounded = false;
                 if (jump) jump = false;
                 if (walkSource.isPlaying) walkSource.Pause();
@@ -563,16 +508,12 @@ public class Skier : MonoBehaviour
         //Attached skis
         rb.AddForce(Vector3.down * skiGravity);
         SwitchClip(bgWindSource, bgSkiWind);
-        if (Physics.Raycast(myT.position + currentUp * 1.7f, -currentUp, out hit, 1.9f, groundMask))
-        {
+        if (Physics.Raycast(myT.position + currentUp * 1.7f, -currentUp, out hit, 1.9f, groundMask)) {
             int layer = hit.transform.gameObject.layer;
-            if (layer == 9)
-            {
-                if (!isGrounded)
-                {
+            if (layer == 9) {
+                if (!isGrounded) {
                     isGrounded = true;
-                    if (isJumping)
-                    {
+                    if (isJumping) {
                         effectSource.PlayOneShot(snowLand);
                         if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.2f);
                         if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.75f, 0.2f);
@@ -582,14 +523,10 @@ public class Skier : MonoBehaviour
                 if (!musicSource.isPlaying) musicSource.PlayDelayed(1);
                 SwitchWalkSource(skiing);
                 SwitchClip(windSource, skiWind);
-            }
-            else
-            {
-                if (!isGrounded)
-                {
+            } else {
+                if (!isGrounded) {
                     isGrounded = true;
-                    if (isJumping)
-                    {
+                    if (isJumping) {
                         effectSource.PlayOneShot(solidLand);
                         if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.2f);
                         if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.75f, 0.2f);
@@ -604,8 +541,7 @@ public class Skier : MonoBehaviour
             Vector3 groundUp = hit.normal;
             Vector3 rotationAxis = Vector3.Cross(currentUp, groundUp);
             rb.AddTorque(rotationAxis.normalized * Vector3.Angle(currentUp, groundUp) * alignStrength);
-            if (layer != 14)
-            {
+            if (layer != 14) {
                 //Velocity control based on direction
                 Vector3 downhill = Vector3.ProjectOnPlane(Vector3.down, groundUp).normalized;
                 Vector3 skierDirection = Vector3.ProjectOnPlane(interactableParent.forward, groundUp).normalized;
@@ -613,12 +549,10 @@ public class Skier : MonoBehaviour
                 rb.AddForce(skierDirection * skiSpeed * Mathf.Clamp01(alignment + 1), ForceMode.Acceleration);
                 float targetDrag = Mathf.Lerp(minDrag, maxDrag, 1 - Mathf.Clamp01(Mathf.Abs(alignment) * 1.5f));
                 rb.drag = Mathf.Lerp(rb.drag, targetDrag, perpDeceleration);
-            }
-            else rb.drag = 3;
+            } else rb.drag = 3;
             rb.AddTorque(interactableParent.TransformDirection(0, turnInput.x, 0).normalized * (groundTurnForce + crouchSpeedIncrease), ForceMode.Acceleration);
             rb.AddForce(interactableParent.TransformDirection(moveInput.x * (xMoveForce + crouchSpeedIncrease), 0, moveInput.y * (zMoveForce + crouchSpeedIncrease)), ForceMode.Acceleration);
-            if (jump)
-            {
+            if (jump) {
                 rb.AddForce(interactableParent.up * jumpForce, ForceMode.VelocityChange);
                 effectSource.PlayOneShot(updraftSound, 0.3f);
                 isJumping = true;
@@ -626,21 +560,16 @@ public class Skier : MonoBehaviour
             }
             if (rightFlip) rightFlip = false;
             if (leftFlip) leftFlip = false;
-        }
-        else if (colliding)
-        {
+        } else if (colliding) {
             //Is tilted on ground
             rb.AddTorque(interactableParent.TransformDirection(-turnInput.y, turnInput.x, 0).normalized * (groundTurnForce + crouchSpeedIncrease), ForceMode.Acceleration);
             rb.AddForce(interactableParent.TransformDirection(moveInput.x * (xMoveForce + crouchSpeedIncrease), 0, moveInput.y * (zMoveForce + crouchSpeedIncrease)), ForceMode.Acceleration);
             if (jump) jump = false;
             if (rightFlip) rightFlip = false;
             if (leftFlip) leftFlip = false;
-        }
-        else
-        {
+        } else {
             //Is in air
-            if (isGrounded)
-            {
+            if (isGrounded) {
                 isGrounded = false;
                 if (isJumping && walkSource.isPlaying) walkSource.Pause();
             }
@@ -653,23 +582,19 @@ public class Skier : MonoBehaviour
         }
     }
 
-    IEnumerator Updraft(float updraftForce, Vector3 direction)
-    {
+    IEnumerator Updraft(float updraftForce, Vector3 direction) {
         yield return updraftWait;
         rb.AddForce(direction * updraftForce, ForceMode.Acceleration);
         effectSource.PlayOneShot(updraftSound, 0.7f);
     }
 
-    IEnumerator CalculateVelocity()
-    {
+    IEnumerator CalculateVelocity() {
         while (!initialized) yield return null;
         SwitchClip(bgWindSource, bgSkiWind);
 
         //Calculate controller velocity for paragliding
-        while (true)
-        {
-            if (paragliding && !isGrounded && !colliding)
-            {
+        while (true) {
+            if (paragliding && !isGrounded && !colliding) {
                 Vector3 leftCurrentPos = leftController.localPosition;
                 leftVel = (leftCurrentPos - leftLastPos) * 10;
                 leftSpeed = leftVel.sqrMagnitude;
@@ -679,36 +604,33 @@ public class Skier : MonoBehaviour
                 leftLastPos = leftCurrentPos;
                 rightLastPos = rightCurrentPos;
                 yield return velocityWait;
-            }
-            else yield return null;
+            } else yield return null;
         }
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
+    void OnCollisionEnter(Collision collision) {
+        if (!active) return;
         if ((groundMask & (1 << collision.gameObject.layer)) == 0) return;
         colliding = true;
         //collisionNormal = collision.GetContact(0).normal;
     }
-    void OnCollisionStay(Collision collision)
-    {
+    void OnCollisionStay(Collision collision) {
+        if (!active) return;
         if ((groundMask & (1 << collision.gameObject.layer)) == 0) return;
         if (!colliding) colliding = true;
         //collisionNormal = collision.GetContact(0).normal;
     }
-    void OnCollisionExit(Collision collision)
-    {
+    void OnCollisionExit(Collision collision) {
+        if (!active) return;
         if ((groundMask & (1 << collision.gameObject.layer)) == 0) return;
         colliding = false;
     }
 
-    IEnumerator ReloadCanvas(float duration, bool wait = false)
-    {
+    IEnumerator ReloadCanvas(float duration, bool wait = false) {
         if (wait) yield return oneSecond;
         float elapsedTime = 0;
         float alpha = 0;
-        while (alpha <= 0.99f)
-        {
+        while (alpha <= 0.99f) {
             alpha = resetCanvas.alpha = elapsedTime / duration;
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -716,14 +638,12 @@ public class Skier : MonoBehaviour
         resetCanvas.alpha = 1;
     }
 
-    IEnumerator Reload(float duration)
-    {
+    IEnumerator Reload(float duration) {
         initialized = false;
         effectSource.PlayOneShot(reset);
         float elapsedTime = 0;
         float alpha = 0;
-        while (alpha <= 0.99f)
-        {
+        while (alpha <= 0.99f) {
             alpha = canvasGroup.alpha = elapsedTime / duration;
             elapsedTime += Time.deltaTime;
             Debug.Log(elapsedTime);
@@ -734,15 +654,14 @@ public class Skier : MonoBehaviour
         rb.MovePosition(initialPos);
         rb.MoveRotation(initialRot);
         minutes = passedRings = 0;
-        foreach(Ring ring in rings) ring.Reset();
+        foreach (Ring ring in rings) ring.Reset();
         seconds = 0;
         timeText.SetText("Time: 0:00");
         ringText.SetText("Rings: 0/16");
         resetCanvas.alpha = 0;
         reload = null;
         elapsedTime = 0;
-        while (alpha >= 0.01f)
-        {
+        while (alpha >= 0.01f) {
             alpha = canvasGroup.alpha = 1 - elapsedTime / duration;
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -751,34 +670,26 @@ public class Skier : MonoBehaviour
         initialized = true;
     }
 
-    public static void PassedRing()
-    {
+    public static void PassedRing() {
         passedRings++;
         ringText.SetText("Rings: " + passedRings + "/16");
     }
 
-    void SwitchClip(AudioSource source, AudioClip clip)
-    {
-        if (source.clip != clip)
-        {
+    void SwitchClip(AudioSource source, AudioClip clip) {
+        if (source.clip != clip) {
             source.clip = clip;
             source.Play();
             return;
-        }
-        else if (!source.isPlaying) source.UnPause();
+        } else if (!source.isPlaying) source.UnPause();
     }
 
-    void SwitchWalkSource(AudioClip clip)
-    {
-        if (walkSource.clip != clip)
-        {
+    void SwitchWalkSource(AudioClip clip) {
+        if (walkSource.clip != clip) {
             walkSource.clip = clip;
             walkSource.Play();
         }
-        if (rb.velocity.sqrMagnitude < 1 && rb.angularVelocity.sqrMagnitude < 1)
-        {
+        if (rb.velocity.sqrMagnitude < 1 && rb.angularVelocity.sqrMagnitude < 1) {
             if (walkSource.isPlaying) walkSource.Pause();
-        }
-        else if (!walkSource.isPlaying) walkSource.UnPause();
+        } else if (!walkSource.isPlaying) walkSource.UnPause();
     }
 }

@@ -6,12 +6,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Inputs;
 using UnityEngine.XR.Interaction.Toolkit.Inputs.Simulation;
 using UnityEngine.XR.Interaction.Toolkit.UI;
 public enum MoveMode {
     None,
     Ground,
-    UnderWater
+    UnderWater,
+    Ski
 }
 
 public enum ControllerName {
@@ -46,6 +48,7 @@ public class GamePublicV2 : MonoBehaviour {
     private GameObject controllerSkiRight;
 
     private ActionBasedContinuousMoveProvider moveProvider;
+    private XRInputModalityManager xrInputModalityManager;
 
     private void Awake() {
         if (instance == null) {
@@ -60,6 +63,7 @@ public class GamePublicV2 : MonoBehaviour {
 
         GameObject XROrigin = persistentXR.transform.Find("XR Origin").gameObject;
         GameObject XROriginRig = persistentXR.transform.Find("XR Origin/XR Origin (XR Rig)").gameObject;
+        xrInputModalityManager = XROriginRig.GetComponent<XRInputModalityManager>(); ;
         playerRb = xrOrigin.GetComponent<Rigidbody>();
         charController = XROriginRig.GetComponent<CharacterController>();
         seaScooter = GameObject.Find("SeaScooter");
@@ -124,6 +128,11 @@ public class GamePublicV2 : MonoBehaviour {
             left = controllerSkiLeft;
             right = controllerSkiRight;
         }
+
+
+        xrInputModalityManager.leftController = left;
+        xrInputModalityManager.rightController = right;
+        xrInputModalityManager.motionControllerModeStarted?.Invoke();
 
         left?.SetActive(true);
         right?.SetActive(true);

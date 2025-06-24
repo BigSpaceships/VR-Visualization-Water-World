@@ -71,39 +71,39 @@ public class AdventuringCamera : MonoBehaviour {
     }
 
     private void OnDestroy() {
-        // ȡ�������¼�����ֹ�ڴ�й©
         rightXButtonAction.action.performed -= ctx => ToggleCamera();
     }
 
     private void ToggleCamera() {
-        if (GamePublic.cameraActive) {
-            //���������ȡ�����棬�ָ�ԭ������
+        if (GamePublicV2.instance.moveMode != MoveMode.UnderWater) return;
+        if (GamePublicV2.instance.cameraActive) {
+            // 退出拍照模式，恢复到原始父物体
             transform.SetParent(originalParent, false);
-            GamePublic.cameraActive = false;
+            GamePublicV2.instance.cameraActive = false;
             hintTakePhotoButton.text = "Active Scooter";
             takePictureAction.action.performed -= TakePictureAction;
-            //����SeaScooter
+            // ==== SeaScooter ====
             originalParentScooter = scooter.parent;
             scooter.transform.SetParent(rightController, false);
             Vector3 v = new Vector3(0, 0.14f, 0.3f);
             scooter.transform.localPosition = v;
         } else {
-            //�����������¼ԭʼ�����󣬲��󶨵� right Controller
+            // 切换到 right Controller
             originalParent = transform.parent;
             transform.SetParent(rightController, false);
             Vector3 v = new Vector3(-0.1f, -0f, -0.05f);
             transform.localPosition = v;
             transform.localRotation = Quaternion.Euler(0, -90, -70);
             hintTakePhotoButton.text = "Take Picture";
-            GamePublic.cameraActive = true;
+            GamePublicV2.instance.cameraActive = true;
             takePictureAction.action.performed += TakePictureAction;
-            //����SeaScooter
+            // ==== SeaScooter ====
             scooter.transform.SetParent(originalParentScooter, false);
         }
     }
 
     private void Update() {
-        if (GamePublic.cameraActive) {
+        if (GamePublicV2.instance.cameraActive) {
             var zoomValue = zoomAction.action.ReadValue<Vector2>();
             var zoomChange = zoomValue.y;
 
