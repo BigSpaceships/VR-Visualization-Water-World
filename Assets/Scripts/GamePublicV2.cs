@@ -22,6 +22,7 @@ public enum ControllerName {
 }
 
 public class GamePublicV2 : MonoBehaviour {
+    public GameObject test;
     public static GamePublicV2 instance;
 
     public bool publicAccessSamples = false; //in other script use this to access:  GamePublicV2.instance.publicAccessSamples
@@ -108,6 +109,8 @@ public class GamePublicV2 : MonoBehaviour {
         controllerMainRight?.SetActive(false);
         controllerA2Left?.SetActive(false);
         controllerA2Right?.SetActive(false);
+        controllerSkiLeft?.SetActive(false);
+        controllerSkiRight?.SetActive(false);
 
         // 启用指定控制器组
         GameObject left = null, right = null;
