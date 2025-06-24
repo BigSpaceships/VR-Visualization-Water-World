@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -52,22 +52,22 @@ public class SeaScooter : LocomotionProvider {
     }
 
     private void Update() {
-        // Ö»ÔÚË®ÏÂÄ£Ê½²ÅÍÆ½ø
+        // åªåœ¨æ°´ä¸‹æ¨¡å¼æ‰æ¨è¿›
         if (GamePublicV2.instance.moveMode != MoveMode.UnderWater) return;
         if (GamePublicV2.instance.cameraActive) return;
 
-        // Ö±½Ó¶Á°´Å¥µÄ°´ÏÂ×´Ì¬£¨Öµ´óÓÚ 0 ¾ÍËã°´ÏÂ£©
+        // ç›´æ¥è¯»æŒ‰é’®çš„æŒ‰ä¸‹çŠ¶æ€ï¼ˆå€¼å¤§äº 0 å°±ç®—æŒ‰ä¸‹ï¼‰
         bool isPressed = activeScooderButton.action.ReadValue<float>() > 0.5f;
         if (isPressed) {
-            // ÀÛ¼Ó¼ÓËÙÊ±¼ä£¬²¢¼ÆËãµ±Ç°ËÙ¶È
+            // ç´¯åŠ åŠ é€Ÿæ—¶é—´ï¼Œå¹¶è®¡ç®—å½“å‰é€Ÿåº¦
             _timeAccelerating += Time.deltaTime;
             _moveSpeed = Mathf.Clamp(accelerationRate * _timeAccelerating + minSpeed,
                                      minSpeed, maxSpeed);
 
-            // Ö±½ÓÊ¹ÓÃÊÖ±úµÄ forward£¨º¬ÉÏÏÂ·½Ïò£©£¬²¢¹éÒ»»¯
+            // ç›´æ¥ä½¿ç”¨æ‰‹æŸ„çš„ forwardï¼ˆå«ä¸Šä¸‹æ–¹å‘ï¼‰ï¼Œå¹¶å½’ä¸€åŒ–
             Vector3 direction = rightHandTransform.forward.normalized;
 
-            // ×îÖÕÔË¶¯ÏòÁ¿
+            // æœ€ç»ˆè¿åŠ¨å‘é‡
             Vector3 motion = direction * _moveSpeed * Time.deltaTime;
 
             if (CanBeginLocomotion() && BeginLocomotion()) {
@@ -75,7 +75,7 @@ public class SeaScooter : LocomotionProvider {
                 EndLocomotion();
             }
         } else {
-            // ËÉ¿ª°´Å¥ºóÖØÖÃ¼ÓËÙÊ±¼ä
+            // æ¾å¼€æŒ‰é’®åé‡ç½®åŠ é€Ÿæ—¶é—´
             _timeAccelerating = 0f;
         }
     }

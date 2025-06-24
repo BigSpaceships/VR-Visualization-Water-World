@@ -31,8 +31,7 @@ public class Manager : MonoBehaviour
         continuousMoveProvider = resortOrigin.GetComponent<ActionBasedContinuousMoveProvider>();
         resortCam = resortOrigin.transform.GetChild(0).GetChild(0);
         skiCanvasGroup = transform.GetChild(0).GetComponent<CanvasGroup>();
-        resortCanvasGroup = TouchScreens.canvasGroup = transform.GetChild(1).GetComponent<CanvasGroup>();
-        TouchScreens.manager = this;
+        resortCanvasGroup = transform.GetChild(1).GetComponent<CanvasGroup>();
         skiCanvasGroup.alpha = resortCanvasGroup.alpha = 0;
         reload = reloadProperty.action;
         resortOrigin.transform.GetPositionAndRotation(out initialPos, out initialRot);
