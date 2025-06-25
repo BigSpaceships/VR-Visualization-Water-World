@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -126,10 +126,20 @@ public class Skier : MonoBehaviour {
     WaitForSeconds oneSecond = new WaitForSeconds(1);
     public static bool initialized;
 
-    private float playerHeightAdj = -1.1f;
+    private float playerHeightAdj = -1.3f;
+    private CharacterController _cc;
+    private Vector3 cc_velocity;
+    private Vector3 cc_angularVelocity;
+    private float cc_mass = 80f;
+    private float cc_drag = 3f;
+    private float cc_angularDrag = 3f;
+    private bool cc_useGravity = true;
+    private float cc_gravityScale = 1f;    // 重力倍数（1 = Physics.gravity）
+
 
     void Awake() {
         myT = transform;
+        _cc = GetComponent<CharacterController>();
         rb = Pole.skier = transform.parent.gameObject.GetComponent<Rigidbody>();
         Skis.leftController = Pole.leftController = leftController;
         Skis.rightController = Pole.rightController = rightController;
@@ -183,6 +193,57 @@ public class Skier : MonoBehaviour {
         altText.SetText("Altitude: " + (initialPos.y * 3.281f).ToString("0") + "ft");
     }
 
+    /// <summary>
+    /// 模拟 Rigidbody.AddForce
+    /// </summary>
+    public void AddForce(Vector3 force, ForceMode mode = ForceMode.Force) {
+        switch (mode) {
+            case ForceMode.Force:
+                // F = m·a  => a = F/m
+                cc_velocity += (force / cc_mass) * Time.deltaTime;
+                break;
+
+            case ForceMode.Acceleration:
+                // 直接当作加速度
+                cc_velocity += force * Time.deltaTime;
+                break;
+
+            case ForceMode.Impulse:
+                // 瞬时速度增量 a = F·Δt/m, 但 Δt 在 RigidbodyImpulse 中为 1 帧，这里直接用 force/m
+                cc_velocity += force / cc_mass;
+                break;
+
+            case ForceMode.VelocityChange:
+                // 瞬时速度增量
+                cc_velocity += force;
+                break;
+        }
+    }
+
+    /// <summary>
+    /// 模拟 Rigidbody.AddTorque
+    /// </summary>
+    public void AddTorque(Vector3 torque, ForceMode mode = ForceMode.Force) {
+        switch (mode) {
+            case ForceMode.Force:
+                // 简化处理：把质量当做转动惯量
+                cc_angularVelocity += (torque / cc_mass) * Time.deltaTime;
+                break;
+
+            case ForceMode.Acceleration:
+                cc_angularVelocity += torque * Time.deltaTime;
+                break;
+
+            case ForceMode.Impulse:
+                cc_angularVelocity += torque / cc_mass;
+                break;
+
+            case ForceMode.VelocityChange:
+                cc_angularVelocity += torque;
+                break;
+        }
+    }
+
     private bool active = false;
 
     public void activeSki() {
@@ -204,6 +265,7 @@ public class Skier : MonoBehaviour {
         myT.SetPositionAndRotation(initialPos, initialRot);
         turnAction.Enable();
         active = true;
+        initialized = true;
     }
 
 
@@ -211,10 +273,56 @@ public class Skier : MonoBehaviour {
         if (!active) return;
     }
 
+
+    private bool wasGrounded = false;
+
     void Update() {
         if (!active) return;
         //if (SceneManager.sceneCount > 1) for (int i = 0; i < SceneManager.loadedSceneCount; i++) if (SceneManager.GetSceneAt(i).name != "Skiing") SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i));
         if (!initialized) return;
+
+        if (cc_useGravity) {
+            if (!_cc.isGrounded)
+                cc_velocity += Physics.gravity * cc_gravityScale * Time.deltaTime;
+            else if (cc_velocity.y < 0f)
+                cc_velocity.y = 0f;
+        }
+
+        // 2. 线性阻力 (drag)：
+        //    与 Rigidbody 相同的衰减： v_new = v_old / (1 + drag * dt)
+        cc_velocity = cc_velocity / (1f + cc_drag * Time.deltaTime);
+
+        // 3. 角阻力 (angularDrag)
+        cc_angularVelocity =cc_angularVelocity / (1f + cc_angularDrag * Time.deltaTime);
+
+        // 4. 进行运动和旋转
+        if (cc_velocity != Vector3.zero)
+            _cc.Move(cc_velocity * Time.deltaTime);
+
+        if (cc_angularVelocity != Vector3.zero)
+            transform.Rotate(cc_angularVelocity * Time.deltaTime, Space.World);
+
+        //collision control system
+        Vector3 origin = transform.position + Vector3.up * 0.1f;
+        float maxDist = 1.9f + 0.1f;
+        // 调试射线可视化（选用）
+        Debug.DrawRay(origin, Vector3.down * maxDist, Color.red);
+        // 只会检测 groundMask 里的 Layer
+        if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, maxDist, groundMask)) {
+            if (!wasGrounded) {
+                // 刚落地
+                HandleGroundEnter(hit.normal);
+            } else {
+                // 仍在地面
+                HandleGroundStay(hit.normal);
+            }
+            wasGrounded = true;
+        } else {
+            // 刚离地
+            if (wasGrounded)
+                HandleGroundExit();
+            wasGrounded = false;
+        }
 
         //Input detection
         if (isGrounded) {
@@ -281,7 +389,7 @@ public class Skier : MonoBehaviour {
         }
         timeText.SetText("Time: " + minutes + ":" + seconds.ToString("00"));
         altText.SetText("Altitude: " + (myT.position.y * 3.281f).ToString("0") + "ft");
-        speedText.SetText("Speed: " + (rb.velocity.magnitude * 3.281).ToString("0.0") + "ft/s");
+        speedText.SetText("Speed: " + (cc_velocity.magnitude * 3.281).ToString("0.0") + "ft/s");
     }
 
     void LateUpdate() {
@@ -312,21 +420,20 @@ public class Skier : MonoBehaviour {
             float t = Mathf.Clamp01(parachuteAdjustmentSpeed * Time.fixedDeltaTime);
             parachute.GetLocalPositionAndRotation(out Vector3 pos, out Quaternion qRot);
             Vector3 rot = qRot.eulerAngles;
-            Vector3 targetPos = (leftPos + rightPos) / 2 + new Vector3(0, 0.1f + rb.velocity.y * parachuteVelocityOffset, 0.2f);
+            Vector3 targetPos = (leftPos + rightPos) / 2 + new Vector3(0, 0.1f + cc_velocity.y * parachuteVelocityOffset, 0.2f);
             targetPos.y = Mathf.Clamp(targetPos.y, 1.4f, 2.4f);
             parachute.SetLocalPositionAndRotation(Vector3.Lerp(pos, targetPos, t), Quaternion.Slerp(qRot, Quaternion.Euler(roll, rot.y, 0), t));
 
             //Is grounded
             if (Physics.Raycast(myT.position, -currentUp, out hit, (1.8f - playerHeightAdj), groundMask)) {
-                Debug.Log("check ground");
                 SwitchClip(bgWindSource, bgSkiWind);
                 //Regular paragliding
                 if (attachedSkis == 0) {
                     if (windSource.isPlaying) windSource.Pause();
                     if (hit.transform.gameObject.layer == 9) {
                         if (!isGrounded) {
-                            isGrounded = rb.useGravity = rb.freezeRotation = true;
-                            rb.drag = 3;
+                            isGrounded = cc_useGravity = rb.freezeRotation = true;
+                            cc_drag = 3;
                             effectSource.PlayOneShot(snowLand);
                             if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.2f);
                             if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.75f, 0.2f);
@@ -334,8 +441,8 @@ public class Skier : MonoBehaviour {
                         SwitchWalkSource(snowWalk);
                     } else {
                         if (!isGrounded) {
-                            isGrounded = rb.useGravity = rb.freezeRotation = true;
-                            rb.drag = 3;
+                            isGrounded = cc_useGravity = rb.freezeRotation = true;
+                            cc_drag = 3;
                             effectSource.PlayOneShot(solidLand);
                             if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.2f);
                             if (rightHaptics) rightDevice.SendHapticImpulse(0, 0.75f, 0.2f);
@@ -344,7 +451,7 @@ public class Skier : MonoBehaviour {
                     }
                     Quaternion myRot = myT.rotation;
                     myT.rotation = Quaternion.Slerp(myRot, myRot * Quaternion.Euler(0, turnInput.x * normalTurnForce, 0), Time.fixedDeltaTime);
-                    rb.AddForce(interactableParent.TransformDirection(moveInput.x, 0, moveInput.y).normalized * normalMoveForce, ForceMode.VelocityChange);
+                    AddForce(interactableParent.TransformDirection(moveInput.x, 0, moveInput.y).normalized * normalMoveForce, ForceMode.VelocityChange);
                 }
                 //Parachute skiing (speedrunning)
                 else {
@@ -352,7 +459,7 @@ public class Skier : MonoBehaviour {
                     if (layer == 9) {
                         if (!isGrounded) {
                             isGrounded = true;
-                            rb.useGravity = rb.freezeRotation = false;
+                            cc_useGravity = rb.freezeRotation = false;
                             if (isJumping) {
                                 effectSource.PlayOneShot(snowLand);
                                 if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.2f);
@@ -366,7 +473,7 @@ public class Skier : MonoBehaviour {
                     } else {
                         if (!isGrounded) {
                             isGrounded = true;
-                            rb.useGravity = rb.freezeRotation = false;
+                            cc_useGravity = rb.freezeRotation = false;
                             if (isJumping) {
                                 effectSource.PlayOneShot(solidLand);
                                 if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.2f);
@@ -379,25 +486,25 @@ public class Skier : MonoBehaviour {
                     }
 
                     //Skier stabilization
-                    rb.AddForce(Vector3.down * skiGravity);
+                    AddForce(Vector3.down * skiGravity);
                     Vector3 groundUp = hit.normal;
                     Vector3 rotationAxis = Vector3.Cross(currentUp, groundUp);
-                    rb.AddTorque(rotationAxis.normalized * Vector3.Angle(currentUp, groundUp) * alignStrength);
+                    AddTorque(rotationAxis.normalized * Vector3.Angle(currentUp, groundUp) * alignStrength);
                     if (layer != 14) {
                         //Velocity control based on direction
                         Vector3 downhill = Vector3.ProjectOnPlane(Vector3.down, groundUp).normalized;
                         Vector3 skierDirection = Vector3.ProjectOnPlane(interactableParent.forward, groundUp).normalized;
                         float alignment = Vector3.Dot(downhill, skierDirection);
-                        rb.AddForce(skierDirection * skiSpeed * Mathf.Clamp01(alignment + 1), ForceMode.Acceleration);
+                        AddForce(skierDirection * skiSpeed * Mathf.Clamp01(alignment + 1), ForceMode.Acceleration);
                         float targetDrag = Mathf.Lerp(minDrag, maxDrag, 1 - Mathf.Clamp01(Mathf.Abs(alignment) * 1.5f));
-                        rb.drag = Mathf.Lerp(rb.drag, targetDrag, perpDeceleration);
-                    } else rb.drag = 3;
-                    rb.AddForce(interactableParent.TransformDirection(moveInput.x * xMoveForce, 0, moveInput.y * zMoveForce), ForceMode.Acceleration);
-                    rb.AddTorque(interactableParent.TransformDirection(0, turnInput.x, 0) * groundTurnForce, ForceMode.Acceleration);
+                        cc_drag = Mathf.Lerp(cc_drag, targetDrag, perpDeceleration);
+                    } else cc_drag = 3;
+                    AddForce(interactableParent.TransformDirection(moveInput.x * xMoveForce, 0, moveInput.y * zMoveForce), ForceMode.Acceleration);
+                    AddTorque(interactableParent.TransformDirection(0, turnInput.x, 0) * groundTurnForce, ForceMode.Acceleration);
                 }
                 if (jump) {
                     if (rb.freezeRotation) rb.freezeRotation = false;
-                    rb.AddForce(interactableParent.up * paraglideJumpForce, ForceMode.VelocityChange);
+                    AddForce(interactableParent.up * paraglideJumpForce, ForceMode.VelocityChange);
                     StartCoroutine(Updraft(3000, interactableParent.TransformDirection(0, 1, -1).normalized));
                     jump = false;
                     isJumping = true;
@@ -408,17 +515,17 @@ public class Skier : MonoBehaviour {
             else if (colliding) {
                 SwitchClip(bgWindSource, bgSkiWind);
                 if (attachedSkis > 0) {
-                    if (rb.useGravity) {
-                        rb.useGravity = rb.freezeRotation = false;
-                        rb.drag = minDrag;
+                    if (cc_useGravity) {
+                        cc_useGravity = rb.freezeRotation = false;
+                        cc_drag = minDrag;
                     }
-                    rb.AddForce(Vector3.down * skiGravity);
-                    rb.AddForce(interactableParent.TransformDirection(moveInput.x * xMoveForce, 0, moveInput.y * zMoveForce), ForceMode.Acceleration);
-                    rb.AddTorque(interactableParent.TransformDirection(-turnInput.y, turnInput.x, 0).normalized * groundTurnForce, ForceMode.Acceleration);
+                    AddForce(Vector3.down * skiGravity);
+                    AddForce(interactableParent.TransformDirection(moveInput.x * xMoveForce, 0, moveInput.y * zMoveForce), ForceMode.Acceleration);
+                    AddTorque(interactableParent.TransformDirection(-turnInput.y, turnInput.x, 0).normalized * groundTurnForce, ForceMode.Acceleration);
                 } else {
-                    if (!rb.useGravity) {
-                        rb.useGravity = rb.freezeRotation = true;
-                        rb.drag = 3;
+                    if (!cc_useGravity) {
+                        cc_useGravity = rb.freezeRotation = true;
+                        cc_drag = 3;
                     }
                 }
                 if (jump) jump = false;
@@ -427,8 +534,8 @@ public class Skier : MonoBehaviour {
             else {
                 if (jump) jump = false;
                 if (isGrounded) {
-                    isGrounded = rb.useGravity = rb.freezeRotation = false;
-                    rb.drag = 5;
+                    isGrounded = cc_useGravity = rb.freezeRotation = false;
+                    cc_drag = 5;
                     if (walkSource.isPlaying) walkSource.Pause();
                     SwitchClip(windSource, paraglideWind);
                     SwitchClip(bgWindSource, bgParaglideWind);
@@ -436,19 +543,19 @@ public class Skier : MonoBehaviour {
 
                 //Gliding/steering
                 Vector3 rotationAxis = Vector3.Cross(currentUp, Vector3.up);
-                rb.AddTorque(rotationAxis.normalized * Vector3.Angle(currentUp, Vector3.up) * alignStrength);
+                AddTorque(rotationAxis.normalized * Vector3.Angle(currentUp, Vector3.up) * alignStrength);
                 float distance = Vector3.Distance(leftPos, rightPos);
                 if (distance < 0.02f) distance = 0.02f;
                 Vector3 scale = parachute.localScale;
                 parachute.localScale = new Vector3(scale.x, scale.y, Mathf.Lerp(scale.z, Mathf.Clamp(distance * 5, 0.4f, 1.2f), t));
-                rb.AddForce(Vector3.down * paraglideGravity * Mathf.Clamp(Mathf.Pow(0.2f / distance, 3), 0.2f, 15));
-                rb.AddForce(interactableParent.forward * glideForce, ForceMode.Acceleration);
-                rb.AddForce(interactableParent.TransformDirection(moveInput.x + turnInput.x, 0, moveInput.y + turnInput.y).normalized * inputGlideForce, ForceMode.Acceleration);
+                AddForce(Vector3.down * paraglideGravity * Mathf.Clamp(Mathf.Pow(0.2f / distance, 3), 0.2f, 15));
+                AddForce(interactableParent.forward * glideForce, ForceMode.Acceleration);
+                AddForce(interactableParent.TransformDirection(moveInput.x + turnInput.x, 0, moveInput.y + turnInput.y).normalized * inputGlideForce, ForceMode.Acceleration);
                 float startValue = rot.x;
                 if (startValue > 180) startValue -= 360;
-                rb.AddTorque(-interactableParent.up * Mathf.Lerp(startValue, roll, t) * paraglideTurnForce, ForceMode.Acceleration);
+                AddTorque(-interactableParent.up * Mathf.Lerp(startValue, roll, t) * paraglideTurnForce, ForceMode.Acceleration);
                 if (leftSpeed > 1 && rightSpeed > 1 && Vector3.Dot(leftVel.normalized, interactableParent.up) < -0.7f && Vector3.Dot(rightVel.normalized, interactableParent.up) < -0.7f) {
-                    rb.AddForce(interactableParent.up * (leftSpeed + rightSpeed) * 40, ForceMode.Acceleration);
+                    AddForce(interactableParent.up * (leftSpeed + rightSpeed) * 40, ForceMode.Acceleration);
                     effectSource.PlayOneShot(updraftSound, 0.3f);
                 }
             }
@@ -461,19 +568,19 @@ public class Skier : MonoBehaviour {
         if (attachedSkis == 0) {
             if (!rb.freezeRotation) {
                 rb.freezeRotation = rb.useGravity = true;
-                rb.drag = minDrag;
+                cc_drag = minDrag;
             }
-            rb.AddForce(interactableParent.TransformDirection(moveInput.x, 0, moveInput.y).normalized * normalMoveForce, ForceMode.VelocityChange);
+            AddForce(interactableParent.TransformDirection(moveInput.x, 0, moveInput.y).normalized * normalMoveForce, ForceMode.VelocityChange);
             if (windSource.isPlaying) windSource.Pause();
             SwitchClip(bgWindSource, bgSkiWind);
-            if (Physics.Raycast(myT.position + currentUp * 1.7f, -currentUp, out hit, 1.75f, groundMask) && colliding) {
+            if (Physics.Raycast(myT.position, -currentUp, out hit, (1.75f - playerHeightAdj), groundMask) && colliding) {
                 Quaternion rot = myT.rotation;
                 myT.rotation = Quaternion.Slerp(rot, rot * Quaternion.Euler(0, turnInput.x * normalTurnForce, 0), Time.fixedDeltaTime);
 
                 if (hit.transform.gameObject.layer == 9) {
                     if (!isGrounded) {
                         isGrounded = true;
-                        if (rb.drag == minDrag) rb.drag = 3;
+                        if (cc_drag == minDrag) cc_drag = 3;
                         if (isJumping) {
                             effectSource.PlayOneShot(snowLand);
                             if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.2f);
@@ -485,7 +592,7 @@ public class Skier : MonoBehaviour {
                 } else {
                     if (!isGrounded) {
                         isGrounded = true;
-                        if (rb.drag == minDrag) rb.drag = 3;
+                        if (cc_drag == minDrag) cc_drag = 3;
                         if (isJumping) {
                             effectSource.PlayOneShot(solidLand);
                             if (leftHaptics) leftDevice.SendHapticImpulse(0, 0.75f, 0.2f);
@@ -496,12 +603,13 @@ public class Skier : MonoBehaviour {
                     SwitchWalkSource(solidWalk);
                 }
                 if (jump) {
-                    rb.AddForce(interactableParent.up * normalJumpForce, ForceMode.VelocityChange);
+                    AddForce(interactableParent.up * normalJumpForce, ForceMode.VelocityChange);
                     jump = false;
                     isJumping = true;
                 }
-            } else if (colliding && jump) jump = false;
-            else {
+            } else if (colliding && jump) {
+                jump = false;
+            } else {
                 isGrounded = false;
                 if (jump) jump = false;
                 if (walkSource.isPlaying) walkSource.Pause();
@@ -512,9 +620,9 @@ public class Skier : MonoBehaviour {
         }
 
         //Attached skis
-        rb.AddForce(Vector3.down * skiGravity);
+        AddForce(Vector3.down * skiGravity);
         SwitchClip(bgWindSource, bgSkiWind);
-        if (Physics.Raycast(myT.position + currentUp * 1.7f, -currentUp, out hit, 1.9f, groundMask)) {
+        if (Physics.Raycast(myT.position, -currentUp, out hit, 1.9f, groundMask)) {
             int layer = hit.transform.gameObject.layer;
             if (layer == 9) {
                 if (!isGrounded) {
@@ -546,20 +654,20 @@ public class Skier : MonoBehaviour {
             //Skier stabilization
             Vector3 groundUp = hit.normal;
             Vector3 rotationAxis = Vector3.Cross(currentUp, groundUp);
-            rb.AddTorque(rotationAxis.normalized * Vector3.Angle(currentUp, groundUp) * alignStrength);
+            AddTorque(rotationAxis.normalized * Vector3.Angle(currentUp, groundUp) * alignStrength);
             if (layer != 14) {
                 //Velocity control based on direction
                 Vector3 downhill = Vector3.ProjectOnPlane(Vector3.down, groundUp).normalized;
                 Vector3 skierDirection = Vector3.ProjectOnPlane(interactableParent.forward, groundUp).normalized;
                 float alignment = Vector3.Dot(downhill, skierDirection);
-                rb.AddForce(skierDirection * skiSpeed * Mathf.Clamp01(alignment + 1), ForceMode.Acceleration);
+                AddForce(skierDirection * skiSpeed * Mathf.Clamp01(alignment + 1), ForceMode.Acceleration);
                 float targetDrag = Mathf.Lerp(minDrag, maxDrag, 1 - Mathf.Clamp01(Mathf.Abs(alignment) * 1.5f));
-                rb.drag = Mathf.Lerp(rb.drag, targetDrag, perpDeceleration);
-            } else rb.drag = 3;
-            rb.AddTorque(interactableParent.TransformDirection(0, turnInput.x, 0).normalized * (groundTurnForce + crouchSpeedIncrease), ForceMode.Acceleration);
-            rb.AddForce(interactableParent.TransformDirection(moveInput.x * (xMoveForce + crouchSpeedIncrease), 0, moveInput.y * (zMoveForce + crouchSpeedIncrease)), ForceMode.Acceleration);
+                cc_drag = Mathf.Lerp(cc_drag, targetDrag, perpDeceleration);
+            } else cc_drag = 3;
+            AddTorque(interactableParent.TransformDirection(0, turnInput.x, 0).normalized * (groundTurnForce + crouchSpeedIncrease), ForceMode.Acceleration);
+            AddForce(interactableParent.TransformDirection(moveInput.x * (xMoveForce + crouchSpeedIncrease), 0, moveInput.y * (zMoveForce + crouchSpeedIncrease)), ForceMode.Acceleration);
             if (jump) {
-                rb.AddForce(interactableParent.up * jumpForce, ForceMode.VelocityChange);
+                AddForce(interactableParent.up * jumpForce, ForceMode.VelocityChange);
                 effectSource.PlayOneShot(updraftSound, 0.3f);
                 isJumping = true;
                 jump = false;
@@ -568,8 +676,8 @@ public class Skier : MonoBehaviour {
             if (leftFlip) leftFlip = false;
         } else if (colliding) {
             //Is tilted on ground
-            rb.AddTorque(interactableParent.TransformDirection(-turnInput.y, turnInput.x, 0).normalized * (groundTurnForce + crouchSpeedIncrease), ForceMode.Acceleration);
-            rb.AddForce(interactableParent.TransformDirection(moveInput.x * (xMoveForce + crouchSpeedIncrease), 0, moveInput.y * (zMoveForce + crouchSpeedIncrease)), ForceMode.Acceleration);
+            AddTorque(interactableParent.TransformDirection(-turnInput.y, turnInput.x, 0).normalized * (groundTurnForce + crouchSpeedIncrease), ForceMode.Acceleration);
+            AddForce(interactableParent.TransformDirection(moveInput.x * (xMoveForce + crouchSpeedIncrease), 0, moveInput.y * (zMoveForce + crouchSpeedIncrease)), ForceMode.Acceleration);
             if (jump) jump = false;
             if (rightFlip) rightFlip = false;
             if (leftFlip) leftFlip = false;
@@ -579,18 +687,18 @@ public class Skier : MonoBehaviour {
                 isGrounded = false;
                 if (isJumping && walkSource.isPlaying) walkSource.Pause();
             }
-            rb.drag = minDrag;
-            rb.AddTorque(interactableParent.TransformDirection(-turnInput.y, turnInput.x, 0).normalized * airTurnForce, ForceMode.Acceleration);
-            rb.AddForce(interactableParent.TransformDirection(moveInput.x, 0, moveInput.y).normalized * airMoveForce, ForceMode.Acceleration);
+            cc_drag = minDrag;
+            AddTorque(interactableParent.TransformDirection(-turnInput.y, turnInput.x, 0).normalized * airTurnForce, ForceMode.Acceleration);
+            AddForce(interactableParent.TransformDirection(moveInput.x, 0, moveInput.y).normalized * airMoveForce, ForceMode.Acceleration);
             if (jump) jump = false;
-            if (leftFlip) rb.AddTorque(interactableParent.TransformDirection(Vector3.forward) * flipForce, ForceMode.Acceleration);
-            if (rightFlip) rb.AddTorque(interactableParent.TransformDirection(Vector3.back) * flipForce, ForceMode.Acceleration);
+            if (leftFlip) AddTorque(interactableParent.TransformDirection(Vector3.forward) * flipForce, ForceMode.Acceleration);
+            if (rightFlip) AddTorque(interactableParent.TransformDirection(Vector3.back) * flipForce, ForceMode.Acceleration);
         }
     }
 
     IEnumerator Updraft(float updraftForce, Vector3 direction) {
         yield return updraftWait;
-        rb.AddForce(direction * updraftForce, ForceMode.Acceleration);
+        AddForce(direction * updraftForce, ForceMode.Acceleration);
         effectSource.PlayOneShot(updraftSound, 0.7f);
     }
 
@@ -614,22 +722,50 @@ public class Skier : MonoBehaviour {
         }
     }
 
+    //can not invoked. Collision controlled by Character Controller
     void OnCollisionEnter(Collision collision) {
         if (!active) return;
         if ((groundMask & (1 << collision.gameObject.layer)) == 0) return;
         colliding = true;
         //collisionNormal = collision.GetContact(0).normal;
     }
+
+
+    //can not invoked. Collision controlled by Character Controller
     void OnCollisionStay(Collision collision) {
-        if (!active) return;
         if ((groundMask & (1 << collision.gameObject.layer)) == 0) return;
         if (!colliding) colliding = true;
         //collisionNormal = collision.GetContact(0).normal;
     }
+
+    //can not invoked. Collision controlled by Character Controller
     void OnCollisionExit(Collision collision) {
-        if (!active) return;
         if ((groundMask & (1 << collision.gameObject.layer)) == 0) return;
         colliding = false;
+    }
+
+    /// <summary>
+    /// compatible with OnCollisionEnter
+    /// </summary>
+    public void HandleGroundEnter(Vector3 normal) {
+        colliding = true;
+        Debug.Log("Ground Enter，法线=" + normal);
+    }
+
+    /// <summary>
+    /// compatible with OnCollisionStay()
+    /// </summary>
+    public void HandleGroundStay(Vector3 normal) {
+        if (!active) return;
+        if (!colliding) colliding = true;
+    }
+
+    /// <summary>
+    /// compatible with OnCollisionExit()
+    /// </summary>
+    public void HandleGroundExit() {
+        colliding = false;
+        Debug.Log("Ground Exit");
     }
 
     IEnumerator ReloadCanvas(float duration, bool wait = false) {
@@ -656,9 +792,11 @@ public class Skier : MonoBehaviour {
             yield return null;
         }
         alpha = canvasGroup.alpha = 1;
-        rb.velocity = rb.angularVelocity = Vector3.zero;
-        rb.MovePosition(initialPos);
-        rb.MoveRotation(initialRot);
+        cc_velocity = Vector3.zero;
+        cc_angularVelocity = Vector3.zero;
+        myT.position = initialPos;
+        myT.rotation = initialRot;
+
         minutes = passedRings = 0;
         foreach (Ring ring in rings) ring.Reset();
         seconds = 0;
@@ -694,7 +832,7 @@ public class Skier : MonoBehaviour {
             walkSource.clip = clip;
             walkSource.Play();
         }
-        if (rb.velocity.sqrMagnitude < 1 && rb.angularVelocity.sqrMagnitude < 1) {
+        if (cc_velocity.sqrMagnitude < 1 && cc_angularVelocity.sqrMagnitude < 1) {
             if (walkSource.isPlaying) walkSource.Pause();
         } else if (!walkSource.isPlaying) walkSource.UnPause();
     }
