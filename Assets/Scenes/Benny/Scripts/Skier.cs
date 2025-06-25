@@ -749,7 +749,6 @@ public class Skier : MonoBehaviour {
     /// </summary>
     public void HandleGroundEnter(Vector3 normal) {
         colliding = true;
-        Debug.Log("Ground Enter，法线=" + normal);
     }
 
     /// <summary>
@@ -765,7 +764,6 @@ public class Skier : MonoBehaviour {
     /// </summary>
     public void HandleGroundExit() {
         colliding = false;
-        Debug.Log("Ground Exit");
     }
 
     IEnumerator ReloadCanvas(float duration, bool wait = false) {
