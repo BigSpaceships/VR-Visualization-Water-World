@@ -27,9 +27,7 @@ public class GamePublicV2 : MonoBehaviour {
     public GameObject test;
     public static GamePublicV2 instance;
 
-    public bool publicAccessSamples = false; //in other script use this to access:  GamePublicV2.instance.publicAccessSamples
     public MoveMode moveMode = MoveMode.None;
-    public GameObject xrOrigin;
     public bool cameraActive = false;
 
     public GameObject HUD_UnderWater;
@@ -56,6 +54,13 @@ public class GamePublicV2 : MonoBehaviour {
     private ActionBasedContinuousMoveProvider moveProvider;
     private XRInputModalityManager xrInputModalityManager;
 
+    [HideInInspector] public GameObject XROrigin;
+    [HideInInspector] public GameObject XROriginRig;
+
+    private Vector3 storedPlayerPosition;
+    private Quaternion storedPlayerRotation;
+
+
     private void Awake() {
         if (instance == null) {
             instance = this;
@@ -67,10 +72,10 @@ public class GamePublicV2 : MonoBehaviour {
             return;
         }
 
-        GameObject XROrigin = persistentXR.transform.Find("XR Origin").gameObject;
-        GameObject XROriginRig = persistentXR.transform.Find("XR Origin/XR Origin (XR Rig)").gameObject;
+        XROrigin = persistentXR.transform.Find("XR Origin").gameObject;
+        XROriginRig = persistentXR.transform.Find("XR Origin/XR Origin (XR Rig)").gameObject;
         xrInputModalityManager = XROriginRig.GetComponent<XRInputModalityManager>(); ;
-        playerRb = xrOrigin.GetComponent<Rigidbody>();
+        playerRb = XROrigin.GetComponent<Rigidbody>();
         charController = XROriginRig.GetComponent<CharacterController>();
         seaScooter = GameObject.Find("SeaScooter");
         xrOriginCollider = XROrigin.GetComponent<CapsuleCollider>();
@@ -92,6 +97,26 @@ public class GamePublicV2 : MonoBehaviour {
     private void GameInit() {
         setMoveMode(MoveMode.Ground);
         setController(ControllerName.Main);
+    }
+
+    public void savePlayerPosition() {
+        if (checkVRActive()) {
+            storedPlayerPosition = XROriginRig.transform.position;
+            storedPlayerRotation = XROriginRig.transform.rotation;
+        } else {
+            storedPlayerPosition = XROrigin.transform.position;
+            storedPlayerRotation = XROrigin.transform.rotation;
+        }
+    }
+
+    public void loadPlayerPosition() {
+        if (checkVRActive()) {
+            XROriginRig.transform.position = storedPlayerPosition;
+            XROriginRig.transform.rotation = storedPlayerRotation;
+        } else {
+            XROrigin.transform.position = storedPlayerPosition;
+            XROrigin.transform.rotation = storedPlayerRotation;
+        }
     }
 
     public bool checkVRActive() {

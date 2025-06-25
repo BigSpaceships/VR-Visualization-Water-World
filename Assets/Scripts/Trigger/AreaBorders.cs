@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
 
 public class AreaLoaderController : MonoBehaviour {
     public Transform playerTransform;
     public float defaultTriggerDistance = 40f;
+    public bool Enabled = true;
 
     private enum AreaState {
         Unknown,   // 初始化状态
@@ -20,8 +22,14 @@ public class AreaLoaderController : MonoBehaviour {
     }
 
     private List<AreaData> areas = new();
+    private bool isRefreshing = false;
 
     void Start() {
+        ResetData();
+    }
+
+    public void ResetData() {
+        areas.Clear();
         foreach (Transform area in transform) {
             AreaData areaData = new AreaData();
             areaData.areaTransform = area;
@@ -35,26 +43,55 @@ public class AreaLoaderController : MonoBehaviour {
         }
     }
 
-    void Update() {
+    //unload all scenes and turn to disabled status
+    public IEnumerator UnloadAllScenesCoroutine() {
+        Enabled = false;
+        List<Scene> loadedScenes = new List<Scene>();
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+            loadedScenes.Add(SceneManager.GetSceneAt(i));
+
+        foreach (var scene in loadedScenes) {
+            yield return StartCoroutine(UnloadScene(scene.name));
+        }
+        ResetData();
+    }
+
+    public IEnumerator RefreshCoroutine() {
+        isRefreshing = true;
         Vector2 playerPos = new Vector2(playerTransform.position.x, playerTransform.position.z);
 
         foreach (var area in areas) {
-            float triggerDist = defaultTriggerDistance;
-            ObjectData data = area.areaTransform.GetComponent<ObjectData>();
-            if (data != null)
-                triggerDist = data.GetFloat("TriggerDistance", defaultTriggerDistance); // 若未设置则用默认
+            try {
+                float triggerDist = defaultTriggerDistance;
+                ObjectData data = area.areaTransform.GetComponent<ObjectData>();
+                if (data != null)
+                    triggerDist = data.GetFloat("TriggerDistance", defaultTriggerDistance); // 若未设置则用默认
 
-            bool inside = IsPointInPolygon(playerPos, area.points); 
-            float distance = DistanceToPolygon(playerPos, area.points);
-            bool shouldBeInside = inside || distance < triggerDist;
+                bool inside = IsPointInPolygon(playerPos, area.points);
+                float distance = DistanceToPolygon(playerPos, area.points);
+                bool shouldBeInside = inside || distance < triggerDist;
 
-            if (area.insideState!=AreaState.Inside && shouldBeInside) {
-                area.insideState = AreaState.Inside;
-                OnEnterArea(area.areaTransform);
-            } else if (area.insideState != AreaState.Outside && !shouldBeInside) {
-                area.insideState = AreaState.Outside;
-                OnExitArea(area.areaTransform);
+                if (area.insideState != AreaState.Inside && shouldBeInside) {
+                    area.insideState = AreaState.Inside;
+                    OnEnterArea(area.areaTransform);
+                } else if (area.insideState != AreaState.Outside && !shouldBeInside) {
+                    area.insideState = AreaState.Outside;
+                    OnExitArea(area.areaTransform);
+                }
+            } catch (System.Exception ex) {
+                Debug.LogException(ex);
             }
+            yield return null;
+        }
+        isRefreshing = false;
+        Enabled = true;
+        yield break;
+    }
+
+    void Update() {
+        if (!Enabled) return;
+        if (!isRefreshing) {
+            StartCoroutine(RefreshCoroutine());
         }
     }
 
@@ -66,7 +103,7 @@ public class AreaLoaderController : MonoBehaviour {
             if (sceneName != null) {
                 StartCoroutine(LoadScene(sceneName));
             }
-            if (lowSceneName!=null) {
+            if (lowSceneName != null) {
                 StartCoroutine(UnloadScene(lowSceneName));
             }
         }
@@ -102,7 +139,7 @@ public class AreaLoaderController : MonoBehaviour {
         return inside;
     }
 
-    private IEnumerator LoadScene(string sceneName) {
+    public IEnumerator LoadScene(string sceneName) {
         var scene = SceneManager.GetSceneByName(sceneName);
         if (scene.isLoaded) {
             yield break;
@@ -116,7 +153,7 @@ public class AreaLoaderController : MonoBehaviour {
         yield return null; // 等待一帧以稳定状态
     }
 
-    private IEnumerator UnloadScene(string sceneName) {
+    public IEnumerator UnloadScene(string sceneName) {
         // 1. 检查场景是否在 Build Settings 里
         Scene scene = SceneManager.GetSceneByName(sceneName);
         if (!scene.IsValid()) {

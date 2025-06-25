@@ -41,7 +41,7 @@ public class GameStart : MonoBehaviour {
             }
         }
 
-        GameObject xr = GamePublicV2.instance.xrOrigin;
+        GameObject xr = GamePublicV2.instance.XROrigin;
         // ✅ store original position of Player
         originalPosition = xr.transform.position;
         originalRotation = xr.transform.rotation;
@@ -67,7 +67,7 @@ public class GameStart : MonoBehaviour {
     }
 
     void OnDestroy() {
-        GameObject xr = GamePublicV2.instance.xrOrigin;
+        GameObject xr = GamePublicV2.instance.XROrigin;
         GamePublicV2.instance.setController(ControllerName.Main);
 
         // ✅ restore Player's position and rotation

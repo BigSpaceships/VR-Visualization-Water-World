@@ -1,4 +1,6 @@
 using System.Collections;
+using Unity.VisualScripting;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -13,7 +15,6 @@ public class Manager : MonoBehaviour {
     public static CanvasGroup skiCanvasGroup;
     //[SerializeField] GameObject devSim;
     [SerializeField] GameObject resortOrigin;
-    [SerializeField] GameObject lights;
     [SerializeField] InputActionManager inputActionManager;
     [SerializeField] GameObject[] tooltips;
     [SerializeField] InputActionProperty reloadProperty;
@@ -22,8 +23,6 @@ public class Manager : MonoBehaviour {
     [SerializeField] AudioClip transitionClip;
     Transform resortCam;
     CharacterController characterController;
-    Vector3 initialPos;
-    Quaternion initialRot;
     void Awake() {
         instance = this;
         audioSource = GetComponent<AudioSource>();
@@ -33,7 +32,6 @@ public class Manager : MonoBehaviour {
         resortCanvasGroup = transform.GetChild(1).GetComponent<CanvasGroup>();
         skiCanvasGroup.alpha = resortCanvasGroup.alpha = 0;
         reload = reloadProperty.action;
-        resortOrigin.transform.GetPositionAndRotation(out initialPos, out initialRot);
         GameObject.FindWithTag("SkiTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(true); });
     }
 
@@ -58,7 +56,6 @@ public class Manager : MonoBehaviour {
             characterController.enabled = true;
             fromCanvas = resortCanvasGroup;
             toCanvas = skiCanvasGroup;
-            resortOrigin.transform.GetPositionAndRotation(out initialPos, out initialRot);
         } else {
             fromCanvas = skiCanvasGroup;
             toCanvas = resortCanvasGroup;
@@ -73,52 +70,26 @@ public class Manager : MonoBehaviour {
         alpha = fromCanvas.alpha = toCanvas.alpha = 1;
         elapsedTime = 0;
         if (skiing) {
+            GamePublicV2.instance.savePlayerPosition();
+            AreaLoaderController loader = GameObject.Find("AreaBorders").GetComponent<AreaLoaderController>();
+            yield return StartCoroutine(loader.UnloadAllScenesCoroutine());
             AsyncOperation op = SceneManager.LoadSceneAsync("R_Area3 Skiing", LoadSceneMode.Additive);
             while (!op.isDone) yield return null;
             Skier skier = resortOrigin.GetComponent<Skier>();
             skier.activeSki();
-            /*
-            Scene activeScene = SceneManager.GetSceneByName("Skiing");
-            SceneManager.SetActiveScene(activeScene);
-            for (int i = 0; i < SceneManager.loadedSceneCount; i++) if (SceneManager.GetSceneAt(i) != activeScene) SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i));
-            */
             yield return null;
-            //resortOrigin.SetActive(false);
             skiCanvasGroup.GetComponent<Canvas>().worldCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
             Skier.canvasGroup = skiCanvasGroup;
-            lights.SetActive(false);
             GameObject.FindWithTag("SceneTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(false); });
         } else {
-            AsyncOperation op = SceneManager.LoadSceneAsync("R_Main");
-            while (!op.isDone) yield return null;
-            if (!SceneManager.GetSceneByName("R_Area1_LOW").isLoaded) {
-                op = SceneManager.LoadSceneAsync("R_Area1_LOW", LoadSceneMode.Additive);
-                while (!op.isDone) yield return null;
-            }
-            if (!SceneManager.GetSceneByName("R_Area2").isLoaded) {
-                op = SceneManager.LoadSceneAsync("R_Area2", LoadSceneMode.Additive);
-                while (!op.isDone) yield return null;
-            }
-            if (!SceneManager.GetSceneByName("R_Area3").isLoaded) {
-                op = SceneManager.LoadSceneAsync("R_Area3", LoadSceneMode.Additive);
-                while (!op.isDone) yield return null;
-            }
-            if (!SceneManager.GetSceneByName("R_Area4_LOW").isLoaded) {
-                op = SceneManager.LoadSceneAsync("R_Area4_LOW", LoadSceneMode.Additive);
-                while (!op.isDone) yield return null;
-            }
-            if (!SceneManager.GetSceneByName("R_Area5_LOW").isLoaded) {
-                op = SceneManager.LoadSceneAsync("R_Area5_LOW", LoadSceneMode.Additive);
-                while (!op.isDone) yield return null;
-            }
-            //SceneManager.SetActiveScene(SceneManager.GetSceneByName("R_Main"));
-            //SceneManager.UnloadSceneAsync("Skiing");
-            yield return null;
-            //resortOrigin.SetActive(true);
-            lights.SetActive(true);
-            resortOrigin.transform.SetPositionAndRotation(initialPos, initialRot);
-            inputActionManager.actionAssets[0].Disable();
-            inputActionManager.actionAssets[0].Enable();
+            AreaLoaderController loader = GameObject.Find("AreaBorders").GetComponent<AreaLoaderController>();
+            yield return StartCoroutine(loader.UnloadScene("R_Area3 Skiing"));
+            yield return StartCoroutine(loader.RefreshCoroutine());
+            GamePublicV2.instance.setMoveMode(MoveMode.Ground);
+            GamePublicV2.instance.setController(ControllerName.Main);
+            GamePublicV2.instance.loadPlayerPosition();
+            //inputActionManager.actionAssets[0].Disable();
+            //inputActionManager.actionAssets[0].Enable();
             /*#if UNITY_EDITOR
                         //devSim.SetActive(false);
                         //devSim.SetActive(true);
