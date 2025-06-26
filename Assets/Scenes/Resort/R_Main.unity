@@ -4472,7 +4472,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_System: {fileID: 652453614}
-  m_MoveSpeed: 6
+  m_MoveSpeed: 10
   m_EnableStrafe: 1
   m_EnableFly: 0
   m_UseGravity: 1
@@ -9323,8 +9323,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1005460950}
   - {fileID: 1609598606}
+  - {fileID: 1005460950}
   - {fileID: 407944174}
   m_Father: {fileID: 1497701302}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -16742,6 +16742,7 @@ MonoBehaviour:
   XROrigin: {fileID: 0}
   XROriginRig: {fileID: 0}
   persistentXR: {fileID: 0}
+  light: {fileID: 0}
   currentControllerName: 0
 --- !u!1001 &857353302
 PrefabInstance:
@@ -29184,7 +29185,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1446804072
 Transform:
   m_ObjectHideFlags: 0
