@@ -1,0 +1,9 @@
+# ninja log v5
+20	946	7726585179947564	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	256b9bd90cddda03
+5	952	7726585179998571	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	86f7eec08124a5a9
+17	1029	7726585180786405	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	36b1c687f409e3ac
+9	1082	7726585181310568	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	1394c610254f01cf
+24	1108	7726585181546737	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	8df9545d67b45fe9
+0	1173	7726585182126341	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	27a333b9a8f50890
+13	1174	7726585182126341	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	2232dd57f716a99b
+1174	1364	7726585183477387	D:/Tam/githubDesktop/VR-Visualization-Water-World/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/Debug/5i5u2t1z/obj/arm64-v8a/libgame.so	1c2974b06b9b9ad1

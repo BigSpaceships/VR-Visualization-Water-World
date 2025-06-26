@@ -58,6 +58,7 @@ public class GamePublicV2 : MonoBehaviour {
     [HideInInspector] public GameObject XROrigin;
     [HideInInspector] public GameObject XROriginRig;
     [HideInInspector] public GameObject persistentXR;
+    [HideInInspector] public GameObject light;
 
     private Vector3 storedPlayerPosition;
     private Quaternion storedPlayerRotation;
@@ -74,6 +75,7 @@ public class GamePublicV2 : MonoBehaviour {
             return;
         }
 
+        light = persistentXR.transform.Find("Light").gameObject;
         XROrigin = persistentXR.transform.Find("XR Origin").gameObject;
         XROriginRig = persistentXR.transform.Find("XR Origin/XR Origin (XR Rig)").gameObject;
         xrInputModalityManager = XROriginRig.GetComponent<XRInputModalityManager>(); ;

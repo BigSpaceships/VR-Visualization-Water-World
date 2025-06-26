@@ -45,11 +45,15 @@ public class TouchScreens : MonoBehaviour {
                 player.transform.position = dest.transform.position;
                 break;
             case "changeController":
+                AreaLoaderController loader = GameObject.Find("AreaBorders").GetComponent<AreaLoaderController>();
+                StartCoroutine(loader.UnloadScene("R_Area3"));
+                /*
                 if (GamePublicV2.instance.currentControllerName == ControllerName.Main) {
                     GamePublicV2.instance.setController(ControllerName.A2_UnderWater);
                 } else {
                     GamePublicV2.instance.setController(ControllerName.Main);
                 }
+                */
                 break;
             case "Ski":
                 Manager skiManager = GameObject.Find("PersistentXR/SkiManager").GetComponent<Manager>();

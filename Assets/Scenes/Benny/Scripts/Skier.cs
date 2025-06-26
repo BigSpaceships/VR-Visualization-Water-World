@@ -268,6 +268,10 @@ public class Skier : MonoBehaviour {
         initialized = true;
     }
 
+    public void deactiveSki() {
+        active = false;
+    }
+
 
     void OnEnable() {
         if (!active) return;

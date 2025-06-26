@@ -72,28 +72,38 @@ public class Manager : MonoBehaviour {
             GamePublicV2.instance.savePlayerPosition();
             AreaLoaderController loader = GameObject.Find("AreaBorders").GetComponent<AreaLoaderController>();
             yield return StartCoroutine(loader.UnloadAllScenesCoroutine());
-            AsyncOperation op = SceneManager.LoadSceneAsync("R_Area3 Skiing", LoadSceneMode.Additive);
-            while (!op.isDone) yield return null;
+            yield return null;
+            yield return loader.LoadScene("R_Area3 Skiing");
+            yield return null;
             Skier skier = resortOrigin.GetComponent<Skier>();
             skier.activeSki();
             yield return null;
             skiCanvasGroup.GetComponent<Canvas>().worldCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
             Skier.canvasGroup = skiCanvasGroup;
+            GamePublicV2.instance.light.SetActive(false);
             GameObject.FindWithTag("SceneTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(false); });
         } else {
+            Skier skier = resortOrigin.GetComponent<Skier>();
+            skier.deactiveSki();
+            GamePublicV2.instance.light.SetActive(true);
+            GamePublicV2.instance.setMoveMode(MoveMode.Ground);
+            yield return null;
+            GamePublicV2.instance.setController(ControllerName.Main);
+            yield return null;
+            GamePublicV2.instance.loadPlayerPosition();
+            yield return null;
             AreaLoaderController loader = GameObject.Find("AreaBorders").GetComponent<AreaLoaderController>();
             yield return StartCoroutine(loader.UnloadScene("R_Area3 Skiing"));
+            yield return null;
             yield return StartCoroutine(loader.RefreshCoroutine());
-            GamePublicV2.instance.setMoveMode(MoveMode.Ground);
-            GamePublicV2.instance.setController(ControllerName.Main);
-            GamePublicV2.instance.loadPlayerPosition();
+            yield return null;
             //inputActionManager.actionAssets[0].Disable();
             //inputActionManager.actionAssets[0].Enable();
             /*#if UNITY_EDITOR
                         //devSim.SetActive(false);
                         //devSim.SetActive(true);
             #endif*/
-            GameObject.FindWithTag("SkiTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(true); });
+            //GameObject.FindWithTag("SkiTransition").GetComponent<Button>().onClick.AddListener(delegate { SkiMode(true); }); //scene already deleted
         }
         while (alpha >= 0.01f) {
             alpha = toCanvas.alpha = 1 - elapsedTime / duration;

@@ -46,17 +46,19 @@ public class AreaLoaderController : MonoBehaviour {
     //unload all scenes and turn to disabled status
     public IEnumerator UnloadAllScenesCoroutine() {
         Enabled = false;
-        //while (isRefreshing)
-        //    yield return null;
-        //Enabled = false;
-
+        while (isRefreshing)
+            yield return null;
+        Enabled = false;
+        
+        Debug.Log("start UnloadAllScenesCoroutine");
         List<Scene> loadedScenes = new List<Scene>();
         for (int i = 0; i < SceneManager.sceneCount; i++)
             loadedScenes.Add(SceneManager.GetSceneAt(i));
 
         foreach (var scene in loadedScenes) {
             if (scene.name == "R_Main") continue;
-            yield return StartCoroutine(UnloadScene(scene.name));
+            yield return UnloadScene(scene.name);
+            yield return null;
         }
         ResetData();
         yield break;
@@ -67,25 +69,21 @@ public class AreaLoaderController : MonoBehaviour {
         Vector2 playerPos = new Vector2(playerTransform.position.x, playerTransform.position.z);
 
         foreach (var area in areas) {
-            try {
-                float triggerDist = defaultTriggerDistance;
-                ObjectData data = area.areaTransform.GetComponent<ObjectData>();
-                if (data != null)
-                    triggerDist = data.GetFloat("TriggerDistance", defaultTriggerDistance); // 若未设置则用默认
+            float triggerDist = defaultTriggerDistance;
+            ObjectData data = area.areaTransform.GetComponent<ObjectData>();
+            if (data != null)
+                triggerDist = data.GetFloat("TriggerDistance", defaultTriggerDistance); // 若未设置则用默认
 
-                bool inside = IsPointInPolygon(playerPos, area.points);
-                float distance = DistanceToPolygon(playerPos, area.points);
-                bool shouldBeInside = inside || distance < triggerDist;
+            bool inside = IsPointInPolygon(playerPos, area.points);
+            float distance = DistanceToPolygon(playerPos, area.points);
+            bool shouldBeInside = inside || distance < triggerDist;
 
-                if (area.insideState != AreaState.Inside && shouldBeInside) {
-                    area.insideState = AreaState.Inside;
-                    OnEnterArea(area.areaTransform);
-                } else if (area.insideState != AreaState.Outside && !shouldBeInside) {
-                    area.insideState = AreaState.Outside;
-                    OnExitArea(area.areaTransform);
-                }
-            } catch (System.Exception ex) {
-                Debug.LogException(ex);
+            if (area.insideState != AreaState.Inside && shouldBeInside) {
+                area.insideState = AreaState.Inside;
+                yield return OnEnterArea(area.areaTransform);
+            } else if (area.insideState != AreaState.Outside && !shouldBeInside) {
+                area.insideState = AreaState.Outside;
+                yield return OnExitArea(area.areaTransform);
             }
             yield return null;
         }
@@ -101,31 +99,35 @@ public class AreaLoaderController : MonoBehaviour {
         }
     }
 
-    void OnEnterArea(Transform area) {
+    IEnumerator OnEnterArea(Transform area) {
         ObjectData data = area.GetComponent<ObjectData>();
         if (data != null) {
             string sceneName = data.Get("SceneName");
             string lowSceneName = data.Get("LowSceneName");
-            if (sceneName != null) {
-                StartCoroutine(LoadScene(sceneName));
-            }
-            if (lowSceneName != null) {
-                StartCoroutine(UnloadScene(lowSceneName));
-            }
+            yield return SwitchArea(sceneName, lowSceneName);
         }
     }
 
-    void OnExitArea(Transform area) {
+    IEnumerator OnExitArea(Transform area) {
         ObjectData data = area.GetComponent<ObjectData>();
         if (data != null) {
             string sceneName = data.Get("SceneName");
             string lowSceneName = data.Get("LowSceneName");
-            if (!string.IsNullOrEmpty(sceneName)) {
-                StartCoroutine(UnloadScene(sceneName));
-            }
-            if (lowSceneName != null) {
-                StartCoroutine(LoadScene(lowSceneName));
-            }
+            yield return SwitchArea(lowSceneName, sceneName);
+        }
+    }
+
+    public IEnumerator SwitchArea(string newArea, string oldArea) {
+        if (!string.IsNullOrWhiteSpace(newArea)) {
+            yield return LoadScene(newArea);
+        }
+        if (!string.IsNullOrWhiteSpace(oldArea)) {
+            var main = SceneManager.GetSceneByName("R_Main");
+            if (main.IsValid())
+                SceneManager.SetActiveScene(main);
+            else
+                Debug.LogWarning("SwitchArea: 找不到 R_Main 场景，无法设为 Active Scene。");
+            yield return UnloadScene(oldArea);
         }
     }
 
@@ -145,47 +147,61 @@ public class AreaLoaderController : MonoBehaviour {
         return inside;
     }
 
+    /// <summary>
+    /// 以 Additive 模式加载场景，加载完成后自动切成 Active Scene
+    /// </summary>
     public IEnumerator LoadScene(string sceneName) {
+        Debug.Log($"start load scene: {sceneName}");
+        // 1) 如果已经加载，直接返回
         var scene = SceneManager.GetSceneByName(sceneName);
-        if (scene.isLoaded) {
+        if (scene.isLoaded)
+            yield break;
+
+        // 2) 异步加载
+        var loadOp = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        if (loadOp == null) {
+            Debug.LogError($"LoadScene: 无法开始加载场景 “{sceneName}”");
             yield break;
         }
 
-        // 加载新场景
-        AsyncOperation loadOp = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        while (!loadOp.isDone)
-            yield return null;
+        // 3) 等待加载完成
+        yield return loadOp;
+        Debug.Log($"load scene complete: {sceneName}");
 
-        yield return null; // 等待一帧以稳定状态
+        // 4) （可选）将新加载的场景设为 Active Scene
+        //SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
     }
 
+
+    /// <summary>
+    /// 卸载指定场景，直接传 Scene 对象避免 “not in Build Settings” 警告
+    /// </summary>
     public IEnumerator UnloadScene(string sceneName) {
-        // 1. 检查场景是否在 Build Settings 里
-        Scene scene = SceneManager.GetSceneByName(sceneName);
-        if (!scene.IsValid()) {
-            Debug.LogWarning($"[{nameof(UnloadScene)}] Scene “{sceneName}” is not in Build Settings.");
+        Debug.Log($"start unload scene: {sceneName}");
+        var scene = SceneManager.GetSceneByName(sceneName);
+
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("R_Main"));
+
+        // 1) 场景有效且已加载
+        if (!scene.IsValid() || !scene.isLoaded) {
+            Debug.LogWarning($"UnloadScene: 场景 “{sceneName}” 未加载或无效，跳过卸载");
             yield break;
         }
+        
+        foreach (var go in scene.GetRootGameObjects())
+            go.SetActive(false);       // 先把它们从渲染管线里剔除
+        yield return null;            // 等一帧，让管线真的不再采样它们
 
-        // 2. 检查场景是否当前已加载
-        if (!scene.isLoaded) {
-            Debug.LogWarning($"[{nameof(UnloadScene)}] Scene “{sceneName}” is not loaded.");
-            yield break;
-        }
-
-        // 3. 异步卸载
-        AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(sceneName);
+        // 2) 调用基于 Scene 对象的重载
+        var unloadOp = SceneManager.UnloadSceneAsync(scene);
         if (unloadOp == null) {
-            Debug.LogError($"[{nameof(UnloadScene)}] Failed to start unloading scene “{sceneName}”.");
+            Debug.LogError($"UnloadScene: 无法开始卸载场景 “{sceneName}”");
             yield break;
         }
 
-        // 4. 等待卸载完成
-        while (!unloadOp.isDone)
-            yield return null;
-
-        // 5. （可选）再等一帧以确保状态稳定
-        yield return null;
+        // 3) 等待卸载完成
+        yield return unloadOp;
+        Debug.Log($"unload scene complete: {sceneName}");
     }
 
     // 计算点到多边形边的最近距离
