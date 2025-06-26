@@ -7,7 +7,7 @@ public class ActionsController : MonoBehaviour {
     public Dictionary<string, int> animMap;  // 动画映射表，如 Walk -> 1
 
     private Transform animatedObject;         // 被控制的动画物体
-    private Animation animationObj;           
+    private Animation animationObj;
     private ObjectData _objectData;
 
     private class CachedAction {
@@ -33,16 +33,15 @@ public class ActionsController : MonoBehaviour {
     private void CacheAllActions() {
         cachedActions.Clear();
 
-        foreach (Transform child in transform)  // transform 是 Actions
-        {
+        foreach (Transform child in transform) { // transform 是 Actions
             ObjectData od = child.GetComponent<ObjectData>();
-            if (od != null) {
-                cachedActions.Add(new CachedAction {
-                    worldPosition = child.position,  // 注意：存的是位置副本
-                    worldRotation = child.rotation,
-                    data = od
-                });
-            }
+            if (od == null) continue;
+            if (!child.gameObject.activeInHierarchy) continue;
+            cachedActions.Add(new CachedAction {
+                worldPosition = child.position,  // 注意：存的是位置副本
+                worldRotation = child.rotation,
+                data = od
+            });
         }
     }
 
@@ -75,7 +74,7 @@ public class ActionsController : MonoBehaviour {
                     }
 
                     //移动过去
-                    float speed = param.TryGetValue("speed", out var s) && float.TryParse(s, out var spd)  ? spd : 2f;
+                    float speed = param.TryGetValue("speed", out var s) && float.TryParse(s, out var spd) ? spd : 2f;
                     //yield return StartCoroutine(MoveToPosition(targetPos, speed));
 
                     yield return StartCoroutine(MoveToPositionV2(param["aniName"], targetPos, speed));

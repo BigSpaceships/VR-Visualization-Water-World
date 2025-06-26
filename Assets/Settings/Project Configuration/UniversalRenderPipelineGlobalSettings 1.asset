@@ -34,7 +34,6 @@ MonoBehaviour:
       m_Keys:
       - 76a39ea57f89045bd99ee14d8a2b06e9
       - 9afb392f0e7ef8f4381719d5d6323d1f
-      - 0d1aef9c11f7bbd40b94a87987fd2e10
       - 8131007796b92d141b90107410321213
       - 9f6ab1cc96a6c7d4f83c97a2fba3bbc1
       - f410b513f6b693f408b049e7300e92f8
@@ -43,7 +42,6 @@ MonoBehaviour:
       m_Values:
       - {fileID: 11400000, guid: 4debaed24202d4ae4862d0bb116b8c83, type: 2}
       - {fileID: 11400000, guid: c4f7f2c20dd90a9448eb46df3ac3271f, type: 2}
-      - {fileID: 11400000, guid: d6d26e00910d2c84f91efc05de7c9fb0, type: 2}
       - {fileID: 11400000, guid: be7527df2fe95f84bad1176bb7ff7591, type: 2}
       - {fileID: 11400000, guid: 3ebcb5dd85d15cb45a15f9df62dfeb85, type: 2}
       - {fileID: 11400000, guid: 3e64b44a1ddf4024cb43001366d98729, type: 2}
@@ -52,7 +50,6 @@ MonoBehaviour:
     bakingSets:
     - {fileID: 11400000, guid: 4debaed24202d4ae4862d0bb116b8c83, type: 2}
     - {fileID: 11400000, guid: c4f7f2c20dd90a9448eb46df3ac3271f, type: 2}
-    - {fileID: 11400000, guid: d6d26e00910d2c84f91efc05de7c9fb0, type: 2}
     - {fileID: 11400000, guid: be7527df2fe95f84bad1176bb7ff7591, type: 2}
     - {fileID: 11400000, guid: 3ebcb5dd85d15cb45a15f9df62dfeb85, type: 2}
     - {fileID: 11400000, guid: 3e64b44a1ddf4024cb43001366d98729, type: 2}
@@ -63,7 +60,6 @@ MonoBehaviour:
       m_Keys:
       - 56e171620d978d84db751b3efbf7cf68
       - 9f6ab1cc96a6c7d4f83c97a2fba3bbc1
-      - b284d3e90017cbf428c4ab539e01f4e6
       - fc3be25818423e74292096544a3a3314
       - b53546c51c43caf478efd70750974649
       - 8131007796b92d141b90107410321213
@@ -76,21 +72,18 @@ MonoBehaviour:
         m_Extent: {x: 364.5, y: 243, z: 445.5}
       - m_Center: {x: 0, y: 0, z: 0}
         m_Extent: {x: 81, y: 81, z: 81}
-      - m_Center: {x: 0, y: 0, z: 0}
-        m_Extent: {x: 81, y: 81, z: 81}
       - m_Center: {x: 202.5, y: 40.5, z: 0}
         m_Extent: {x: 202.5, y: 121.5, z: 324}
       - m_Center: {x: 0, y: 0, z: 121.5}
         m_Extent: {x: 81, y: 81, z: 121.5}
-      - m_Center: {x: NaN, y: NaN, z: NaN}
-        m_Extent: {x: NaN, y: NaN, z: NaN}
+      - m_Center: {x: 0, y: 0, z: -121.5}
+        m_Extent: {x: 81, y: 81, z: 121.5}
       - m_Center: {x: 0, y: 0, z: 0}
         m_Extent: {x: 81, y: 81, z: 81}
     hasProbeVolumes:
       m_Keys:
       - 56e171620d978d84db751b3efbf7cf68
       - 9f6ab1cc96a6c7d4f83c97a2fba3bbc1
-      - b284d3e90017cbf428c4ab539e01f4e6
       - 76a39ea57f89045bd99ee14d8a2b06e9
       - fc3be25818423e74292096544a3a3314
       - b53546c51c43caf478efd70750974649
@@ -100,7 +93,7 @@ MonoBehaviour:
       - 07120494e41602340870cbdd968ff45b
       - 9afb392f0e7ef8f4381719d5d6323d1f
       - 0d1aef9c11f7bbd40b94a87987fd2e10
-      m_Values: 000001000101000001010000
+      m_Values: 0000000101000001010000
   m_ShaderStrippingSetting:
     m_Version: 0
     m_ExportShaderVariants: 1
