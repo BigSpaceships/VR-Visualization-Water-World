@@ -55,9 +55,11 @@ public class AreaLoaderController : MonoBehaviour {
             loadedScenes.Add(SceneManager.GetSceneAt(i));
 
         foreach (var scene in loadedScenes) {
+            if (scene.name == "R_Main") continue;
             yield return StartCoroutine(UnloadScene(scene.name));
         }
         ResetData();
+        yield break;
     }
 
     public IEnumerator RefreshCoroutine() {

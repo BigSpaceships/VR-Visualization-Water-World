@@ -17,8 +17,6 @@ public class GameStart : MonoBehaviour {
 
     private HUD_TextMessage HUD_textMessage;
     private HUD_WayPoint waypointController;
-    private Vector3 originalPosition;
-    private Quaternion originalRotation;
 
     private bool originalFogEnabled;
     private FogMode originalFogMode;
@@ -42,9 +40,6 @@ public class GameStart : MonoBehaviour {
         }
 
         GameObject xr = GamePublicV2.instance.XROrigin;
-        // ✅ store original position of Player
-        originalPosition = xr.transform.position;
-        originalRotation = xr.transform.rotation;
         // ✅ move Player to start point
         xr.transform.SetPositionAndRotation(playerStartPoint.position, playerStartPoint.rotation);
         GamePublicV2.instance.setMoveMode(MoveMode.UnderWater);
@@ -58,8 +53,8 @@ public class GameStart : MonoBehaviour {
         RenderSettings.fog = true;
         RenderSettings.fogMode = FogMode.Linear;
         RenderSettings.fogColor = new Color32(0x4E, 0xCA, 0xDD, 0xFF);
-        RenderSettings.fogStartDistance = 10;
-        RenderSettings.fogEndDistance = 45;
+        RenderSettings.fogStartDistance = 5;
+        RenderSettings.fogEndDistance = 25;
 
         GamePublicV2.instance.setController(ControllerName.A2_UnderWater);
 
@@ -69,10 +64,6 @@ public class GameStart : MonoBehaviour {
     void OnDestroy() {
         GameObject xr = GamePublicV2.instance.XROrigin;
         GamePublicV2.instance.setController(ControllerName.Main);
-
-        // ✅ restore Player's position and rotation
-        if (xr != null)
-            xr.transform.SetPositionAndRotation(originalPosition, originalRotation);
 
         RenderSettings.fog = originalFogEnabled;
         RenderSettings.fogMode = originalFogMode;
@@ -217,7 +208,8 @@ public class GameStart : MonoBehaviour {
         AudioSource TASK_D = GameObject.Find("AUDIO_A2_WP4").GetComponent<AudioSource>();
         TASK_D.Play();
         StartCoroutine(WaitForSeconds(TASK_D.clip.length + 2f, () => {
-            StartCoroutine(UnloadScene("R_Area2 Under Water"));
+            GamePublicV2.instance.unloadUnderWater();
+            //StartCoroutine(UnloadScene("R_Area2 Under Water"));
         }));
     }
 }

@@ -40,7 +40,7 @@ public class HUD_TextDisplay : MonoBehaviour {
     //private bool oxygen60Played = false; //play once
     private HUD_WayPoint waypointController;
 
-    private bool isFollowing = false; // is following left controller?
+    public bool isFollowing = false; // is following left controller?
     private Transform originalParent; //HUD's parent
 
     void Awake() {

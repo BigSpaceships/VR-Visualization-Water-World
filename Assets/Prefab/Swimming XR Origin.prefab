@@ -2223,12 +2223,6 @@ MonoBehaviour:
   minSpeed: 0.2
   maxSpeed: 2
   accelerationRate: 1
-  sidewaysSpeed: 0.2
-  turnRateFromInput: 21
-  turnRateCorrective: 4
-  turnAngleStart: 15
-  turnCorrectiveStart: 0.204
-  backSpeed: 5
 --- !u!114 &8760216026810185790
 MonoBehaviour:
   m_ObjectHideFlags: 0

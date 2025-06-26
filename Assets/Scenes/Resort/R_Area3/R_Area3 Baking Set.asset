@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4881f9a2c4d568047b316028d20a8dca, type: 3}
   m_Name: R_Area3 Baking Set
   m_EditorClassIdentifier: 
-  singleSceneMode: 1
+  singleSceneMode: 0
   dialogNoProbeVolumeInSetShown: 1
   settings:
     m_Version: 1
@@ -69,8 +69,8 @@ MonoBehaviour:
   globalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  bakedSimplificationLevels: -1
-  bakedMinDistanceBetweenProbes: -1
+  bakedSimplificationLevels: 3
+  bakedMinDistanceBetweenProbes: 1
   maxSHChunkCount: -1
   L0ChunkSize: 0
   L1ChunkSize: 0

@@ -4,6 +4,7 @@ using System.Linq;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Inputs;
@@ -56,6 +57,7 @@ public class GamePublicV2 : MonoBehaviour {
 
     [HideInInspector] public GameObject XROrigin;
     [HideInInspector] public GameObject XROriginRig;
+    [HideInInspector] public GameObject persistentXR;
 
     private Vector3 storedPlayerPosition;
     private Quaternion storedPlayerRotation;
@@ -66,7 +68,7 @@ public class GamePublicV2 : MonoBehaviour {
             instance = this;
         }
 
-        GameObject persistentXR = GameObject.Find("PersistentXR");
+        persistentXR = GameObject.Find("PersistentXR");
         if (persistentXR == null) {
             //Debug.LogError("can not find GameObject: PersistentXR");
             return;
@@ -97,6 +99,55 @@ public class GamePublicV2 : MonoBehaviour {
     private void GameInit() {
         setMoveMode(MoveMode.Ground);
         setController(ControllerName.Main);
+        StartCoroutine(movePlayerToStartPoint());
+    }
+
+    public IEnumerator movePlayerToStartPoint() {
+        GameObject startPoint = persistentXR.transform.Find("PlayerStartPoint").GetChild(0).gameObject;
+        if (startPoint.name == "DebugPoint") yield break;
+        // 1. 瞬移玩家到起点
+        XROriginRig.transform.SetPositionAndRotation(
+            startPoint.transform.position,
+            startPoint.transform.rotation
+        );
+
+        // (可选) 等一帧让所有系统刷新一下
+        yield return null;
+
+        Manager manager = GamePublicV2.instance.persistentXR.transform.Find("SkiManager").GetComponent<Manager>();
+        float duration = 1f;
+
+        //black screen
+        float elapsedTime = 0;
+        float alpha = 0;
+        while (alpha <= 0.99f) {
+            alpha = manager.resortCanvasGroup.alpha = elapsedTime / duration;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        alpha = manager.resortCanvasGroup.alpha = manager.resortCanvasGroup.alpha = 1;
+        elapsedTime = 0;
+        
+        // 2. 等待自动地图加载系统把场景加载好
+        //    假设场景名和 startPoint.name 一致
+        yield return new WaitUntil(() => {
+            var scene = SceneManager.GetSceneByName(startPoint.name);
+            return scene.isLoaded;
+        });
+
+        // 3. 再次瞬移确保玩家不被地形/重力“拉下去”
+        XROriginRig.transform.SetPositionAndRotation(
+            startPoint.transform.position,
+            startPoint.transform.rotation
+        );
+        
+        //open eyes
+        while (alpha >= 0.01f) {
+            alpha = manager.resortCanvasGroup.alpha = 1 - elapsedTime / duration;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        manager.resortCanvasGroup.alpha = manager.resortCanvasGroup.alpha = 0;
     }
 
     public void savePlayerPosition() {
@@ -134,6 +185,70 @@ public class GamePublicV2 : MonoBehaviour {
         StartCoroutine(ResetAndSwitch(name));
     }
 
+    public IEnumerator loadUnderWater() {
+        Manager manager = GamePublicV2.instance.persistentXR.transform.Find("SkiManager").GetComponent<Manager>();
+        float duration = 1f;
+
+        //load new scene
+        float elapsedTime = 0;
+        float alpha = 0;
+        while (alpha <= 0.99f) {
+            alpha = manager.resortCanvasGroup.alpha = elapsedTime / duration;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        alpha = manager.resortCanvasGroup.alpha = manager.resortCanvasGroup.alpha = 1;
+        elapsedTime = 0;
+        
+        GamePublicV2.instance.savePlayerPosition();
+        setMoveMode(MoveMode.UnderWater);
+        setController(ControllerName.A2_UnderWater);
+        AreaLoaderController loader = GameObject.Find("AreaBorders").GetComponent<AreaLoaderController>();
+        yield return StartCoroutine(loader.UnloadAllScenesCoroutine());
+        AsyncOperation op = SceneManager.LoadSceneAsync("R_Area2 Under Water", LoadSceneMode.Additive);
+        while (!op.isDone) yield return null;
+
+        while (alpha >= 0.01f) {
+            alpha = manager.resortCanvasGroup.alpha = 1 - elapsedTime / duration;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        manager.resortCanvasGroup.alpha = manager.resortCanvasGroup.alpha = 0;
+    }
+
+    public void unloadUnderWater() {
+        StartCoroutine(unloadUnderWaterC());
+    }
+    
+    public IEnumerator unloadUnderWaterC() {
+        Manager manager = GamePublicV2.instance.persistentXR.transform.Find("SkiManager").GetComponent<Manager>();
+        float duration = 1f;
+
+        //load new scene
+        float elapsedTime = 0;
+        float alpha = 0;
+        while (alpha <= 0.99f) {
+            alpha = manager.resortCanvasGroup.alpha = elapsedTime / duration;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        alpha = manager.resortCanvasGroup.alpha = manager.resortCanvasGroup.alpha = 1;
+        elapsedTime = 0;
+
+        AreaLoaderController loader = GameObject.Find("AreaBorders").GetComponent<AreaLoaderController>();
+        yield return StartCoroutine(loader.UnloadScene("R_Area2 Under Water"));
+        yield return StartCoroutine(loader.RefreshCoroutine());
+        GamePublicV2.instance.setMoveMode(MoveMode.Ground);
+        GamePublicV2.instance.setController(ControllerName.Main);
+        GamePublicV2.instance.loadPlayerPosition();
+
+        while (alpha >= 0.01f) {
+            alpha = manager.resortCanvasGroup.alpha = 1 - elapsedTime / duration;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        manager.resortCanvasGroup.alpha = manager.resortCanvasGroup.alpha = 0;
+    }
 
     private IEnumerator ResetAndSwitch(ControllerName set) {
         DisableAllInteractors();

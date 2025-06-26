@@ -1,6 +1,5 @@
 using System.Collections;
 using Unity.VisualScripting;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -11,7 +10,7 @@ using UnityEngine.XR.Interaction.Toolkit.Inputs;
 public class Manager : MonoBehaviour {
     public static Manager instance;
 
-    CanvasGroup resortCanvasGroup;
+    [HideInInspector] public CanvasGroup resortCanvasGroup;
     public static CanvasGroup skiCanvasGroup;
     //[SerializeField] GameObject devSim;
     [SerializeField] GameObject resortOrigin;

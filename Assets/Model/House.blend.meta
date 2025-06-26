@@ -3,7 +3,182 @@ guid: 7d57c473db106ee45b10a5a63d9e3d97
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Black
+    second: {fileID: 2100000, guid: 9f694ba63e20ad34a8df229daa0b79c2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CB_Fabric
+    second: {fileID: 2100000, guid: 3a287439427bf1748abd1ec8ac9ff8e3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CB_Mud
+    second: {fileID: 2100000, guid: 72e816e35f7c13746a922ea58d23772f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CB_Mud.001
+    second: {fileID: 2100000, guid: dfdd5e240805fdd48ae3f90d4320d951, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CB_Mud.002
+    second: {fileID: 2100000, guid: 5eece260a5cb2a345abad9f5882c7160, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CB_Pot
+    second: {fileID: 2100000, guid: 0e6ebdfb1e289e74ca36ba2b8696e100, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CB_Pot.001
+    second: {fileID: 2100000, guid: 8bc9125bc1bbc3a449c649ce210029f2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CB_Pot.002
+    second: {fileID: 2100000, guid: aa64b1429b1067f48987cd127147639d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CB_Wood
+    second: {fileID: 2100000, guid: b03191231ad51bd48a69ea237022d74e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CheckOut
+    second: {fileID: 2100000, guid: f2f9cbe8a8b17c24f99812abc37bea52, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cloth
+    second: {fileID: 2100000, guid: 9372e342bcb85924594291f8e25e2fb8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ComputerScreen
+    second: {fileID: 2100000, guid: 92cc03c5884954347afed8b46f39879c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: DarkWood
+    second: {fileID: 2100000, guid: 83fe4154f75967b41af1ee5a8fd21b11, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Echoris
+    second: {fileID: 2100000, guid: 4e97416de6b986e45ab960218804e5e0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass
+    second: {fileID: 2100000, guid: f7176a5e455583b4aa25a54a76aea280, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass.001
+    second: {fileID: 2100000, guid: 577f1d7d61637d644a4a87f6fe6ae680, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass.002
+    second: {fileID: 2100000, guid: f5dd2d29a04be8b47bd678b4c4ba0b0b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass.003
+    second: {fileID: 2100000, guid: 1a7adfcd5fe74c2418a300d201871e6b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Hanger
+    second: {fileID: 2100000, guid: 270f84b04316c8b4194c5d3e15d76290, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: 80dd4005b9edfe142baf39407b534e37, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.002
+    second: {fileID: 2100000, guid: a2d973b130dadcb46a047acd742c860c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.005
+    second: {fileID: 2100000, guid: e5a6e29175ee6524994f17fab10d741a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: NatureLink
+    second: {fileID: 2100000, guid: a925e582a30f3b94babb1622d3188933, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RockFloor
+    second: {fileID: 2100000, guid: 0b2be5265f7ce89418d99aacd63141ed, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SS_WhitePlastic
+    second: {fileID: 2100000, guid: 6d429422300187049b2e1f8246467331, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: White
+    second: {fileID: 2100000, guid: ff135758d43587840942d594ec4346f3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: White Frabric
+    second: {fileID: 2100000, guid: 1973a2ea04922614d877d3bbf2793571, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: WhiteMetal
+    second: {fileID: 2100000, guid: 0ee25ab271526544b8b16994e19f034d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cheiridopsis_succulent
+    second: {fileID: 2100000, guid: 3e7b70a063be3eb4cba2e97f7352151d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cheiridopsis_succulent_flower
+    second: {fileID: 2100000, guid: b4318b7c94532344eb0120ac3b22200d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material
+    second: {fileID: 2100000, guid: c94f3daf26250064cba33e8e3eb2f540, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: namaqualand_rocks_01
+    second: {fileID: 2100000, guid: 2aac4deb961ef2740a25403aa0f44bfd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: nettle_plant
+    second: {fileID: 2100000, guid: 6617fa1a49fa94d4db2684ed89f2194a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: shrub_sorrel_01
+    second: {fileID: 2100000, guid: 65579d52f08ca404f832c87394b4feab, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wood
+    second: {fileID: 2100000, guid: ad33004ab9c3a1a4d802802c52b6c0b0, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
