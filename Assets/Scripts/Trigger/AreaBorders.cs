@@ -46,9 +46,9 @@ public class AreaLoaderController : MonoBehaviour {
     //unload all scenes and turn to disabled status
     public IEnumerator UnloadAllScenesCoroutine() {
         Enabled = false;
-        while (isRefreshing)
-            yield return null;
-        Enabled = false;
+        //while (isRefreshing)
+        //    yield return null;
+        //Enabled = false;
 
         List<Scene> loadedScenes = new List<Scene>();
         for (int i = 0; i < SceneManager.sceneCount; i++)

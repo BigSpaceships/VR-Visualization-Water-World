@@ -39,7 +39,7 @@ public class GameStart : MonoBehaviour {
             }
         }
 
-        GameObject xr = GamePublicV2.instance.XROrigin;
+        GameObject xr = GamePublicV2.instance.XROriginRig;
         // ✅ move Player to start point
         xr.transform.SetPositionAndRotation(playerStartPoint.position, playerStartPoint.rotation);
         GamePublicV2.instance.setMoveMode(MoveMode.UnderWater);
@@ -167,6 +167,7 @@ public class GameStart : MonoBehaviour {
 
 
     void onWaypoint1Reached() {
+        //GamePublicV2.instance.unloadUnderWater();
         waypointController.ShowWaypoint(null);
         HUD_textMessage.ShowText("WAYPOINT RPF2K1\nSTATUS: REACHED", null, () => {
             waypointController.ShowWaypoint(waypoint2);

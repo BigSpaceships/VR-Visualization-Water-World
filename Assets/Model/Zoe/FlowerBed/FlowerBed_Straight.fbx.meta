@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: CB_Mud
-    second: {fileID: -410293012483091933, guid: 7d57c473db106ee45b10a5a63d9e3d97, type: 3}
+    second: {fileID: 2100000, guid: a638547117eb7e94b9b488489ec6d2db, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

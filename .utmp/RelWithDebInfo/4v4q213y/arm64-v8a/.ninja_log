@@ -1,17 +1,17 @@
 # ninja log v5
-10	960	7670618510190812	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	4ec7d07aae84f72c
-7	976	7670618510319612	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	d61cb165d945584
-4	1203	7670618512601721	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	9943bd718a309025
-12	1029	7670618510865558	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	833c2de1a3dbd470
-18	1109	7670618511666044	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	94f614d00da1e232
-1524	1723	7670618517163602	D:/Tam/githubDesktop/VR-Visualization-Water-World/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/4v4q213y/obj/arm64-v8a/libgame.so	788162d9f8a0d589
-15	1391	7670618514463103	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	29319d7607fcee3c
-0	1524	7670618515751811	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	58ac54b3b8f74732
 130	840	7670666287090566	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	4ec7d07aae84f72c
 118	851	7670666287222100	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	d61cb165d945584
 139	868	7670666287388075	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	833c2de1a3dbd470
-124	929	7670666288005772	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	94f614d00da1e232
 104	966	7670666288365683	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	9943bd718a309025
+124	929	7670666288005772	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	94f614d00da1e232
 9	1074	7670666289446065	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	29319d7607fcee3c
-114	1133	7670666290008060	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	58ac54b3b8f74732
 1133	1310	7670666291471989	D:/Tam/githubDesktop/VR-Visualization-Water-World/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/4v4q213y/obj/arm64-v8a/libgame.so	788162d9f8a0d589
+114	1133	7670666290008060	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	58ac54b3b8f74732
+32	674	7726510187717544	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	4ec7d07aae84f72c
+9	678	7726510187758235	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	d61cb165d945584
+29	691	7726510187880329	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	833c2de1a3dbd470
+25	775	7726510188730211	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	94f614d00da1e232
+21	819	7726510189153226	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	9943bd718a309025
+17	976	7726510190739527	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	29319d7607fcee3c
+13	1061	7726510191573039	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	58ac54b3b8f74732
+1062	1187	7726510192505153	D:/Tam/githubDesktop/VR-Visualization-Water-World/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/4v4q213y/obj/arm64-v8a/libgame.so	788162d9f8a0d589
